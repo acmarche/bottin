@@ -1,0 +1,14 @@
+AcMarche\Bottin\Entity\FicheImage:
+  attributes:
+    id:
+      groups: ['group1']
+    principale:
+      groups: ['group1']
+    fiche_id:
+      groups: ['group2']
+    image_name:
+      groups: ['group1']
+    mime:
+      groups: ['group1']
+    fiche:
+        groups: ['group2']

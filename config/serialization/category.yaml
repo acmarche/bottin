@@ -1,0 +1,10 @@
+AcMarche\Bottin\Entity\Category:
+  attributes:
+    id:
+      groups: ['group1']
+    name:
+      groups: ['group1']
+    description:
+      groups: ['group1']
+    slug:
+      groups: ['group1']

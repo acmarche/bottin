@@ -1,0 +1,42 @@
+security:
+  encoders:
+    AcMarche\Bottin\Entity\User:
+      algorithm: auto
+
+  providers:
+    bottin_sql_provider:
+      entity:
+        class: AcMarche\Bottin\Entity\User
+        property: username
+    ville_ldap:
+      ldap:
+        service: Symfony\Component\Ldap\Ldap
+        base_dn: '%env(ACLDAP_DN)%'
+        search_dn: '%env(ACLDAP_USER)%'
+        search_password: '%env(ACLDAP_PASSWORD)%'
+        default_roles: ROLE_BOTTIN_ADMIN
+        uid_key: sAMAccountName
+        extra_fields: ['mail']
+    all_users:
+      chain:
+        providers: ['bottin_sql_provider', 'ville_ldap']
+  firewalls:
+    main:
+      anonymous: lazy
+      provider: bottin_sql_provider
+      guard:
+        authenticators:
+          - AcMarche\Bottin\Security\BottinAuthenticator
+      form_login_ldap:
+        service: Symfony\Component\Ldap\Ldap
+        search_dn: '%env(ACLDAP_USER)%'
+        search_password: '%env(ACLDAP_PASSWORD)%'
+        query_string: '(&(|(sAMAccountName={username}))(objectClass=person))'
+        dn_string: '%env(ACLDAP_DN)%'
+        check_path: 'app_login'
+        username_parameter: 'username'
+        password_parameter: 'password'
+      logout:
+        path: app_logout
+  role_hierarchy:
+    ROLE_BOTTIN_ADMIN: [ROLE_BOTTIN]

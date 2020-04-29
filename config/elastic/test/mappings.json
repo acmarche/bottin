@@ -1,0 +1,81 @@
+{
+    "index": "bottin",
+    "body": {
+        "properties": {
+            "localite": {
+                "type": "text",
+                "fields": {
+                    "reverse": {
+                        "type": "string",
+                        "analyzer": "reverse_analyzer"
+                    }
+                }
+            },
+            "location": {
+                "type": "geo_point"
+            },
+            "centreville": { 
+                "type": "keyword",
+                "fields": {
+                    "keyword": { 
+                        "type": "keyword"
+                    }
+                }
+            },   
+            "midi": { 
+                "type": "keyword",
+                "fields": {
+                    "keyword": { 
+                        "type": "keyword"
+                    }
+                }
+            },
+            "pmr": { 
+                "type": "keyword",
+                "fields": {
+                    "keyword": { 
+                        "type": "keyword"
+                    }
+                }
+            },
+            "localite": { 
+                "type": "keyword",
+                "fields": {
+                    "keyword": { 
+                        "type": "keyword"
+                    }
+                }
+            },
+            "societe": {
+                "type": "text",
+                "analyzer": "french",
+                "fields": {
+                    "stemmed": {
+                        "type": "text",
+                        "analyzer": "french"
+                    }
+                }
+            },
+            "fonction": {
+                "type": "text",
+                "analyzer": "french",
+                "fields": {
+                    "stemmed": {
+                        "type": "text",
+                        "analyzer": "standard"
+                    }
+                }
+            },
+            "comment1": {
+                "type": "text",
+                "analyzer": "french",
+                "fields": {
+                    "stemmed": {
+                        "type": "text",
+                        "analyzer": "standard"
+                    }
+                }
+            }
+        }        
+    }
+}

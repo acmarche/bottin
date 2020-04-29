@@ -1,0 +1,10 @@
+AcMarche\Bottin\Entity\Classement:
+  attributes:
+    id:
+      groups: ['group3']
+    principal:
+      groups: ['group3']
+    fiche_id:
+      groups: ['group3']
+    category_id:
+      groups: ['group3']

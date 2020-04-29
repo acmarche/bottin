@@ -1,0 +1,79 @@
+AcMarche\Bottin\Entity\Fiche:
+  attributes:
+    id:
+      groups: ['group1']
+    societe:
+      groups: ['group1']
+    slug:
+      groups: ['group1']
+    rue:
+      groups: ['group1']
+    numero:
+      groups: ['group1']
+    cp:
+      groups: ['group1']
+    localite:
+      groups: ['group1']
+    website:
+      groups: ['group1']
+    email:
+      groups: ['group1']
+    telephone:
+      groups: ['group1']
+    telephone_autre:
+      groups: ['group1']
+    fax:
+      groups: ['group1']
+    gsm:
+      groups: ['group1']
+    fonction:
+      groups: ['group1']
+    civilite:
+      groups: ['group1']
+    nom:
+      groups: ['group1']
+    prenom:
+      groups: ['group1']
+    contact_rue:
+      groups: ['group1']
+    contact_num:
+      groups: ['group1']
+    contact_cp:
+      groups: ['group1']
+    contact_localite:
+      groups: ['group1']
+    contact_telephone:
+      groups: ['group1']
+    contact_telephone_autre:
+      groups: ['group1']
+    contact_fax:
+      groups: ['group1']
+    contact_gsm:
+      groups: ['group1']
+    comment1:
+      groups: ['group1']
+    comment2:
+      groups: ['group1']
+    comment3:
+      groups: ['group1']
+    midi:
+      groups: ['group1']
+    pmr:
+      groups: ['group1']
+    centreville:
+      groups: ['group1']
+    facebook:
+      groups: ['group1']
+    twitter:
+      groups: ['group1']
+    instagram:
+      groups: ['group1']
+    longitude:
+      groups: ['group1']
+    latitude:
+      groups: ['group1']
+    updated_at:
+      groups: ['group1']
+    created_at:
+      groups: ['group1']
+      datetime_format: 'd.m.Y'

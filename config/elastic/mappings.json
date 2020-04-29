@@ -1,0 +1,196 @@
+{
+  "index": "bottin",
+  "body": {
+    "properties": {
+      "fiche": {
+        "properties": {
+          "location": {
+            "type": "geo_point"
+          },
+          "cap": {
+            "type": "keyword",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "centre_ville": {
+            "type": "keyword",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "midi": {
+            "type": "keyword",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "pmr": {
+            "type": "keyword",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "localite": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "keyword": {
+                "type": "keyword"
+              }
+            }
+          },
+          "societe": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "description": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "nom": {
+            "type": "text",
+            "analyzer": "french",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "standard"
+              }
+            }
+          },
+          "fonction": {
+            "type": "text",
+            "analyzer": "french",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "standard"
+              }
+            }
+          },
+          "comment1": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "comment2": {
+            "type": "text",
+            "analyzer": "french",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "comment3": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "classements": {
+            "properties": {
+              "name": {
+                "type": "text",
+                "analyzer": "french_light",
+                "fields": {
+                  "stemmed": {
+                    "type": "text",
+                    "analyzer": "french_heavy"
+                  }
+                }
+              },
+              "description": {
+                "type": "text",
+                "analyzer": "french_light",
+                "fields": {
+                  "stemmed": {
+                    "type": "text",
+                    "analyzer": "french_heavy"
+                  }
+                }
+              }
+            }
+          },
+          "secteurs": {
+            "properties": {
+              "name": {
+                "type": "text",
+                "analyzer": "french_light",
+                "fields": {
+                  "stemmed": {
+                    "type": "text",
+                    "analyzer": "french_heavy"
+                  },
+                  "word": {
+                    "type": "keyword"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "category": {
+        "properties": {
+          "name": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          },
+          "description": {
+            "type": "text",
+            "analyzer": "french_light",
+            "fields": {
+              "stemmed": {
+                "type": "text",
+                "analyzer": "french_heavy"
+              }
+            }
+          }
+        }
+      },
+      "created_at": {
+        "type": "date"
+      },
+      "updated_at": {
+        "type": "date"
+      }
+    }
+  }
+}
