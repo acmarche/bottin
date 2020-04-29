@@ -123,10 +123,14 @@ class ApiController extends AbstractController
      * Le detail de la fiche {id}
      * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"}, format="json")
      * @param Fiche $fiche
-     * @return JsonResponse
      */
-    public function ficheById(Fiche $fiche): JsonResponse
+    public function ficheById(int $id): JsonResponse
     {
+        $fiche = $this->ficheRepository->find($id);
+        if (!$fiche) {
+            return $this->json(['error' => 'Fiche not found']);
+        }
+
         return $this->json($this->apiUtils->prepareFiche($fiche));
     }
 
@@ -135,10 +139,15 @@ class ApiController extends AbstractController
      * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_api_fiche_by_slugname", methods={"GET"}, format="json")
      * @ParamConverter("fiche", options={"mapping": {"slugname": "slug"}})
      * @param Fiche $fiche
-     * @return JsonResponse
+     *
      */
-    public function ficheBySlug(Fiche $fiche): JsonResponse
+    public function ficheBySlug(string $slug): JsonResponse
     {
+        $fiche = $this->ficheRepository->findOneBy(['slug' => $slug]);
+        if (!$fiche) {
+            return $this->json(['error' => 'Fiche not found']);
+        }
+
         return $this->json($this->apiUtils->prepareFiche($fiche));
     }
 
@@ -161,6 +170,9 @@ class ApiController extends AbstractController
     public function search(Request $request): JsonResponse
     {
         $keyword = $request->request->get('keyword');
+        if (!$keyword) {
+            return $this->json(['error' => 'Pas de mot clef']);
+        }
         $result = $this->elasticServer->doSearchForCap($keyword);
 
         return $this->json($result);
