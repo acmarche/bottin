@@ -141,9 +141,9 @@ class ApiController extends AbstractController
      * @param Fiche $fiche
      *
      */
-    public function ficheBySlug(string $slug): JsonResponse
+    public function ficheBySlug(string $slugname): JsonResponse
     {
-        $fiche = $this->ficheRepository->findOneBy(['slug' => $slug]);
+        $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
         if (!$fiche) {
             return $this->json(['error' => 'Fiche not found']);
         }
