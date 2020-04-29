@@ -156,7 +156,7 @@ class ApiController extends AbstractController
 
     /**
      * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";
-     * @Route("/search", name="bottin_api_search", methods={"POST"})
+     * @Route("/bottin/search", name="bottin_api_search", methods={"POST"})
      */
     public function search(Request $request): JsonResponse
     {
