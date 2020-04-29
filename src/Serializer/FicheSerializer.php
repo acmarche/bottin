@@ -24,6 +24,7 @@ class FicheSerializer
     {
         $data = json_decode($this->serializeBaseFiche($fiche), true);
         $data['url_cap'] = CapService::generateUrlCap($fiche);
+        $data['slugname'] = $fiche->getSlug();//@deprecated
 
         return $data;
     }
