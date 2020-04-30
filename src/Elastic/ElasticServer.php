@@ -164,6 +164,7 @@ class ElasticServer
     function updateFiche($fiche)
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
+        $data['type'] = 'fiche';
         $data['classements'] = $this->classementElastic->getClassementsForApi($fiche);
         $data['cap'] = false;
         if (count($data['classements']) > 0) {
@@ -173,7 +174,7 @@ class ElasticServer
         $params = [
             'index' => $this->indexName,
             'id' => $data['id'],
-            'body' => ['fiche' => $data],
+            'body' =>  $data,
         ];
 
         return $this->client->index($params);
@@ -181,11 +182,13 @@ class ElasticServer
 
     function updateCategorie(Category $category)
     {
-        $std = $this->categorySerializer->serializeCategory($category);
+        $data = $this->categorySerializer->serializeCategory($category);
+        $data['type'] = 'category';
+
         $params = [
             'index' => $this->indexName,
-            'id' => 'cat_'.$std['id'],
-            'body' => ['category' => $std],
+            'id' => 'cat_'.$data['id'],
+            'body' =>  $data,
         ];
 
         return $this->client->index($params);

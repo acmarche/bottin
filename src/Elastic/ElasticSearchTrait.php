@@ -35,26 +35,9 @@ trait ElasticSearchTrait
     function doSearchForCap(string $keyword): array
     {
         $this->getInstance();
-        /*$boolQuery = new BoolQuery();
-$boolQuery->add(new MatchQuery('societe', $keyword));
-$geoQuery = new TermQuery('localite', $localite);
-$boolQuery->add($geoQuery, BoolQuery::FILTER);
-$this->search->addQuery($boolQuery);*/
 
-        $societeMatch = new MultiMatchQuery(
-            ['societe'],
-            $keyword,
-            [
-                //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
-                "boost" => 1.2
-                /*   "minimum_should_match" => [
-                       "low_freq" => 2,
-                       "high_freq" => 3,
-                   ],*/
-            ]
-        );
         $societeMatch = new MatchQuery(
-            'fiche.societe',
+            'societe',
             $keyword,
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
@@ -65,46 +48,42 @@ $this->search->addQuery($boolQuery);*/
                    ],*/
             ]
         );
-
-        $comment1Match = new MatchQuery(
-            "comment1",
+        $societeStemmedMatch = new MatchQuery(
+            'societe.stemmed',
             $keyword,
             [
-
+                "boost" => 1.2,
             ]
         );
 
-        $capFilter = new MatchQuery(
-            "cap",
-            true,
-            [
+        $capFilter = new MatchQuery("cap", true);
 
-            ]
-        );
-
-        $query = new BoolQuery();
         $multiMatchQuery = new MultiMatchQuery(
-            ['fiche.societe', 'fiche.societe.stemmed', 'fiche.comment1', 'fiche.secteurs'],
+            [
+                'comment1',
+                'comment1.stemmed',
+                'secteurs',
+                'secteurs.stemmed',
+            ],
             $keyword
         );
-        //    $query->add($comment1Match, BoolQuery::SHOULD);
-        //  $query->add($societeMatch, BoolQuery::SHOULD);
 
-        $this->search->addQuery($multiMatchQuery);
+        $this->search->addQuery($societeMatch, BoolQuery::SHOULD);
+        $this->search->addQuery($societeStemmedMatch, BoolQuery::SHOULD);
+        $this->search->addQuery($multiMatchQuery, BoolQuery::SHOULD);
+      //  $this->search->addQuery($capFilter, BoolQuery::FILTER);
 
-        //   $query->add($capFilter, BoolQuery::FILTER);
+        $query = new BoolQuery();
 
         //  $this->addAggregations();
 
         $params = [
             'index' => $this->indexName,
             'size' => 1000,
+            'body' => $this->search->toArray(),
         ];
 
-        //var_dump($this->search->toArray());
-        $params['body'] = $this->search->toArray();
-
-        var_dump($params);
+        var_dump($this->search->toArray());
 
         return $this->client->search($params);
     }

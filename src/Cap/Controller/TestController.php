@@ -135,12 +135,12 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/bottin/test/search", name="bottin_api_test_search", methods={"GET"})
+     * @Route("/bottin/test/search/{keyword}", name="bottin_api_test_search", methods={"GET"})
      *
      */
-    public function testSearch(): Response
+    public function testSearch(string $keyword = 'axa'): Response
     {
-        $data = ['keyword' => 'AXA'];
+        $data = ['keyword' => $keyword];
 
         $url = $this->generateUrl('bottin_api_search', [], false);
         $request = $this->httpClient->request(

@@ -44,25 +44,10 @@
                     </thead>
                     <tbody>
                     {% for hit in hits.hits %}
-                        {% set source = hit._source %}
-                        {% set fiche = null %}
-                        {% set category = null %}
+                        {% set fiche = hit._source %}
 
-                        {% if source.fiche is defined %}
-                            {% set fiche = source.fiche %}
-                        {% endif %}
+                        {% include '@AcMarcheBottin/fiche/_line_fiche.html.twig' %}
 
-                        {% if source.category is defined %}
-                            {% set category = source.category %}
-                        {% endif %}
-
-                        {% if fiche %}
-                            {% include '@AcMarcheBottin/fiche/_line_fiche.html.twig' %}
-                        {% endif %}
-
-                        {% if category %}
-                            {% include '@AcMarcheBottin/fiche/_line_category.html.twig' %}
-                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>
