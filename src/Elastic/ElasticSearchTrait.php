@@ -125,7 +125,7 @@ trait ElasticSearchTrait
             'body' => $this->search->toArray(),
         ];
 
-        //   echo(json_encode($this->search->toArray()));
+        var_dump($this->search->toArray());
 
         return $this->client->search($params);
     }
