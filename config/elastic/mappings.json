@@ -36,6 +36,10 @@
           "stemmed": {
             "type": "text",
             "analyzer": "french_heavy"
+          },
+          "ngram": {
+            "type": "text",
+            "analyzer": "french_ngram"
           }
         }
       },

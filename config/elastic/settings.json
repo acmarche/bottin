@@ -39,7 +39,7 @@
           },
           "french_stemmer": {
             "type": "stemmer",
-            "language": "light_french"
+            "language": "french"
           }
         },
         "analyzer": {
@@ -59,6 +59,25 @@
               "french_elision",
               "icu_folding",
               "stop_words_french"
+            ]
+          },
+          "french_ngram": {
+            "tokenizer": "ngram_tokenizer",
+            "filter": [
+              "french_elision",
+              "icu_folding",
+              "stop_words_french"
+            ]
+          }
+        },
+        "tokenizer": {
+          "ngram_tokenizer": {
+            "type": "ngram",
+            "min_gram": 3,
+            "max_gram": 3,
+            "token_chars": [
+              "letter",
+              "digit"
             ]
           }
         }

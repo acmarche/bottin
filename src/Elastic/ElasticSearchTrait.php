@@ -6,12 +6,10 @@ namespace AcMarche\Bottin\Elastic;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
-use ONGR\ElasticsearchDSL\Query\FullText\MatchPhraseQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\MatchQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\MultiMatchQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceQuery;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
-use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
 use ONGR\ElasticsearchDSL\Search;
 use ONGR\ElasticsearchDSL\Suggest\Suggest;
 
@@ -66,13 +64,14 @@ trait ElasticSearchTrait
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
                 "boost" => 1.2,
+      //          "fuzziness" => "AUTO",//manda => mazda
             ]
         );
 
         $societeStemmedMatch = new MatchQuery(
             'societe.stemmed', $keyword,
             [
-                "boost" => 1.1,
+                "boost" => 1.1
             ]
         );
 
