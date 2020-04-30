@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Security\LdapUserProvider;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Provider\LdapBindAuthenticationProvider;
@@ -36,17 +37,23 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
+    /**
+     * @var StaffLdap
+     */
+    private $staffLdap;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        StaffLdap $staffLdap
     ) {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->staffLdap = $staffLdap;
     }
 
     public function supports(Request $request)
@@ -89,6 +96,24 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        try {
+            $entry = $this->staffLdap->getEntry($user->getUsername());
+
+            if ($entry instanceof Entry) {
+                $dn = $entry->getDn();
+
+                try {
+                    $this->staffLdap->bind($dn, $credentials['password']);
+
+                    return true;
+                } catch (\Exception $exception) {
+                    //throw new BadCredentialsException($exception->getMessage());
+                }
+            }
+        } catch (\Exception $exception) {
+        }
+
+        //try check password in db
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 

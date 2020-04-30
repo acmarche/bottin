@@ -40,3 +40,9 @@ services:
         options:
           protocol_version: 3
           referrals: false
+
+  AcMarche\Bottin\Security\StaffLdap:
+    $host: '%env(ACLDAP_URL)%'
+    $dn: '%env(ACLDAP_DN)%'
+    $user: '%env(ACLDAP_USER)%'
+    $password: '%env(ACLDAP_PASSWORD)%'
