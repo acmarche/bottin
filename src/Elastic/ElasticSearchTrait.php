@@ -3,17 +3,16 @@
 
 namespace AcMarche\Bottin\Elastic;
 
+use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
-use ONGR\ElasticsearchDSL\Query\FullText\CommonTermsQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\MatchPhraseQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\MatchQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\MultiMatchQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceQuery;
-use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
-use \ONGR\ElasticsearchDSL\Search;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
+use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
+use ONGR\ElasticsearchDSL\Search;
 use ONGR\ElasticsearchDSL\Suggest\Suggest;
 
 trait ElasticSearchTrait
@@ -42,8 +41,20 @@ $geoQuery = new TermQuery('localite', $localite);
 $boolQuery->add($geoQuery, BoolQuery::FILTER);
 $this->search->addQuery($boolQuery);*/
 
+        $societeMatch = new MultiMatchQuery(
+            ['societe'],
+            $keyword,
+            [
+                //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
+                "boost" => 1.2
+                /*   "minimum_should_match" => [
+                       "low_freq" => 2,
+                       "high_freq" => 3,
+                   ],*/
+            ]
+        );
         $societeMatch = new MatchQuery(
-            "societe",
+            'fiche.societe',
             $keyword,
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
@@ -73,18 +84,18 @@ $this->search->addQuery($boolQuery);*/
 
         $query = new BoolQuery();
         $multiMatchQuery = new MultiMatchQuery(
-            ['societe', 'comment1', 'secteurs'],
+            ['fiche.societe', 'fiche.societe.stemmed', 'fiche.comment1', 'fiche.secteurs'],
             $keyword
         );
-        // $query->add($comment1Match, BoolQuery::SHOULD);
+        //    $query->add($comment1Match, BoolQuery::SHOULD);
         //  $query->add($societeMatch, BoolQuery::SHOULD);
-        $query->add($multiMatchQuery, BoolQuery::MUST);
 
-        $query->add($capFilter, BoolQuery::FILTER);
+        $this->search->addQuery($multiMatchQuery);
+
+        //   $query->add($capFilter, BoolQuery::FILTER);
 
         //  $this->addAggregations();
 
-        $this->search->addQuery($query);
         $params = [
             'index' => $this->indexName,
             'size' => 1000,
@@ -93,7 +104,7 @@ $this->search->addQuery($boolQuery);*/
         //var_dump($this->search->toArray());
         $params['body'] = $this->search->toArray();
 
-        //   dump($params);
+        var_dump($params);
 
         return $this->client->search($params);
     }

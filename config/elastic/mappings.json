@@ -143,8 +143,6 @@
             }
           },
           "secteurs": {
-            "properties": {
-              "name": {
                 "type": "text",
                 "analyzer": "french_light",
                 "fields": {
@@ -155,8 +153,7 @@
                   "word": {
                     "type": "keyword"
                   }
-                }
-              }
+
             }
           }
         }

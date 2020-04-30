@@ -163,17 +163,17 @@ class ElasticServer
 
     function updateFiche($fiche)
     {
-        $std = $this->ficheSerializer->serializeFicheForElastic($fiche);
-        $std['classements'] = $this->classementElastic->getClassementsForApi($fiche);
-        $std['cap'] = false;
-        if (count($std['classements']) > 0) {
-            $std['cap'] = true;
+        $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
+        $data['classements'] = $this->classementElastic->getClassementsForApi($fiche);
+        $data['cap'] = false;
+        if (count($data['classements']) > 0) {
+            $data['cap'] = true;
         }
-        $std['secteurs'] = $this->classementElastic->getSecteursForApi($std['classements']);
+        $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
         $params = [
             'index' => $this->indexName,
-            'id' => $std['id'],
-            'body' => $std,
+            'id' => $data['id'],
+            'body' => ['fiche' => $data],
         ];
 
         return $this->client->index($params);
@@ -185,7 +185,7 @@ class ElasticServer
         $params = [
             'index' => $this->indexName,
             'id' => 'cat_'.$std['id'],
-            'body' => $std,
+            'body' => ['category' => $std],
         ];
 
         return $this->client->index($params);

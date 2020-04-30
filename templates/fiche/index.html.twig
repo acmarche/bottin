@@ -44,36 +44,25 @@
                     </thead>
                     <tbody>
                     {% for hit in hits.hits %}
-                        {% set fiche = hit._source %}
-                        <tr>
-                            <td>
-                                <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}"
-                                   title="Détail de la fiche">
-                                    {{ fiche.societe }}
-                                </a>
-                            </td>
-                            <td>
-                                {{ fiche.localite }}
-                            </td>
-                            <td>
-                                {{ hit._score }}
-                            </td>
-                            <td>
-                                {{ fiche.pmr }}
-                            </td>
-                            <td>
-                                {{ fiche.midi }}
-                            </td>
-                            <td>
-                                {{ fiche.centreville }}
-                            </td>
-                            <td>
-                                {{ fiche.comment1|u.truncate(50,'...') }}
-                            </td>
-                            <td>
-                                {{ hit._score }}
-                            </td>
-                        </tr>
+                        {% set source = hit._source %}
+                        {% set fiche = null %}
+                        {% set category = null %}
+
+                        {% if source.fiche is defined %}
+                            {% set fiche = source.fiche %}
+                        {% endif %}
+
+                        {% if source.category is defined %}
+                            {% set category = source.category %}
+                        {% endif %}
+
+                        {% if fiche %}
+                            {% include '@AcMarcheBottin/fiche/_line_fiche.html.twig' %}
+                        {% endif %}
+
+                        {% if category %}
+                            {% include '@AcMarcheBottin/fiche/_line_category.html.twig' %}
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>

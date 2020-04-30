@@ -1,0 +1,29 @@
+<tr>
+    <td>
+        <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}"
+           title="Détail de la fiche">
+            {{ fiche.societe }}
+        </a>
+    </td>
+    <td>
+        {{ fiche.localite }}
+    </td>
+    <td>
+        {{ hit._score }}
+    </td>
+    <td>
+        {{ fiche.pmr }}
+    </td>
+    <td>
+        {{ fiche.midi }}
+    </td>
+    <td>
+        {{ fiche.centreville }}
+    </td>
+    <td>
+        {{ fiche.comment1|u.truncate(50,'...') }}
+    </td>
+    <td>
+        {{ hit._score }}
+    </td>
+</tr>
