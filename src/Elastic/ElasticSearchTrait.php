@@ -121,7 +121,7 @@ trait ElasticSearchTrait
 
         $params = [
             'index' => $this->indexName,
-            'size' => 1000,
+            'size' => 100,
             'body' => $this->search->toArray(),
         ];
 
