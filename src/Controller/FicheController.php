@@ -125,9 +125,7 @@ class FicheController extends AbstractController
                 return $this->redirectToRoute('bottin_fiche');
             }
             try {
-             //   $response = $this->elasticServer->doSearch($args['nom'], $args['localite'], $args['type']);
-                $response = $this->elasticServer->doSearchForCap($args['nom']);
-                dump($response);
+                $response = $this->elasticServer->doSearch($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());

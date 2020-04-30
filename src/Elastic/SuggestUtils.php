@@ -3,7 +3,12 @@
 
 namespace AcMarche\Bottin\Elastic;
 
-
+/**
+ * Class SuggestUtils
+ * @package AcMarche\Bottin\Elastic
+ *
+ * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html
+ */
 class SuggestUtils
 {
 

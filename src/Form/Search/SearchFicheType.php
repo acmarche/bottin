@@ -3,10 +3,8 @@
 namespace AcMarche\Bottin\Form\Search;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +16,6 @@ class SearchFicheType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $types = ['match', 'matchPhrase', 'multiMatch', 'bool', 'all', 'filter'];
         $builder
             ->add(
                 'nom',
@@ -27,7 +24,7 @@ class SearchFicheType extends AbstractType
                     'required' => true,
                     'attr' => [
                         'placeholder' => 'Mot clef',
-                        'autocomplete' => 'off'
+                        'autocomplete' => 'off',
                     ],
                 ]
             )
@@ -38,16 +35,8 @@ class SearchFicheType extends AbstractType
                     'required' => false,
                     'attr' => [
                         'placeholder' => 'Localité',
-                        'autocomplete' => 'off'
+                        'autocomplete' => 'off',
                     ],
-                ]
-            )
-            ->add(
-                'type',
-                ChoiceType::class,
-                [
-                    'choices' => array_combine($types, $types),
-                    'required' => true,
                 ]
             )
             ->add(

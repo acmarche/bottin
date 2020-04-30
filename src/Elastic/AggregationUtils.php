@@ -3,7 +3,11 @@
 
 namespace AcMarche\Bottin\Elastic;
 
-
+/**
+ * todo utiliser $this->search->getAggregations()
+ * Class AggregationUtils
+ * @package AcMarche\Bottin\Elastic
+ */
 class AggregationUtils
 {
     public function getLocalites(array $response): array
