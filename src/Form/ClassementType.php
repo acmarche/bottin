@@ -2,15 +2,11 @@
 
 namespace AcMarche\Bottin\Form;
 
-use AcMarche\Bottin\Entity\Classement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ClassementType extends AbstractType
 {
@@ -27,6 +23,7 @@ class ClassementType extends AbstractType
                 [
                     'label' => 'Mot clef',
                     'attr' => ['class' => 'typeahead', 'size' => '40px;', 'autocomplete' => 'off'],
+                    'label_attr' => ['class' => 'mr-2'],
                     'mapped' => false,
                     'required' => false,
                 ]
@@ -46,20 +43,8 @@ class ClassementType extends AbstractType
                     'label' => 'Classement principal',
                     'label_attr' => [
                         'class' => 'switch-custom',
-                    ]
+                    ],
                 ]
             );
-    }
-
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(
-            [
-                'data_class' => Classement::class,
-            ]
-        );
     }
 }

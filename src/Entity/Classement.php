@@ -41,25 +41,10 @@ class Classement
      */
     protected $principal = false;
 
-    /**
-     * @var int
-     */
-    protected $categorySelected =0;
-
-    /**
-     * @return int
-     */
-    public function getCategorySelected(): int
+    public function __construct(Fiche $fiche, Category $category)
     {
-        return $this->categorySelected;
-    }
-
-    /**
-     * @param int $categorySelected
-     */
-    public function setCategorySelected(int $categorySelected): void
-    {
-        $this->categorySelected = $categorySelected;
+        $this->fiche = $fiche;
+        $this->category = $category;
     }
 
     public function __toString()

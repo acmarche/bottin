@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Cap\Cap;
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -60,6 +61,24 @@ class ClassementRepository extends ServiceEntityRepository
             ->orderBy('c.fiche');
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Fiche $fiche
+     * @param Category $category
+     * @return Classement
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function checkExist(Fiche $fiche, Category $category): ?Classement
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->andWhere('c.category = :category')
+            ->setParameter('category', $category)
+            ->andWhere('c.fiche = :fiche')
+            ->setParameter('fiche', $fiche)
+            ->orderBy('c.fiche');
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function insert(Classement $classement)

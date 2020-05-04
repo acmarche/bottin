@@ -2,12 +2,13 @@
 
 namespace AcMarche\Bottin\Controller;
 
-use AcMarche\Bottin\Entity\Classement;
+use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
+use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,28 +34,32 @@ class ClassementController extends AbstractController
      * @var PathUtils
      */
     private $pathUtils;
+    /**
+     * @var ClassementHandler
+     */
+    private $classementHandler;
 
     public function __construct(
         ClassementRepository $classementRepository,
+        ClassementHandler $classementHandler,
         CategoryRepository $categoryRepository,
         PathUtils $pathUtils
     ) {
         $this->classementRepository = $classementRepository;
         $this->categoryRepository = $categoryRepository;
         $this->pathUtils = $pathUtils;
+        $this->classementHandler = $classementHandler;
     }
 
     /**
      * Displays a form to create a new classement entity.
      *
      * @Route("/edit/{id}", name="bottin_classement_new", methods={"GET", "POST"})
+     *
      */
     public function edit(Fiche $fiche, Request $request)
     {
-        $classement = new Classement();
-        $classement->setFiche($fiche);
-
-        $form = $this->createForm(ClassementType::class, $classement);
+        $form = $this->createForm(ClassementType::class);
 
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
@@ -63,48 +68,18 @@ class ClassementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $categoryId = $classement->getCategorySelected();
 
-            if (!$categoryId) {
-                $this->addFlash('danger', 'La référence à la rubrique n\'a pas été trouvée');
+            $data = $request->request->get('classement');
+            $categoryId = $data['categorySelected'];
 
-                return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
-            }
-
-            $category = $this->categoryRepository->find($categoryId);
-
-            if (!$category) {
-                throw $this->createNotFoundException('La catégorie n\'a pas été trouvée.');
-            }
-
-            $classement->setCategory($category);
-
-            /**
-             * je recupere les ids du classement.
-             */
-            $categories = $classements->map(
-                function ($obj) {
-                    return $obj->getCategory();
-                }
-            );
-
-            if ($categories->contains($category)) {
-                $this->addFlash('danger', 'La fiche est déjà classée dans cette rubrique');
+            try {
+                $this->classementHandler->handleNewClassement($fiche, $categoryId);
+                $this->addFlash('success', 'Le classement a bien été ajouté');
 
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
-            }
-
-            $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
-            if ($category->getChildNodes()->count() > 0) {
-                $this->addFlash('danger', 'Vous ne pouvez pas classer dans une rubrique qui contient des enfants');
-
+            } catch (NonUniqueResultException $e) {
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
             }
-
-            $this->classementRepository->insert($classement);
-            $this->addFlash('success', 'Le classement a bien été ajouté');
-
-            return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
         }
 
         return $this->render(

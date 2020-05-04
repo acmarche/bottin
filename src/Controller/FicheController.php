@@ -169,7 +169,7 @@ class FicheController extends AbstractController
 
             $this->addFlash('success', 'La fiche a bien été crée');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
