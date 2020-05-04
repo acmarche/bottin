@@ -29,7 +29,7 @@ class Pdv
 
     /**
      * @var Fiche[]
-     * @ORM\OneToMany(targetEntity="Fiche", mappedBy="pdv")
+     * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Fiche", mappedBy="pdv")
      * @ORM\OrderBy({"societe": "ASC"})
      */
     protected $fiches;

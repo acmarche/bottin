@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 trait PdvTrait
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Pdv", inversedBy="fiches")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Pdv", inversedBy="fiches")
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $pdv;
 
