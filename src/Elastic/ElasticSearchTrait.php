@@ -75,6 +75,13 @@ trait ElasticSearchTrait
             ]
         );
 
+        $societeNgramMatch = new MatchQuery(
+            'societe.ngram', $keyword,
+            [
+
+            ]
+        );
+
         $multiMatchQuery = new MultiMatchQuery(
             [
                 'comment1',
@@ -90,6 +97,7 @@ trait ElasticSearchTrait
         $query = new BoolQuery();
         $query->add($societeMatch, BoolQuery::SHOULD);
         $query->add($societeStemmedMatch, BoolQuery::SHOULD);
+        $query->add($societeNgramMatch, BoolQuery::SHOULD);
         $query->add($multiMatchQuery, BoolQuery::SHOULD);
         $query->add($ficheFilter, BoolQuery::FILTER);
 
@@ -124,7 +132,7 @@ trait ElasticSearchTrait
             'body' => $this->search->toArray(),
         ];
 
-        var_dump($this->search->toArray());
+      //  var_dump($this->search->toArray());
 
         return $this->client->search($params);
     }

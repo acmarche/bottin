@@ -81,7 +81,7 @@ class ElasticCommand extends Command
             }
             if ($result['_shards']['failed'] == 1) {
                 $this->io->error($fiche->getSociete());
-                var_dump($result);
+                $this->io->error(var_export($result));
             }
         }
     }
@@ -94,8 +94,7 @@ class ElasticCommand extends Command
                 $this->io->success($category->getName().': '.$result['result']);
             }
             if ($result['_shards']['failed'] == 1) {
-                $this->io->error($category->getName());
-                var_dump($result);
+                $this->io->error(var_export($result));
             }
         }
     }

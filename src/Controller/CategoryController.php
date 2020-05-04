@@ -17,7 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Category controller.
@@ -217,7 +216,6 @@ class CategoryController extends AbstractController
         );
     }
 
-
     /**
      * Displays a form to edit an existing Category entity.
      *
@@ -247,18 +245,16 @@ class CategoryController extends AbstractController
         );
     }
 
-
     /**
      * @Route("/{id}", name="bottin_category_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Category $category): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+            $this->dispatchMessage(new CategoryDeleted($category->getId()));
             $parent = $category->getParent();
             $this->categoryRepository->remove($category);
             $this->categoryRepository->flush();
-
-            $this->dispatchMessage(new CategoryDeleted($category->getId()));
 
             $this->addFlash('success', "La catégorie a bien été supprimée");
             if ($parent) {
@@ -270,5 +266,4 @@ class CategoryController extends AbstractController
 
         return $this->redirect($this->generateUrl('bottin_category'));
     }
-
 }

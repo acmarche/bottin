@@ -2,6 +2,8 @@
 
 namespace AcMarche\Bottin\MessageHandler;
 
+use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\GeolocalisationService;
@@ -24,22 +26,29 @@ class FicheUpdatedHandler implements MessageHandlerInterface
      * @var FlashBagInterface
      */
     private $flashBag;
+    /**
+     * @var ElasticServer
+     */
+    private $elasticServer;
 
     public function __construct(
         FicheRepository $ficheRepository,
         GeolocalisationService $geolocalisationService,
         Security $security,
+        ElasticServer $elasticServer,
         FlashBagInterface $flashBag
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->geolocalisationService = $geolocalisationService;
         $this->security = $security;
         $this->flashBag = $flashBag;
+        $this->elasticServer = $elasticServer;
     }
 
     public function __invoke(FicheUpdated $ficheCreated)
     {
         $fiche = $this->ficheRepository->find($ficheCreated->getFicheId());
+        $this->updateFiche($fiche);
         $oldRue = $ficheCreated->getOldRue();
 
         if ($oldRue !== $fiche->getRue()) {
@@ -52,5 +61,10 @@ class FicheUpdatedHandler implements MessageHandlerInterface
                 );
             }
         }
+    }
+
+    private function updateFiche(Fiche $fiche)
+    {
+        $this->elasticServer->updateFiche($fiche);
     }
 }

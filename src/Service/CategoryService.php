@@ -121,10 +121,10 @@ class CategoryService
     protected function test(Category $category)
     {
         //Returns a node hydrated with its children and parents
-        dump($this->categoryRepository->getTree($category->getRealMaterializedPath()));
+        ($this->categoryRepository->getTree($category->getRealMaterializedPath()));
         //tout l'arbre sauf une branche et ses enfants, flat
-        dump($this->categoryRepository->getTreeExceptNodeAndItsChildrenQB($category)->getQuery()->getResult());
+        ($this->categoryRepository->getTreeExceptNodeAndItsChildrenQB($category)->getQuery()->getResult());
         //all childs flat
-        dump($this->categoryRepository->getFlatTree($category->getRealMaterializedPath()));
+        ($this->categoryRepository->getFlatTree($category->getRealMaterializedPath()));
     }
 }

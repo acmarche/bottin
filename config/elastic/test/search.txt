@@ -1,0 +1,13 @@
+GET bottin/_search
+{
+  "query": {
+    "match": {
+      "societe.ngram": "boulanger"
+    }
+  }
+}
+POST bottin/_analyze
+{
+  "analyzer": "french_ngram",
+  "text":     "boulangerie"
+}

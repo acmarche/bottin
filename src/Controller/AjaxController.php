@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller;
 
+use AcMarche\Bottin\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
@@ -58,6 +59,8 @@ class AjaxController extends AbstractController
             $fiche = $classement->getFiche();
             $this->classementRepository->remove($classement);
             $this->classementRepository->flush();
+
+            $this->dispatchMessage(new FicheUpdated($fiche->getId(), null));
 
             $classements = $this->classementRepository->getByFiche($fiche);
             $classements = $this->pathUtils->setPathForClassements($classements);

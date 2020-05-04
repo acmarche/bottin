@@ -174,7 +174,7 @@ class ElasticServer
         $params = [
             'index' => $this->indexName,
             'id' => $data['id'],
-            'body' =>  $data,
+            'body' => $data,
         ];
 
         return $this->client->index($params);
@@ -188,7 +188,7 @@ class ElasticServer
         $params = [
             'index' => $this->indexName,
             'id' => 'cat_'.$data['id'],
-            'body' =>  $data,
+            'body' => $data,
         ];
 
         return $this->client->index($params);
