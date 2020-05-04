@@ -440,16 +440,4 @@ class Fiche implements SluggableInterface, TimestampableInterface
         return $this;
     }
 
-    public function getPdv(): ?Pdv
-    {
-        return $this->pdv;
-    }
-
-    public function setPdv(?Pdv $pdv): self
-    {
-        $this->pdv = $pdv;
-
-        return $this;
-    }
-
 }
