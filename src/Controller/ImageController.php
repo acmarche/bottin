@@ -34,19 +34,13 @@ class ImageController extends AbstractController
      * @var ImageRepository
      */
     private $imageRepository;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
 
     public function __construct(
         ImageRepository $imageRepository,
-        UploadHandler $uploadHandler,
-        SerializerInterface $serializer
+        UploadHandler $uploadHandler
     ) {
         $this->uploadHandler = $uploadHandler;
         $this->imageRepository = $imageRepository;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -54,7 +48,7 @@ class ImageController extends AbstractController
      *
      * @Route("/new/{id}", name="bottin_image_new", methods={"GET", "POST"})
      */
-    public function new(Fiche $fiche, Request $request)
+    public function new(Fiche $fiche)
     {
         $entity = new FicheImage($fiche);
 
@@ -114,8 +108,6 @@ class ImageController extends AbstractController
      */
     public function show(FicheImage $ficheImage)
     {
-        $data = json_decode($this->serializer->serialize($ficheImage, 'json', ['group2']), true);
-
         return $this->render(
             '@AcMarcheBottin/image/show.html.twig',
             [
