@@ -5,6 +5,8 @@ parameters:
   bottin.cp_default: '6900'
   router.request_context.host: 'bottin.local'
   router.request_context.scheme: 'http'
+  bottin.url_update_fiche: '%env(BOTTIN_URL_UPDATE_FICHE)%'
+  bottin.url_update_category: '%env(BOTTIN_URL_UPDATE_CATEGORY)%'
 
 services:
   # default configuration for services in *this* file

@@ -1,8 +1,8 @@
 <?php
 
-namespace AcMarche\Bottin\Message;
+namespace AcMarche\Bottin\Fiche\Message;
 
-class FicheCreated
+final class FicheDeleted
 {
     private $ficheId;
 
@@ -15,5 +15,4 @@ class FicheCreated
     {
         return $this->ficheId;
     }
-
 }

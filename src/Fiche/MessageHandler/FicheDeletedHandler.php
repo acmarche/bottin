@@ -1,9 +1,9 @@
 <?php
 
-namespace AcMarche\Bottin\MessageHandler;
+namespace AcMarche\Bottin\Fiche\MessageHandler;
 
 use AcMarche\Bottin\Elastic\ElasticServer;
-use AcMarche\Bottin\Message\FicheDeleted;
+use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 

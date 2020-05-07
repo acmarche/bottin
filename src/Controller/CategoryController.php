@@ -2,13 +2,13 @@
 
 namespace AcMarche\Bottin\Controller;
 
+use AcMarche\Bottin\Category\Message\CategoryCreated;
+use AcMarche\Bottin\Category\Message\CategoryDeleted;
+use AcMarche\Bottin\Category\Message\CategoryUpdated;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Form\CategoryMoveType;
 use AcMarche\Bottin\Form\CategoryType;
 use AcMarche\Bottin\Form\Search\SearchCategoryType;
-use AcMarche\Bottin\Message\CategoryCreated;
-use AcMarche\Bottin\Message\CategoryDeleted;
-use AcMarche\Bottin\Message\CategoryUpdated;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
@@ -201,8 +201,8 @@ class CategoryController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->categoryRepository->flush();
+
             $this->dispatchMessage(new CategoryUpdated($category->getId()));
-            $this->addFlash('success', 'La catégorie a bien été modifiée');
 
             return $this->redirectToRoute('bottin_category_show', ['id' => $category->getId()]);
         }

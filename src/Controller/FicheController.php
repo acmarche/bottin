@@ -8,9 +8,9 @@ use AcMarche\Bottin\Elastic\SuggestUtils;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\FicheType;
 use AcMarche\Bottin\Form\Search\SearchFicheType;
-use AcMarche\Bottin\Message\FicheCreated;
-use AcMarche\Bottin\Message\FicheDeleted;
-use AcMarche\Bottin\Message\FicheUpdated;
+use AcMarche\Bottin\Fiche\Message\FicheCreated;
+use AcMarche\Bottin\Fiche\Message\FicheDeleted;
+use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\GeolocalisationService;
@@ -215,13 +215,14 @@ class FicheController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldRue));
 
             $data = $editForm->getData();
             $horaires = $data->getHoraires();
             $this->horaireService->handleEdit($fiche, $horaires);
 
             $this->ficheRepository->flush();
+
+            $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldRue));
 
             $this->addFlash('success', 'La fiche a bien été modifiée');
 
@@ -236,7 +237,6 @@ class FicheController extends AbstractController
             ]
         );
     }
-
 
     /**
      * @Route("/{id}", name="bottin_fiche_delete", methods={"DELETE"})

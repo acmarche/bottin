@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Message;
+namespace AcMarche\Bottin\Fiche\Message;
 
 class FicheUpdated
 {

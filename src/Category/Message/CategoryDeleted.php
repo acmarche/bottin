@@ -1,8 +1,8 @@
 <?php
 
-namespace AcMarche\Bottin\Message;
+namespace AcMarche\Bottin\Category\Message;
 
-class CategoryUpdated
+class CategoryDeleted
 {
     private $categoryId;
 

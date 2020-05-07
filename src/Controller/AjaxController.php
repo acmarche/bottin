@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Controller;
 
-use AcMarche\Bottin\Message\FicheUpdated;
+use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;

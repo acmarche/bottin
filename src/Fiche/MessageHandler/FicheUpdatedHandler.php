@@ -1,10 +1,10 @@
 <?php
 
-namespace AcMarche\Bottin\MessageHandler;
+namespace AcMarche\Bottin\Fiche\MessageHandler;
 
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Message\FicheUpdated;
+use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\GeolocalisationService;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -67,4 +67,6 @@ class FicheUpdatedHandler implements MessageHandlerInterface
     {
         $this->elasticServer->updateFiche($fiche);
     }
+
+
 }

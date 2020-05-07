@@ -1,10 +1,10 @@
 <?php
 
-namespace AcMarche\Bottin\MessageHandler;
+namespace AcMarche\Bottin\Fiche\MessageHandler;
 
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Message\FicheCreated;
+use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\GeolocalisationService;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
