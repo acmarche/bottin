@@ -79,6 +79,8 @@ class ClassementController extends AbstractController
 
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
             } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
             }
         }
