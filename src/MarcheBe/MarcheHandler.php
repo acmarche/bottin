@@ -44,10 +44,6 @@ class MarcheHandler implements MessageSubscriberInterface
                 'body' => ['ficheid' => $ficheId],
             ]
         );
-
-        $content = $request->getContent();
-        var_dump($content);
-        exit();
     }
 
     public static function getHandledMessages(): iterable

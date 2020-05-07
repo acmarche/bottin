@@ -69,7 +69,6 @@ class ClassementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $request->request->get('classement');
             $categoryId = (int)$data['categorySelected'];
 
@@ -79,7 +78,7 @@ class ClassementController extends AbstractController
                 $this->addFlash('success', 'Le classement a bien été ajouté');
 
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
-            } catch (NonUniqueResultException $e) {
+            } catch (\Exception $e) {
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
             }
         }
