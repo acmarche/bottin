@@ -2,9 +2,8 @@
 
 namespace AcMarche\Bottin\MarcheBe;
 
+use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\Classement\Message\ClassementUpdated;
-use AcMarche\Bottin\Fiche\Message\FicheCreated;
-use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -31,6 +30,11 @@ class MarcheHandler implements MessageSubscriberInterface
         $this->sendFiche($classementUpdated->getFicheId());
     }
 
+    public function classementDeleted(ClassementDeleted $classementDeleted)
+    {
+        $this->sendFiche($classementDeleted->getFicheId());
+    }
+
     private function sendFiche(int $ficheId)
     {
         $request = $this->httpClient->request(
@@ -52,10 +56,10 @@ class MarcheHandler implements MessageSubscriberInterface
         yield ClassementUpdated::class;
 
         // also handle this message on handleOtherSmsNotification
-     /*   yield FicheCreated::class => [
-            'method' => 'updateFiche',
+        yield ClassementDeleted::class => [
+            'method' => 'classementDeleted',
             //'priority' => 0,
             //'bus' => 'messenger.bus.default',
-        ];*/
+        ];
     }
 }
