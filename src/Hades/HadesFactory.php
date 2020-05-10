@@ -1,174 +1,76 @@
 <?php
 
-namespace AcMarche\Bottin\Command;
+
+namespace AcMarche\Bottin\Hades;
+
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Repository\CategoryRepository;
+use AcMarche\Bottin\Hades\Entity\OffreInterface;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\Hades;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class SyncFtlbCommand extends Command
+class HadesFactory
 {
-    /**
-     * @var Hades
-     */
-    private $hades;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
     /**
      * @var FicheRepository
      */
     private $ficheRepository;
     /**
-     * @var OutputInterface
-     */
-    private $output;
-    /**
      * @var ClassementRepository
      */
     private $classementRepository;
 
-    public function __construct(
-        Hades $hades,
-        CategoryRepository $categoryRepository,
-        FicheRepository $ficheRepository,
-        ClassementRepository $classementRepository
-    ) {
-        parent::__construct();
-        $this->hades = $hades;
-        $this->categoryRepository = $categoryRepository;
+    public function __construct(FicheRepository $ficheRepository, ClassementRepository $classementRepository)
+    {
         $this->ficheRepository = $ficheRepository;
         $this->classementRepository = $classementRepository;
     }
 
-    protected function configure()
+    public function createFiche(OffreInterface $offre): Fiche
     {
-        $this
-            ->setName('bottin:syncftlb')
-            ->setDescription('Synchronise avec la ftlb');
-    }
+        $fiche = $this->ficheRepository->findOneBy(['ftlb' => $offre->getId()]);
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->output = $output;
-
-        $this->user = 'jfsenechal';
-
-        $this->getChambres();
-        $this->getCamping();
-        $this->getHotels();
-        $this->getGites();
-
-        $this->categoryRepository->flush();
-
-        $output->writeln('ok');
-        return 0;
-    }
-
-    protected function getCamping()
-    {
-        $categorie = $this->categoryRepository->find(652);
-        if (!$categorie) {
-            return;
-        }
-
-        $offres = $this->hades->getOffres('cat_id=camp_non_rec,camping');
-
-        foreach ($offres as $offre) {
-            $this->traitementOffre($offre, $categorie);
-        }
-    }
-
-    protected function getHotels()
-    {
-        $categorie = $this->categoryRepository->find(649);
-        if (!$categorie) {
-            return;
-        }
-
-        $offres = $this->hades->getOffres('cat_id=hotel');
-
-        foreach ($offres as $offre) {
-            $this->traitementOffre($offre, $categorie);
-        }
-    }
-
-    protected function getChambres()
-    {
-        $categorie = $this->categoryRepository->find(651);
-        if (!$categorie) {
-            return;
-        }
-
-        $offres = $this->hades->getOffres('cat_id=chbre_chb,chbre_hote');
-
-        foreach ($offres as $offre) {
-            $this->traitementOffre($offre, $categorie);
-        }
-    }
-
-    protected function getGites()
-    {
-        $categorie = $this->categoryRepository->find(650);
-        if (!$categorie) {
-            return;
-        }
-
-        $offres = $this->hades->getOffres('cat_id=git_ferme,git_citad,git_big_cap,git_rural,mbl_trm,mbl_vac');
-
-        foreach ($offres as $offre) {
-            $this->traitementOffre($offre, $categorie);
-        }
-    }
-
-    protected function traitementOffre($offre, Category $category)
-    {
-        $titre = (string) $offre->titre;
-        $id = (int) $offre->attributes()->id;
-        $localisation = $this->hades->getLocalisations($offre);
-        $descriptions = $this->hades->getDescriptions($offre);
-        $contacts = $this->hades->getContacts($offre);
-
-        $fiche = $this->ficheRepository->findOneBy(['ftlb' => $id]);
         if (!$fiche) {
             $fiche = new Fiche();
-            $fiche->setClef(bin2hex(random_bytes(16)));
-            $fiche->setUser($this->user);
-            $classement = new Classement();
-            $classement->setCategory($category);
-            $classement->setFiche($fiche);
-            $classement->setPrincipal(true);
+            $fiche->setUser('ftlb');
+            $fiche->setFtlb($offre->getId());
+            $fiche->setSociete($offre->getTitre());//bug slug
             $this->ficheRepository->persist($fiche);
-            $this->classementRepository->persist($classement);
         }
 
-        $this->output->writeln($titre);
+        $fiche->setSociete($offre->getTitre());
 
-        if (count($contacts) > 0) {
-            $this->setContacts($fiche, $contacts);
+        return $fiche;
+    }
+
+    public function setClassement(Fiche $fiche, Category $category)
+    {
+        if (count($fiche->getClassements()) > 0) {
+            return;
         }
 
-        if (count($descriptions) > 0) {
-            $this->setDescriptions($fiche, $descriptions);
+        $classement = new Classement($fiche, $category);
+        $classement->setPrincipal(true);
+        $this->classementRepository->persist($classement);
+    }
+
+    public function setDescriptions(Fiche $fiche, array $descriptions)
+    {
+        if (count($descriptions) == 0) {
+            return;
         }
 
-        $fiche->setFtlb($id);
-        $fiche->setSociete($titre);
-        $fiche->setLatitude($localisation['latitude']);
-        $fiche->setLongitude($localisation['longitude']);
-        $fiche->setLocalite($localisation['localite_nom']);
-        $fiche->setCp($localisation['code_postal']);
+        $fiche->setComment1($descriptions[0]);
 
-        $this->classementRepository->flush();
-        $this->ficheRepository->flush();
+        if (isset($descriptions[1])) {
+            $fiche->setComment2($descriptions[1]);
+        }
+
+        if (isset($descriptions[2])) {
+            $fiche->setComment3($descriptions[2]);
+        }
     }
 
     protected function setContacts(Fiche $fiche, $contacts)
@@ -283,7 +185,7 @@ class SyncFtlbCommand extends Command
         }
     }
 
-    protected function setDescriptions(Fiche $fiche, $descriptions)
+    protected function setDescriptions2(Fiche $fiche, $descriptions)
     {
         foreach ($descriptions as $description) {
             $lot = $description['lot'];
@@ -296,10 +198,8 @@ class SyncFtlbCommand extends Command
                 case 'lot_tarif':
                     $comment3 .= $description['texte_fr'];
                     break;
-                case 'lot_equip':
-                    $comment2 .= $description['texte_fr'];
-                    break;
                 case 'lot_horaire':
+                case 'lot_equip':
                     $comment2 .= $description['texte_fr'];
                     break;
                 default:

@@ -32,6 +32,9 @@ services:
   AcMarche\Bottin\Namer\DirectoryNamer:
     public: true
 
+  AcMarche\Bottin\Hades\HadesRepository:
+    $url: '%env(HADES_URL)%'
+
   Symfony\Component\Ldap\Ldap:
     arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
   Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
