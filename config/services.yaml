@@ -34,6 +34,8 @@ services:
 
   AcMarche\Bottin\Hades\HadesRepository:
     $url: '%env(HADES_URL)%'
+    $user: '%env(HADES_USER)%'
+    $password: '%env(HADES_PASSWORD)%'
 
   Symfony\Component\Ldap\Ldap:
     arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']

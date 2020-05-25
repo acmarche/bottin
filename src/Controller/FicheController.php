@@ -207,6 +207,12 @@ class FicheController extends AbstractController
      */
     public function edit(Fiche $fiche, Request $request)
     {
+        if ($fiche->getFtlb()) {
+            $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
+
+            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+        }
+
         $oldRue = $fiche->getRue();
         $this->horaireService->initHoraires($fiche);
 
@@ -215,7 +221,6 @@ class FicheController extends AbstractController
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-
             $data = $editForm->getData();
             $horaires = $data->getHoraires();
             $this->horaireService->handleEdit($fiche, $horaires);

@@ -49,11 +49,16 @@ class MapController extends AbstractController
      */
     public function edit(Fiche $fiche, Request $request)
     {
+        if ($fiche->getFtlb()) {
+            $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
+
+            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+        }
         if (!$fiche->getLatitude() && !$fiche->getLongitude()) {
             try {
                 $this->geolocalisationService->convertToCoordonate($fiche, false);
             } catch (\Exception $e) {
-                $this->addFlash('danger', "La latitude et longitude n'ont pas pu être trouvées: " . $e->getMessage());
+                $this->addFlash('danger', "La latitude et longitude n'ont pas pu être trouvées: ".$e->getMessage());
             }
         }
 

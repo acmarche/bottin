@@ -4,10 +4,14 @@
 
     <div class="card bg-light mb-3">
         <div class="card-header">
-            <h3>{{ fiche }}</h3>
-            {% if fiche.ftlb %}
-                <img src="{{ asset('bundles/acmarchebottin/images/ftlb.png') }}" title="Fiche provenant de la Ftlb" alt="ftlb"/>
-            {% endif %}
+            <h3>{{ fiche }}
+                {% if fiche.ftlb %}
+                    <div class="float-right">
+                        <img src="{{ asset('bundles/acmarchebottin/images/ftlb.png') }}"
+                             title="Fiche provenant de la Ftlb" alt="ftlb"/>
+                    </div>
+                {% endif %}
+            </h3>
         </div>
         <div class="card-body">
 
@@ -47,9 +51,9 @@
         </div>
         <div class="card-footer text-muted">
 
-         {#
-         Crée le {{ fiche.createdAt|date('d-m-Y H:i:s') }} par {{ fiche.user }}. Mis à jour le {{ fiche|date('d-m-Y H:i:s') }}
-         #}
+            {#
+            Crée le {{ fiche.createdAt|date('d-m-Y H:i:s') }} par {{ fiche.user }}. Mis à jour le {{ fiche|date('d-m-Y H:i:s') }}
+            #}
         </div>
     </div>
 

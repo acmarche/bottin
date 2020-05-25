@@ -9,7 +9,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 /**
  * @method Horaire|null find($id, $lockMode = null, $lockVersion = null)
  * @method Horaire|null findOneBy(array $criteria, array $orderBy = null)
- *                                                                                                    method Horaire[]    findAll()
+ * @method Horaire[]    findAll()
  * @method Horaire[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class HoraireRepository extends ServiceEntityRepository
@@ -21,7 +21,7 @@ class HoraireRepository extends ServiceEntityRepository
 
     public function insert(Horaire $horaire)
     {
-        $this->_em->persist($horaire);
+        $this->persist($horaire);
         $this->flush();
     }
 

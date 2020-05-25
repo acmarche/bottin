@@ -3,17 +3,13 @@
 namespace AcMarche\Bottin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\HoraireRepository")
  * @ORM\Table(name="horaire")
  */
-class Horaire implements TimestampableInterface
+class Horaire
 {
-    use TimestampableTrait;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -71,18 +67,6 @@ class Horaire implements TimestampableInterface
      * @ORM\Column(type="time", nullable=true)
      */
     protected $noon_end;
-
-    /**
-     * Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created", type="datetime")
-     */
-    protected $insert_date;
-
-    /**
-     * @ORM\Column(name="updated", type="datetime")
-     * Gedmo\Timestampable(on="update")
-     */
-    protected $modify_date;
 
     /**
      * @var bool
@@ -199,23 +183,6 @@ class Horaire implements TimestampableInterface
         $this->noon_end = $noon_end;
 
         return $this;
-    }
-
-    public function getInsertDate(): ?\DateTimeInterface
-    {
-        return $this->insert_date;
-    }
-
-    public function setInsertDate(\DateTimeInterface $insert_date): self
-    {
-        $this->insert_date = $insert_date;
-
-        return $this;
-    }
-
-    public function getModifyDate(): ?\DateTimeInterface
-    {
-        return $this->modify_date;
     }
 
     public function setModifyDate(\DateTimeInterface $modify_date): self

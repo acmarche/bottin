@@ -18,6 +18,7 @@ class HoraireSerializer
     {
         $this->serializer = $serializer;
     }
+
     public function serializeHoraireForApi(Horaire $horaire): array
     {
         $data = [];
@@ -32,10 +33,6 @@ class HoraireSerializer
         $data['morning_end'] = $horaire->getMorningEnd() != null ? $horaire->getMorningEnd()->format('H:i:s') : null;
         $data['noon_start'] = $horaire->getNoonStart() != null ? $horaire->getNoonStart()->format('H:i:s') : null;
         $data['noon_end'] = $horaire->getNoonEnd() != null ? $horaire->getNoonEnd()->format('H:i:s') : null;
-        $data['created'] = $horaire->getCreatedAt()->format('Y-m-d H:i:s');
-        $data['updated'] = $horaire->getUpdatedAt()->format('Y-m-d H:i:s');
-        $data['createdAt'] = $horaire->getCreatedAt()->format('Y-m-d H:i:s');
-        $data['updatedAt'] = $horaire->getUpdatedAt()->format('Y-m-d H:i:s');
         $data['fiche_id'] = $horaire->getFiche()->getId();
         $data['is_closed'] = (int)$horaire->getIsClosed();//force 1,0
 
