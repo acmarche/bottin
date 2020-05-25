@@ -3,7 +3,7 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-class Gite implements OffreInterface
+class Gite
 {
     public function getId(): int
     {

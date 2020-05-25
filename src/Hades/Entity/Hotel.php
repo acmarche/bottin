@@ -17,75 +17,77 @@ class Hotel implements OffreInterface
 
     public function getDescriptions(): array
     {
-        return [$this->hot_desc_com_fr, $this->hot_desc_fr, $this->hot_remarque_fr];
+        $comments1 = $this->hot_desc_com_fr.' '.$this->hot_remarque_fr;
+
+        return [$comments1, $this->getHoraire(), $this->hot_desc_fr];
     }
 
-    public function getHoraire()
+    public function getHoraire(): ?string
     {
         return $this->hot_ferm_fr;
     }
 
-    public function getLatitude()
+    public function getLatitude(): ?float
     {
         return $this->hot_gpsx;
     }
 
-    public function getLongitude()
+    public function getLongitude(): ?float
     {
         return $this->hot_gpsy;
     }
 
-    public function getRue()
+    public function getRue(): ?string
     {
         return $this->hot_adresse;
     }
 
-    public function getLocalite()
+    public function getLocalite(): ?string
     {
         return $this->loc_nom;
     }
 
-    public function getCommune()
+    public function getCommune(): ?string
     {
         return $this->com_localite;
     }
 
-    public function getCodePostal()
+    public function getCodePostal(): ?string
     {
         return $this->loc_cp;
     }
 
-    public function getNbEtoile()
+    public function getNbEtoile(): ?int
     {
         return $this->hot_etoiles;
     }
 
-    public function getCivilite()
+    public function getCivilite(): ?string
     {
         return $this->hot_contact_sex;
     }
 
-    public function getContactNom()
+    public function getContactNom(): ?string
     {
         return $this->hot_contact_nom;
     }
 
-    public function getTelephone()
+    public function getTelephone(): ?string
     {
         return $this->hot_telephone;
     }
 
-    public function getFax()
+    public function getFax(): ?string
     {
         return $this->hot_fax;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->hot_email;
     }
 
-    public function getWebsite()
+    public function getWebsite(): ?string
     {
         return $this->hot_url;
     }

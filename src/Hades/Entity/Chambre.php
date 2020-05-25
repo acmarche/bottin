@@ -3,7 +3,7 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-class Chambre implements OffreInterface
+class Chambre
 {
     public function getId(): int
     {

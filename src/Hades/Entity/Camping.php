@@ -3,7 +3,7 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-class Camping implements OffreInterface
+class Camping
 {
     public function getId(): int
     {

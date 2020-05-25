@@ -4,6 +4,7 @@
 namespace AcMarche\Bottin\Hades;
 
 use AcMarche\Bottin\Hades\Entity\Hotel;
+use AcMarche\Bottin\Hades\Entity\Hotel2;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -27,9 +28,13 @@ class HadesRepository
     /**
      * Hades constructor.
      */
-    public function __construct(string $url, SerializerInterface $serializer)
+    public function __construct(string $url, string $user, string $password, SerializerInterface $serializer)
     {
-        $this->httpClient = HttpClient::create();
+        $this->httpClient = HttpClient::create(
+            [
+                'auth_basic' => [$user, $password],
+            ]
+        );
         $this->baseUrl = $url;
         $this->serializer = $serializer;
     }
@@ -43,10 +48,9 @@ class HadesRepository
                 [
                     'query' => [
                         'tbl' => 'xmlcomplet',
-                        //  'pays' => Hades::PAYS,
+                        //  'reg_id' => Hades::PAYS,
                         'com_id' => Hades::COMMUNE,
-                        'quoi' => 'tout',
-                        'offre' => $categorie,
+                        'cat_id' => $categorie,
                     ],
                 ]
             );
@@ -69,18 +73,20 @@ class HadesRepository
     }
 
     /**
-     * @return Hotel[]
+     * @return Hotel2[]
      */
     public function getHotels()
     {
-        $data = $this->loadXml($this->getOffres('hotels'));
-        print_r($data);
+        $data = $this->loadXml($this->getOffres('hotel'));
 
         $hotels = [];
 
         foreach ($data as $item) {
-            $hotel = $this->serializer->deserialize($item->asXML(), Hotel::class, 'xml');
+           // var_dump($item->offre->asXML());
+            $hotel = $this->serializer->deserialize($item->offre->asXML(), Hotel2::class, 'xml');
+            var_dump($hotel);
             $hotels[] = $hotel;
+            break;
         }
 
         return $hotels;

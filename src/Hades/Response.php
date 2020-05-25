@@ -2,34 +2,34 @@
 
 namespace AcMarche\Bottin\Hades;
 
-use AcMarche\Bottin\Hades\Entity\Hotel;
+use AcMarche\Bottin\Hades\Entity\Offre;
 
 class Response
 {
     /**
-     * @var Hotel[]
+     * @var Offre[]
      */
-    private $item = [];
+    private $offres = [];
 
     /**
-     * @return Hotel[]
+     * @return Offre[]
      */
-    public function getItem(): array
+    public function getOffres(): array
     {
-        return $this->item;
+        return $this->offres;
     }
 
     /**
-     * @param Hotel[] $item
+     * @param Offre[] $offre
      */
-    public function setItem(array $item): void
+    public function setOffres(array $offres): void
     {
-        $this->item = $item;
+        $this->offres = $offres;
     }
 
-    public function addItem(Hotel $person): void
+    public function addOffre(Offre $person): void
     {
-        $this->item[] = $person;
+        $this->offres[] = $person;
     }
 
 }

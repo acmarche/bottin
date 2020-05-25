@@ -73,6 +73,49 @@ class HadesFactory
         }
     }
 
+    public function setCoordonnees(Fiche $fiche, OffreInterface $offre)
+    {
+        if ($offre->getTelephone()) {
+            $fiche->setTelephone($offre->getTelephone());
+        }
+        if ($offre->getFax()) {
+            $fiche->setFax($offre->getFax());
+        }
+        if ($offre->getEmail()) {
+            $fiche->setEmail($offre->getEmail());
+        }
+        if ($offre->getWebsite()) {
+            $fiche->setWebsite($offre->getWebsite());
+        }
+        if ($offre->getRue()) {
+            $fiche->setRue($offre->getRue());
+        }
+        if ($offre->getCodePostal()) {
+            $fiche->setCp($offre->getCodePostal());
+        }
+        if ($offre->getLocalite()) {
+            $fiche->setLocalite($offre->getLocalite());
+        }
+        if ($offre->getContactNom()) {
+            $fiche->setNom($offre->getContactNom());
+        }
+        if ($offre->getCivilite()) {
+            $fiche->setCivilite($offre->getCivilite());
+        }
+        if ($offre->getLatitude()) {
+            $fiche->setLatitude($offre->getLatitude());
+        }
+        if ($offre->getLongitude()) {
+            $fiche->setLongitude($offre->getLongitude());
+        }
+    }
+
+    public function flush()
+    {
+        $this->ficheRepository->flush();
+        $this->classementRepository->flush();
+    }
+
     protected function setContacts(Fiche $fiche, $contacts)
     {
         if (!isset($contacts['ap']) && !isset($contacts['contact'])) {

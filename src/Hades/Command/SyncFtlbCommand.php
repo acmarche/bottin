@@ -31,8 +31,13 @@ class SyncFtlbCommand extends Command
      * @var SymfonyStyle
      */
     private $io;
+    /**
+     * @var Hades
+     */
+    private $hades;
 
     public function __construct(
+        Hades $hades,
         HadesImport $hadesImport,
         HadesRepository $hadesRepository,
         CategoryRepository $categoryRepository,
@@ -42,6 +47,7 @@ class SyncFtlbCommand extends Command
         $this->hadesImport = $hadesImport;
         $this->hadesRepository = $hadesRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->hades = $hades;
     }
 
     protected function configure()
@@ -53,8 +59,12 @@ class SyncFtlbCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->importHotels();
-        $output->writeln('ok');
+        $this->hades->desirialize();
+
+       // $hotels = $this->hadesRepository->getHotels();
+        //$this->importHotels();
+
+        //  $output->writeln('ok');
 
         return 0;
     }
@@ -69,8 +79,8 @@ class SyncFtlbCommand extends Command
         try {
             $hotels = $this->hadesRepository->getHotels();
             foreach ($hotels as $hotel) {
-            //    $this->io->writeln($hotel->getTitre());
-                $this->hadesImport->treatment($hotel, $categorie);
+                //  $this->io->writeln($hotel->getTitre());
+                //    $this->hadesImport->treatment($hotel, $categorie);
             }
         } catch (\Exception $e) {
             $this->io->error($e->getMessage());

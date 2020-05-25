@@ -2,10 +2,12 @@
 
 namespace AcMarche\Bottin\Hades;
 
+use AcMarche\Bottin\Hades\Entity\Offre;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 class Hades
@@ -29,25 +31,40 @@ class Hades
 
     public function getProperties()
     {
-        $data = $this->loadXml($this->getOffres('hotels'));
-        foreach ($data as $item) {
-            foreach ($item as $key => $att) {
-                print_r("private $".$key.";");
+        $data = $this->hadesRepository->loadXml($this->hadesRepository->getOffres('hotel'));
+
+        foreach ($data as $offre) {
+            foreach ($offre as $key => $att) {
+                /**
+                 * @var \SimpleXMLElement $att
+                 */
+                // print_r($att->asXML());
+                // print_r($att->children());
+                foreach ($att->children() as $t => $p) {
+                    //  print_r($t);
+                    //    print_r("private $".$t.";");
+                }
             }
+            break;
         }
     }
 
-    public function desirialize(string $xml)
+    public function desirialize()
     {
+        $xml = $this->hadesRepository->getOffres('hotel');
         $normalizers = [
             new ObjectNormalizer(null, null, null, new ReflectionExtractor()),
             new ArrayDenormalizer(),
+            new PropertyNormalizer(),
         ];
         $encoders = [new XmlEncoder()];
         $serializer = new Serializer($normalizers, $encoders);
 
+        //return a array
         $decoded = $serializer->decode($xml, 'xml');
-//var_dump($decoded);
+        //print_r($decoded);
+
+        //retourne sous forme d'objet
         $denormalized = $serializer->denormalize($decoded, Response::class, 'xml');
         var_dump($denormalized);
     }
