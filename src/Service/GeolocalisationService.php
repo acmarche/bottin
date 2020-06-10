@@ -4,6 +4,7 @@
 namespace AcMarche\Bottin\Service;
 
 use AcMarche\Bottin\Entity\Fiche;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -27,9 +28,9 @@ class GeolocalisationService
      */
     private $httpClient;
 
-    public function __construct(string $clefGeoGoogle, HttpClientInterface $httpClient)
+    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
     {
-        $this->clefGoogle = $clefGeoGoogle;
+        $this->clefGoogle = $parameterBag->get('bottin.api_key_geocode');
         $this->httpClient = $httpClient;
     }
 

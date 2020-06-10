@@ -35,14 +35,6 @@ class MapController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_map", methods={"GET"})
-     */
-    public function index()
-    {
-        return $this->render('@AcMarcheBottin/map/index.html.twig', []);
-    }
-
-    /**
      * Displays a form to edit an existing Map entity.
      *
      * @Route("/{id}/edit", name="bottin_map_edit", methods={"GET", "POST"})
