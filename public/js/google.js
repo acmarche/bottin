@@ -16,7 +16,7 @@ function initialize() {
         };
         console.log(latitude);
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
-        addMarker(map, latlng)
+        addMarker(map, latlng);
     }
     else {
 
@@ -57,7 +57,7 @@ function addMarker(map, location) {
     infowindow.open(map, marker);
 
     /**
-     * le curseur est pris en main, je remets a zero 
+     * le curseur est pris en main, je remets a zero
      * l et L
      */
     google.maps.event.addListener(marker, 'dragstart', function () {
@@ -68,7 +68,7 @@ function addMarker(map, location) {
     });
 
     /**
-     * quand le curseur est lache, je reobtiens la 
+     * quand le curseur est lache, je reobtiens la
      * longitude et latitude
      */
     google.maps.event.addListener(marker, "dragend", function () {

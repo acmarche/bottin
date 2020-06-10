@@ -21,14 +21,15 @@ class GeolocalisationService
      * @var string
      */
     private $urlGoogle = 'https://maps.googleapis.com/maps/api/geocode/json';
+
     /**
      * @var HttpClientInterface
      */
     private $httpClient;
 
-    public function __construct(string $clefGoogle, HttpClientInterface $httpClient)
+    public function __construct(string $clefGeoGoogle, HttpClientInterface $httpClient)
     {
-        $this->clefGoogle = $clefGoogle;
+        $this->clefGoogle = $clefGeoGoogle;
         $this->httpClient = $httpClient;
     }
 
