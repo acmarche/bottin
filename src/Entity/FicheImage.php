@@ -178,16 +178,4 @@ class FicheImage
 
         return $this;
     }
-
-    public function getFiche(): ?Fiche
-    {
-        return $this->fiche;
-    }
-
-    public function setFiche(?Fiche $fiche): self
-    {
-        $this->fiche = $fiche;
-
-        return $this;
-    }
 }

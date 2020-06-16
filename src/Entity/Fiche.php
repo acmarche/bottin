@@ -7,6 +7,7 @@ use AcMarche\Bottin\Entity\Traits\CapTrait;
 use AcMarche\Bottin\Entity\Traits\ClassementTrait;
 use AcMarche\Bottin\Entity\Traits\ContactTrait;
 use AcMarche\Bottin\Entity\Traits\DemandeTrait;
+use AcMarche\Bottin\Entity\Traits\DocumentsTrait;
 use AcMarche\Bottin\Entity\Traits\EnabledTrait;
 use AcMarche\Bottin\Entity\Traits\HoraireTrait;
 use AcMarche\Bottin\Entity\Traits\ImageTrait;
@@ -36,6 +37,7 @@ class Fiche implements SluggableInterface, TimestampableInterface
         DemandeTrait,
         HoraireTrait,
         ImageTrait,
+        DocumentsTrait,
         InformationTrait,
         SociauxTrait,
         PdvTrait,
@@ -173,6 +175,7 @@ class Fiche implements SluggableInterface, TimestampableInterface
         $this->classements = new ArrayCollection();
         $this->horaires = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->documents = new ArrayCollection();
         $this->demandes = new ArrayCollection();
     }
 

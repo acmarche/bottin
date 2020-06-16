@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\FicheImage;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 trait ImageTrait
 {
