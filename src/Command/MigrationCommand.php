@@ -55,7 +55,7 @@ class MigrationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $centre = $this->situationRepository->find(3);
+        $centre = $this->situationRepository->find(2);
         foreach ($this->ficheRepository->findAll() as $fiche) {
             if ($fiche->getCentreville()) {
                 $io->writeln($fiche->getSociete());
