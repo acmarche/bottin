@@ -1,5 +1,16 @@
 <table class='table table-bordered table-hover'>
     <tr>
+        <th><i class="fas fa-church"></i> Situation(s)</th>
+        <td>
+            {% for situation in fiche.situations %}
+                {{ situation }}
+                {% if loop.last == false %}
+                    ,
+                {% endif %}
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
         <th><i class="fas fa-church"></i> Centre ville</th>
         <td>{{ fiche.centreville }}</td>
     </tr>
@@ -29,5 +40,5 @@
     {{ fiche.comment2 | nl2br }}
 </p>
 <p>
-{{ fiche.comment3 | nl2br }}
+    {{ fiche.comment3 | nl2br }}
 </p>

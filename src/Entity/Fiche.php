@@ -13,9 +13,11 @@ use AcMarche\Bottin\Entity\Traits\HoraireTrait;
 use AcMarche\Bottin\Entity\Traits\ImageTrait;
 use AcMarche\Bottin\Entity\Traits\InformationTrait;
 use AcMarche\Bottin\Entity\Traits\PdvTrait;
+use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -41,6 +43,7 @@ class Fiche implements SluggableInterface, TimestampableInterface
         InformationTrait,
         SociauxTrait,
         PdvTrait,
+      SituationsTrait,
         TokenTrait,
         EnabledTrait,
         CapTrait;
@@ -177,6 +180,7 @@ class Fiche implements SluggableInterface, TimestampableInterface
         $this->images = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->demandes = new ArrayCollection();
+        $this->situations = new ArrayCollection();
     }
 
     public function getCategoryId()

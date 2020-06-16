@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Form;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Pdv;
+use AcMarche\Bottin\Entity\Situation;
 use AcMarche\Bottin\Repository\PdvRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -145,6 +146,17 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'label_attr' => [
+                        'class' => 'switch-custom',
+                    ],
+                ]
+            )
+            ->add(
+                'situations',
+                EntityType::class,
+                [
+                    'class' => Situation::class,
+                    'multiple' => true,
+                    'expanded' => true,'label_attr' => [
                         'class' => 'switch-custom',
                     ],
                 ]
@@ -333,7 +345,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'Note (privé)',
-                    'help'=>'Cette information n\'apparaitra pas pour le publique',
+                    'help' => 'Cette information n\'apparaitra pas pour le publique',
                     'attr' => ['rows' => 3],
                 ]
             )
