@@ -154,7 +154,7 @@ class Document implements TimestampableInterface
         return $this->fileName;
     }
 
-    public function setFileName(string $fileName): self
+    public function setFileName(?string $fileName): self
     {
         $this->fileName = $fileName;
 
@@ -166,7 +166,7 @@ class Document implements TimestampableInterface
         return $this->fileSize;
     }
 
-    public function setFileSize(int $fileSize): self
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

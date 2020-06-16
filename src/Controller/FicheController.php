@@ -176,7 +176,7 @@ class FicheController extends AbstractController
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
-dump($response);
+
         return $this->render(
             '@AcMarcheBottin/fiche/search.html.twig',
             [
