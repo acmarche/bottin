@@ -94,11 +94,56 @@ class FicheController extends AbstractController
     /**
      * Lists all Fiche entities.
      *
-     * @Route("/", name="bottin_fiche", methods={"GET"})
-     * @Route("/search/{keyword}", name="bottin_fiche_search", methods={"GET"})
+     * @Route("/", name="bottin_fiche_index", methods={"GET"})
      *
      */
-    public function index(Request $request, ?string $keyword)
+    public function index(Request $request)
+    {
+        $session = $request->getSession();
+        $args = $hits = $response = [];
+
+        if ($session->has('fiche_search')) {
+            $args = json_decode($session->get('fiche_search'), true);
+        }
+
+        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET',]);
+
+        $search_form->handleRequest($request);
+
+        if ($search_form->isSubmitted() && $search_form->isValid()) {
+            $args = $search_form->getData();
+            $session->set('fiche_search', json_encode($args));
+
+            if ($search_form->get('raz')->isClicked()) {
+                $session->remove('fiche_search');
+                $this->addFlash('info', 'La recherche a bien été réinitialisée.');
+
+                return $this->redirectToRoute('bottin_fiche_index');
+            }
+            try {
+                $response = $this->elasticServer->doSearch($args['nom'], $args['localite']);
+                $hits = $response['hits'];
+            } catch (BadRequest400Exception $e) {
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+            }
+        }
+
+        return $this->render(
+            '@AcMarcheBottin/fiche/index.html.twig',
+            [
+                'search_form' => $search_form->createView(),
+                'hits' => $hits,
+            ]
+        );
+    }
+
+    /**
+     * Lists all Fiche entities.
+     *
+     * @Route("/searchadvanced", name="bottin_fiche_search_advanced", methods={"GET"})
+     * @Route("/searchadvanced/{keyword}", name="bottin_fiche_search", methods={"GET"})
+     */
+    public function search(Request $request, ?string $keyword)
     {
         $session = $request->getSession();
         $args = $hits = $suggest = $response = [];
@@ -122,18 +167,18 @@ class FicheController extends AbstractController
                 $session->remove('fiche_search');
                 $this->addFlash('info', 'La recherche a bien été réinitialisée.');
 
-                return $this->redirectToRoute('bottin_fiche');
+                return $this->redirectToRoute('bottin_fiche_index');
             }
             try {
-                $response = $this->elasticServer->doSearch($args['nom'], $args['localite']);
+                $response = $this->elasticServer->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
-
+dump($response);
         return $this->render(
-            '@AcMarcheBottin/fiche/index.html.twig',
+            '@AcMarcheBottin/fiche/search.html.twig',
             [
                 'search_form' => $search_form->createView(),
                 'hits' => $hits,
@@ -256,6 +301,6 @@ class FicheController extends AbstractController
             $this->addFlash('success', "La fiche a bien été supprimée");
         }
 
-        return $this->redirectToRoute('bottin_fiche');
+        return $this->redirectToRoute('bottin_fiche_index');
     }
 }

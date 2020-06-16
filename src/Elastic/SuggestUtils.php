@@ -15,6 +15,7 @@ class SuggestUtils
     public function getOptions(array $response)
     {
         $suggest = $this->getSuggest($response, 'societe_suggest');
+        dump($suggest);
         if (!isset($suggest[0])) {
             return [];
         }

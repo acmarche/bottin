@@ -64,14 +64,14 @@ trait ElasticSearchTrait
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
                 "boost" => 1.2,
-      //          "fuzziness" => "AUTO",//manda => mazda
+                //          "fuzziness" => "AUTO",//manda => mazda
             ]
         );
 
         $societeStemmedMatch = new MatchQuery(
             'societe.stemmed', $keyword,
             [
-                "boost" => 1.1
+                "boost" => 1.1,
             ]
         );
 
@@ -132,7 +132,38 @@ trait ElasticSearchTrait
             'body' => $this->search->toArray(),
         ];
 
-      //  var_dump($this->search->toArray());
+        //  var_dump($this->search->toArray());
+
+        return $this->client->search($params);
+    }
+
+    /**
+     * @param string $keyword
+     * @return array
+     * @throws BadRequest400Exception
+     */
+    function doSearchAdvanced(string $keyword, ?string $localite): array
+    {
+        $this->getInstance();
+        $query = $this->createQueryForFiche($keyword);
+
+        if ($localite) {
+            $localiteFilter = new MatchQuery('localite', $localite);
+            $query->add($localiteFilter, BoolQuery::FILTER);
+        }
+
+        $this->search->addQuery($query);
+
+        $this->addAggregations();
+        $this->addSuggests($keyword);
+
+        $params = [
+            'index' => $this->indexName,
+            'size' => 100,
+            'body' => $this->search->toArray(),
+        ];
+
+        //  var_dump($this->search->toArray());
 
         return $this->client->search($params);
     }
@@ -142,7 +173,7 @@ trait ElasticSearchTrait
         $cap = new TermsAggregation('cap', 'cap.keyword');
         $localite = new TermsAggregation('localites', 'localite.keyword');
         $pmr = new TermsAggregation('pmr', 'pmr');
-        $centreVille = new TermsAggregation('centre_ville', 'centre_ville');
+        $centreVille = new TermsAggregation('centre_ville', 'centreville');
         $midi = new TermsAggregation('midi', 'midi');
         $this->search->addAggregation($cap);
         $this->search->addAggregation($localite);
