@@ -63,7 +63,7 @@ class MigrationCommand extends Command
             }
         }
 
-        $this->ficheRepository->flush();
+    //    $this->ficheRepository->flush();
 
 
         return 0;
