@@ -17,6 +17,9 @@
             <thead>
             <tr>
                 <th>Societe</th>
+                <th>Id</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
                 <th>Localité</th>
                 <th>Pmr</th>
                 <th>Midi</th>
@@ -32,6 +35,15 @@
                            title="Détail de la fiche">
                             {{ fiche.societe }}
                         </a>
+                    </td>
+                    <td>
+                        {{ fiche.id }}
+                    </td>
+                    <td>
+                        {{ fiche.latitude }}
+                    </td>
+                    <td>
+                        {{ fiche.longitude }}
                     </td>
                     <td>
                         {{ fiche.localite }}
