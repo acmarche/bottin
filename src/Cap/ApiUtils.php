@@ -145,7 +145,7 @@ class ApiUtils
         return $dataFiche;
     }
 
-    protected function getImages(Fiche $fiche): array
+    public function getImages(Fiche $fiche): array
     {
         $images = [];
 
@@ -156,7 +156,7 @@ class ApiUtils
         return $images;
     }
 
-    protected function getHorairesForApi(Fiche $fiche)
+    public function getHorairesForApi(Fiche $fiche)
     {
         $data = [];
         foreach ($this->horaireRepository->findBy(['fiche' => $fiche]) as $horaire) {

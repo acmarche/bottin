@@ -19,25 +19,16 @@ class FicheRepository extends ServiceEntityRepository
         parent::__construct($registry, Fiche::class);
     }
 
-    public function insert(Fiche $fiche)
+    /**
+     * @param array $ids
+     * @return Fiche[]
+     */
+    public function findByIds(array $ids): array
     {
-        $this->persist($fiche);
-        $this->flush();
-    }
-
-    public function persist(Fiche $fiche)
-    {
-        $this->_em->persist($fiche);
-    }
-
-    public function flush()
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Fiche $fiche)
-    {
-        $this->_em->remove($fiche);
+        return $this->createQueryBuilder('fiche')
+            ->andWhere('fiche IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()->getResult();
     }
 
     /**
@@ -75,7 +66,7 @@ class FicheRepository extends ServiceEntityRepository
 
         if ($societe) {
             $qb->andWhere('f.societe LIKE :societe')
-                ->setParameter('societe', '%' . $societe . '%');
+                ->setParameter('societe', '%'.$societe.'%');
         }
 
         if ($nom) {
@@ -86,7 +77,7 @@ class FicheRepository extends ServiceEntityRepository
                 f.societe LIKE :nom OR
                 f.nom LIKE :nom OR 
                 f.prenom LIKE :nom'
-            )->setParameter('nom', '%' . $nom . '%');
+            )->setParameter('nom', '%'.$nom.'%');
         }
 
         if ($categories) {
@@ -120,7 +111,30 @@ class FicheRepository extends ServiceEntityRepository
     public function search($args)
     {
         $qb = $this->setCriteria($args);
+
         return $qb->getQuery()->getResult();
     }
+
+    public function insert(Fiche $fiche)
+    {
+        $this->persist($fiche);
+        $this->flush();
+    }
+
+    public function persist(Fiche $fiche)
+    {
+        $this->_em->persist($fiche);
+    }
+
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
+    public function remove(Fiche $fiche)
+    {
+        $this->_em->remove($fiche);
+    }
+
 
 }
