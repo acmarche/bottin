@@ -26,6 +26,10 @@ class FicheRepository extends ServiceEntityRepository
     public function findByIds(array $ids): array
     {
         return $this->createQueryBuilder('fiche')
+            ->leftJoin('fiche.classements', 'classements', 'WITH')
+            ->leftJoin('fiche.horaires', 'horaires', 'WITH')
+            ->leftJoin('fiche.images', 'images', 'WITH')
+            ->addSelect('classements', 'horaires', 'images')
             ->andWhere('fiche IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()->getResult();

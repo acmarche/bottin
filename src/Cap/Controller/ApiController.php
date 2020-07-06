@@ -135,6 +135,24 @@ class ApiController extends AbstractController
     }
 
     /**
+     * Le detail de la fiche {id}
+     * @Route("/bottin/fichebyids", name="bottin_api_fiche_by_ids", methods={"POST"}, format="json")
+     * @param Fiche $fiche
+     */
+    public function ficheByIds(Request $request): JsonResponse
+    {
+        $ids = json_decode($request->request->get('ids'), true);
+
+        $fiches = $this->ficheRepository->findByIds($ids);
+        $data = [];
+        foreach ($fiches as $fiche) {
+            $data[] = $this->apiUtils->prepareFiche($fiche);
+        }
+
+        return $this->json($data);
+    }
+
+    /**
      * Le detail de la fiche {slugname}
      * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_api_fiche_by_slugname", methods={"GET"}, format="json")
      * @ParamConverter("fiche", options={"mapping": {"slugname": "slug"}})

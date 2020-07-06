@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -98,6 +99,37 @@ class TestController extends AbstractController
         $fiche = json_decode($request->getContent());
 
         return $this->render('@AcMarcheBottin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
+    }
+
+    /**
+     * @Route("/fichebyids", name="bottin_api_test_fiche_ids", methods={"GET"})
+     */
+    public function ficheIds(): Response
+    {
+        $ids = json_encode([393, 522, 55]);
+        $fields = ['ids' => $ids];
+
+        $url = $this->generateUrl('bottin_api_fiche_by_ids', [], false);
+        try {
+            $request = $this->httpClient->request(
+                "POST",
+                $url,
+                [
+                    'body' => $fields,
+                ]
+            );
+            $result = json_decode($request->getContent());
+        } catch (TransportExceptionInterface $e) {
+            $result = ['error1', $e->getMessage()];
+        }
+
+        return $this->render(
+            '@AcMarcheBottin/test/fiches_ids.html.twig',
+            [
+                'fiches' => $result,
+                'url' => $url,
+            ]
+        );
     }
 
     /**
