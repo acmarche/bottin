@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\MarcheBe;
 
 use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\Classement\Message\ClassementUpdated;
+use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -82,6 +83,34 @@ class MarcheHandler implements MessageSubscriberInterface
         }
     }
 
+    public function ficheDeleted(FicheDeleted $ficheCreated)
+    {
+        $ficheId = $ficheCreated->getFicheId();
+        $fiche = $this->ficheRepository->find($ficheId);
+        $request = $this->httpClient->request(
+            "POST",
+            $this->parameterBag->get('bottin.url_delete_fiche'),
+            [
+                'body' => ['ficheid' => $ficheId],
+            ]
+        );
+
+        try {
+            $result = json_decode($request->getContent(), true);
+            if (isset($result['error'])) {
+                $this->flashBag->add(
+                    'danger',
+                    "Erreur lors de la suppression sur Marche.be: ".$result['error']
+                );
+            }
+        } catch (ClientExceptionInterface $e) {
+            $this->flashBag->add(
+                'danger',
+                "Erreur lors de la suppression sur Marche.be: ".$e->getMessage()
+            );
+        }
+    }
+
     private function sendFiche(int $ficheId)
     {
         $request = $this->httpClient->request(
@@ -107,6 +136,10 @@ class MarcheHandler implements MessageSubscriberInterface
 
         yield FicheUpdated::class => [
             'method' => 'ficheUpdated',
+        ];
+
+        yield FicheDeleted::class => [
+            'method' => 'ficheDeleted',
         ];
     }
 }
