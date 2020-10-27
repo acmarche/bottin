@@ -9,6 +9,7 @@ parameters:
   bottin.url_update_fiche: '%env(BOTTIN_URL_UPDATE_FICHE)%'
   bottin.url_delete_fiche: '%env(BOTTIN_URL_DELETE_FICHE)%'
   bottin.url_update_category: '%env(BOTTIN_URL_UPDATE_CATEGORY)%'
+  es_config: { 'hosts': [ 'http://localhost:9200' ] }
 
 services:
   # default configuration for services in *this* file
@@ -38,7 +39,7 @@ services:
     $password: '%env(HADES_PASSWORD)%'
 
   Symfony\Component\Ldap\Ldap:
-    arguments: ['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
+    arguments: [ '@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter' ]
   Symfony\Component\Ldap\Adapter\ExtLdap\Adapter:
     arguments:
       - host: '%env(ACLDAP_URL)%'
@@ -53,3 +54,9 @@ services:
     $dn: '%env(ACLDAP_DN)%'
     $user: '%env(ACLDAP_USER)%'
     $password: '%env(ACLDAP_PASSWORD)%'
+
+  Elasticsearch\ClientBuilder: ~
+
+  Elasticsearch\Client:
+    factory: [ '@Elasticsearch\ClientBuilder', fromConfig ]
+    arguments: [ '%es_config%' ]

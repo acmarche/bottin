@@ -203,4 +203,57 @@ class ElasticServer
 
         $this->client->delete($params);
     }
+
+    /**
+     * Creates index with mapping and analyzer.
+     */
+    private function createIndex22(): void
+    {
+        if ($this->client->indices()->exists($this->indexDefinition)) {
+            $this->client->indices()->delete($this->indexDefinition);
+        }
+
+        $this->client->indices()->create(
+            array_merge(
+                $this->indexDefinition,
+                [
+                    'body' => [
+                        'settings' => [
+                            'number_of_shards' => 1,
+                            'number_of_replicas' => 0,
+                            "analysis" => [
+                                "analyzer" => [
+                                    "autocomplete" => [
+                                        "tokenizer" => "autocomplete",
+                                        "filter" => ["lowercase"],
+                                    ],
+                                ],
+                                "tokenizer" => [
+                                    "autocomplete" => [
+                                        "type" => "edge_ngram",
+                                        "min_gram" => 2,
+                                        "max_gram" => 20,
+                                        "token_chars" => [
+                                            "letter",
+                                            "digit",
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        "mappings" => [
+                            "properties" => [
+                                "title" => [
+                                    "type" => "text",
+                                    "analyzer" => "autocomplete",
+                                    "search_analyzer" => "standard",
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            )
+        );
+    }
+
 }

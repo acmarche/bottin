@@ -5,12 +5,16 @@ namespace AcMarche\Bottin\Command;
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Elasticsearch\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * https://medium.com/@stefan.poeltl/symfony-meets-elasticsearch-implement-a-search-as-you-type-feature-307e2244f078
+ */
 class ElasticCommand extends Command
 {
     protected static $defaultName = 'bottin:elastic';
@@ -32,6 +36,7 @@ class ElasticCommand extends Command
     private $io;
 
     public function __construct(
+        Client $client,
         ElasticServer $elasticServer,
         FicheRepository $ficheRepository,
         CategoryRepository $categoryRepository,
