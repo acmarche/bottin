@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Location;
 
 use AcMarche\Bottin\Entity\Fiche;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class GeolocalisationService
+class GeolocalisationGoogleService
 {
     /**
      * @var string
@@ -45,7 +45,7 @@ class GeolocalisationService
     {
         $location = [];
 
-        $adresse = urlencode($fiche->getAdresse($withNum) . ' BE');
+        $adresse = urlencode($fiche->getAdresseGeocode($withNum) . ' BE');
 
         try {
             $request = $this->httpClient->request(

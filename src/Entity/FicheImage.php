@@ -58,7 +58,7 @@ class FicheImage
     /**
      * @ORM\Column(type="string")
      *
-     * @var string
+     * @var string|null
      */
     protected $mime;
 
@@ -162,7 +162,7 @@ class FicheImage
         return $this->mime;
     }
 
-    public function setMime(string $mime): self
+    public function setMime(?string $mime): self
     {
         $this->mime = $mime;
 

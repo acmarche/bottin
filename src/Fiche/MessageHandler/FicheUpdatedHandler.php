@@ -5,8 +5,8 @@ namespace AcMarche\Bottin\Fiche\MessageHandler;
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
+use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\GeolocalisationService;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Security\Core\Security;
@@ -14,10 +14,6 @@ use Symfony\Component\Security\Core\Security;
 class FicheUpdatedHandler implements MessageHandlerInterface
 {
     private $ficheRepository;
-    /**
-     * @var GeolocalisationService
-     */
-    private $geolocalisationService;
     /**
      * @var Security
      */
@@ -30,19 +26,23 @@ class FicheUpdatedHandler implements MessageHandlerInterface
      * @var ElasticServer
      */
     private $elasticServer;
+    /**
+     * @var LocationUpdater
+     */
+    private $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,
-        GeolocalisationService $geolocalisationService,
+        LocationUpdater $locationUpdater,
         Security $security,
         ElasticServer $elasticServer,
         FlashBagInterface $flashBag
     ) {
         $this->ficheRepository = $ficheRepository;
-        $this->geolocalisationService = $geolocalisationService;
         $this->security = $security;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
+        $this->locationUpdater = $locationUpdater;
     }
 
     public function __invoke(FicheUpdated $ficheCreated)
@@ -53,7 +53,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
 
         if ($oldRue !== $fiche->getRue()) {
             try {
-                $this->geolocalisationService->convertToCoordonate($fiche);
+                $this->locationUpdater->convertAddressToCoordinates($fiche);
             } catch (\Exception $e) {
                 $this->flashBag->add(
                     'danger',

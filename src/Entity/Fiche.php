@@ -12,10 +12,12 @@ use AcMarche\Bottin\Entity\Traits\EnabledTrait;
 use AcMarche\Bottin\Entity\Traits\HoraireTrait;
 use AcMarche\Bottin\Entity\Traits\ImageTrait;
 use AcMarche\Bottin\Entity\Traits\InformationTrait;
+use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
+use AcMarche\Bottin\Location\LocationAbleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,9 +31,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\FicheRepository")
  * @ORM\Table(name="fiche")
  */
-class Fiche implements SluggableInterface, TimestampableInterface
+class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
-    use SluggableTrait,
+    use LocationTrait,
+        SluggableTrait,
         TimestampableTrait,
         AdminTrait,
         ClassementTrait,
@@ -43,7 +46,7 @@ class Fiche implements SluggableInterface, TimestampableInterface
         InformationTrait,
         SociauxTrait,
         PdvTrait,
-      SituationsTrait,
+        SituationsTrait,
         TokenTrait,
         EnabledTrait,
         CapTrait;
@@ -173,6 +176,12 @@ class Fiche implements SluggableInterface, TimestampableInterface
      */
     protected $categoryId;
 
+    /**
+     * @var Adresse
+     * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Adresse", inversedBy="fiches")
+     */
+    protected $adresse;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();
@@ -198,14 +207,15 @@ class Fiche implements SluggableInterface, TimestampableInterface
     /**
      * @return string|null
      */
-    public function getAdresse(bool $withNumero = true): ?string
+    public function getAdresseGeocode(bool $withNumero = true): ?string
     {
         if ($this->getRue()) {
             $adresse = '';
             if ($this->getNumero() && $withNumero) {
-                $adresse = $this->getNumero() . ' ';
+                $adresse = $this->getNumero().' ';
             }
-            return $adresse . $this->getRue() . ' ' . $this->getCp() . ' ' . $this->getLocalite() . ' Belgium';
+
+            return $adresse.$this->getRue().' '.$this->getCp().' '.$this->getLocalite().' Belgium';
         } else {
             return 'Rue du Commerce Marche-en-Famenne Beligum';
         }
@@ -239,54 +249,6 @@ class Fiche implements SluggableInterface, TimestampableInterface
     public function setSociete(string $societe): self
     {
         $this->societe = $societe;
-
-        return $this;
-    }
-
-    public function getRue(): ?string
-    {
-        return $this->rue;
-    }
-
-    public function setRue(?string $rue): self
-    {
-        $this->rue = $rue;
-
-        return $this;
-    }
-
-    public function getNumero(): ?string
-    {
-        return $this->numero;
-    }
-
-    public function setNumero(?string $numero): self
-    {
-        $this->numero = $numero;
-
-        return $this;
-    }
-
-    public function getCp(): ?int
-    {
-        return $this->cp;
-    }
-
-    public function setCp(?int $cp): self
-    {
-        $this->cp = $cp;
-
-        return $this;
-    }
-
-    public function getLocalite(): ?string
-    {
-        return $this->localite;
-    }
-
-    public function setLocalite(?string $localite): self
-    {
-        $this->localite = $localite;
 
         return $this;
     }
@@ -363,30 +325,6 @@ class Fiche implements SluggableInterface, TimestampableInterface
         return $this;
     }
 
-    public function getLongitude(): ?string
-    {
-        return $this->longitude;
-    }
-
-    public function setLongitude(?string $longitude): self
-    {
-        $this->longitude = $longitude;
-
-        return $this;
-    }
-
-    public function getLatitude(): ?string
-    {
-        return $this->latitude;
-    }
-
-    public function setLatitude(?string $latitude): self
-    {
-        $this->latitude = $latitude;
-
-        return $this;
-    }
-
     public function getCentreville(): ?bool
     {
         return $this->centreville;
@@ -443,6 +381,18 @@ class Fiche implements SluggableInterface, TimestampableInterface
     public function setUser(?string $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?Adresse
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?Adresse $adresse): self
+    {
+        $this->adresse = $adresse;
 
         return $this;
     }

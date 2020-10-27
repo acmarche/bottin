@@ -5,21 +5,15 @@ namespace AcMarche\Bottin\Fiche\MessageHandler;
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
+use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\GeolocalisationService;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Security\Core\Security;
 
-use function Ramsey\Uuid\v1;
-
 class FicheCreatedHandler implements MessageSubscriberInterface
 {
     private $ficheRepository;
-    /**
-     * @var GeolocalisationService
-     */
-    private $geolocalisationService;
     /**
      * @var Security
      */
@@ -32,19 +26,23 @@ class FicheCreatedHandler implements MessageSubscriberInterface
      * @var ElasticServer
      */
     private $elasticServer;
+    /**
+     * @var LocationUpdater
+     */
+    private $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,
-        GeolocalisationService $geolocalisationService,
+        LocationUpdater $locationUpdater,
         Security $security,
         FlashBagInterface $flashBag,
         ElasticServer $elasticServer
     ) {
         $this->ficheRepository = $ficheRepository;
-        $this->geolocalisationService = $geolocalisationService;
         $this->security = $security;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
+        $this->locationUpdater = $locationUpdater;
     }
 
     public function __invoke(FicheCreated $ficheCreated)
@@ -64,7 +62,7 @@ class FicheCreatedHandler implements MessageSubscriberInterface
     private function setLocation(Fiche $fiche)
     {
         try {
-            $this->geolocalisationService->convertToCoordonate($fiche);
+            $this->locationUpdater->convertAddressToCoordinates($fiche);
         } catch (\Exception $e) {
             $this->flashBag->add(
                 'danger',

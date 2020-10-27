@@ -6,14 +6,13 @@ use AcMarche\Bottin\Elastic\AggregationUtils;
 use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Elastic\SuggestUtils;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Form\FicheType;
-use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
+use AcMarche\Bottin\Form\FicheType;
+use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\GeolocalisationService;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
@@ -41,10 +40,6 @@ class FicheController extends AbstractController
      */
     private $horaireService;
     /**
-     * @var GeolocalisationService
-     */
-    private $geolocalisationService;
-    /**
      * @var ElasticServer
      */
     private $elasticServer;
@@ -70,7 +65,6 @@ class FicheController extends AbstractController
     private $serializer;
 
     public function __construct(
-        GeolocalisationService $geolocalisationService,
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
         FicheRepository $ficheRepository,
@@ -82,7 +76,6 @@ class FicheController extends AbstractController
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
-        $this->geolocalisationService = $geolocalisationService;
         $this->elasticServer = $elasticServer;
         $this->aggregationUtils = $aggregationUtils;
         $this->suggestUtils = $suggestUtils;

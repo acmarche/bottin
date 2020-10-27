@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Demande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Demande|null find($id, $lockMode = null, $lockVersion = null)

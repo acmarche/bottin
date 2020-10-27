@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Repository;
 use AcMarche\Bottin\Cap\Cap;
 use AcMarche\Bottin\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
 

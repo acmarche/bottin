@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Controller;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\MapType;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\GeolocalisationService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +22,10 @@ class MapController extends AbstractController
      * @var FicheRepository
      */
     private $ficheRepository;
-    /**
-     * @var GeolocalisationService
-     */
-    private $geolocalisationService;
 
-    public function __construct(GeolocalisationService $geolocalisationService, FicheRepository $ficheRepository)
+    public function __construct( FicheRepository $ficheRepository)
     {
         $this->ficheRepository = $ficheRepository;
-        $this->geolocalisationService = $geolocalisationService;
     }
 
     /**
