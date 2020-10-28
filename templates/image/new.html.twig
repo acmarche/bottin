@@ -10,11 +10,11 @@
             <h3>Images de {{ fiche }}</h3>
         </div>
         <div class="card-body">
-            {{ form_start(form, {'attr':{'id': 'formdrop','class': 'dropzone2 jumbotron'}}) }}
+            {{ form_start(form, {'attr':{'id': 'formdrop','class': 'dropzone jumbotron'}}) }}
             {{ form_errors(form) }}
 
             <div class="dz-message d-flex flex-column">
-                <i class="fas fa-cloud-upload-alt">Charger les images</i>
+                <i class="fas fa-upload"></i> Charger les images
             </div>
 
             {{ form_end(form) }}
