@@ -1,0 +1,11 @@
+{% for i in 1..nbstar %}
+    <i class="fas fa-star"></i>
+{% endfor %}
+
+{% set nbvide = 5 - nbstar %}
+
+{% if nbvide > 0 %}
+    {% for a in 1..nbvide %}
+        <i class="far fa-star"></i>
+    {% endfor %}
+{% endif %}

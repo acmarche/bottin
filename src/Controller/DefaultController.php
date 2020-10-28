@@ -2,10 +2,14 @@
 
 namespace AcMarche\Bottin\Controller;
 
-use AcMarche\Bottin\Repository\UserRepository;
 use AcMarche\Bottin\Service\CategoryService;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,11 +23,18 @@ class DefaultController extends AbstractController
      * @var CategoryService
      */
     private $categoryService;
+    private $prop;
+    /**
+     * @var Pdf
+     */
+    private $pdf;
 
     public function __construct(
-        CategoryService $categoryService
+        CategoryService $categoryService,
+        Pdf $pdf
     ) {
         $this->categoryService = $categoryService;
+        $this->pdf = $pdf;
     }
 
     /**
@@ -48,6 +59,58 @@ class DefaultController extends AbstractController
             [
                 'categories' => $categories,
             ]
+        );
+    }
+
+    /**
+     * @Route("/cv/{pdf}", name="bottin_cv")
+     * @param bool $pdf
+     * @return PdfResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function cv(bool $pdf = false)
+    {
+        if ($pdf) {
+            $options = new Options();
+            $options->set('isRemoteEnabled', true);
+            $dompdf = new Dompdf($options);
+            $html = $this->renderView('@AcMarcheBottin/cv/cv.html.twig');
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4');
+            $dompdf->render();
+
+            return new PdfResponse(
+                $this->pdf->getOutputFromHtml(
+                    $html,
+                    [
+                        'viewport-size' => '1024x768',
+                        'page-size' => 'A4',
+                    ]
+                ),
+                'jfsenechal-cv.pdf'
+            );
+
+            return new BinaryFileResponse(
+                $dompdf->stream(
+                    "mypdf.pdf",
+                    [
+                        "Attachment" => true,
+                    ]
+                )
+            );
+        }
+
+        return $this->render('cv/cv.html.twig');
+    }
+
+    /**
+     * @Route("/checkup", name="bottin_checkup")
+     */
+    public function checkup()
+    {
+        $this->prop->findAll();
+
+        return $this->render(
+            '@AcMarcheBottin/default/index.html.twig'
         );
     }
 }
