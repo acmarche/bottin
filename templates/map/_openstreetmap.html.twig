@@ -1,21 +1,19 @@
-
 <div id='openmap' style='width: 90%; height: 600px;' class="border border-primary"></div>
 
 <script type="text/javascript">
-    var latitude = '{{ adresse.latitude }}';
-    var longitude = '{{ adresse.longitude }}';
+    let latitude = '{{ adresse.latitude }}';
+    let longitude = '{{ adresse.longitude }}';
 
-    if(latitude ==='' || latitude === '') {
+    if (latitude === '' || latitude === '') {
         latitude = 50.226484;
         longitude = 5.342961;
     }
 
-    var center = [latitude, longitude];
-    var map = L.map('openmap').setView(center, 16);
-    var societe = '{{ adresse.rue }}';
+    const center = [latitude, longitude];
+    const map = L.map('openmap').setView(center, 16);
+    const societe = '{{ adresse.rue }}';
 
     L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-        // Il est toujours bien de laisser le lien vers la source des données
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
         minZoom: 1,
         maxZoom: 20

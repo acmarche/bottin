@@ -30,12 +30,14 @@
 
             <div class="form-row">
                 <div class="col">
-                    <select name="category" size="10" class="custom-select my-1 mr-sm-2 form-control category-root"
-                            onchange="getCategories(this, '0')">
-                        {% for root in roots %}
-                            <option value="{{ root.id }}">{{ root }}</option>
-                        {% endfor %}
-                    </select>
+                    <label>
+                        <select name="category" size="10" class="custom-select my-1 mr-sm-2 form-control category-root"
+                                onchange="getCategories(this, '0')">
+                            {% for root in roots %}
+                                <option value="{{ root.id }}">{{ root }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
                 </div>
 
                 <div class="col">
@@ -123,7 +125,6 @@
         });
 
     </script>
-
 
     <script type="text/javascript">
 

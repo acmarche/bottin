@@ -7,6 +7,7 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use Symfony\Component\Security\Core\Security;
@@ -63,11 +64,8 @@ class FicheCreatedHandler implements MessageSubscriberInterface
     {
         try {
             $this->locationUpdater->convertAddressToCoordinates($fiche);
-        } catch (\Exception $e) {
-            $this->flashBag->add(
-                'danger',
-                "Les coordonnées latitude et longitude n'ont pas peu être trouvées: ".$e->getMessage()
-            );
+        } catch (Exception $e) {
+            $this->flashBag->add('danger', $e->getMessage());
         }
     }
 

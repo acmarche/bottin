@@ -1,8 +1,6 @@
 # Learn more about services, parameters and containers at
 # https://symfony.com/doc/current/service_container.html
 parameters:
-  bottin.api_key: '%env(BOTTIN_CLEF_GOOGLE)%'
-  bottin.api_key_geocode: '%env(BOTTIN_GEO_CLEF_GOOGLE)%'
   bottin.cp_default: '6900'
   router.request_context.host: 'bottin.local'
   router.request_context.scheme: 'http'

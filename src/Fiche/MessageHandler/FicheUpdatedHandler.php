@@ -55,10 +55,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
             try {
                 $this->locationUpdater->convertAddressToCoordinates($fiche);
             } catch (\Exception $e) {
-                $this->flashBag->add(
-                    'danger',
-                    "Les coordonnées latitude et longitude n'ont pas peu être trouvées: " . $e->getMessage()
-                );
+                $this->flashBag->add('danger', $e->getMessage());
             }
         }
     }

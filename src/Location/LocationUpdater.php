@@ -22,6 +22,10 @@ class LocationUpdater
 
     public function convertAddressToCoordinates(LocationAbleInterface $object): bool
     {
+        if (!$object->getRue()) {
+            throw new \Exception('Aucune rue encodée, pas de données de géolocalisation');
+        }
+
         try {
             $response = $this->location->search(
                 $object->getNumero().' '.
@@ -43,9 +47,9 @@ class LocationUpdater
 
             if (is_array($tab) && count($tab) > 0) {
                 $this->setLat($object, $tab);
+
                 return true;
-            }
-            else {
+            } else {
                 throw new \Exception('Convertion en latitude longitude error:'.$response);
             }
         } catch (ClientExceptionInterface $e) {
