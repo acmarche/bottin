@@ -21,11 +21,6 @@
                 <tr>
                     <th>
                         <i class="fas fa-map-marked-alt"></i> Adresse
-                        <br/>
-                        <a href="https://www.openstreetmap.org/#map=17/{{ adresse.latitude }}/{{ adresse.longitude }}"
-                           target="_blank">
-                            Carte
-                        </a>
                     </th>
                     <td>
                         {{ adresse.rue }} {{ adresse.numero }} <br/>
@@ -33,7 +28,8 @@
                     </td>
                 </tr>
             </table>
-
+            <h4 class="text-success">Situation sur la carte</h4>
+            {{ include('@AcMarcheBottin/map/_localisation_form.html.twig') }}
             {% include '@AcMarcheBottin/map/_openstreetmap.html.twig' %}
         </div>
     </div>

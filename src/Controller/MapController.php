@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Controller;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Form\LocalisationType;
 use AcMarche\Bottin\Form\MapType;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -40,15 +41,8 @@ class MapController extends AbstractController
 
             return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
         }
-        if (!$fiche->getLatitude() && !$fiche->getLongitude()) {
-            try {
-                $this->geolocalisationService->convertToCoordonate($fiche, false);
-            } catch (\Exception $e) {
-                $this->addFlash('danger', "La latitude et longitude n'ont pas pu être trouvées: ".$e->getMessage());
-            }
-        }
 
-        $form = $this->createForm(MapType::class, $fiche);
+        $form = $this->createForm(LocalisationType::class, $fiche);
 
         $form->handleRequest($request);
 
@@ -59,13 +53,10 @@ class MapController extends AbstractController
             return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
         }
 
-        $key = $this->getParameter('bottin.api_key');
-
         return $this->render(
             '@AcMarcheBottin/map/edit.html.twig',
             [
                 'fiche' => $fiche,
-                'key' => $key,
                 'form' => $form->createView(),
             ]
         );

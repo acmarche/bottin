@@ -76,7 +76,7 @@ class AdresseController extends AbstractController
 
             $this->addFlash('success', 'L\'adresse a bien été crée');
 
-            return $this->redirectToRoute('bottin_adresse');
+            return $this->redirectToRoute('bottin_adresse_show', ['id' => $adresse->getId()]);
         }
 
         return $this->render(
