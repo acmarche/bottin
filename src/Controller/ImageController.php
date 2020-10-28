@@ -50,11 +50,11 @@ class ImageController extends AbstractController
      */
     public function new(Fiche $fiche)
     {
-        $entity = new FicheImage($fiche);
+        $ficheImage = new FicheImage($fiche);
 
         $form = $this->createForm(
             FicheImageType::class,
-            $entity,
+            $ficheImage,
             [
                 'action' => $this->generateUrl('bottin_image_upload', ['id' => $fiche->getId()]),
             ]
