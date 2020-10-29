@@ -10,15 +10,10 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
-use Symfony\Component\Security\Core\Security;
 
 class FicheCreatedHandler implements MessageSubscriberInterface
 {
     private $ficheRepository;
-    /**
-     * @var Security
-     */
-    private $security;
     /**
      * @var FlashBagInterface
      */
@@ -35,12 +30,10 @@ class FicheCreatedHandler implements MessageSubscriberInterface
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
-        Security $security,
         FlashBagInterface $flashBag,
         ElasticServer $elasticServer
     ) {
         $this->ficheRepository = $ficheRepository;
-        $this->security = $security;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
         $this->locationUpdater = $locationUpdater;
@@ -49,7 +42,6 @@ class FicheCreatedHandler implements MessageSubscriberInterface
     public function __invoke(FicheCreated $ficheCreated)
     {
         $fiche = $this->ficheRepository->find($ficheCreated->getFicheId());
-        $this->setUserAdd($fiche);
         $this->setLocation($fiche);
         $this->updateFiche($fiche);
         $this->ficheRepository->flush();
@@ -66,14 +58,6 @@ class FicheCreatedHandler implements MessageSubscriberInterface
             $this->locationUpdater->convertAddressToCoordinates($fiche);
         } catch (Exception $e) {
             $this->flashBag->add('danger', $e->getMessage());
-        }
-    }
-
-    private function setUserAdd(Fiche $fiche)
-    {
-        $user = $this->security->getUser();
-        if ($user) {
-            $fiche->setUser($user->getUsername());
         }
     }
 

@@ -9,15 +9,10 @@ use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Security\Core\Security;
 
 class FicheUpdatedHandler implements MessageHandlerInterface
 {
     private $ficheRepository;
-    /**
-     * @var Security
-     */
-    private $security;
     /**
      * @var FlashBagInterface
      */
@@ -34,12 +29,10 @@ class FicheUpdatedHandler implements MessageHandlerInterface
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
-        Security $security,
         ElasticServer $elasticServer,
         FlashBagInterface $flashBag
     ) {
         $this->ficheRepository = $ficheRepository;
-        $this->security = $security;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
         $this->locationUpdater = $locationUpdater;
