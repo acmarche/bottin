@@ -6,7 +6,8 @@
     </div>
     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
-        <a href="{{ path('bottin_adresse_new') }}" class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter</a>
+        <a href="{{ path('bottin_adresse_new') }}" class="btn btn-primary" role="button">
+           <i class="fas fa-plus"></i> Ajouter une adresse</a>
         <br/><br/>
 
     {% endif %}

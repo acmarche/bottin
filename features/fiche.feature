@@ -3,7 +3,6 @@ Feature: Gestion des fiches
   J' ajoute une fiche
   J' édite une fiche
   Je supprime une fiche
-  Ses jours de travail animateur
 
   Background:
     Given I am logged in as an admin

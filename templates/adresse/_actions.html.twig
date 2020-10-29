@@ -1,0 +1,16 @@
+
+{% if is_granted('ROLE_BOTTIN_ADMIN') %}
+    <a href="{{ path('bottin_adresse_edit', { 'id': adresse.id }) }}" class="btn btn-primary"
+       role="button"><i class="far fa-edit"></i> Modifier</a>
+{% endif %}
+
+<a href="{{ path('bottin_adresse', { 'id': adresse.id }) }}"
+   class="btn btn-primary" role="button">
+    <i class="fas fa-long-arrow-alt-left"></i> Retour à la liste
+</a>
+
+{% if is_granted('ROLE_BOTTIN_ADMIN') %}
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+    <i class="fas fa-trash"></i> Supprimer
+</button>
+{% endif %}

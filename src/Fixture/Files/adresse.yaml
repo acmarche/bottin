@@ -1,0 +1,24 @@
+AcMarche\Bottin\Entity\Adresse:
+  adresse_{Hdv}:
+    nom: '<current()>'
+    rue: 'Boulevard du Midi'
+    numero: '22'
+    cp: '6900'
+    localite: 'Marche'
+    latitude: '50.2266'
+    longitude: '5.3411'
+  adresse_{PlaceFoire}:
+    nom: 'Place aux Foires'
+    rue: 'Place aux Foires'
+    cp: '6900'
+    localite: 'Marche'
+    latitude: '50.2255'
+    longitude: '5.3445'
+  adresse_{PlaceRouge}:
+    nom: 'Place Rouge'
+    rue: 'Rue Grande'
+    numero: '88'
+    cp: '6900'
+    localite: 'Aye'
+    latitude: '50.22'
+    longitude: '5.29'

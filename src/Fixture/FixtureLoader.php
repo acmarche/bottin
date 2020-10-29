@@ -44,6 +44,7 @@ final class FixtureLoader
 
         $files = [
             $path.'fiche.yaml',
+            $path.'adresse.yaml',
             //  $path.'category.yaml',
             $path.'user.yaml',
         ];
