@@ -53,6 +53,9 @@ services:
     $user: '%env(ACLDAP_USER)%'
     $password: '%env(ACLDAP_PASSWORD)%'
 
+  Fidry\AliceDataFixtures\LoaderInterface:
+    alias: 'fidry_alice_data_fixtures.loader.doctrine'
+
   Elasticsearch\ClientBuilder: ~
 
   Elasticsearch\Client:

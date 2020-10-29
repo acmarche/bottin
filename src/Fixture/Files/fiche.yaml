@@ -1,0 +1,25 @@
+AcMarche\Bottin\Entity\Fiche:
+  fiche_{memo, mandabar, dema}:
+    societe: '<current()>'
+    nom: '<current()>'
+    prenom: '<firstName()>'
+    rue: 'Rue dupont>'
+    numero: '31'
+    cp: '6900'
+    localite: 'Marche-en-Famenne'
+    email: '<email()>'
+    telephone: '<phoneNumber()>'
+    gsm: '<phoneNumber()>'
+    user: administrator
+  fiche_{Cst}:
+    societe: '<current()>'
+    nom: 'Aguorre'
+    prenom: 'Aurore'
+    rue: 'Rue des jolis bois>'
+    numero: '24'
+    cp: '6900'
+    localite: 'Aye'
+    email: '<email()>'
+    telephone: '<phoneNumber()>'
+    gsm: '<phoneNumber()>'
+    user: administrator

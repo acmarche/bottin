@@ -1,0 +1,24 @@
+AcMarche\Bottin\Entity\Category:
+  category_{Economie}:
+    name: '<current()>'
+  category_{Commerce}:
+    name: '<current()>'
+    parent: '@category_Economie'
+  category_{Alimentation}:
+    name: '<current()>'
+    parent: '@category_Commerce'
+  category_{Animaux}:
+    name: '<current()>'
+    parent: '@category_Commerce'
+  category_{Boulanger}:
+    name: '<current()>'
+    parent: '@category_Alimentation'
+  category_{Fromager}:
+    name: '<current()>'
+    parent: '@category_Alimentation'
+  category_{Colliers}:
+    name: '<current()>'
+    parent: '@category_Animaux'
+  category_{Croquettes}:
+    name: '<current()>'
+    parent: '@category_Animaux'
