@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,12 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Horaire
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var Fiche|null
@@ -82,11 +78,6 @@ class Horaire
         }
 
         return false;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getDay(): ?int

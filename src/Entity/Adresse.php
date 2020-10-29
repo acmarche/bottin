@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use AcMarche\Bottin\Repository\AdresseRepository;
@@ -18,20 +19,14 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
  */
 class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
+    use IdTrait;
     use SluggableTrait;
     use TimestampableTrait;
     use LocationTrait;
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @var string
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=150, nullable=false)
      */
     private $nom;
     /**
@@ -96,9 +91,13 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         return true;
     }
 
-    public function getId(): ?int
+    /**
+     * Fake pour location convert
+     * @return Adresse|null
+     */
+    public function getAdresse(): ?Adresse
     {
-        return $this->id;
+        return null;
     }
 
     public function getNom(): ?string
@@ -113,8 +112,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         return $this;
     }
 
-
-
     /**
      * @return Collection|Fiche[]
      */
@@ -123,7 +120,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         return $this->fiches;
     }
 
-    public function addFich(Fiche $fiche): self
+    public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
             $this->fiches[] = $fiche;

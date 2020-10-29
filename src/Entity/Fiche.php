@@ -10,6 +10,7 @@ use AcMarche\Bottin\Entity\Traits\DemandeTrait;
 use AcMarche\Bottin\Entity\Traits\DocumentsTrait;
 use AcMarche\Bottin\Entity\Traits\EnabledTrait;
 use AcMarche\Bottin\Entity\Traits\HoraireTrait;
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Entity\Traits\ImageTrait;
 use AcMarche\Bottin\Entity\Traits\InformationTrait;
 use AcMarche\Bottin\Entity\Traits\LocationTrait;
@@ -19,7 +20,6 @@ use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -33,7 +33,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
-    use LocationTrait,
+    use IdTrait,
+        LocationTrait,
         SluggableTrait,
         TimestampableTrait,
         AdminTrait,
@@ -50,14 +51,6 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         TokenTrait,
         EnabledTrait,
         CapTrait;
-
-    /**
-     * @var int|null
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
 
     /**
      * @var string|null
@@ -204,23 +197,6 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getAdresseGeocode(bool $withNumero = true): ?string
-    {
-        if ($this->getRue()) {
-            $adresse = '';
-            if ($this->getNumero() && $withNumero) {
-                $adresse = $this->getNumero().' ';
-            }
-
-            return $adresse.$this->getRue().' '.$this->getCp().' '.$this->getLocalite().' Belgium';
-        } else {
-            return 'Rue du Commerce Marche-en-Famenne Beligum';
-        }
-    }
-
     public function getSluggableFields(): array
     {
         return ['societe'];
@@ -234,11 +210,6 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     public function __toString()
     {
         return $this->societe;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getSociete(): ?string

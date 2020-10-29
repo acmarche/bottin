@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,12 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Pdv
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var string|null
@@ -42,11 +38,6 @@ class Pdv
     public function __toString()
     {
         return $this->getIntitule();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getIntitule(): ?string

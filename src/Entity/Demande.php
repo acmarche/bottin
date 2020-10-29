@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,13 +16,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 class Demande implements TimestampableInterface
 {
     use TimestampableTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var Fiche|null
@@ -56,11 +51,6 @@ class Demande implements TimestampableInterface
     public function __toString()
     {
         return $this->getFiche()->getSociete();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getTraiterBy(): ?string

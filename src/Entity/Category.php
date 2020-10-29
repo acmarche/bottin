@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\EnfantTrait;
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Entity\Traits\LogoTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,8 +14,6 @@ use Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -32,13 +31,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         SluggableTrait,
         TimestampableTrait,
         EnfantTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -83,7 +76,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
     public function getLabelHierarchical()
     {
-        return str_repeat("-", $this->getNodeLevel() - 1) . ' ' . $this->getName();
+        return str_repeat("-", $this->getNodeLevel() - 1).' '.$this->getName();
     }
 
     public function getPath()
@@ -106,11 +99,6 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     public function getSluggableFields(): array
     {
         return ['name'];
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

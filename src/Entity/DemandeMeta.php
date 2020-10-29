@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,12 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class DemandeMeta
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var Demande
@@ -42,11 +38,6 @@ class DemandeMeta
         $this->demande = $demande;
         $this->champ = $champ;
         $this->value = $value;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getChamp(): ?string

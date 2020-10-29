@@ -4,6 +4,7 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -19,13 +20,7 @@ class Document implements TimestampableInterface
 {
     use TimestampableTrait;
     use FicheFieldTrait;
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var string
@@ -118,11 +113,6 @@ class Document implements TimestampableInterface
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string
