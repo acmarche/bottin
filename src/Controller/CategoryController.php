@@ -145,8 +145,6 @@ class CategoryController extends AbstractController
 
             $this->dispatchMessage(new CategoryCreated($category->getId()));
 
-            $this->addFlash('success', 'La catégorie a bien été crée');
-
             return $this->redirectToRoute('bottin_category_show', ['id' => $category->getId()]);
         }
 

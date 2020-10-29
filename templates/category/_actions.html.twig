@@ -1,11 +1,10 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
     <a href="{{ path('bottin_category_edit', { 'id': category.id }) }}" class="btn btn-primary"
-       role="button"><i class="far fa-edit"></i> Editer</a>
+       role="button"><i class="far fa-edit"></i> Modifier</a>
 
     <a href="{{ path('bottin_category_new_children', { 'id': category.id }) }}"
-       class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter une sous
-        catégorie</a>
+       class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter une sous catégorie</a>
 
     <a href="{{ path('bottin_category_move', { 'id': category.id }) }}" class="btn btn-primary"
        role="button"><i class="fas fa-arrows-alt"></i> Déplacer</a>
@@ -25,5 +24,8 @@
 
         </div>
     </div>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+        <i class="fas fa-trash"></i> Supprimer
+    </button>
     <br/>
 {% endif %}
