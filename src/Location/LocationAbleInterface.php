@@ -4,6 +4,8 @@
 namespace AcMarche\Bottin\Location;
 
 
+use AcMarche\Bottin\Entity\Adresse;
+
 interface LocationAbleInterface
 {
     public function getRue(): ?string;
@@ -29,4 +31,6 @@ interface LocationAbleInterface
     public function getLatitude(): ?string;
 
     public function setLatitude(?string $latitude);
+
+    public function getAdresse(): ?Adresse;
 }

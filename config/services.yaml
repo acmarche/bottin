@@ -26,7 +26,7 @@ services:
     resource: '../src/*'
     # you can exclude directories or files
     # but if a service is unused, it's removed anyway
-    exclude: '../src/{Entity,Tests}'
+    exclude: '../src/{Entity,Tests2}'
 
   AcMarche\Bottin\Namer\DirectoryNamer:
     public: true
@@ -61,3 +61,6 @@ services:
   Elasticsearch\Client:
     factory: [ '@Elasticsearch\ClientBuilder', fromConfig ]
     arguments: [ '%es_config%' ]
+
+  AcMarche\Bottin\Search\SearchEngineInterface:
+    alias: AcMarche\Bottin\Search\SearchElastic

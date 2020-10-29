@@ -8,8 +8,7 @@
         </div>
         <div class="card-body">
             <i class="fas fa-map-marked-alt"></i> <br/>
-            {{ fiche.rue }} {{ fiche.numero }} <br/>
-            {{ fiche.cp }} {{ fiche.localite }}
+            {% include '@AcMarcheBottin/fiche/_adresse.html.twig' %}
 
             <div class="alert alert-info">
                 Déplacer le curseur à l'endroit voulu pour obtenir la longitude et latitude.

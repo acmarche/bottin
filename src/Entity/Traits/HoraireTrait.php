@@ -6,6 +6,7 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Horaire;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 trait HoraireTrait
 {

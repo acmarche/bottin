@@ -27,12 +27,7 @@ class LocationUpdater
         }
 
         try {
-            $response = $this->location->search(
-                $object->getNumero().' '.
-                $object->getRue().', '.
-                $object->getCp().' '.
-                $object->getLocalite()
-            );
+            $response = $this->location->search($this->getAdresseString($object));
 
             //todo JSON_THROW_ON_ERROR 7.4
             $tab = json_decode($response, true);
@@ -68,4 +63,13 @@ class LocationUpdater
         $object->setLatitude($data[0]['lat']);
         $object->setLongitude($data[0]['lon']);
     }
+
+    private function getAdresseString(LocationAbleInterface $object): string
+    {
+        return $object->getNumero().' '.
+            $object->getRue().', '.
+            $object->getCp().' '.
+            $object->getLocalite();
+    }
+
 }

@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Adresse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,8 +30,13 @@ class AdresseRepository extends ServiceEntityRepository
         $this->_em->remove($adresse);
     }
 
-    public function flush( )
+    public function flush()
     {
         $this->_em->flush();
+    }
+
+    public function queryBuilderForSelect(): QueryBuilder
+    {
+        return $this->createQueryBuilder('adresse')->orderBy('adresse.nom');
     }
 }

@@ -1,8 +1,11 @@
 <?php
 
 
-namespace AcMarche\Bottin\Elastic;
+namespace AcMarche\Bottin\Search;
 
+use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Entity\Fiche;
+use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
@@ -13,17 +16,22 @@ use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
 use ONGR\ElasticsearchDSL\Search;
 use ONGR\ElasticsearchDSL\Suggest\Suggest;
 
-trait ElasticSearchTrait
+class SearchElastic implements SearchEngineInterface
 {
     /**
      * @var \Elasticsearch\Client
      */
-    private $client;
+    public $client;
 
     /**
      * @var Search $search
      */
     private $search;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * @param string $keyword
@@ -43,7 +51,7 @@ trait ElasticSearchTrait
         //  $this->addAggregations();
 
         $params = [
-            'index' => $this->indexName,
+            'index' => ElasticServer::INDEX_NAME,
             'size' => 1000,
             'body' => $this->search->toArray(),
         ];
@@ -127,7 +135,7 @@ trait ElasticSearchTrait
         //  $this->addAggregations();
 
         $params = [
-            'index' => $this->indexName,
+            'index' => ElasticServer::INDEX_NAME,
             'size' => 100,
             'body' => $this->search->toArray(),
         ];
@@ -158,7 +166,7 @@ trait ElasticSearchTrait
         $this->addSuggests($keyword);
 
         $params = [
-            'index' => $this->indexName,
+            'index' => ElasticServer::INDEX_NAME,
             'size' => 100,
             'body' => $this->search->toArray(),
         ];
@@ -295,4 +303,24 @@ trait ElasticSearchTrait
     {
         $this->search = new Search();
     }
+
+    function renderResult(): array
+    {
+        // TODO: Implement renderResult() method.
+    }
+
+    /**
+     * @param array $hits
+     * @return Fiche[]
+     */
+    public function getFiches(array $hits): array
+    {
+        $fiches = [];
+        foreach ($hits['hits']['hits'] as $hit) {
+            $fiches[] = $hit['_source'];
+        }
+
+        return $fiches;
+    }
+
 }

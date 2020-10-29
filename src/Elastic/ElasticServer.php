@@ -7,24 +7,21 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Serializer\CategorySerializer;
 use AcMarche\Bottin\Serializer\FicheSerializer;
 use AcMarche\Bottin\Utils\FileUtils;
-use Elasticsearch\ClientBuilder;
+use Elasticsearch\Client;
+use Exception;
 
 class ElasticServer
 {
-    use ElasticSearchTrait;
+    const INDEX_NAME = 'bottin';
 
     /**
-     * @var \Elasticsearch\Client
+     * @var Client
      */
     private $client;
     /**
      * @var FileUtils
      */
     private $fileUtils;
-    /**
-     * @var string
-     */
-    private $indexName = 'bottin';
     /**
      * @var FicheSerializer
      */
@@ -39,26 +36,23 @@ class ElasticServer
     private $classementElastic;
 
     public function __construct(
+        Client $client,
         FileUtils $fileUtils,
         ClassementElastic $classementElastic,
         FicheSerializer $ficheSerializer,
-        CategorySerializer $categorySerializer,
-        array $hosts = ['127.0.0.1']
+        CategorySerializer $categorySerializer
     ) {
         //https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/configuration.html#enabling_logger
-        $this->client = ClientBuilder::create()
-            ->setHosts(
-                $hosts
-            )
-            ->build();
         $this->fileUtils = $fileUtils;
         $this->ficheSerializer = $ficheSerializer;
         $this->categorySerializer = $categorySerializer;
         $this->classementElastic = $classementElastic;
+        $this->client = $client;
+        dump($client);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     function updateSettingAndMapping()
     {
@@ -83,7 +77,7 @@ class ElasticServer
      */
     function refresh()
     {
-        return $this->client->indices()->refresh(['index' => $this->indexName]);
+        return $this->client->indices()->refresh(['index' => self::INDEX_NAME]);
     }
 
     /**
@@ -92,7 +86,7 @@ class ElasticServer
      */
     function open()
     {
-        return $this->client->indices()->open(['index' => $this->indexName]);
+        return $this->client->indices()->open(['index' => self::INDEX_NAME]);
     }
 
     /**
@@ -101,20 +95,20 @@ class ElasticServer
      */
     function close()
     {
-        return $this->client->indices()->close(['index' => $this->indexName]);
+        return $this->client->indices()->close(['index' => self::INDEX_NAME]);
     }
 
     /**
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     function createIndex()
     {
         $index = json_decode($this->fileUtils->readConfigFile('schema.json'), true);
         try {
             return $this->client->indices()->create($index);
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -140,12 +134,12 @@ class ElasticServer
 
     /**
      * @return array|bool
-     * @throws \Exception
+     * @throws Exception
      */
     function deleteIndex()
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => self::INDEX_NAME,
         ];
 
         $exist = $this->client->indices()->exists($params);
@@ -153,8 +147,8 @@ class ElasticServer
         if ($exist) {
             try {
                 return $this->client->indices()->delete($params);
-            } catch (\Exception $e) {
-                throw new \Exception($e->getMessage());
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
             }
         }
 
@@ -172,7 +166,7 @@ class ElasticServer
         }
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
         $params = [
-            'index' => $this->indexName,
+            'index' => self::INDEX_NAME,
             'id' => $data['id'],
             'body' => $data,
         ];
@@ -186,7 +180,7 @@ class ElasticServer
         $data['type'] = 'category';
 
         $params = [
-            'index' => $this->indexName,
+            'index' => self::INDEX_NAME,
             'id' => 'cat_'.$data['id'],
             'body' => $data,
         ];
@@ -197,7 +191,7 @@ class ElasticServer
     function deleteFiche(Fiche $fiche)
     {
         $params = [
-            'index' => $this->indexName,
+            'index' => self::INDEX_NAME,
             'id' => $fiche->getId(),
         ];
 
@@ -206,6 +200,7 @@ class ElasticServer
 
     /**
      * Creates index with mapping and analyzer.
+     * https://medium.com/@stefan.poeltl/symfony-meets-elasticsearch-implement-a-search-as-you-type-feature-307e2244f078
      */
     private function createIndex22(): void
     {

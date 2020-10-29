@@ -36,6 +36,10 @@ trait LocationTrait
 
     public function getRue(): ?string
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getRue();
+        }
+
         return $this->rue;
     }
 
@@ -48,6 +52,10 @@ trait LocationTrait
 
     public function getNumero(): ?string
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getNumero();
+        }
+
         return $this->numero;
     }
 
@@ -60,6 +68,10 @@ trait LocationTrait
 
     public function getCp(): ?int
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getCp();
+        }
+
         return $this->cp;
     }
 
@@ -72,6 +84,10 @@ trait LocationTrait
 
     public function getLocalite(): ?string
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getLocalite();
+        }
+
         return $this->localite;
     }
 
@@ -84,6 +100,10 @@ trait LocationTrait
 
     public function getLongitude(): ?string
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getLongitude();
+        }
+
         return $this->longitude;
     }
 
@@ -96,6 +116,10 @@ trait LocationTrait
 
     public function getLatitude(): ?string
     {
+        if ($this->getAdresse() != null) {
+            return $this->getAdresse()->getLatitude();
+        }
+
         return $this->latitude;
     }
 

@@ -1,5 +1,5 @@
 AcMarche\Bottin\Entity\Fiche:
-  fiche_{memo, mandabar, dema}:
+  fiche_{MEMO, MANDABAR, DEMA}:
     societe: '<current()>'
     nom: '<current()>'
     prenom: '<firstName()>'

@@ -48,8 +48,8 @@ final class FixtureLoader
             $path.'user.yaml',
         ];
 
+        $this->loader->load($files, [], [], PurgeMode::createTruncateMode());
         $this->insert();
-        $this->loader->load($files, [], [], PurgeMode::createNoPurgeMode());
     }
 
     private function insert()

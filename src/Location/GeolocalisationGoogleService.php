@@ -45,7 +45,7 @@ class GeolocalisationGoogleService
     {
         $location = [];
 
-        $adresse = urlencode($fiche->getAdresseGeocode($withNum) . ' BE');
+        $adresse = urlencode($this->getAdresseGeocode($fiche, $withNum).' BE');
 
         try {
             $request = $this->httpClient->request(
@@ -55,7 +55,7 @@ class GeolocalisationGoogleService
                     'query' => [
                         'address' => $adresse,
                         'key' => $this->clefGoogle,
-                    ]
+                    ],
                 ]
             );
         } catch (TransportExceptionInterface $exception) {
@@ -96,5 +96,19 @@ class GeolocalisationGoogleService
         }
 
         return $location;
+    }
+
+    private function getAdresseGeocode(Fiche  $fiche, bool $withNumero = true): ?string
+    {
+        if ($fiche->getRue()) {
+            $adresse = '';
+            if ($fiche->getNumero() && $withNumero) {
+                $adresse = $fiche->getNumero().' ';
+            }
+
+            return $adresse.$fiche->getRue().' '.$fiche->getCp().' '.$fiche->getLocalite().' Belgium';
+        } else {
+            return 'Rue du Commerce Marche-en-Famenne Beligum';
+        }
     }
 }

@@ -1,8 +1,8 @@
 <table class='table table-bordered table-hover'>
     <tr>
         <th><i class="fas fa-map-marked-alt"></i> Adresse</th>
-        <td>{{ fiche.rue }} {{ fiche.numero }} <br />
-            {{ fiche.cp }} {{ fiche.localite }}
+        <td>
+            {% include '@AcMarcheBottin/fiche/_adresse.html.twig' %}
         </td>
     <tr>
         <th><i class="fas fa-globe-europe"></i> Site web</th>

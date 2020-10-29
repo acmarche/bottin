@@ -36,7 +36,7 @@ class SecteurController extends AbstractController
      */
     public function index($anchor = null)
     {
-        $fiches = $this->ficheRepository->search([]);
+        $fiches = $this->ficheRepository->findAllWithJoins();
 
         return $this->render(
             '@AcMarcheBottin/secteur/index.html.twig',

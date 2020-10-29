@@ -13,6 +13,7 @@ use AcMarche\Bottin\Form\FicheType;
 use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
@@ -40,10 +41,6 @@ class FicheController extends AbstractController
      */
     private $horaireService;
     /**
-     * @var ElasticServer
-     */
-    private $elasticServer;
-    /**
      * @var AggregationUtils
      */
     private $aggregationUtils;
@@ -63,25 +60,29 @@ class FicheController extends AbstractController
      * @var SerializerInterface
      */
     private $serializer;
+    /**
+     * @var SearchEngineInterface
+     */
+    private $searchEngine;
 
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
         FicheRepository $ficheRepository,
         HoraireService $horaireService,
-        ElasticServer $elasticServer,
+        SearchEngineInterface $searchEngine,
         AggregationUtils $aggregationUtils,
         SuggestUtils $suggestUtils,
         SerializerInterface $serializer
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
-        $this->elasticServer = $elasticServer;
         $this->aggregationUtils = $aggregationUtils;
         $this->suggestUtils = $suggestUtils;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->serializer = $serializer;
+        $this->searchEngine = $searchEngine;
     }
 
     /**
@@ -93,7 +94,7 @@ class FicheController extends AbstractController
     public function index(Request $request)
     {
         $session = $request->getSession();
-        $args = $hits = $response = [];
+        $args = $hits = $response = $fiches = [];
 
         if ($session->has('fiche_search')) {
             $args = json_decode($session->get('fiche_search'), true);
@@ -114,8 +115,8 @@ class FicheController extends AbstractController
                 return $this->redirectToRoute('bottin_fiche_index');
             }
             try {
-                $response = $this->elasticServer->doSearch($args['nom'], $args['localite']);
-                $hits = $response['hits'];
+                $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
+                $fiches = $this->searchEngine->getFiches($response);
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
@@ -125,7 +126,7 @@ class FicheController extends AbstractController
             '@AcMarcheBottin/fiche/index.html.twig',
             [
                 'search_form' => $search_form->createView(),
-                'hits' => $hits,
+                'fiches'=>$fiches,
             ]
         );
     }
@@ -163,7 +164,7 @@ class FicheController extends AbstractController
                 return $this->redirectToRoute('bottin_fiche_index');
             }
             try {
-                $response = $this->elasticServer->doSearchAdvanced($args['nom'], $args['localite']);
+                $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());

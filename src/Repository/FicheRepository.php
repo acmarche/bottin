@@ -38,11 +38,41 @@ class FicheRepository extends ServiceEntityRepository
     /**
      * @return Fiche[]
      */
-    public function noLocation()
+    public function noLocation(): array
     {
-        $qb = $this->createQueryBuilder('f');
+        return $this->createQueryBuilder('fiche')
+            ->andWhere('fiche.latitude IS NULL')
+            ->getQuery()->getResult();
+    }
 
-        $qb->andWhere('f.latitude IS NULL');
+    public function searchByNameAndCity(string $name, ?string $localite): array
+    {
+        $qb = $this->createQueryBuilder('fiche')
+            ->leftJoin('fiche.pdv', 'pdv', 'WITH')
+            ->leftJoin('fiche.classements', 'classements', 'WITH')
+            ->leftJoin('fiche.horaires', 'horaires', 'WITH')
+            ->leftJoin('fiche.images', 'images', 'WITH')
+            ->leftJoin('fiche.adresse', 'adresse', 'WITH')
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'adresse');
+
+        if ($name) {
+            $qb->andWhere(
+                'fiche.societe LIKE :nom OR 
+                fiche.admin_email LIKE :nom OR 
+                fiche.email  LIKE :nom OR 
+                fiche.contact_email LIKE :nom OR 
+                fiche.societe LIKE :nom OR
+                fiche.nom LIKE :nom OR 
+                fiche.prenom LIKE :nom'
+            )->setParameter('nom', '%'.$name.'%');
+        }
+
+        if ($localite) {
+            $qb->andWhere(
+                'fiche.localite = :localite OR (fiche.adresse IS NOT NULL AND adresse.localite = :localite) '
+            )
+                ->setParameter('localite', $localite);
+        }
 
         return $qb->getQuery()->getResult();
     }
@@ -50,73 +80,20 @@ class FicheRepository extends ServiceEntityRepository
     /**
      * @param $args
      *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function setCriteria($args)
-    {
-        $nom = isset($args['nom']) ? $args['nom'] : '';
-        $societe = isset($args['societe']) ? $args['societe'] : '';
-        $localite = isset($args['localite']) ? $args['localite'] : null;
-        $categories = isset($args['categories']) ? $args['categories'] : null;
-        $horaire = isset($args['horaire']) ? $args['horaire'] : null;
-        $fiche = isset($args['fiche']) ? $args['fiche'] : null;
-
-        $qb = $this->createQueryBuilder('f');
-        $qb->leftJoin('f.pdv', 'pdv', 'WITH');
-        $qb->leftJoin('f.classements', 'classements', 'WITH');
-        $qb->leftJoin('f.horaires', 'horaires', 'WITH');
-        $qb->leftJoin('f.images', 'images', 'WITH');
-        $qb->addSelect('pdv', 'classements', 'horaires', 'images');
-
-        if ($societe) {
-            $qb->andWhere('f.societe LIKE :societe')
-                ->setParameter('societe', '%'.$societe.'%');
-        }
-
-        if ($nom) {
-            $qb->andWhere(
-                'f.admin_email LIKE :nom OR 
-                f.email  LIKE :nom OR 
-                f.contact_email LIKE :nom OR 
-                f.societe LIKE :nom OR
-                f.nom LIKE :nom OR 
-                f.prenom LIKE :nom'
-            )->setParameter('nom', '%'.$nom.'%');
-        }
-
-        if ($categories) {
-            $categories = is_array($categories) ? $categories : [$categories];
-            $categories = implode(',', $categories);
-            $qb->andWhere("classements.category IN ($categories)");
-        }
-
-        if ($horaire) {
-            $qb->andWhere('horaires IS NULL');
-        }
-
-        if ($fiche) {
-            $qb->andWhere('f = :fiche')
-                ->setParameter('fiche', $fiche);
-        }
-
-        $qb->orderBy('f.societe');
-
-        return $qb;
-    }
-
-    /**
-     * @param $args
-     *
-     * @return Fiche|Fiche[]
+     * @return Fiche[]
      *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function search($args)
+    public function findAllWithJoins(): array
     {
-        $qb = $this->setCriteria($args);
-
-        return $qb->getQuery()->getResult();
+        return $this->createQueryBuilder('fiche')
+            ->leftJoin('fiche.pdv', 'pdv', 'WITH')
+            ->leftJoin('fiche.classements', 'classements', 'WITH')
+            ->leftJoin('fiche.horaires', 'horaires', 'WITH')
+            ->leftJoin('fiche.images', 'images', 'WITH')
+            ->addSelect('pdv', 'classements', 'horaires', 'images')
+            ->getQuery()->getResult();
     }
 
     public function insert(Fiche $fiche)

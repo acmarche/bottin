@@ -2,9 +2,11 @@
 
 namespace AcMarche\Bottin\Form;
 
+use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Entity\Situation;
+use AcMarche\Bottin\Repository\AdresseRepository;
 use AcMarche\Bottin\Repository\PdvRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,6 +32,19 @@ class FicheType extends AbstractType
         $builder
             ->add('societe', TextType::class)
             ->add(
+                'adresse',
+                EntityType::class,
+                [
+                    'class' => Adresse::class,
+                    'query_builder' => function (AdresseRepository $adresseRepository) {
+                        return $adresseRepository->queryBuilderForSelect();
+                    },
+                    'required' => false,
+                    'placeholder' => 'Sélectionnez une adresse existante',
+                    'help' => 'Cette adresse écrasera l\' adresse encodée sur la fiche ',
+                ]
+            )
+            ->add(
                 'rue',
                 TextType::class,
                 [
@@ -41,6 +56,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+
                 ]
             )
             ->add(
@@ -156,7 +172,8 @@ class FicheType extends AbstractType
                 [
                     'class' => Situation::class,
                     'multiple' => true,
-                    'expanded' => true,'label_attr' => [
+                    'expanded' => true,
+                    'label_attr' => [
                         'class' => 'switch-custom',
                     ],
                 ]

@@ -24,7 +24,7 @@ class FeatureContext extends RawMinkContext
     public function iAmLoggedInAsAnAdmin(): void
     {
         $this->visitPath('/login');
-        //var_dump($this->getSession()->getPage()->getContent());
+       // var_dump($this->getSession()->getPage()->getContent());
         $this->fillField('username', 'jf@marche.be');
         $this->fillField('password', 'homer');
         $this->pressButton('Me connecter');
