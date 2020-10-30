@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Default controller.
  *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
+ *
  */
 class DefaultController extends AbstractController
 {
@@ -39,6 +39,7 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/", name="bottin_home")
+     * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
     public function index()
     {
@@ -49,6 +50,7 @@ class DefaultController extends AbstractController
 
     /**
      * @Route("/empty", name="bottin_categories_empty")
+     * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
     public function empty()
     {
