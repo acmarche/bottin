@@ -48,7 +48,6 @@ class ElasticServer
         $this->categorySerializer = $categorySerializer;
         $this->classementElastic = $classementElastic;
         $this->client = $client;
-        dump($client);
     }
 
     /**
