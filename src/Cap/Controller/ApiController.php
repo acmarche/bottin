@@ -10,6 +10,8 @@ use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use AcMarche\Bottin\Search\SearchElastic;
+use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Service\DemandeHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -46,9 +48,9 @@ class ApiController extends AbstractController
      */
     private $demandeHandler;
     /**
-     * @var ElasticServer
+     * @var SearchEngineInterface
      */
-    private $elasticServer;
+    private $searchEngine;
 
     public function __construct(
         ApiUtils $apiUtils,
@@ -56,14 +58,14 @@ class ApiController extends AbstractController
         CategoryService $categoryService,
         CategoryRepository $categoryRepository,
         FicheRepository $ficheRepository,
-        ElasticServer $elasticServer
+        SearchEngineInterface $searchEngine
     ) {
         $this->categoryService = $categoryService;
         $this->ficheRepository = $ficheRepository;
         $this->categoryRepository = $categoryRepository;
         $this->apiUtils = $apiUtils;
         $this->demandeHandler = $demandeHandler;
-        $this->elasticServer = $elasticServer;
+        $this->searchEngine = $searchEngine;
     }
 
     /**
@@ -191,7 +193,7 @@ class ApiController extends AbstractController
         if (!$keyword) {
             return $this->json(['error' => 'Pas de mot clef']);
         }
-        $result = $this->elasticServer->doSearchForCap($keyword);
+        $result = $this->searchEngine->doSearchForCap($keyword);
 
         return $this->json($result);
     }
