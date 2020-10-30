@@ -99,7 +99,7 @@ class DefaultController extends AbstractController
             );
         }
 
-        return $this->render('cv/cv.html.twig');
+        return $this->render('@AcMarcheBottin/cv/cv.html.twig');
     }
 
     /**
