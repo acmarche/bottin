@@ -52,7 +52,7 @@ class ExportCsvController extends AbstractController
      * @Route("/category/{id}", name="bottin_export_category_xls")
      * @Route("/categories", name="bottin_export_categories_xls", methods={"GET"})
      */
-    public function categoryXls(Request $request, Category $category = null)
+    public function categoryXls(Category $category = null)
     {
         $spreadsheet = new Spreadsheet();
 
@@ -191,6 +191,8 @@ class ExportCsvController extends AbstractController
             'centreVille',
             'midi',
             'pmr',
+            'ecommerce',
+            'ClickAndCollect',
             'pdv',
             'Contactnom',
             'Contactprenom',
@@ -255,6 +257,8 @@ class ExportCsvController extends AbstractController
             $sheet->setCellValue($lettre++ . $ligne, $fiche->getCentreville());
             $sheet->setCellValue($lettre++ . $ligne, $fiche->getMidi());
             $sheet->setCellValue($lettre++ . $ligne, $fiche->getPmr());
+            $sheet->setCellValue($lettre++ . $ligne, $fiche->isEcommerce());
+            $sheet->setCellValue($lettre++ . $ligne, $fiche->isClickCollect());
             $sheet->setCellValue($lettre++ . $ligne, $pdv);
             /*
              * CONTACT

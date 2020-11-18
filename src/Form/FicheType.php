@@ -376,6 +376,27 @@ class FicheType extends AbstractType
                         return $cr->getForList();
                     },
                 ]
+            )
+            ->add(
+                'clickCollect',
+                CheckboxType::class,
+                [
+                    'label' => 'Click and collect',
+                    'required' => false,
+                    'label_attr' => [
+                        'class' => 'switch-custom',
+                    ],
+                ]
+            )
+            ->add(
+                'ecommerce',
+                CheckboxType::class,
+                [
+                    'required' => false,
+                    'label_attr' => [
+                        'class' => 'switch-custom',
+                    ],
+                ]
             );
 
         $builder->addEventListener(

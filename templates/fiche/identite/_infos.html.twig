@@ -29,6 +29,26 @@
         </td>
     </tr>
     <tr>
+        <th><i class="fas fa-church"></i> Ecommerce</th>
+        <td>
+            {% if fiche.ecommerce %}
+                Oui
+            {% else %}
+                Non
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th><i class="fas fa-church"></i> Click and collect</th>
+        <td>
+            {% if fiche.clickCollect %}
+                Oui
+            {% else %}
+                Non
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
         <th><i class="fas fa-user-shield"></i> Identifiant</th>
         <td>{{ fiche.id }}</td>
     </tr>

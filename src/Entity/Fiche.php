@@ -8,6 +8,7 @@ use AcMarche\Bottin\Entity\Traits\ClassementTrait;
 use AcMarche\Bottin\Entity\Traits\ContactTrait;
 use AcMarche\Bottin\Entity\Traits\DemandeTrait;
 use AcMarche\Bottin\Entity\Traits\DocumentsTrait;
+use AcMarche\Bottin\Entity\Traits\EcommerceTrait;
 use AcMarche\Bottin\Entity\Traits\EnabledTrait;
 use AcMarche\Bottin\Entity\Traits\HoraireTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
@@ -50,7 +51,8 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         SituationsTrait,
         TokenTrait,
         EnabledTrait,
-        CapTrait;
+        CapTrait,
+        EcommerceTrait;
 
     /**
      * @var string|null

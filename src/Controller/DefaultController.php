@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Default controller.
@@ -114,5 +115,21 @@ class DefaultController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/default/index.html.twig'
         );
+    }
+
+    public function generate(
+        $name,
+        $parameters = [],
+        $absolute = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
+        if ('sylius_shop_product_index' === $name) {
+            $redirectRoute = $this->getTaxonRedirectRoute($parameters);
+
+            if (null !== $redirectRoute) {
+                return $redirectRoute;
+            }
+        }
+
+        return $this->router->generate($name, $parameters, $absolute);
     }
 }
