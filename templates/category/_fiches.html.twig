@@ -1,8 +1,8 @@
-{% if  fiches | length > 0 %}
+{% set count = fiches | length %}
+{% if  count > 0 %}
 
-    <h4 class="text-success">{% if  count > 0 %} {{ count }} {% endif %}Fiches à cette adresse</h4>
+    <h4 class="text-success">{% if  count > 0 %} {{ count }} {% endif %}fiches</h4>
 
-    <br/><br/>
     <table class='table table-bordered table-hover'>
         <thead>
         <tr>
@@ -27,5 +27,5 @@
         </tbody>
     </table>
 {% else %}
-    <p class="text-info">Aucune fiche classée à cette adresse</p>
+    <p class="text-info">Aucune fiche classée</p>
 {% endif %}

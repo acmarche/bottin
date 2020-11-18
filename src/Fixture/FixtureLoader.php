@@ -55,17 +55,23 @@ final class FixtureLoader
 
     private function insert()
     {
-        $ecnomoie = $this->addRoot('Economie');
-        $commerce = $this->addChild($ecnomoie, 'Commerces');
+        $economie = $this->addRoot('Economie');
+        $commerce = $this->addChild($economie, 'Commerces');
+        $commerce->setParent($economie);
+
         $alimentation = $this->addChild($commerce, 'Alimentation');
-        $animaux = $this->addChild($commerce, 'Animaux');
+        $alimentation->setParent($commerce);
         $this->addChild($alimentation, 'Boulanger');
         $this->addChild($alimentation, 'Fromager');
+
+        $animaux = $this->addChild($commerce, 'Animaux');
+        $animaux->setParent($commerce);
         $this->addChild($animaux, 'Colliers');
         $this->addChild($animaux, 'Croquettes');
 
         $sante = $this->addRoot('Sante');
         $medecins = $this->addChild($sante, 'Medecins');
+        $medecins->setParent($sante);
         $this->addChild($sante, 'Pharmacie');
         $this->addChild($medecins, 'Gyneco');
         $this->addChild($medecins, 'General');
@@ -87,6 +93,7 @@ final class FixtureLoader
         $child->setName($name);
         $this->categoryRepository->persist($child);
         $this->categoryRepository->flush();
+        $child->setParent($parent);
         $child->setChildNodeOf($parent);
         $this->categoryRepository->flush();
 

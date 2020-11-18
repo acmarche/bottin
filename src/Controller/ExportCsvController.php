@@ -128,10 +128,13 @@ class ExportCsvController extends AbstractController
     }
 
     /**
-     * @Route("/fiche/{id}", name="bottin_export_fiche_xls", methods={"GET"})
+     * @Route("/fiche/{id}", name="bottin_export_fiches_xls_by_category", methods={"GET"})
      * @Route("/fiches", name="bottin_export_fiches_xls", methods={"GET"})
+     * @param Category|null $category
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function fichesXls(Category $category = null)
+    public function fichesXls(?Category $category = null)
     {
         $spreadsheet = new Spreadsheet();
 
@@ -150,7 +153,7 @@ class ExportCsvController extends AbstractController
         return $this->file($temp_file, 'fiches.xls', ResponseHeaderBag::DISPOSITION_INLINE);
     }
 
-    private function ficheXSLObject(Spreadsheet $spreadsheet, Category $category = null)
+    private function ficheXSLObject(Spreadsheet $spreadsheet, ?Category $category = null)
     {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->getDefaultRowDimension()->setRowHeight(15);

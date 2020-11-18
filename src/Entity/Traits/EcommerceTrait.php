@@ -10,15 +10,15 @@ trait EcommerceTrait
 {
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $click_collect;
+    protected $click_collect = false;
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    protected $ecommerce;
+    protected $ecommerce = false;
 
     /**
      * @return bool

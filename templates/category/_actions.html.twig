@@ -12,16 +12,13 @@
     <div class="btn-group" role="group">
         <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-download"></i> Exporter l' arborescence
+            <i class="fas fa-download"></i> Exporter
         </button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-
             <a href="{{ path('bottin_export_category_xls', { 'id': category.id }) }}" role="button"
-               class="dropdown-item"> En xls</a>
-
-            <a href="{{ path('bottin_export_category_pdf', { 'id': category.id }) }}" role="button"
-               class="dropdown-item"> En pdf</a>
-
+               class="dropdown-item"> L' arborescence en xls</a>
+            <a href="{{ path('bottin_export_fiches_xls_by_category', { 'id': category.id }) }}" role="button"
+               class="dropdown-item"> Les fiches en xls</a>
         </div>
     </div>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
