@@ -101,6 +101,11 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return ['name'];
     }
 
+    public function shouldGenerateUniqueSlugs(): bool
+    {
+        return true;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
