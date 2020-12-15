@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -10,12 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+   use IdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
