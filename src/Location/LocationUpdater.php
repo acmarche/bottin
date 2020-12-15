@@ -41,7 +41,7 @@ class LocationUpdater
             }
 
             if (is_array($tab) && count($tab) > 0) {
-                $this->setLat($object, $tab);
+                $this->setCoordinates($object, $tab);
 
                 return true;
             } else {
@@ -58,7 +58,7 @@ class LocationUpdater
         }
     }
 
-    private function setLat(LocationAbleInterface $object, array $data)
+    private function setCoordinates(LocationAbleInterface $object, array $data)
     {
         $object->setLatitude($data[0]['lat']);
         $object->setLongitude($data[0]['lon']);

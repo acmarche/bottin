@@ -8,12 +8,12 @@ class FicheUpdated
     /**
      * @var string|null
      */
-    private $oldRue;
+    private $oldAddress;
 
-    public function __construct(int $ficheId, ?string $oldRue)
+    public function __construct(int $ficheId, ?string $oldAddress)
     {
         $this->ficheId = $ficheId;
-        $this->oldRue = $oldRue;
+        $this->oldAddress = $oldAddress;
     }
 
     public function getFicheId(): int
@@ -24,9 +24,9 @@ class FicheUpdated
     /**
      * @return string|null
      */
-    public function getOldRue(): ?string
+    public function getOldAddress(): ?string
     {
-        return $this->oldRue;
+        return $this->oldAddress;
     }
 
 }

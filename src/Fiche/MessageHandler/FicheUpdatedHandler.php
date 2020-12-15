@@ -31,32 +31,42 @@ class FicheUpdatedHandler implements MessageHandlerInterface
         LocationUpdater $locationUpdater,
         ElasticServer $elasticServer,
         FlashBagInterface $flashBag
-    ) {
+    )
+    {
         $this->ficheRepository = $ficheRepository;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
         $this->locationUpdater = $locationUpdater;
     }
 
-    public function __invoke(FicheUpdated $ficheCreated)
+    public function __invoke(FicheUpdated $ficheUpdated)
     {
-        $fiche = $this->ficheRepository->find($ficheCreated->getFicheId());
-        $this->updateFiche($fiche);
-        $oldRue = $ficheCreated->getOldRue();
-
-        if ($oldRue !== $fiche->getRue()) {
+        $fiche = $this->ficheRepository->find($ficheUpdated->getFicheId());
+        if ($this->hasChangeAddress($ficheUpdated, $fiche)) {
             try {
                 $this->locationUpdater->convertAddressToCoordinates($fiche);
+                $this->ficheRepository->flush();
+                $this->flashBag->add('success', 'Coordonnées gps misent à jour');
             } catch (\Exception $e) {
                 $this->flashBag->add('danger', $e->getMessage());
             }
         }
+        $this->updateSearchEngine($fiche);
     }
 
-    private function updateFiche(Fiche $fiche)
+    private function updateSearchEngine(Fiche $fiche)
     {
         $this->elasticServer->updateFiche($fiche);
     }
 
+    private function hasChangeAddress(FicheUpdated $ficheUpdated, Fiche $fiche): bool
+    {
+        $adresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
 
+        if ($ficheUpdated->getOldAddress() !== $adresse) {
+            return true;
+        }
+
+        return false;
+    }
 }
