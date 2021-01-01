@@ -77,7 +77,8 @@ class ApiUtils
         FicheImageSerializer $ficheImageSerializer,
         FicheSerializer $ficheSerializer,
         HoraireSerializer $horaireSerializer
-    ) {
+    )
+    {
         $this->categoryService = $categoryService;
         $this->categoryRepository = $categoryRepository;
         $this->ficheRepository = $ficheRepository;
@@ -169,7 +170,7 @@ class ApiUtils
 
     public function getClassementsForApi(Fiche $fiche)
     {
-        $classementsFiche = $this->classementRepository->getByFiche($fiche,true);
+        $classementsFiche = $this->classementRepository->getByFiche($fiche, true);
         $classements = [];
         foreach ($classementsFiche as $classement) {
             $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
@@ -181,11 +182,9 @@ class ApiUtils
         return $classements;
     }
 
-    public function prepareClassement(Classement $classement) {
-        $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
-        $category = $classement->getCategory();
-        $dataClassement['path'] = $this->getPathsForApi($category);
-        return $dataClassement;
+    public function prepareClassement(Classement $classement)
+    {
+        return $this->classementSerializer->serializeClassementForApiAndroid($classement);
     }
 
     protected function getPathsForApi(Category $category)

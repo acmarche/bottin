@@ -38,4 +38,15 @@ class ClassementSerializer
 
         return $data;
     }
+
+    public function serializeClassementForApiAndroid(Classement $classement)
+    {
+        $data = [];
+        $data['id'] = $classement->getId();
+        $data['fiche_id'] = $classement->getFiche()->getId();
+        $data['category_id'] = $classement->getCategory()->getId();
+        $data['principal'] = (bool)$classement->getPrincipal();
+
+        return $data;
+    }
 }

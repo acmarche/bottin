@@ -207,7 +207,7 @@ class ApiController extends AbstractController
     }
 
     /**
-     * Toutes les fiches des commerces
+     * Toutes les classements pour android
      *
      * @Route("/bottin/classements", name="bottin_api_classements", methods={"GET"}, format="json")
      */
