@@ -221,4 +221,14 @@ class ApiController extends AbstractController
         return $this->json($data);
     }
 
+    /**
+     * Toutes les categories pour android
+     *
+     * @Route("/bottin/categories", name="bottin_api_categories", methods={"GET"}, format="json")
+     */
+    public function categories(): JsonResponse
+    {
+        $categories = $this->categoryRepository->findAll();
+        return $this->json($this->apiUtils->prepareCategories($categories));
+    }
 }
