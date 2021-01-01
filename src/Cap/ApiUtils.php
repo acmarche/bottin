@@ -4,6 +4,7 @@
 namespace AcMarche\Bottin\Cap;
 
 use AcMarche\Bottin\Entity\Category;
+use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
@@ -180,6 +181,12 @@ class ApiUtils
         return $classements;
     }
 
+    public function prepareClassement(Classement $classement) {
+        $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
+        $category = $classement->getCategory();
+        $dataClassement['path'] = $this->getPathsForApi($category);
+        return $dataClassement;
+    }
 
     protected function getPathsForApi(Category $category)
     {

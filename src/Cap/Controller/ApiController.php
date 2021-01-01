@@ -9,6 +9,7 @@ use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
+use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
@@ -51,6 +52,10 @@ class ApiController extends AbstractController
      * @var SearchEngineInterface
      */
     private $searchEngine;
+    /**
+     * @var ClassementRepository
+     */
+    private ClassementRepository $classementRepository;
 
     public function __construct(
         ApiUtils $apiUtils,
@@ -58,14 +63,17 @@ class ApiController extends AbstractController
         CategoryService $categoryService,
         CategoryRepository $categoryRepository,
         FicheRepository $ficheRepository,
-        SearchEngineInterface $searchEngine
-    ) {
+        SearchEngineInterface $searchEngine,
+        ClassementRepository $classementRepository
+    )
+    {
         $this->categoryService = $categoryService;
         $this->ficheRepository = $ficheRepository;
         $this->categoryRepository = $categoryRepository;
         $this->apiUtils = $apiUtils;
         $this->demandeHandler = $demandeHandler;
         $this->searchEngine = $searchEngine;
+        $this->classementRepository = $classementRepository;
     }
 
     /**
@@ -196,6 +204,21 @@ class ApiController extends AbstractController
         $result = $this->searchEngine->doSearchForCap($keyword);
 
         return $this->json($result);
+    }
+
+    /**
+     * Toutes les fiches des commerces
+     *
+     * @Route("/bottin/classements", name="bottin_api_classements", methods={"GET"}, format="json")
+     */
+    public function classements(): JsonResponse
+    {
+        $classements = $this->classementRepository->findAll();
+        $data = [];
+        foreach ($classements as $classement) {
+            $data[] = $this->apiUtils->prepareClassement($classement);
+        }
+        return $this->json($data);
     }
 
 }
