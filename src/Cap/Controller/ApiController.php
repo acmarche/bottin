@@ -55,7 +55,7 @@ class ApiController extends AbstractController
     /**
      * @var ClassementRepository
      */
-    private ClassementRepository $classementRepository;
+    private $classementRepository;
 
     public function __construct(
         ApiUtils $apiUtils,
