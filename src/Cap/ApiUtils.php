@@ -142,8 +142,12 @@ class ApiUtils
         $dataFiche['classements'] = $this->getClassementsForApi($fiche);//only eco !!
         $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
         $dataFiche['images'] = $this->getImages($fiche);
-        $dataFiche['logo'] = count($dataFiche['images'] > 0) ? $dataFiche['images'][0] : null;
-        $dataFiche['photos'] = [];
+        $urls = [];
+        foreach ($dataFiche['images'] as $image) {
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+        }
+        $dataFiche['logo'] = count($urls > 0) ? $urls[0] : null;
+        $dataFiche['photos'] = $urls;
 
         return $dataFiche;
     }
