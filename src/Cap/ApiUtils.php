@@ -142,6 +142,7 @@ class ApiUtils
         $dataFiche['classements'] = $this->getClassementsForApi($fiche);//only eco !!
         $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
         $dataFiche['images'] = $this->getImages($fiche);
+        $dataFiche['logo'] = count($dataFiche['images'] > 0) ? $dataFiche['images'][0] : null;
         $dataFiche['photos'] = [];
 
         return $dataFiche;
