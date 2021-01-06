@@ -229,6 +229,6 @@ class ApiController extends AbstractController
     public function categories(): JsonResponse
     {
         $categories = $this->categoryRepository->findAll();
-        return $this->json($this->apiUtils->prepareCategories($categories));
+        return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
     }
 }

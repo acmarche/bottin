@@ -109,6 +109,11 @@ class ApiUtils
         return $categories;
     }
 
+    public function serializeCategoryForAndroid(Category $category)
+    {
+        return $this->categorySerializer->serializeCategory2($category);
+    }
+
     public function serializeCategory(Category $category)
     {
         $enfantsSerialized = [];
@@ -201,6 +206,21 @@ class ApiUtils
         }
 
         return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return Category[]
+     */
+    public function prepareCategoriesForAndroid(array $data): array
+    {
+        $categories = [];
+
+        foreach ($data as $category) {
+            $categories[] = $this->serializeCategoryForAndroid($category);
+        }
+
+        return $categories;
     }
 
 }
