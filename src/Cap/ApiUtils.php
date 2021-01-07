@@ -157,6 +157,21 @@ class ApiUtils
         return $dataFiche;
     }
 
+    public function prepareFicheAndroid(Fiche $fiche): array
+    {
+        $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
+        $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
+        $dataFiche['images'] = $this->getImages($fiche);
+        $urls = [];
+        foreach ($dataFiche['images'] as $image) {
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+        }
+        $dataFiche['logo'] = count($urls > 0) ? $urls[0] : null;
+        $dataFiche['photos'] = $urls;
+
+        return $dataFiche;
+    }
+
     public function getImages(Fiche $fiche): array
     {
         $images = [];

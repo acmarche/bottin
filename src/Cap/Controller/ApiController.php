@@ -130,6 +130,22 @@ class ApiController extends AbstractController
     }
 
     /**
+     * Toutes les fiches pour android
+     *
+     * @Route("/bottin/fichesandroid", name="bottin_api_fiches_all", methods={"GET"}, format="json")
+     */
+    public function fichesAndroid(): JsonResponse
+    {
+        $fiches = $this->ficheRepository->findAll();
+
+        $data = [];
+        foreach ($fiches as $fiche) {
+            $data[] = $this->apiUtils->prepareFicheAndroid($fiche);
+        }
+
+        return $this->json($data);
+    }
+    /**
      * Le detail de la fiche {id}
      * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"}, format="json")
      * @param Fiche $fiche
