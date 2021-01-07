@@ -210,7 +210,7 @@ class ApiUtils
 
     /**
      * @param array $data
-     * @return Category[]
+     * @return array
      */
     public function prepareCategoriesForAndroid(array $data): array
     {
