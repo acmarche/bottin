@@ -151,7 +151,11 @@ class ApiUtils
         foreach ($dataFiche['images'] as $image) {
             $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
         }
-        $dataFiche['logo'] = count($urls > 0) ? $urls[0] : null;
+        $logo = null;
+        if (count($urls > 0)) {
+            $logo = $urls[0];
+        }
+        $dataFiche['logo'] = $logo;
         $dataFiche['photos'] = $urls;
 
         return $dataFiche;
