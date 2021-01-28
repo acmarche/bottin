@@ -152,7 +152,7 @@ class ApiUtils
             $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
         }
         $logo = null;
-        if (count($urls > 0)) {
+        if (count($urls) > 0) {
             $logo = $urls[0];
         }
         $dataFiche['logo'] = $logo;
