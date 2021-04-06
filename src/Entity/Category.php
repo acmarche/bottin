@@ -2,9 +2,11 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Doctrine\LogoTrait;
 use AcMarche\Bottin\Entity\Traits\EnfantTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
-use AcMarche\Bottin\Entity\Traits\LogoTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +16,10 @@ use Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  *
@@ -23,6 +27,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\CategoryRepository")
  * @ORM\Table(name="category")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"category:read"}},
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"})
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial", "id": "exact"})
+
  */
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface
 {
@@ -36,6 +46,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
+     * @Groups({"category:read"})
      */
     protected $name;
 
@@ -58,6 +69,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("category:read")
      */
     protected $description;
 

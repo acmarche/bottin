@@ -10,7 +10,6 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class MarcheHandler implements MessageSubscriberInterface
@@ -46,80 +45,27 @@ class MarcheHandler implements MessageSubscriberInterface
 
     public function __invoke(ClassementUpdated $classementUpdated)
     {
-        $this->sendFiche($classementUpdated->getFicheId());
+
     }
 
     public function classementDeleted(ClassementDeleted $classementDeleted)
     {
-        $this->sendFiche($classementDeleted->getFicheId());
+
     }
 
     public function ficheUpdated(FicheUpdated $ficheCreated)
     {
-        $ficheId = $ficheCreated->getFicheId();
-        $fiche = $this->ficheRepository->find($ficheId);
 
-        $request = $this->httpClient->request(
-            "POST",
-            $this->parameterBag->get('bottin.url_update_fiche'),
-            [
-                'body' => ['ficheid' => $ficheId],
-            ]
-        );
-
-        try {
-            $result = json_decode($request->getContent(), true);
-            if (isset($result['error'])) {
-                $this->flashBag->add(
-                    'danger',
-                    "Erreur lors de la mise à jour sur Marche.be: ".$result['error']
-                );
-            }
-        } catch (ClientExceptionInterface $e) {
-            $this->flashBag->add(
-                'danger',
-                "Erreur lors de la mise à jour sur Marche.be: ".$e->getMessage()
-            );
-        }
     }
 
     public function ficheDeleted(FicheDeleted $ficheCreated)
     {
-        $ficheId = $ficheCreated->getFicheId();
-        $fiche = $this->ficheRepository->find($ficheId);
-        $request = $this->httpClient->request(
-            "POST",
-            $this->parameterBag->get('bottin.url_delete_fiche'),
-            [
-                'body' => ['ficheid' => $ficheId],
-            ]
-        );
 
-        try {
-            $result = json_decode($request->getContent(), true);
-            if (isset($result['error'])) {
-                $this->flashBag->add(
-                    'danger',
-                    "Erreur lors de la suppression sur Marche.be: ".$result['error']
-                );
-            }
-        } catch (ClientExceptionInterface $e) {
-            $this->flashBag->add(
-                'danger',
-                "Erreur lors de la suppression sur Marche.be: ".$e->getMessage()
-            );
-        }
     }
 
     private function sendFiche(int $ficheId)
     {
-        $request = $this->httpClient->request(
-            "POST",
-            $this->parameterBag->get('bottin.url_update_fiche'),
-            [
-                'body' => ['ficheid' => $ficheId],
-            ]
-        );
+
     }
 
     public static function getHandledMessages(): iterable

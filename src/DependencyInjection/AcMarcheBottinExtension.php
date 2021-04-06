@@ -50,7 +50,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
                     case 'vich_uploader':
                         $this->loadConfig($container, 'vich_uploader');
                         break;
-                    case 'api_platform222':
+                    case 'api_platform':
                         $this->loadConfig($container, 'api_platform');
                         break;
                 }

@@ -20,6 +20,7 @@ use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -31,6 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\FicheRepository")
  * @ORM\Table(name="fiche")
+ * ApiResource
  */
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {

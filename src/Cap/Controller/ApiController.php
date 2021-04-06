@@ -145,6 +145,7 @@ class ApiController extends AbstractController
 
         return $this->json($data);
     }
+
     /**
      * Le detail de la fiche {id}
      * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"}, format="json")
@@ -246,5 +247,39 @@ class ApiController extends AbstractController
     {
         $categories = $this->categoryRepository->findAll();
         return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
+    }
+
+    /**
+     * Toutes les categories sous forme d'arbre
+     *
+     * Route("/bottin/categoriestree",  methods={"GET"}, format="json")
+     */
+    public function categoriesTree(): JsonResponse
+    {
+        $roots = $this->categoryRepository->getRootNodes();
+        $data = [];
+        foreach ($roots as $rootNode) {
+            $data[] = $this->categoryRepository->getTree($rootNode->getRealMaterializedPath());
+        }
+
+        $categories = [];
+        foreach ($data as $root) {
+            $rootclean = $this->apiUtils->serializeCategoryForAndroid($root);
+            $levels1 = [];
+            foreach ($root->getChildNodes() as $level1) {
+                $levels1[] = $this->apiUtils->serializeCategoryForAndroid($level1);
+                $levels2 = [];
+                foreach ($level1->getChildNodes() as $level2) {
+
+                    $levels2[] = $this->apiUtils->serializeCategoryForAndroid($level2);
+                }
+                $levels1['children'] = $levels2;
+            }
+            $rootclean['children'] = $levels1;
+            $categories[] = $rootclean;
+            break;//todo not finished
+        }
+
+        return $this->json($categories);
     }
 }
