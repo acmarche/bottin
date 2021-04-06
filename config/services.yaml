@@ -4,8 +4,6 @@ parameters:
   bottin.cp_default: '6900'
   router.request_context.host: 'bottin.local'
   router.request_context.scheme: 'http'
-  bottin.url_update_fiche: '%env(BOTTIN_URL_UPDATE_FICHE)%'
-  bottin.url_delete_fiche: '%env(BOTTIN_URL_DELETE_FICHE)%'
   bottin.url_update_category: '%env(BOTTIN_URL_UPDATE_CATEGORY)%'
   es_config: { 'hosts': [ 'http://localhost:9200' ] }
 
