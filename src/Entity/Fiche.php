@@ -179,6 +179,12 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
      */
     protected $adresse;
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $numero_tva;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();
@@ -368,6 +374,18 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     public function setAdresse(?Adresse $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getNumeroTva(): ?string
+    {
+        return $this->numero_tva;
+    }
+
+    public function setNumeroTva(?string $numero_tva): self
+    {
+        $this->numero_tva = $numero_tva;
 
         return $this;
     }

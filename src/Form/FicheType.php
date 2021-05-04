@@ -116,6 +116,14 @@ class FicheType extends AbstractType
                 ]
             )
             ->add(
+                'numeroTva',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Numéro de Tva',
+                ]
+            )
+            ->add(
                 'facebook',
                 TextType::class,
                 [
