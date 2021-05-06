@@ -15,6 +15,7 @@ use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Service\DemandeHandler;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,6 +57,10 @@ class ApiController extends AbstractController
      * @var ClassementRepository
      */
     private $classementRepository;
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private LoggerInterface $logger;
 
     public function __construct(
         ApiUtils $apiUtils,
@@ -64,9 +69,9 @@ class ApiController extends AbstractController
         CategoryRepository $categoryRepository,
         FicheRepository $ficheRepository,
         SearchEngineInterface $searchEngine,
-        ClassementRepository $classementRepository
-    )
-    {
+        ClassementRepository $classementRepository,
+        LoggerInterface $logger
+    ) {
         $this->categoryService = $categoryService;
         $this->ficheRepository = $ficheRepository;
         $this->categoryRepository = $categoryRepository;
@@ -74,6 +79,7 @@ class ApiController extends AbstractController
         $this->demandeHandler = $demandeHandler;
         $this->searchEngine = $searchEngine;
         $this->classementRepository = $classementRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -205,6 +211,8 @@ class ApiController extends AbstractController
         $data = $request->request->all();
         $result = $this->demandeHandler->handle($data);
 
+        $this->logger->info('api update fiche result'.json_encode($result));
+
         return $this->json($result);
     }
 
@@ -235,6 +243,7 @@ class ApiController extends AbstractController
         foreach ($classements as $classement) {
             $data[] = $this->apiUtils->prepareClassement($classement);
         }
+
         return $this->json($data);
     }
 
@@ -246,6 +255,7 @@ class ApiController extends AbstractController
     public function categories(): JsonResponse
     {
         $categories = $this->categoryRepository->findAll();
+
         return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
     }
 
