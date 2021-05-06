@@ -8,6 +8,7 @@ use AcMarche\Bottin\Entity\DemandeMeta;
 use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class DemandeHandler
 {
@@ -67,7 +68,11 @@ class DemandeHandler
         $this->demandeRepository->flush();
         $this->demandeMetaRepository->flush();
 
-        $this->mailerBottin->sendMailNewDemande($fiche);
+        try {
+            $this->mailerBottin->sendMailNewDemande($fiche);
+        } catch (TransportExceptionInterface | \Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
 
         return ['error' => 0];
     }

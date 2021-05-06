@@ -160,8 +160,7 @@ class TestController extends AbstractController
                 'body' => $fields,
             ]
         );
-
-        $result = json_decode($request->getContent());
+        $result = $request->getContent();
 
         return $this->render('@AcMarcheBottin/test/update_fiche.html.twig', ['result' => $result]);
     }
