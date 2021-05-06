@@ -209,7 +209,6 @@ class ApiController extends AbstractController
     public function updatefiche(Request $request): JsonResponse
     {
         $data = $request->request->all();
-        $this->logger->critical('##api## url api update fiche data '.json_encode($data));
         $result = $this->demandeHandler->handle($data);
 
         $this->logger->info('api update fiche result'.json_encode($result));
