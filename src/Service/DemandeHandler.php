@@ -43,7 +43,7 @@ class DemandeHandler
 
     public function handle(array $data): array
     {
-        $idFiche = $data['id'];
+        $idFiche = $data['id'] ?? null;
         if (!$idFiche) {
             return ['error' => 402];
         }
