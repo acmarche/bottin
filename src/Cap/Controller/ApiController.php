@@ -60,7 +60,7 @@ class ApiController extends AbstractController
     /**
      * @var \Psr\Log\LoggerInterface
      */
-    private LoggerInterface $logger;
+    private $logger;
 
     public function __construct(
         ApiUtils $apiUtils,
