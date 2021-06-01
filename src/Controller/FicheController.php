@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Controller;
 
 use AcMarche\Bottin\Elastic\AggregationUtils;
-use AcMarche\Bottin\Elastic\ElasticServer;
 use AcMarche\Bottin\Elastic\SuggestUtils;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
@@ -22,7 +21,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Fiche controller.
@@ -57,10 +55,6 @@ class FicheController extends AbstractController
      */
     private $pathUtils;
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-    /**
      * @var SearchEngineInterface
      */
     private $searchEngine;
@@ -72,17 +66,14 @@ class FicheController extends AbstractController
         HoraireService $horaireService,
         SearchEngineInterface $searchEngine,
         AggregationUtils $aggregationUtils,
-        SuggestUtils $suggestUtils,
-        SerializerInterface $serializer
-    )
-    {
+        SuggestUtils $suggestUtils
+    ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
         $this->aggregationUtils = $aggregationUtils;
         $this->suggestUtils = $suggestUtils;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
-        $this->serializer = $serializer;
         $this->searchEngine = $searchEngine;
     }
 
@@ -90,7 +81,6 @@ class FicheController extends AbstractController
      * Lists all Fiche entities.
      *
      * @Route("/", name="bottin_fiche_index", methods={"GET"})
-     *
      */
     public function index(Request $request)
     {
@@ -101,7 +91,7 @@ class FicheController extends AbstractController
             $args = json_decode($session->get('fiche_search'), true);
         }
 
-        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET',]);
+        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
 
         $search_form->handleRequest($request);
 
@@ -119,7 +109,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
                 $fiches = $this->searchEngine->getFiches($response);
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
 
@@ -150,7 +140,7 @@ class FicheController extends AbstractController
         if ($keyword) {
             $args['nom'] = $keyword;
         }
-        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET',]);
+        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
 
         $search_form->handleRequest($request);
 
@@ -168,7 +158,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
 
@@ -253,7 +243,7 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
         }
 
-        $oldAdresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
+        $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
 
         $editForm = $this->createForm(FicheType::class, $fiche);
@@ -288,12 +278,12 @@ class FicheController extends AbstractController
      */
     public function delete(Request $request, Fiche $fiche): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $fiche->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new FicheDeleted($fiche->getId()));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();
 
-            $this->addFlash('success', "La fiche a bien été supprimée");
+            $this->addFlash('success', 'La fiche a bien été supprimée');
         }
 
         return $this->redirectToRoute('bottin_fiche_index');

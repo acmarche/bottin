@@ -9,7 +9,6 @@ use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
-use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +55,6 @@ class ClassementController extends AbstractController
      * Displays a form to create a new classement entity.
      *
      * @Route("/edit/{id}", name="bottin_classement_new", methods={"GET", "POST"})
-     *
      */
     public function edit(Fiche $fiche, Request $request)
     {
@@ -70,7 +68,7 @@ class ClassementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $request->request->get('classement');
-            $categoryId = (int)$data['categorySelected'];
+            $categoryId = (int) $data['categorySelected'];
 
             try {
                 $this->classementHandler->handleNewClassement($fiche, $categoryId);

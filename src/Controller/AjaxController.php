@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Controller;
 
 use AcMarche\Bottin\Classement\Message\ClassementDeleted;
-use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
@@ -50,7 +49,7 @@ class AjaxController extends AbstractController
      */
     public function removeClassement(Request $request)
     {
-        $classementId = (int)$request->get('classementId');
+        $classementId = (int) $request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
         if (!$classement) {
@@ -80,7 +79,7 @@ class AjaxController extends AbstractController
      */
     public function setPrincipal(Request $request)
     {
-        $classementId = (int)$request->get('classementId');
+        $classementId = (int) $request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
 
         if (!$classementSelect) {
@@ -120,8 +119,8 @@ class AjaxController extends AbstractController
     public function ajaxCategories(Request $request)
     {
         $response = new JsonResponse();
-        $parentId = (int)$request->get('parentId');
-        $level = (int)$request->get('level') + 1; // +1 pour div id ajax response
+        $parentId = (int) $request->get('parentId');
+        $level = (int) $request->get('level') + 1; // +1 pour div id ajax response
 
         $result = [];
 
@@ -163,7 +162,7 @@ class AjaxController extends AbstractController
             $data[$i]['name'] = $category->getName();
             $data[$i]['label'] = $category->getName();
             $data[$i]['value'] = $category->getName();
-            $i++;
+            ++$i;
         }
 
         return new JsonResponse($data);

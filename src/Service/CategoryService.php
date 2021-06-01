@@ -24,10 +24,6 @@ class CategoryService
      */
     private $categoryRepository;
     /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
      * @var Category[]|iterable
      */
     private $data = [];
@@ -42,12 +38,10 @@ class CategoryService
 
     public function __construct(
         CategoryRepository $categoryRepository,
-        FicheRepository $ficheRepository,
         ClassementRepository $classementRepository,
         PathUtils $pathUtils
     ) {
         $this->categoryRepository = $categoryRepository;
-        $this->ficheRepository = $ficheRepository;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
     }

@@ -19,6 +19,7 @@ use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
+use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,6 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
     use IdTrait,
+        UuidTrait,
         LocationTrait,
         SluggableTrait,
         TimestampableTrait,
