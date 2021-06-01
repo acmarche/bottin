@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Controller;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
-use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -31,10 +30,6 @@ class ExportPdfController extends AbstractController
      */
     private $categoryService;
     /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
      * @var ClassementRepository
      */
     private $classementRepository;
@@ -47,12 +42,10 @@ class ExportPdfController extends AbstractController
         CategoryService $categoryService,
         Pdf $pdf,
         ClassementRepository $classementRepository,
-        PathUtils $pathUtils,
-        FicheRepository $ficheRepository
+        PathUtils $pathUtils
     ) {
         $this->pdf = $pdf;
         $this->categoryService = $categoryService;
-        $this->ficheRepository = $ficheRepository;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
     }
