@@ -22,7 +22,6 @@ security:
         providers: ['bottin_sql_provider', 'ville_ldap']
   firewalls:
     main:
-      anonymous: lazy
       provider: bottin_sql_provider
       guard:
         authenticators:
