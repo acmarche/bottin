@@ -19,7 +19,7 @@
             {{ form_row(form.name) }}
             {{ form_end(form) }}
 
-            <div data-controller="category">
+            <div {{ stimulus_controller('category', { categoryId: 511 }) }} >
                 <table class="table table-bordered">
                     {% for category in categories %}
                         <tr>
