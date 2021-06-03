@@ -19,6 +19,25 @@
             {{ form_row(form.name) }}
             {{ form_end(form) }}
 
+            <div data-controller="category">
+                <table class="table table-bordered">
+                    {% for category in categories %}
+                        <tr>
+                            <th>
+                                <button
+                                        class="btn btn-primary"
+                                        data-action="category#selectCategory"
+                                        data-category-square-target="categorySquare"
+                                        data-category-id="{{ category.id }}"
+                                >
+                                    {{ category }}
+                                </button>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <input type="number" name="x" data-category-target="select">
+            </div>
         </div>
     </div>
 
@@ -96,11 +115,11 @@
                         level = data.level;
                         console.log(level);
                         $("#ajaxsuccess-" + level).html(html);
-                       // $("#select_category_categorySelected").val(catId);
+                        // $("#select_category_categorySelected").val(catId);
                     }
                 }
             }).done(function (data) {
-                    console.log(data);
+                console.log(data);
                 if (console && console.log) {
                     //   console.log("data:", data);
                 }

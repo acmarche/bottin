@@ -5,8 +5,8 @@ namespace AcMarche\Bottin\Repository;
 use AcMarche\Bottin\Cap\Cap;
 use AcMarche\Bottin\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
 
 /**
@@ -25,8 +25,6 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string|null $name
-     * @param Category|null $parent
      * @return Category[]
      */
     public function search(?string $name = null, ?Category $parent = null)
@@ -73,7 +71,6 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $parentId
      * @return Category[]
      */
     public function getDirectChilds(int $parentId)
@@ -85,26 +82,23 @@ class CategoryRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
-    /**
-     * @return array
-     */
     public function getRubriquesShopping(): array
     {
-        $rubriques = array();
+        $rubriques = [];
 
         $commerces = $this->getDirectChilds(Cap::idCommerces); //commerces-entreprises
         foreach ($commerces as $rubrique) {
             $id = $rubrique->getId();
-            $enfants = array();
+            $enfants = [];
             $enfantsTmp = $this->getDirectChilds($id);
 
             foreach ($enfantsTmp as $enfant) {
                 $enfants[] = $enfant;
             }
-            /**
+            /*
              * ajout de pharmacie dans branche eco => sante
              */
-            if ($id == Cap::idSanteEco) {
+            if (Cap::idSanteEco == $id) {
                 $enfants[] = $this->find(Cap::idPharmacies);
             }
 
@@ -114,7 +108,7 @@ class CategoryRepository extends ServiceEntityRepository
         }
 
         /**
-         * ajout des professions liberales
+         * ajout des professions liberales.
          */
         $liberales = $this->find(Cap::idLiberales);
         $liberales->setEnfants($this->getDirectChilds(Cap::idLiberales));
@@ -124,37 +118,8 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Category $category
-     * @return Category[]
-     */
-    public function getChildrenOld(Category $category)
-    {
-        $qb = $this->createQueryBuilder('category');
-        $qb->andWhere('category.parent = :categorie')
-            ->setParameter('categorie', $category);
-
-        $qb->orderBy('category.name', 'ASC');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @return Category[]
-     */
-    public function getRootsOld()
-    {
-        $qb = $this->createQueryBuilder('category');
-
-        $qb->andWhere('category.parent IS NULL');
-
-        $qb->orderBy('category.name', 'ASC');
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
      * Manipulates the flat tree query builder before executing it.
-     * Override this method to customize the tree query
+     * Override this method to customize the tree query.
      */
     protected function addFlatTreeConditions(QueryBuilder $queryBuilder, array $extraParams): void
     {
@@ -174,5 +139,4 @@ class CategoryRepository extends ServiceEntityRepository
     {
         $this->_em->remove($category);
     }
-
 }
