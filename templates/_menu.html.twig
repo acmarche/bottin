@@ -1,26 +1,17 @@
 {% set action = app.request.attributes.get("_route") %}
 
-<li class="nav-item{% if action == 'fiche_new' %} active {% endif %}">
-    <a class="nav-link"
-       href="{{ path('bottin_fiche_new') }}"><i class="fas fa-plus"></i> Ajouter une fiche</a>
-</li>
-
-<li class="nav-item{% if action == 'bottin_fiche' %} active {% endif %}">
-    <a class="nav-link"
-       href="{{ path('bottin_fiche_index') }}">Fiches</a>
-</li>
-
-<li class="nav-item{% if action == 'bottin_category' %} active {% endif %}">
-    <a class="nav-link"
-       href="{{ path('bottin_category') }}">Catégories</a>
-</li>
-
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
-           aria-haspopup="true"
-           aria-expanded="false">...</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
+    <li><a href="{{ path('bottin_fiche_new') }}" class="nav-link px-2 link-dark">Ajouter une fiche</a></li>
+    <li><a href="{{ path('bottin_fiche_index') }}" class="nav-link px-2 link-dark">Les fiches</a></li>
+    <li><a href="{{ path('bottin_category') }}" class="nav-link px-2 link-dark">Les catégories</a></li>
+    <li><a href="{{ path('bottin_utilisateur') }}" class="nav-link px-2 link-dark">Les utilisateurs</a></li>
+
+    <div class="dropdown text-end">
+        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            ...
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
             <a class="dropdown-item" href="{{ path('bottin_index') }}">Index des fiches</a>
             <a class="dropdown-item" href="{{ path('bottin_demande') }}">Demande des commerçants</a>
             <a class="dropdown-item" href="{{ path('bottin_adresse') }}">Adresses</a>
@@ -29,6 +20,11 @@
             <a class="dropdown-item" href="{{ path('bottin_publipostage') }}">Publipostage</a>
             <a class="dropdown-item" href="{{ path('bottin_utilisateur') }}">Les utilisateurs</a>
             <a class="dropdown-item" href="{{ path('bottin_api_test_index') }}">Api tests</a>
-        </div>
-    </li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+        </ul>
+    </div>
+
 {% endif %}
