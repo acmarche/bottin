@@ -2,7 +2,9 @@
 
 namespace AcMarche\Bottin\Controller;
 
+use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,10 +15,17 @@ class DefaultController extends AbstractController
      * @var FicheRepository
      */
     private $ficheRepository;
+    /**
+     * @var \AcMarche\Bottin\Repository\CategoryRepository
+     */
+    private $categoryRepository;
 
-    public function __construct(FicheRepository $ficheRepository
+    public function __construct(
+        FicheRepository $ficheRepository,
+        CategoryRepository $categoryRepository
     ) {
         $this->ficheRepository = $ficheRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -24,8 +33,17 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
+        $categories = $this->categoryRepository->getRootNodes();
+        $categories = SortUtils::sortCategories($categories);
+        foreach ($categories as $rootNode) {
+            $data[] = $this->categoryRepository->getTree($rootNode->getRealMaterializedPath());
+        }
+
         return $this->render(
-            '@AcMarcheBottin/default/index.html.twig'
+            '@AcMarcheBottin/default/index.html.twig',
+            [
+                'categories' => $data,
+            ]
         );
     }
 

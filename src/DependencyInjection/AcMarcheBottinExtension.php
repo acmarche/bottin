@@ -6,6 +6,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -20,7 +21,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
         $loader->load('services.yaml');
     }
 
@@ -39,7 +40,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
                         $this->loadConfig($container, 'doctrine');
                         break;
                     case 'twig':
-                        $this->loadConfig($container, 'twig');
+                        $this->loadConfig($container, 'twig', true);
                         break;
                     case 'liip_imagine':
                         $this->loadConfig($container, 'liip_imagine');
@@ -58,22 +59,31 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
         }
     }
 
-    protected function loadConfig(ContainerBuilder $container, string $name)
+    protected function loadConfig(ContainerBuilder $container, string $name, bool $php = false)
     {
-        $configs = $this->loadYamlFile($container);
+        if ($php) {
+            $configs = $this->loadPhpFile($container);
+          //  $configs->load($name.'.php');
 
-        $configs->load($name . '.yaml');
+            return;
+        }
+        $configs = $this->loadYamlFile($container);
+        $configs->load($name.'.yaml');
     }
 
-    /**
-     * @param ContainerBuilder $container
-     * @return Loader\YamlFileLoader
-     */
     protected function loadYamlFile(ContainerBuilder $container): Loader\YamlFileLoader
     {
         return new Loader\YamlFileLoader(
             $container,
-            new FileLocator(__DIR__ . '/../../config/packages/')
+            new FileLocator(__DIR__.'/../../config/packages')
+        );
+    }
+
+    private function loadPhpFile(ContainerBuilder $container): PhpFileLoader
+    {
+        return new PhpFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../../config/packages')
         );
     }
 }
