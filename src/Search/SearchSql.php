@@ -13,12 +13,12 @@ class SearchSql implements SearchEngineInterface
         $this->ficheRepository = $ficheRepository;
     }
 
-    public function doSearch(string $keyword, ?string $localite): array
+    public function doSearch(string $keyword, ?string $localite = null): array
     {
         return $this->ficheRepository->searchByNameAndCity($keyword, $localite);
     }
 
-    public function doSearchAdvanced(string $keyword, ?string $localite): array
+    public function doSearchAdvanced(string $keyword, ?string $localite = null): array
     {
         return $this->ficheRepository->searchByNameAndCity($keyword, $localite);
     }

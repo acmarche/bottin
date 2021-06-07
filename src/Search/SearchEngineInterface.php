@@ -4,9 +4,9 @@ namespace AcMarche\Bottin\Search;
 
 interface SearchEngineInterface
 {
-    public function doSearch(string $keyword, ?string $localite): array;
+    public function doSearch(string $keyword, ?string $localite = null): array;
 
-    public function doSearchAdvanced(string $keyword, ?string $localite): array;
+    public function doSearchAdvanced(string $keyword, ?string $localite = null): array;
 
     public function renderResult(): array;
 

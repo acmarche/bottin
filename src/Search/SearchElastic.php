@@ -103,7 +103,7 @@ class SearchElastic implements SearchEngineInterface
     /**
      * @throws BadRequest400Exception
      */
-    public function doSearch(string $keyword, ?string $localite): array
+    public function doSearch(string $keyword, ?string $localite = null): array
     {
         $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
@@ -131,7 +131,7 @@ class SearchElastic implements SearchEngineInterface
     /**
      * @throws BadRequest400Exception
      */
-    public function doSearchAdvanced(string $keyword, ?string $localite): array
+    public function doSearchAdvanced(string $keyword, ?string $localite = null): array
     {
         $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
