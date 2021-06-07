@@ -41,7 +41,7 @@ class Demande implements TimestampableInterface
      * @var DemandeMeta[]|ArrayCollection|iterable
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\DemandeMeta", mappedBy="demande", cascade={"persist", "remove"})
      */
-    protected array $metas;
+    protected iterable $metas;
 
     public function __construct()
     {

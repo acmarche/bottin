@@ -10,17 +10,19 @@
        role="button"><i class="fas fa-arrows-alt"></i> Déplacer</a>
 
     <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
             <i class="fas fa-download"></i> Exporter
         </button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a href="{{ path('bottin_export_category_xls', { 'id': category.id }) }}" role="button"
-               class="dropdown-item"> L' arborescence en xls</a>
-            <a href="{{ path('bottin_export_fiches_xls_by_category', { 'id': category.id }) }}" role="button"
-               class="dropdown-item"> Les fiches en xls</a>
-        </div>
+        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <li><a class="dropdown-item" href="{{ path('bottin_export_category_xls', { 'id': category.id }) }}">L'
+                    arborescence en xls</a></li>
+            <li><a class="dropdown-item"
+                   href="{{ path('bottin_export_fiches_xls_by_category', { 'id': category.id }) }}">Les fiches en
+                    xls</a></li>
+        </ul>
     </div>
+
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
         <i class="fas fa-trash"></i> Supprimer
     </button>
