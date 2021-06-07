@@ -87,13 +87,6 @@ class CategoryController extends AbstractController
 
             $session->set('category_search', json_encode($args));
 
-            if ($search_form->get('raz')->isClicked()) {
-                $session->remove('category_search');
-                $this->addFlash('info', 'La recherche a bien été réinitialisée.');
-
-                return $this->redirectToRoute('bottin_category');
-            }
-
             if ($root) {
                 $categoryRoot = $this->categoryRepository->find($root);
             }
@@ -170,9 +163,9 @@ class CategoryController extends AbstractController
          */
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
 
-        $category->getMaterializedPath();//1/2
-        $category->getRealMaterializedPath();//1/2/3
-        $category->getRootMaterializedPath();//1
+        $category->getMaterializedPath(); //1/2
+        $category->getRealMaterializedPath(); //1/2/3
+        $category->getRootMaterializedPath(); //1
 
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
@@ -254,7 +247,7 @@ class CategoryController extends AbstractController
             $this->categoryRepository->remove($category);
             $this->categoryRepository->flush();
 
-            $this->addFlash('success', "La catégorie a bien été supprimée");
+            $this->addFlash('success', 'La catégorie a bien été supprimée');
             if ($parent) {
                 return $this->redirect(
                     $this->generateUrl('bottin_category_show', ['id' => $parent->getId()])

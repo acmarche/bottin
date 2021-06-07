@@ -8,7 +8,6 @@ use AcMarche\Bottin\Adresse\Message\AdresseUpdated;
 use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Form\AdresseType;
 use AcMarche\Bottin\Form\LocalisationType;
-use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,15 +27,10 @@ class AdresseController extends AbstractController
      * @var AdresseRepository
      */
     private $adresseRepository;
-    /**
-     * @var LocationUpdater
-     */
-    private $locationUpdater;
 
-    public function __construct(AdresseRepository $adresseRepository, LocationUpdater $locationUpdater)
+    public function __construct(AdresseRepository $adresseRepository)
     {
         $this->adresseRepository = $adresseRepository;
-        $this->locationUpdater = $locationUpdater;
     }
 
     /**
@@ -103,7 +97,7 @@ class AdresseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->adresseRepository->flush();
 
-            $this->addFlash("success", "La géolocalisation a bien été modifiée");
+            $this->addFlash('success', 'La géolocalisation a bien été modifiée');
         }
 
         return $this->render(
@@ -160,5 +154,4 @@ class AdresseController extends AbstractController
 
         return $this->redirectToRoute('bottin_adresse');
     }
-
 }

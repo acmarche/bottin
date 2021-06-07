@@ -2,11 +2,9 @@
 
 {% block body -%}
 
-    <div class="page-header">
-        <h3>Rechercher une fiche</h3>
-        <span class="float-right text-muted"><a
-                    href="{{ path('bottin_fiche_search_advanced') }}">Recherche avancé</a></span>
-    </div>
+    <h3>Rechercher une fiche</h3>
+    <span class="float-right text-muted"><a
+                href="{{ path('bottin_fiche_search_advanced') }}">Recherche avancé</a></span>
 
     {% include '@AcMarcheBottin/search/_fiche.html.twig' %}
 
@@ -18,9 +16,7 @@
             <thead>
             <tr>
                 <th>Societe</th>
-                <th>Id</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
+                <th>Rue</th>
                 <th>Localité</th>
                 <th>Pmr</th>
                 <th>Midi</th>
@@ -37,13 +33,7 @@
                         </a>
                     </td>
                     <td>
-                        {{ fiche.id }}
-                    </td>
-                    <td>
-                        {{ fiche.latitude }}
-                    </td>
-                    <td>
-                        {{ fiche.longitude }}
+                        {{ fiche.rue }}
                     </td>
                     <td>
                         {{ fiche.localite }}

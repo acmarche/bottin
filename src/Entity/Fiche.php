@@ -21,7 +21,6 @@ use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -37,32 +36,31 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
-    use IdTrait,
-        UuidTrait,
-        LocationTrait,
-        SluggableTrait,
-        TimestampableTrait,
-        AdminTrait,
-        ClassementTrait,
-        ContactTrait,
-        DemandeTrait,
-        HoraireTrait,
-        ImageTrait,
-        DocumentsTrait,
-        InformationTrait,
-        SociauxTrait,
-        PdvTrait,
-        SituationsTrait,
-        TokenTrait,
-        EnabledTrait,
-        CapTrait,
-        EcommerceTrait;
+    use IdTrait;
+    use UuidTrait;
+    use LocationTrait;
+    use SluggableTrait;
+    use TimestampableTrait;
+    use AdminTrait;
+    use ClassementTrait;
+    use ContactTrait;
+    use DemandeTrait;
+    use HoraireTrait;
+    use ImageTrait;
+    use DocumentsTrait;
+    use InformationTrait;
+    use SociauxTrait;
+    use PdvTrait;
+    use SituationsTrait;
+    use TokenTrait;
+    use EnabledTrait;
+    use CapTrait;
+    use EcommerceTrait;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
-     *
      */
     protected $societe;
 
@@ -391,5 +389,4 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
         return $this;
     }
-
 }

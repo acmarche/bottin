@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Elastic\ElasticServer;
@@ -24,7 +23,7 @@ class SearchElastic implements SearchEngineInterface
     public $client;
 
     /**
-     * @var Search $search
+     * @var Search
      */
     private $search;
 
@@ -34,16 +33,14 @@ class SearchElastic implements SearchEngineInterface
     }
 
     /**
-     * @param string $keyword
-     * @return array
      * @throws BadRequest400Exception
      */
-    function doSearchForCap(string $keyword): array
+    public function doSearchForCap(string $keyword): array
     {
         $this->getInstance();
         $query = $this->createQueryForFiche($keyword);
 
-        $capFilter = new MatchQuery("cap", "true");
+        $capFilter = new MatchQuery('cap', 'true');
         $query->add($capFilter, BoolQuery::FILTER);
 
         $this->search->addQuery($query);
@@ -61,17 +58,13 @@ class SearchElastic implements SearchEngineInterface
         return $this->client->search($params);
     }
 
-    /**
-     * @param string $keyword
-     * @return BoolQuery
-     */
     protected function createQueryForFiche(string $keyword): BoolQuery
     {
         $societeMatch = new MatchQuery(
             'societe', $keyword,
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
-                "boost" => 1.2,
+                'boost' => 1.2,
                 //          "fuzziness" => "AUTO",//manda => mazda
             ]
         );
@@ -79,14 +72,13 @@ class SearchElastic implements SearchEngineInterface
         $societeStemmedMatch = new MatchQuery(
             'societe.stemmed', $keyword,
             [
-                "boost" => 1.1,
+                'boost' => 1.1,
             ]
         );
 
         $societeNgramMatch = new MatchQuery(
             'societe.ngram', $keyword,
             [
-
             ]
         );
 
@@ -100,7 +92,7 @@ class SearchElastic implements SearchEngineInterface
             $keyword
         );
 
-        $ficheFilter = new MatchQuery("type", "fiche");
+        $ficheFilter = new MatchQuery('type', 'fiche');
 
         $query = new BoolQuery();
         $query->add($societeMatch, BoolQuery::SHOULD);
@@ -114,13 +106,10 @@ class SearchElastic implements SearchEngineInterface
         return $query;
     }
 
-
     /**
-     * @param string $keyword
-     * @return array
      * @throws BadRequest400Exception
      */
-    function doSearch(string $keyword, ?string $localite): array
+    public function doSearch(string $keyword, ?string $localite): array
     {
         $this->getInstance();
         $query = $this->createQueryForFiche($keyword);
@@ -146,11 +135,9 @@ class SearchElastic implements SearchEngineInterface
     }
 
     /**
-     * @param string $keyword
-     * @return array
      * @throws BadRequest400Exception
      */
-    function doSearchAdvanced(string $keyword, ?string $localite): array
+    public function doSearchAdvanced(string $keyword, ?string $localite): array
     {
         $this->getInstance();
         $query = $this->createQueryForFiche($keyword);
@@ -221,19 +208,19 @@ class SearchElastic implements SearchEngineInterface
     protected function laura(string $keyword)
     {
         /**
-         * search
+         * search.
          */
         $latitude = 50.2268;
         $longitude = 5.3442;
         $query = [
-            "bool" => [
-                "must" => [
-                    "multi_match" => [
-                        "query" => $keyword,
-                        "fuzziness" => "AUTO",
-                        "fields" => [
-                            "societe",
-                            "societe.stemmed",
+            'bool' => [
+                'must' => [
+                    'multi_match' => [
+                        'query' => $keyword,
+                        'fuzziness' => 'AUTO',
+                        'fields' => [
+                            'societe',
+                            'societe.stemmed',
                         ],
                     ],
                 ],
@@ -251,46 +238,46 @@ class SearchElastic implements SearchEngineInterface
             'body' => [
                 'profile' => 'true',
                 'query' => $query,
-                "aggs" => [
-                    "centreville" => [
-                        "terms" => [
-                            "field" => "centreville",
+                'aggs' => [
+                    'centreville' => [
+                        'terms' => [
+                            'field' => 'centreville',
                         ],
                     ],
-                    "localite" => [
-                        "terms" => [
-                            "field" => "localite",
+                    'localite' => [
+                        'terms' => [
+                            'field' => 'localite',
                         ],
                     ],
-                    "pmr" => [
-                        "terms" => [
-                            "field" => "pmr",
+                    'pmr' => [
+                        'terms' => [
+                            'field' => 'pmr',
                         ],
                     ],
-                    "midi" => [
-                        "terms" => [
-                            "field" => "midi",
+                    'midi' => [
+                        'terms' => [
+                            'field' => 'midi',
                         ],
                     ],
                 ],
-                "suggest" => [
-                    "text" => $keyword,
-                    "societe_suggest" => [
-                        "phrase" => [
-                            "field" => "societe",
-                            "size" => 1,
-                            "gram_size" => 3,
-                            "direct_generator" => [
+                'suggest' => [
+                    'text' => $keyword,
+                    'societe_suggest' => [
+                        'phrase' => [
+                            'field' => 'societe',
+                            'size' => 1,
+                            'gram_size' => 3,
+                            'direct_generator' => [
                                 [
-                                    "field" => "societe",
-                                    "suggest_mode" => "always",
+                                    'field' => 'societe',
+                                    'suggest_mode' => 'always',
                                     //"pre_filter" => "reverse",
                                     //"post_filter" => "reverse"
                                 ],
                             ],
-                            "highlight" => [
-                                "pre_tag" => "<em>",
-                                "post_tag" => "</em>",
+                            'highlight' => [
+                                'pre_tag' => '<em>',
+                                'post_tag' => '</em>',
                             ],
                         ],
                     ],
@@ -304,13 +291,12 @@ class SearchElastic implements SearchEngineInterface
         $this->search = new Search();
     }
 
-    function renderResult(): array
+    public function renderResult(): array
     {
         // TODO: Implement renderResult() method.
     }
 
     /**
-     * @param array $hits
      * @return Fiche[]
      */
     public function getFiches(array $hits): array
@@ -322,5 +308,4 @@ class SearchElastic implements SearchEngineInterface
 
         return $fiches;
     }
-
 }

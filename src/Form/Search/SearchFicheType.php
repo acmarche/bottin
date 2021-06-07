@@ -38,17 +38,6 @@ class SearchFicheType extends AbstractType
                         'autocomplete' => 'off',
                     ],
                 ]
-            )
-            ->add(
-                'raz',
-                SubmitType::class,
-                [
-                    'label' => 'Raz',
-                    'attr' => [
-                        'class' => 'btn-sm btn-success',
-                        'title' => 'Raz search',
-                    ],
-                ]
             );
     }
 

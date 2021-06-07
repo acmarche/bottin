@@ -3,10 +3,10 @@
 namespace AcMarche\Bottin\Form\Search;
 
 use AcMarche\Bottin\Repository\CategoryRepository;
+use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,14 +22,11 @@ class SearchCategoryType extends AbstractType
         $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $categories = [];
         $roots = $this->categoryRepository->getRootNodes();
+        $roots = SortUtils::sortCategories($roots);
         foreach ($roots as $root) {
             $categories[$root->getName()] = $root->getId();
         }
@@ -53,23 +50,9 @@ class SearchCategoryType extends AbstractType
                         'placeholder' => 'Nom',
                     ],
                 ]
-            )
-            ->add(
-                'raz',
-                SubmitType::class,
-                [
-                    'label' => 'Raz',
-                    'attr' => [
-                        'class' => 'btn-sm btn-success',
-                        'title' => 'Raz search',
-                    ],
-                ]
             );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([]);

@@ -99,12 +99,6 @@ class FicheController extends AbstractController
             $args = $search_form->getData();
             $session->set('fiche_search', json_encode($args));
 
-            if ($search_form->get('raz')->isClicked()) {
-                $session->remove('fiche_search');
-                $this->addFlash('info', 'La recherche a bien été réinitialisée.');
-
-                return $this->redirectToRoute('bottin_fiche_index');
-            }
             try {
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
                 $fiches = $this->searchEngine->getFiches($response);
@@ -148,12 +142,6 @@ class FicheController extends AbstractController
             $args = $search_form->getData();
             $session->set('fiche_search', json_encode($args));
 
-            if ($search_form->get('raz')->isClicked()) {
-                $session->remove('fiche_search');
-                $this->addFlash('info', 'La recherche a bien été réinitialisée.');
-
-                return $this->redirectToRoute('bottin_fiche_index');
-            }
             try {
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
