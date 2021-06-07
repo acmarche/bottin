@@ -14,23 +14,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class HoraireRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Horaire::class);
+        parent::__construct($managerRegistry, Horaire::class);
     }
 
-    public function insert(Horaire $horaire)
+    public function insert(Horaire $horaire): void
     {
         $this->persist($horaire);
         $this->flush();
     }
 
-    public function persist(Horaire $horaire)
+    public function persist(Horaire $horaire): void
     {
         $this->_em->persist($horaire);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

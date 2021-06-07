@@ -10,39 +10,21 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class StreetView
 {
-    /**
-     * @var string
-     */
-    private $baseUrl;
-    /**
-     * @var \Symfony\Contracts\HttpClient\HttpClientInterface
-     */
-    private $client;
-    /**
-     * @var string
-     */
-    private $size;
+    private string $baseUrl;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private string $size;
     /**
      * @var ?int
      */
     private $heading;
-    /**
-     * @var int
-     */
-    private $fov;
-    /**
-     * @var int
-     */
-    private $pitch;
-    /**
-     * @var string
-     */
-    private $key;
+    private int $fov;
+    private int $pitch;
+    private string $key;
 
     public function __construct(string $apiKeyGoogle)
     {
         $this->baseUrl = "https://maps.googleapis.com/maps/api/streetview";
-        $this->client = HttpClient::create();
+        $this->httpClient = HttpClient::create();
         $this->size = "1024x768";
         $this->heading = null; //0 => 360 90 =>EST, 180 => SUD
         $this->fov = 90; //zoom 1 => 120
@@ -65,7 +47,7 @@ class StreetView
         }
 
         try {
-            $request = $this->client->request(
+            $request = $this->httpClient->request(
                 'GET',
                 $this->baseUrl,
                 [
@@ -88,7 +70,7 @@ class StreetView
         }
     }
 
-    protected function createError(string $message)
+    protected function createError(string $message): array
     {
         return ['error' => true, 'message' => $message];
     }

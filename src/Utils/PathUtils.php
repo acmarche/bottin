@@ -29,7 +29,7 @@ class PathUtils
     {
         $path = [];
         $parent = $category->getParent();
-        if ($parent) {
+        if ($parent !== null) {
             $path[] = $parent;
             $path = array_merge(self::getFullPath($parent), $path);
         }
@@ -41,7 +41,7 @@ class PathUtils
      * @param array $classements
      * @return Classement[]
      */
-    public function setPathForClassements(array $classements)
+    public function setPathForClassements(array $classements): array
     {
         foreach ($classements as $classementFiche) {
             $category = $classementFiche->getCategory();

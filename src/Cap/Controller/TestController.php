@@ -20,14 +20,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class TestController extends AbstractController
 {
-    /**
-     * @var HttpClientInterface
-     */
-    private $httpClient;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository)
     {
@@ -160,9 +154,9 @@ class TestController extends AbstractController
                 'body' => $fields,
             ]
         );
-        $result = $request->getContent();
+        $content = $request->getContent();
 
-        return $this->render('@AcMarcheBottin/test/update_fiche.html.twig', ['result' => $result]);
+        return $this->render('@AcMarcheBottin/test/update_fiche.html.twig', ['result' => $content]);
     }
 
     /**

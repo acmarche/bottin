@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, User::class);
+        parent::__construct($managerRegistry, User::class);
     }
 
     public function findByEmailOrUsername(string $value): ?User
@@ -45,18 +45,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function persist(User $user)
+    public function persist(User $user): void
     {
         $this->getEntityManager()->persist($user);
     }
 
-    public function insert(User $user)
+    public function insert(User $user): void
     {
         $this->persist($user);
         $this->flush();
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->getEntityManager()->flush();
     }

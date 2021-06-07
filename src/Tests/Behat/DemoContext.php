@@ -17,14 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 final class DemoContext implements Context
 {
-    /**
-     * @var Response|null
-     */
-    private $response;
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
+    private ?\Symfony\Component\HttpFoundation\Response $response;
+    private \Symfony\Component\HttpFoundation\RequestStack $requestStack;
 
     public function __construct(RequestStack $requestStack)
     {
@@ -36,8 +30,8 @@ final class DemoContext implements Context
      */
     public function theResponseHeaderExists($arg1): void
     {
-        $headers = $this->requestStack->getMasterRequest();
-        var_dump($headers);
+        $request = $this->requestStack->getMasterRequest();
+        var_dump($request);
 
         if (null === $this->response) {
             throw new \RuntimeException('No response received');

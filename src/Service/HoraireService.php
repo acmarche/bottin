@@ -15,22 +15,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class HoraireService
 {
-    /**
-     * @var HoraireRepository
-     */
-    private $horaireRepository;
+    public \Doctrine\Common\Collections\ArrayCollection $horaires;
+    private \AcMarche\Bottin\Repository\HoraireRepository $horaireRepository;
 
     public function __construct(HoraireRepository $horaireRepository)
     {
         $this->horaireRepository = $horaireRepository;
     }
 
-    public function getAllDays()
+    public function getAllDays(): array
     {
         return [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7];
     }
 
-    public function initHoraires(Fiche $fiche)
+    public function initHoraires(Fiche $fiche): void
     {
         $allDays = $this->getAllDays();
         $horairesOld = $fiche->getHoraires();
@@ -68,7 +66,7 @@ class HoraireService
      * @param Fiche $fiche
      * @param Horaire[] $horaires
      */
-    public function handleEdit(Fiche $fiche, iterable $horaires)
+    public function handleEdit(Fiche $fiche, iterable $horaires): void
     {
         foreach ($horaires as $horaire) {
             if ($horaire->isEmpty()) {

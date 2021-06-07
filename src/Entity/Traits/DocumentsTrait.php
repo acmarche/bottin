@@ -12,7 +12,7 @@ trait DocumentsTrait
      * @var Document[]|Collection|iterable
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Document", mappedBy="fiche", cascade={"persist", "remove"})
      */
-    private array $documents;
+    private iterable $documents;
 
     /**
      * @return Collection|Document[]

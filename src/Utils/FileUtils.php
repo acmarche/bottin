@@ -7,10 +7,7 @@ use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class FileUtils
 {
-    /**
-     * @var FileLocator
-     */
-    private $fileLocator;
+    private \Symfony\Component\HttpKernel\Config\FileLocator $fileLocator;
 
     public function __construct(FileLocator $fileLocator)
     {
@@ -37,7 +34,7 @@ class FileUtils
         return $content;
     }
 
-    public function jsonDecode()
+    public function jsonDecode(): void
     {
 
     }

@@ -18,6 +18,7 @@ use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,34 +31,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FicheController extends AbstractController
 {
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var HoraireService
-     */
-    private $horaireService;
-    /**
-     * @var AggregationUtils
-     */
-    private $aggregationUtils;
-    /**
-     * @var SuggestUtils
-     */
-    private $suggestUtils;
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
-    /**
-     * @var SearchEngineInterface
-     */
-    private $searchEngine;
+    private FicheRepository $ficheRepository;
+    private HoraireService $horaireService;
+    private AggregationUtils $aggregationUtils;
+    private SuggestUtils $suggestUtils;
+    private ClassementRepository $classementRepository;
+    private PathUtils $pathUtils;
+    private SearchEngineInterface $searchEngine;
 
     public function __construct(
         PathUtils $pathUtils,
@@ -82,7 +62,7 @@ class FicheController extends AbstractController
      *
      * @Route("/", name="bottin_fiche_index", methods={"GET"})
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $session = $request->getSession();
         $args = $hits = $response = $fiches = [];
@@ -91,12 +71,12 @@ class FicheController extends AbstractController
             $args = json_decode($session->get('fiche_search'), true);
         }
 
-        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
+        $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
 
-        $search_form->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($search_form->isSubmitted() && $search_form->isValid()) {
-            $args = $search_form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $args = $form->getData();
             $session->set('fiche_search', json_encode($args));
 
             try {
@@ -110,7 +90,7 @@ class FicheController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/fiche/index.html.twig',
             [
-                'search_form' => $search_form->createView(),
+                'search_form' => $form->createView(),
                 'fiches' => $fiches,
             ]
         );
@@ -122,7 +102,7 @@ class FicheController extends AbstractController
      * @Route("/searchadvanced", name="bottin_fiche_search_advanced", methods={"GET"})
      * @Route("/searchadvanced/{keyword}", name="bottin_fiche_search", methods={"GET"})
      */
-    public function search(Request $request, ?string $keyword)
+    public function search(Request $request, ?string $keyword): Response
     {
         $session = $request->getSession();
         $args = $hits = $suggest = $response = [];
@@ -134,12 +114,12 @@ class FicheController extends AbstractController
         if ($keyword) {
             $args['nom'] = $keyword;
         }
-        $search_form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
+        $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
 
-        $search_form->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($search_form->isSubmitted() && $search_form->isValid()) {
-            $args = $search_form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $args = $form->getData();
             $session->set('fiche_search', json_encode($args));
 
             try {
@@ -153,7 +133,7 @@ class FicheController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/fiche/search.html.twig',
             [
-                'search_form' => $search_form->createView(),
+                'search_form' => $form->createView(),
                 'hits' => $hits,
                 'localites' => $this->aggregationUtils->getLocalites($response),
                 'pmr' => $this->aggregationUtils->countPmr($response),
@@ -171,7 +151,7 @@ class FicheController extends AbstractController
      *
      * @throws \Exception
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $fiche = new Fiche();
         $fiche->setCp($this->getParameter('bottin.cp_default'));
@@ -204,7 +184,7 @@ class FicheController extends AbstractController
      *
      * @Route("/{id}", name="bottin_fiche_show", methods={"GET"})
      */
-    public function show(Fiche $fiche)
+    public function show(Fiche $fiche): Response
     {
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
@@ -223,7 +203,7 @@ class FicheController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_fiche_edit", methods={"GET", "POST"})
      */
-    public function edit(Fiche $fiche, Request $request)
+    public function edit(Fiche $fiche, Request $request): Response
     {
         if ($fiche->getFtlb()) {
             $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
@@ -264,7 +244,7 @@ class FicheController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_fiche_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Fiche $fiche): Response
+    public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new FicheDeleted($fiche->getId()));

@@ -11,7 +11,7 @@ class SortUtils
      *
      * @return Fiche[]
      */
-    public static function sortFiche($fiches)
+    public static function sortFiche($fiches): array
     {
         usort(
             $fiches,
@@ -34,7 +34,7 @@ class SortUtils
      *
      * @return \AcMarche\Bottin\Entity\Category[]
      */
-    public static function sortCategories(array $categories)
+    public static function sortCategories(array $categories): array
     {
         usort(
             $categories,

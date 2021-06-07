@@ -19,37 +19,37 @@ class CategoryRepository extends ServiceEntityRepository
 {
     use TreeTrait;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($managerRegistry, Category::class);
     }
 
     /**
      * @return Category[]
      */
-    public function search(?string $name = null, ?Category $parent = null)
+    public function search(?string $name = null, ?Category $category = null): array
     {
-        $qb = $this->createQueryBuilder('category');
+        $queryBuilder = $this->createQueryBuilder('category');
 
         if ($name) {
-            $qb->andWhere('category.name LIKE :nom')
+            $queryBuilder->andWhere('category.name LIKE :nom')
                 ->setParameter('nom', '%'.$name.'%');
         }
 
-        if ($parent) {
-            $qb->andWhere('category.parent = :root')
-                ->setParameter('root', $parent);
+        if ($category) {
+            $queryBuilder->andWhere('category.parent = :root')
+                ->setParameter('root', $category);
         }
 
-        $qb->orderBy('category.name', 'ASC');
+        $queryBuilder->orderBy('category.name', 'ASC');
 
-        return $qb->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @return Category[]
      */
-    public function getAllTree()
+    public function getAllTree(): array
     {
         $categories = [];
         foreach ($this->getRootNodes() as $rootNode) {
@@ -73,7 +73,7 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @return Category[]
      */
-    public function getDirectChilds(int $parentId)
+    public function getDirectChilds(int $parentId): array
     {
         return $this->createQueryBuilder('category')
             ->andWhere('category.parent = :categorie')
@@ -92,9 +92,7 @@ class CategoryRepository extends ServiceEntityRepository
             $enfants = [];
             $enfantsTmp = $this->getDirectChilds($id);
 
-            foreach ($enfantsTmp as $enfant) {
-                $enfants[] = $enfant;
-            }
+            $enfants = $enfantsTmp;
             /*
              * ajout de pharmacie dans branche eco => sante
              */
@@ -110,9 +108,9 @@ class CategoryRepository extends ServiceEntityRepository
         /**
          * ajout des professions liberales.
          */
-        $liberales = $this->find(Cap::idLiberales);
-        $liberales->setEnfants($this->getDirectChilds(Cap::idLiberales));
-        $rubriques[] = $liberales;
+        $category = $this->find(Cap::idLiberales);
+        $category->setEnfants($this->getDirectChilds(Cap::idLiberales));
+        $rubriques[] = $category;
 
         return $rubriques;
     }
@@ -121,21 +119,21 @@ class CategoryRepository extends ServiceEntityRepository
      * Manipulates the flat tree query builder before executing it.
      * Override this method to customize the tree query.
      */
-    protected function addFlatTreeConditions(QueryBuilder $queryBuilder, array $extraParams): void
+    protected function addFlatTreeConditions(): void
     {
     }
 
-    public function persist(Category $category)
+    public function persist(Category $category): void
     {
         $this->_em->persist($category);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }
 
-    public function remove(Category $category)
+    public function remove(Category $category): void
     {
         $this->_em->remove($category);
     }

@@ -10,10 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class FicheSerializer
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private \Symfony\Component\Serializer\SerializerInterface $serializer;
 
     public function __construct(SerializerInterface $serializer)
     {

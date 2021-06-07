@@ -14,41 +14,38 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PdvRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Pdv::class);
+        parent::__construct($managerRegistry, Pdv::class);
     }
 
     /**
      * @return Pdv[]
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->findBy([], ['intitule' => 'ASC']);
     }
 
-    /**
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    public function getForList()
+    public function getForList(): \Doctrine\ORM\QueryBuilder
     {
-        $qb = $this->createQueryBuilder('p');
-        $qb->orderBy('p.intitule');
+        $queryBuilder = $this->createQueryBuilder('p');
+        $queryBuilder->orderBy('p.intitule');
 
-        return $qb;
+        return $queryBuilder;
     }
 
-    public function persist(Pdv $pdv)
+    public function persist(Pdv $pdv): void
     {
         $this->_em->persist($pdv);
     }
 
-    public function remove(Pdv $pdv)
+    public function remove(Pdv $pdv): void
     {
         $this->_em->remove($pdv);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

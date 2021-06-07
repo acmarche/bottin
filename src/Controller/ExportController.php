@@ -2,14 +2,10 @@
 
 namespace AcMarche\Bottin\Controller;
 
-use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Form\SelectCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
-use AcMarche\Bottin\Service\CategoryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,25 +17,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ExportController extends AbstractController
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
+    private CategoryRepository $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, CategoryService $categoryService)
+    public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
-        $this->categoryService = $categoryService;
     }
 
     /**
      * @Route("/", name="bottin_export_select", methods={"GET"})
      */
-    public function categoryXls(Category $category = null): Response
+    public function categoryXls(): Response
     {
         $form = $this->createForm(SelectCategoryType::class);
         $categories = $this->categoryRepository->getRootNodes();
@@ -56,9 +44,7 @@ class ExportController extends AbstractController
     /**
      * @Route("/add/{id}", name="bottin_export_add", methods={"POST"})
      */
-    public function delete(Request $request)
+    public function delete(): void
     {
-
-
     }
 }

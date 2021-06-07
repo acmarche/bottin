@@ -11,17 +11,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UtilisateurEditType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $roles = Bottin::ROLES;
-        $builder
-            ->remove("plainPassword")
+        $formBuilder
+            ->remove('plainPassword')
             ->add(
-                "roles",
+                'roles',
                 ChoiceType::class,
                 [
                     'choices' => array_combine($roles, $roles),
@@ -31,20 +27,17 @@ class UtilisateurEditType extends AbstractType
             );
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return UtilisateurType::class;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $resolver->setDefaults(
-            array(
+        $optionsResolver->setDefaults(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

@@ -56,7 +56,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     /**
      * @ORM\OneToMany(targetEntity="Classement", mappedBy="category", cascade={"remove"})
      */
-    protected ArrayCollection $classements;
+    protected iterable $classements;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
@@ -74,8 +74,11 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
      */
     protected array $path;
 
+    private ArrayCollection $children;
+
     public function __construct()
     {
+        $this->logo = null;
         $this->children = new ArrayCollection();
         $this->classements = new ArrayCollection();
     }

@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Fiche\Message;
 
 final class FicheDeleted
 {
-    private $ficheId;
+    private int $ficheId;
 
     public function __construct(int $ficheId)
     {

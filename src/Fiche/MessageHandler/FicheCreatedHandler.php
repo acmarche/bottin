@@ -13,19 +13,10 @@ use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 class FicheCreatedHandler implements MessageSubscriberInterface
 {
-    private $ficheRepository;
-    /**
-     * @var FlashBagInterface
-     */
-    private $flashBag;
-    /**
-     * @var ElasticServer
-     */
-    private $elasticServer;
-    /**
-     * @var LocationUpdater
-     */
-    private $locationUpdater;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
+    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,
@@ -39,7 +30,7 @@ class FicheCreatedHandler implements MessageSubscriberInterface
         $this->locationUpdater = $locationUpdater;
     }
 
-    public function __invoke(FicheCreated $ficheCreated)
+    public function __invoke(FicheCreated $ficheCreated): void
     {
         $fiche = $this->ficheRepository->find($ficheCreated->getFicheId());
         $this->setLocation($fiche);
@@ -47,12 +38,12 @@ class FicheCreatedHandler implements MessageSubscriberInterface
         $this->ficheRepository->flush();
     }
 
-    private function updateFiche(Fiche $fiche)
+    private function updateFiche(Fiche $fiche): void
     {
         $this->elasticServer->updateFiche($fiche);
     }
 
-    private function setLocation(Fiche $fiche)
+    private function setLocation(Fiche $fiche): void
     {
         try {
             $this->locationUpdater->convertAddressToCoordinates($fiche);

@@ -14,28 +14,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DocumentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Document::class);
+        parent::__construct($managerRegistry, Document::class);
     }
 
-    public function insert(Document $document)
+    public function insert(Document $document): void
     {
         $this->persist($document);
         $this->flush();
     }
 
-    public function persist(Document $document)
+    public function persist(Document $document): void
     {
         $this->_em->persist($document);
     }
 
-    public function remove(Document $document)
+    public function remove(Document $document): void
     {
         $this->_em->remove($document);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

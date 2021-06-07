@@ -9,14 +9,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class HoraireSerializer
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct()
     {
-        $this->serializer = $serializer;
     }
 
     public function serializeHoraireForApi(Horaire $horaire): array

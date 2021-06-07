@@ -6,19 +6,14 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
 
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var \AcMarche\Bottin\Repository\CategoryRepository
-     */
-    private $categoryRepository;
+    private FicheRepository $ficheRepository;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(
         FicheRepository $ficheRepository,
@@ -31,7 +26,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="bottin_home")
      */
-    public function index()
+    public function index(): Response
     {
         $categories = $this->categoryRepository->getRootNodes();
         $categories = SortUtils::sortCategories($categories);
@@ -50,7 +45,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/uuid", name="bottin_uuid")
      */
-    public function uuid()
+    public function uuid(): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
         foreach ($fiches as $fiche) {

@@ -9,10 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class PropertyUtil
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private \Doctrine\ORM\EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {

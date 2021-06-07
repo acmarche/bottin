@@ -9,18 +9,16 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Categorie
 {
     /**
-     * @var string
      * @SerializedName("@id")
      */
-    public $id;
+    public string $id;
     /**
-     * @var int
      * @SerializedName("@tri")
      */
-    public $tri;
+    public int $tri;
     /**
      * @var Titre[]
      */
-    public $lib;
+    public array $lib;
 
 }

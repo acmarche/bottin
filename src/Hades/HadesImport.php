@@ -9,22 +9,14 @@ use AcMarche\Bottin\Hades\Entity\OffreInterface;
 
 class HadesImport
 {
-    /**
-     * @var HadesFactory
-     */
-    private $hadesFactory;
-    /**
-     * @var HadesParser
-     */
-    private $hadesParser;
+    private \AcMarche\Bottin\Hades\HadesFactory $hadesFactory;
 
-    public function __construct(HadesFactory $hadesFactory, HadesParser $hadesParser)
+    public function __construct(HadesFactory $hadesFactory)
     {
         $this->hadesFactory = $hadesFactory;
-        $this->hadesParser = $hadesParser;
     }
 
-    public function treatment(OffreInterface $offre, Category $category)
+    public function treatment(OffreInterface $offre, Category $category): void
     {
         $fiche = $this->hadesFactory->createFiche($offre);
         $this->hadesFactory->setClassement($fiche, $category);

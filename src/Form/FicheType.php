@@ -24,12 +24,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FicheType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
+     * @param FormBuilderInterface $formBuilder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $builder
+        $formBuilder
             ->add('societe', TextType::class)
             ->add(
                 'adresse',
@@ -407,7 +407,7 @@ class FicheType extends AbstractType
                 ]
             );
 
-        $builder->addEventListener(
+        $formBuilder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
                 $fiche = $event->getData();
@@ -427,11 +427,11 @@ class FicheType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolver $optionsResolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $resolver->setDefaults(
+        $optionsResolver->setDefaults(
             [
                 'data_class' => Fiche::class,
             ]

@@ -17,23 +17,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ElasticCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'bottin:elastic';
-    /**
-     * @var ElasticServer
-     */
-    private $elasticServer;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
+    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private ?\Symfony\Component\Console\Style\SymfonyStyle $symfonyStyle;
 
     public function __construct(
         Client $client,
@@ -48,7 +39,7 @@ class ElasticCommand extends Command
         $this->categoryRepository = $categoryRepository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Manipule l\'index du bottin')
@@ -59,7 +50,7 @@ class ElasticCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $this->symfonyStyle = new SymfonyStyle($input, $output);
 
         if ($input->getOption('raz')) {
             $this->elasticServer->razIndex();
@@ -77,29 +68,29 @@ class ElasticCommand extends Command
         return 0;
     }
 
-    private function updateFiches()
+    private function updateFiches(): void
     {
         foreach ($this->ficheRepository->findAll() as $fiche) {
             $result = $this->elasticServer->updateFiche($fiche);
             if ($result['_shards']['successful'] == 1) {
-                $this->io->success($fiche->getSociete().': '.$result['result']);
+                $this->symfonyStyle->success($fiche->getSociete().': '.$result['result']);
             }
             if ($result['_shards']['failed'] == 1) {
-                $this->io->error($fiche->getSociete());
-                $this->io->error(var_export($result));
+                $this->symfonyStyle->error($fiche->getSociete());
+                $this->symfonyStyle->error(var_export($result));
             }
         }
     }
 
-    private function updateCategories()
+    private function updateCategories(): void
     {
         foreach ($this->categoryRepository->findAll() as $category) {
             $result = $this->elasticServer->updateCategorie($category);
             if ($result['_shards']['successful'] == 1) {
-                $this->io->success($category->getName().': '.$result['result']);
+                $this->symfonyStyle->success($category->getName().': '.$result['result']);
             }
             if ($result['_shards']['failed'] == 1) {
-                $this->io->error(var_export($result));
+                $this->symfonyStyle->error(var_export($result));
             }
         }
     }

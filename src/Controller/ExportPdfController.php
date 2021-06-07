@@ -21,22 +21,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ExportPdfController extends AbstractController
 {
-    /**
-     * @var Pdf
-     */
-    private $pdf;
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
+    private Pdf $pdf;
+    private CategoryService $categoryService;
+    private ClassementRepository $classementRepository;
+    private PathUtils $pathUtils;
 
     public function __construct(
         CategoryService $categoryService,
@@ -53,7 +41,7 @@ class ExportPdfController extends AbstractController
     /**
      * @Route("/fiche/{id}", name="bottin_export_fiche_pdf", methods={"GET"})
      */
-    public function fichePdf(Fiche $fiche)
+    public function fichePdf(Fiche $fiche): PdfResponse
     {
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
@@ -77,7 +65,7 @@ class ExportPdfController extends AbstractController
     /**
      * @Route("/category/{category}", name="bottin_export_fiches_by_category_pdf", methods={"GET"})
      */
-    public function fichesPdf(Category $category)
+    public function fichesPdf(Category $category): PdfResponse
     {
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
 

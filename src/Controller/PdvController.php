@@ -7,6 +7,7 @@ use AcMarche\Bottin\Form\PdvType;
 use AcMarche\Bottin\Repository\PdvRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PdvController extends AbstractController
 {
-    /**
-     * @var PdvRepository
-     */
-    private $pdvRepository;
+    private PdvRepository $pdvRepository;
 
     public function __construct(PdvRepository $pdvRepository)
     {
@@ -34,7 +32,7 @@ class PdvController extends AbstractController
      *
      * @Route("/", name="bottin_pdv", methods={"GET"})
      */
-    public function index()
+    public function index(): Response
     {
         $pdvs = $this->pdvRepository->findAll();
 
@@ -51,7 +49,7 @@ class PdvController extends AbstractController
      *
      * @Route("/new", name="bottin_pdv_new", methods={"GET", "POST"})
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $pdv = new Pdv();
 
@@ -82,7 +80,7 @@ class PdvController extends AbstractController
      *
      * @Route("/{id}", name="bottin_pdv_show", methods={"GET"})
      */
-    public function show(Pdv $pdv)
+    public function show(Pdv $pdv): Response
     {
         $fiches = $pdv->getFiches();
 
@@ -100,7 +98,7 @@ class PdvController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_pdv_edit", methods={"GET", "POST"})
      */
-    public function edit(Pdv $pdv, Request $request)
+    public function edit(Pdv $pdv, Request $request): Response
     {
         $editForm = $this->createForm(PdvType::class, $pdv);
 
@@ -125,15 +123,14 @@ class PdvController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_pdv_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Pdv $pdv): Response
+    public function delete(Request $request, Pdv $pdv): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $pdv->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$pdv->getId(), $request->request->get('_token'))) {
             $this->pdvRepository->remove($pdv);
             $this->pdvRepository->flush();
-            $this->addFlash('success', "Le point de vente a bien été supprimé");
+            $this->addFlash('success', 'Le point de vente a bien été supprimé');
         }
 
         return $this->redirectToRoute('bottin_pdv');
     }
-
 }

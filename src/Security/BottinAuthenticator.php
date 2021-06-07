@@ -33,36 +33,33 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
 {
     use TargetPathTrait;
 
-    private $entityManager;
-    private $urlGenerator;
-    private $csrfTokenManager;
-    private $passwordEncoder;
-    /**
-     * @var StaffLdap
-     */
-    private $staffLdap;
+    private EntityManagerInterface $entityManager;
+    private UrlGeneratorInterface $urlGenerator;
+    private CsrfTokenManagerInterface $csrfTokenManager;
+    private UserPasswordEncoderInterface $passwordEncoder;
+    private StaffLdap $staffLdap;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
         CsrfTokenManagerInterface $csrfTokenManager,
-        UserPasswordEncoderInterface $passwordEncoder,
+        UserPasswordEncoderInterface $userPasswordEncoder,
         StaffLdap $staffLdap
     ) {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->passwordEncoder = $userPasswordEncoder;
         $this->staffLdap = $staffLdap;
     }
 
-    public function supports(Request $request)
+    public function supports(Request $request): bool
     {
         return 'app_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
-    public function getCredentials(Request $request)
+    public function getCredentials(Request $request): array
     {
         $credentials = [
             'email' => $request->request->get('username'),
@@ -79,8 +76,8 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
+        $csrfToken = new CsrfToken('authenticate', $credentials['csrf_token']);
+        if (!$this->csrfTokenManager->isTokenValid($csrfToken)) {
             throw new InvalidCsrfTokenException();
         }
 
@@ -94,7 +91,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return $user;
     }
 
-    public function checkCredentials($credentials, UserInterface $user)
+    public function checkCredentials($credentials, UserInterface $user): bool
     {
         try {
             $entry = $this->staffLdap->getEntry($user->getUsername());
@@ -125,7 +122,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
@@ -134,7 +131,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return new RedirectResponse($this->urlGenerator->generate('bottin_home'));
     }
 
-    protected function getLoginUrl()
+    protected function getLoginUrl(): string
     {
         return $this->urlGenerator->generate('app_login');
     }

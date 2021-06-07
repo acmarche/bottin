@@ -14,9 +14,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FicheRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Fiche::class);
+        parent::__construct($managerRegistry, Fiche::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class FicheRepository extends ServiceEntityRepository
 
     public function searchByNameAndCity(string $name, ?string $localite): array
     {
-        $qb = $this->createQueryBuilder('fiche')
+        $queryBuilder = $this->createQueryBuilder('fiche')
             ->leftJoin('fiche.pdv', 'pdv', 'WITH')
             ->leftJoin('fiche.classements', 'classements', 'WITH')
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
@@ -55,8 +55,8 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.adresse', 'adresse', 'WITH')
             ->addSelect('pdv', 'classements', 'horaires', 'images', 'adresse');
 
-        if ($name) {
-            $qb->andWhere(
+        if ($name !== '') {
+            $queryBuilder->andWhere(
                 'fiche.societe LIKE :nom OR 
                 fiche.admin_email LIKE :nom OR 
                 fiche.email  LIKE :nom OR 
@@ -68,13 +68,13 @@ class FicheRepository extends ServiceEntityRepository
         }
 
         if ($localite) {
-            $qb->andWhere(
+            $queryBuilder->andWhere(
                 'fiche.localite = :localite OR (fiche.adresse IS NOT NULL AND adresse.localite = :localite) '
             )
                 ->setParameter('localite', $localite);
         }
 
-        return $qb->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -96,23 +96,23 @@ class FicheRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
-    public function insert(Fiche $fiche)
+    public function insert(Fiche $fiche): void
     {
         $this->persist($fiche);
         $this->flush();
     }
 
-    public function persist(Fiche $fiche)
+    public function persist(Fiche $fiche): void
     {
         $this->_em->persist($fiche);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }
 
-    public function remove(Fiche $fiche)
+    public function remove(Fiche $fiche): void
     {
         $this->_em->remove($fiche);
     }

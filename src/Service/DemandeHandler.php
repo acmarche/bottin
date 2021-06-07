@@ -12,22 +12,10 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class DemandeHandler
 {
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var DemandeRepository
-     */
-    private $demandeRepository;
-    /**
-     * @var DemandeMetaRepository
-     */
-    private $demandeMetaRepository;
-    /**
-     * @var MailerBottin
-     */
-    private $mailerBottin;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \AcMarche\Bottin\Repository\DemandeRepository $demandeRepository;
+    private \AcMarche\Bottin\Repository\DemandeMetaRepository $demandeMetaRepository;
+    private \AcMarche\Bottin\Service\MailerBottin $mailerBottin;
 
     public function __construct(
         FicheRepository $ficheRepository,
@@ -49,7 +37,7 @@ class DemandeHandler
         }
 
         $fiche = $this->ficheRepository->find($idFiche);
-        if (!$fiche) {
+        if ($fiche === null) {
             return ['error' => 404];
         }
 

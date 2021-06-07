@@ -10,18 +10,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class FixtureLoader
 {
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
+    private \Fidry\AliceDataFixtures\LoaderInterface $loader;
+    private \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
 
     public function __construct(
         CategoryRepository $categoryRepository,
@@ -53,11 +44,11 @@ final class FixtureLoader
         $this->insert();
     }
 
-    private function insert()
+    private function insert(): void
     {
-        $economie = $this->addRoot('Economie');
-        $commerce = $this->addChild($economie, 'Commerces');
-        $commerce->setParent($economie);
+        $category = $this->addRoot('Economie');
+        $commerce = $this->addChild($category, 'Commerces');
+        $commerce->setParent($category);
 
         $alimentation = $this->addChild($commerce, 'Alimentation');
         $alimentation->setParent($commerce);
@@ -79,22 +70,22 @@ final class FixtureLoader
 
     private function addRoot(string $name): Category
     {
-        $root = new Category();
-        $root->setName($name);
-        $this->categoryRepository->persist($root);
+        $category = new Category();
+        $category->setName($name);
+        $this->categoryRepository->persist($category);
         $this->categoryRepository->flush();
 
-        return $root;
+        return $category;
     }
 
-    private function addChild(Category $parent, string $name): Category
+    private function addChild(Category $category, string $name): Category
     {
         $child = new Category();
         $child->setName($name);
         $this->categoryRepository->persist($child);
         $this->categoryRepository->flush();
-        $child->setParent($parent);
-        $child->setChildNodeOf($parent);
+        $child->setParent($category);
+        $child->setChildNodeOf($category);
         $this->categoryRepository->flush();
 
         return $child;

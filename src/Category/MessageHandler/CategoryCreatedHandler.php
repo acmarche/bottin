@@ -8,10 +8,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CategoryCreatedHandler implements MessageHandlerInterface
 {
-    /**
-     * @var FlashBagInterface
-     */
-    private $flashBag;
+    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
 
     public function __construct(
         FlashBagInterface $flashBag
@@ -19,7 +16,7 @@ class CategoryCreatedHandler implements MessageHandlerInterface
         $this->flashBag = $flashBag;
     }
 
-    public function __invoke(CategoryCreated $categoryUpdated)
+    public function __invoke(CategoryCreated $categoryCreated): void
     {
         $this->flashBag->add(
             'success',

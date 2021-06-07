@@ -11,12 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 class ClassementType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
+     * @param FormBuilderInterface $formBuilder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $builder
+        $formBuilder
             ->add(
                 'name',
                 TelType::class,

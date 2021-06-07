@@ -14,22 +14,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SituationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Situation::class);
+        parent::__construct($managerRegistry, Situation::class);
     }
 
-    public function persist(Situation $situation)
+    public function persist(Situation $situation): void
     {
         $this->_em->persist($situation);
     }
 
-    public function remove(Situation $situation)
+    public function remove(Situation $situation): void
     {
         $this->_em->remove($situation);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

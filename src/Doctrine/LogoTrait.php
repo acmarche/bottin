@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AcMarche\Bottin\Doctrine;
-
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,39 +8,29 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 trait LogoTrait
 {
-
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="bottin_category_logo", fileNameProperty="logo")
-     *
      */
-    protected $logoFile;
+    protected ?File $logoFile;
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     *
-     * @var string
      */
-    protected $logo;
+    protected ?string $logo;
 
-    /**
-     * @param File|null $image
-     */
-    public function setLogoFile(File $image = null)
+    public function setLogoFile(File $file = null)
     {
-        $this->logoFile = $image;
-
-        if ($image) {
+        $this->logoFile = $file;
+        if ($file) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updated = new \DateTime('now');
         }
     }
 
-    /**
-     */
-    public function getLogoFile()
+    public function getLogoFile(): ?File
     {
         return $this->logoFile;
     }
@@ -50,40 +38,32 @@ trait LogoTrait
     /**
      * LOGO BLANC.
      */
-
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="bottin_category_logo", fileNameProperty="logo_blanc")
-     *
      */
-    protected $logoBlancFile;
-
+    protected ?File $logoBlancFile;
     /**
      * @ORM\Column(type="string", nullable=true)
      *
-     * @var string
      */
-    protected $logo_blanc;
-
+    protected ?string $logo_blanc;
 
     /**
-     * @param File|null $image
+     * @param \Symfony\Component\HttpFoundation\File\File|null $file
      */
-    public function setLogoBlancFile(File $image = null)
+    public function setLogoBlancFile(File $file = null)
     {
-        $this->logoBlancFile = $image;
-
-        if ($image) {
+        $this->logoBlancFile = $file;
+        if ($file) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updated = new \DateTime('now');
         }
     }
 
-    /**
-     */
-    public function getLogoBlancFile()
+    public function getLogoBlancFile(): ?File
     {
         return $this->logoBlancFile;
     }

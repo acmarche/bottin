@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,14 +27,8 @@ use Vich\UploaderBundle\Handler\UploadHandler;
  */
 class ImageController extends AbstractController
 {
-    /**
-     * @var UploadHandler
-     */
-    private $uploadHandler;
-    /**
-     * @var ImageRepository
-     */
-    private $imageRepository;
+    private UploadHandler $uploadHandler;
+    private ImageRepository $imageRepository;
 
     public function __construct(
         ImageRepository $imageRepository,
@@ -48,7 +43,7 @@ class ImageController extends AbstractController
      *
      * @Route("/new/{id}", name="bottin_image_new", methods={"GET", "POST"})
      */
-    public function new(Fiche $fiche)
+    public function new(Fiche $fiche): Response
     {
         $ficheImage = new FicheImage($fiche);
 
@@ -73,21 +68,21 @@ class ImageController extends AbstractController
      * @Route("/upload/{id}", name="bottin_image_upload")
      *
      */
-    public function upload(Request $request, Fiche $fiche)
+    public function upload(Request $request, Fiche $fiche): Response
     {
-        $image = new FicheImage($fiche);
+        $ficheImage = new FicheImage($fiche);
         /**
          * @var UploadedFile $file
          */
         $file = $request->files->get('file');
 
         $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
-        $image->setMime($file->getMimeType());
-        $image->setImageName($file->getClientOriginalName());
-        $image->setImage($file);
+        $ficheImage->setMime($file->getMimeType());
+        $ficheImage->setImageName($file->getClientOriginalName());
+        $ficheImage->setImage($file);
 
         try {
-            $this->uploadHandler->upload($image, 'image');
+            $this->uploadHandler->upload($ficheImage, 'image');
         } catch (\Exception $exception) {
             return $this->render(
                 '@AcMarcheBottin/upload/_response_fail.html.twig',
@@ -95,7 +90,7 @@ class ImageController extends AbstractController
             );
         }
 
-        $this->imageRepository->persist($image);
+        $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
 
         return $this->render('@AcMarcheBottin/upload/_response_ok.html.twig');
@@ -106,7 +101,7 @@ class ImageController extends AbstractController
      *
      * @Route("/{id}", name="bottin_image_show", methods={"GET"})
      */
-    public function show(FicheImage $ficheImage)
+    public function show(FicheImage $ficheImage): Response
     {
         return $this->render(
             '@AcMarcheBottin/image/show.html.twig',
@@ -120,7 +115,7 @@ class ImageController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_image_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, FicheImage $ficheImage): Response
+    public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {
         $fiche = $ficheImage->getFiche();
         if ($this->isCsrfTokenValid('delete'.$ficheImage->getId(), $request->request->get('_token'))) {

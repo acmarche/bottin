@@ -18,15 +18,9 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 final class SymfonyContext implements Context
 {
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
+    private \Symfony\Component\HttpKernel\KernelInterface $kernel;
 
-    /**
-     * @var Response|null
-     */
-    private $response;
+    private ?\Symfony\Component\HttpFoundation\Response $response;
 
     public function __construct(KernelInterface $kernel)
     {
@@ -55,12 +49,11 @@ final class SymfonyContext implements Context
     /**
      * Then I should see :arg1.
      */
-    public function iShouldSee($arg1): void
+    public function iShouldSee(): void
     {
         if (null === $this->response) {
             throw new RuntimeException('No response received');
         }
-
         if (! $this->response->isRedirection()) {
             throw new RuntimeException('Response is not redirect');
         }
@@ -69,7 +62,7 @@ final class SymfonyContext implements Context
     /**
      * When /^i am login with user "([^"]*)" and password "([^"]*)"$/.
      */
-    public function iAmLoginWithUserAndPassword($arg1, $arg2): void
+    public function iAmLoginWithUserAndPassword($arg1): void
     {
         if (null === $arg1) {
             throw new RuntimeException('No user received');

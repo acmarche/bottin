@@ -6,8 +6,5 @@ namespace AcMarche\Bottin\Hades\Entity;
 
 class Categories
 {
-    /**
-     * @var Categorie
-     */
-    public $categorie;
+    public \AcMarche\Bottin\Hades\Entity\Categorie $categorie;
 }

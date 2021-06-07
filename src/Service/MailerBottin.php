@@ -10,14 +10,8 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class MailerBottin
 {
-    /**
-     * @var FicheUtils
-     */
-    private $ficheUtils;
-    /**
-     * @var MailerInterface
-     */
-    private $mailer;
+    private FicheUtils $ficheUtils;
+    private MailerInterface $mailer;
 
     public function __construct(FicheUtils $ficheUtils, MailerInterface $mailer)
     {
@@ -30,7 +24,7 @@ class MailerBottin
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      * @throws \Exception
      */
-    public function sendMailConfirmDemande(Fiche $fiche)
+    public function sendMailConfirmDemande(Fiche $fiche): void
     {
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
 
@@ -38,8 +32,8 @@ class MailerBottin
             throw new \Exception('Aucun email n\'a été trouvé pour ce commerçant');
         }
 
-        $message = new TemplatedEmail();
-        $message
+        $templatedEmail = new TemplatedEmail();
+        $templatedEmail
             ->subject('Modification de vos coordonnées')
             ->from('adl@marche.be')
             ->to($emails[0])
@@ -47,7 +41,7 @@ class MailerBottin
             ->htmlTemplate('@AcMarcheBottin/demande/_mail.html.twig')
             ->context(['fiche' => $fiche]);
 
-        $this->mailer->send($message);
+        $this->mailer->send($templatedEmail);
     }
 
     /**
@@ -55,17 +49,17 @@ class MailerBottin
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      * @throws \Exception
      */
-    public function sendMailNewDemande(Fiche $fiche)
+    public function sendMailNewDemande(Fiche $fiche): void
     {
-        $message = new TemplatedEmail();
-        $message
+        $templatedEmail = new TemplatedEmail();
+        $templatedEmail
             ->subject('Cap: Une demande de modification de coordonnées')
             ->from('adl@marche.be')
             ->to('adl@marche.be')
             ->textTemplate('@AcMarcheBottin/mail/_new_demande.html.twig')
             ->context(['fiche' => $fiche]);
 
-        $this->mailer->send($message);
+        $this->mailer->send($templatedEmail);
     }
 
 }

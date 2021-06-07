@@ -4,11 +4,12 @@ namespace AcMarche\Bottin\Controller;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\LocalisationType;
-use AcMarche\Bottin\Form\MapType;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,12 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class MapController extends AbstractController
 {
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private FicheRepository $ficheRepository;
 
-    public function __construct( FicheRepository $ficheRepository)
+    public function __construct(FicheRepository $ficheRepository)
     {
         $this->ficheRepository = $ficheRepository;
     }
@@ -34,7 +32,7 @@ class MapController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_map_edit", methods={"GET", "POST"})
      */
-    public function edit(Fiche $fiche, Request $request)
+    public function edit(Fiche $fiche, Request $request): Response
     {
         if ($fiche->getFtlb()) {
             $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');

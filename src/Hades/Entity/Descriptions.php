@@ -9,5 +9,5 @@ class Descriptions
     /**
      * @var Description[]
      */
-    public $description;
+    public array $description;
 }

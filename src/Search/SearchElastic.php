@@ -17,15 +17,9 @@ use ONGR\ElasticsearchDSL\Suggest\Suggest;
 
 class SearchElastic implements SearchEngineInterface
 {
-    /**
-     * @var \Elasticsearch\Client
-     */
-    public $client;
+    public Client $client;
 
-    /**
-     * @var Search
-     */
-    private $search;
+    private ?Search $search;
 
     public function __construct(Client $client)
     {
@@ -38,18 +32,18 @@ class SearchElastic implements SearchEngineInterface
     public function doSearchForCap(string $keyword): array
     {
         $this->getInstance();
-        $query = $this->createQueryForFiche($keyword);
+        $boolQuery = $this->createQueryForFiche($keyword);
 
-        $capFilter = new MatchQuery('cap', 'true');
-        $query->add($capFilter, BoolQuery::FILTER);
+        $matchQuery = new MatchQuery('cap', 'true');
+        $boolQuery->add($matchQuery, BoolQuery::FILTER);
 
-        $this->search->addQuery($query);
+        $this->search->addQuery($boolQuery);
 
         //  $this->addAggregations();
 
         $params = [
             'index' => ElasticServer::INDEX_NAME,
-            'size' => 1000,
+            'size' => 1_000,
             'body' => $this->search->toArray(),
         ];
 
@@ -94,16 +88,16 @@ class SearchElastic implements SearchEngineInterface
 
         $ficheFilter = new MatchQuery('type', 'fiche');
 
-        $query = new BoolQuery();
-        $query->add($societeMatch, BoolQuery::SHOULD);
-        $query->add($societeStemmedMatch, BoolQuery::SHOULD);
-        $query->add($societeNgramMatch, BoolQuery::SHOULD);
-        $query->add($multiMatchQuery, BoolQuery::SHOULD);
-        $query->add($ficheFilter, BoolQuery::FILTER);
+        $boolQuery = new BoolQuery();
+        $boolQuery->add($societeMatch, BoolQuery::SHOULD);
+        $boolQuery->add($societeStemmedMatch, BoolQuery::SHOULD);
+        $boolQuery->add($societeNgramMatch, BoolQuery::SHOULD);
+        $boolQuery->add($multiMatchQuery, BoolQuery::SHOULD);
+        $boolQuery->add($ficheFilter, BoolQuery::FILTER);
 
-        $query->addParameter('minimum_should_match', 1);
+        $boolQuery->addParameter('minimum_should_match', 1);
 
-        return $query;
+        return $boolQuery;
     }
 
     /**
@@ -112,14 +106,14 @@ class SearchElastic implements SearchEngineInterface
     public function doSearch(string $keyword, ?string $localite): array
     {
         $this->getInstance();
-        $query = $this->createQueryForFiche($keyword);
+        $boolQuery = $this->createQueryForFiche($keyword);
 
         if ($localite) {
-            $localiteFilter = new MatchQuery('localite', $localite);
-            $query->add($localiteFilter, BoolQuery::FILTER);
+            $matchQuery = new MatchQuery('localite', $localite);
+            $boolQuery->add($matchQuery, BoolQuery::FILTER);
         }
 
-        $this->search->addQuery($query);
+        $this->search->addQuery($boolQuery);
 
         //  $this->addAggregations();
 
@@ -140,14 +134,14 @@ class SearchElastic implements SearchEngineInterface
     public function doSearchAdvanced(string $keyword, ?string $localite): array
     {
         $this->getInstance();
-        $query = $this->createQueryForFiche($keyword);
+        $boolQuery = $this->createQueryForFiche($keyword);
 
         if ($localite) {
-            $localiteFilter = new MatchQuery('localite', $localite);
-            $query->add($localiteFilter, BoolQuery::FILTER);
+            $matchQuery = new MatchQuery('localite', $localite);
+            $boolQuery->add($matchQuery, BoolQuery::FILTER);
         }
 
-        $this->search->addQuery($query);
+        $this->search->addQuery($boolQuery);
 
         $this->addAggregations();
         $this->addSuggests($keyword);
@@ -163,7 +157,7 @@ class SearchElastic implements SearchEngineInterface
         return $this->client->search($params);
     }
 
-    protected function addAggregations()
+    protected function addAggregations(): void
     {
         $cap = new TermsAggregation('cap', 'cap.keyword');
         $localite = new TermsAggregation('localites', 'localite.keyword');
@@ -177,7 +171,7 @@ class SearchElastic implements SearchEngineInterface
         $this->search->addAggregation($midi);
     }
 
-    protected function addSuggests(string $keyword)
+    protected function addSuggests(string $keyword): void
     {
         $suggest = new Suggest(
             'societe_suggest', 'term', $keyword, 'societe', ['size' => 5, 'suggest_mode' => 'popular']
@@ -198,14 +192,14 @@ class SearchElastic implements SearchEngineInterface
         $search = new Search();
         $boolQuery = new BoolQuery();
         $boolQuery->add(new MatchAllQuery());
-        $geoQuery = new GeoDistanceQuery('location', $distance, ['lat' => $latitude, 'lon' => $longitude]);
-        $boolQuery->add($geoQuery, BoolQuery::FILTER);
+        $geoDistanceQuery = new GeoDistanceQuery('location', $distance, ['lat' => $latitude, 'lon' => $longitude]);
+        $boolQuery->add($geoDistanceQuery, BoolQuery::FILTER);
         $search->addQuery($boolQuery);
 
         return $search;
     }
 
-    protected function laura(string $keyword)
+    protected function laura(string $keyword): array
     {
         /**
          * search.
@@ -286,7 +280,7 @@ class SearchElastic implements SearchEngineInterface
         ];
     }
 
-    private function getInstance()
+    private function getInstance(): void
     {
         $this->search = new Search();
     }

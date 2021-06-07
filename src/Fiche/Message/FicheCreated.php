@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Fiche\Message;
 
 class FicheCreated
 {
-    private $ficheId;
+    private int $ficheId;
 
     public function __construct(int $ficheId)
     {

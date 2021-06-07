@@ -14,17 +14,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DemandeMetaRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, DemandeMeta::class);
+        parent::__construct($managerRegistry, DemandeMeta::class);
     }
 
-    public function persist(DemandeMeta $demandeMeta)
+    public function persist(DemandeMeta $demandeMeta): void
     {
         $this->_em->persist($demandeMeta);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

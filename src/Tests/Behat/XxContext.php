@@ -14,10 +14,7 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 class XxContext
 {
     private $currentUser;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
+    private \Doctrine\ORM\EntityManagerInterface $entityManager;
 
     /**
      * Initializes context.
@@ -36,8 +33,8 @@ class XxContext
      */
     public function clearData(): void
     {
-        $purger = new ORMPurger($this->entityManager);
-        $purger->purge();
+        $ormPurger = new ORMPurger($this->entityManager);
+        $ormPurger->purge();
     }
 
     /**
@@ -45,10 +42,10 @@ class XxContext
      */
     public function loadFixtures(): void
     {
-        $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
-        $executor = new ORMExecutor($this->getEntityManager());
-        $executor->execute($loader->getFixtures(), true);
+        $containerAwareLoader = new ContainerAwareLoader($this->getContainer());
+        $containerAwareLoader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
+        $ormExecutor = new ORMExecutor($this->getEntityManager());
+        $ormExecutor->execute($containerAwareLoader->getFixtures(), true);
     }
 
     /**
@@ -108,12 +105,12 @@ class XxContext
     /**
      * @Given the following product(s) exist(s):
      */
-    public function theFollowingProductsExist(TableNode $table): void
+    public function theFollowingProductsExist(TableNode $tableNode): void
     {
-        foreach ($table as $row) {
+        foreach ($tableNode as $row) {
             $product = new Product();
             $product->setName($row['name']);
-            $product->setPrice(rand(10, 1000));
+            $product->setPrice(rand(10, 1_000));
             $product->setDescription('lorem');
 
             if (isset($row['is published']) && 'yes' === $row['is published']) {
@@ -131,9 +128,9 @@ class XxContext
      */
     public function theProductRowShouldShowAsPublished($rowText): void
     {
-        $row = $this->findRowByText($rowText);
+        $nodeElement = $this->findRowByText($rowText);
 
-        assertContains('fa-check', $row->getHtml(), 'Could not find the fa-check element in the row!');
+        assertContains('fa-check', $nodeElement->getHtml(), 'Could not find the fa-check element in the row!');
     }
 
     /**
@@ -157,10 +154,10 @@ class XxContext
      */
     public function iShouldSeeProducts($count): void
     {
-        $table = $this->getPage()->find('css', 'table.table');
-        assertNotNull($table, 'Cannot find a table!');
+        $nodeElement = $this->getPage()->find('css', 'table.table');
+        assertNotNull($nodeElement, 'Cannot find a table!');
 
-        assertCount((int) $count, $table->findAll('css', 'tbody tr'));
+        assertCount((int) $count, $nodeElement->findAll('css', 'tbody tr'));
     }
 
     /**
@@ -182,7 +179,7 @@ class XxContext
     public function iWaitForTheModalToLoad(): void
     {
         $this->getSession()->wait(
-            5000,
+            5_000,
             "$('.modal:visible').length > 0"
         );
     }
@@ -195,11 +192,9 @@ class XxContext
     public function iPutABreakpoint(): void
     {
         fwrite(STDOUT, "\033[s    \033[93m[Breakpoint] Press \033[1;93m[RETURN]\033[0;93m to continue...\033[0m");
-        while ('' === fgets(STDIN, 1024)) {
+        while ('' === fgets(STDIN, 1_024)) {
         }
         fwrite(STDOUT, "\033[u");
-
-        return;
     }
 
     /**
@@ -213,32 +208,26 @@ class XxContext
         $this->saveScreenshot($filename, __DIR__.'/../sallessf');
     }
 
-    /**
-     * @return \Behat\Mink\Element\DocumentElement
-     */
-    private function getPage()
+    private function getPage(): \Behat\Mink\Element\DocumentElement
     {
         return $this->getSession()->getPage();
     }
 
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    private function getEntityManager()
+    private function getEntityManager(): \Doctrine\ORM\EntityManager
     {
         return $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
-    private function createProducts($count, ?User $author = null): void
+    private function createProducts($count, ?User $user = null): void
     {
         for ($i = 0; $i < $count; ++$i) {
             $product = new Product();
             $product->setName('Product '.$i);
-            $product->setPrice(rand(10, 1000));
+            $product->setPrice(rand(10, 1_000));
             $product->setDescription('lorem');
 
-            if ($author) {
-                $product->setAuthor($author);
+            if ($user) {
+                $product->setAuthor($user);
             }
 
             $this->getEntityManager()->persist($product);
@@ -249,14 +238,12 @@ class XxContext
 
     /**
      * @param $rowText
-     *
-     * @return \Behat\Mink\Element\NodeElement
      */
-    private function findRowByText($rowText)
+    private function findRowByText($rowText): ?\Behat\Mink\Element\NodeElement
     {
-        $row = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
-        assertNotNull($row, 'Cannot find a table row with this text!');
+        $nodeElement = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
+        assertNotNull($nodeElement, 'Cannot find a table row with this text!');
 
-        return $row;
+        return $nodeElement;
     }
 }

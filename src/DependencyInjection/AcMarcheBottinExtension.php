@@ -19,70 +19,70 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../../config'));
-        $loader->load('services.yaml');
+        $yamlFileLoader = new Loader\YamlFileLoader($containerBuilder, new FileLocator(__DIR__.'/../../config'));
+        $yamlFileLoader->load('services.yaml');
     }
 
     /**
      * Allow an extension to prepend the extension configurations.
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $containerBuilder): void
     {
         // get all bundles
-        $bundles = $container->getParameter('kernel.bundles');
+        $bundles = $containerBuilder->getParameter('kernel.bundles');
 
         if (isset($bundles['DoctrineBundle'])) {
-            foreach ($container->getExtensions() as $name => $extension) {
+            foreach (array_keys($containerBuilder->getExtensions()) as $name) {
                 switch ($name) {
                     case 'doctrine':
-                        $this->loadConfig($container, 'doctrine');
+                        $this->loadConfig($containerBuilder, 'doctrine');
                         break;
                     case 'twig':
-                        $this->loadConfig($container, 'twig', true);
+                        $this->loadConfig($containerBuilder, 'twig', true);
                         break;
                     case 'liip_imagine':
-                        $this->loadConfig($container, 'liip_imagine');
+                        $this->loadConfig($containerBuilder, 'liip_imagine');
                         break;
                     case 'framework':
-                        $this->loadConfig($container, 'security');
+                        $this->loadConfig($containerBuilder, 'security');
                         break;
                     case 'vich_uploader':
-                        $this->loadConfig($container, 'vich_uploader');
+                        $this->loadConfig($containerBuilder, 'vich_uploader');
                         break;
                     case 'api_platform':
-                        $this->loadConfig($container, 'api_platform');
+                        $this->loadConfig($containerBuilder, 'api_platform');
                         break;
                 }
             }
         }
     }
 
-    protected function loadConfig(ContainerBuilder $container, string $name, bool $php = false)
+    protected function loadConfig(ContainerBuilder $containerBuilder, string $name, bool $php = false): void
     {
         if ($php) {
-            $configs = $this->loadPhpFile($container);
-          //  $configs->load($name.'.php');
+            $configs = $this->loadPhpFile($containerBuilder);
+            //  $configs->load($name.'.php');
 
             return;
         }
-        $configs = $this->loadYamlFile($container);
+        $configs = $this->loadYamlFile($containerBuilder);
         $configs->load($name.'.yaml');
     }
 
-    protected function loadYamlFile(ContainerBuilder $container): Loader\YamlFileLoader
+    protected function loadYamlFile(ContainerBuilder $containerBuilder): Loader\YamlFileLoader
     {
         return new Loader\YamlFileLoader(
-            $container,
+            $containerBuilder,
             new FileLocator(__DIR__.'/../../config/packages')
         );
     }
 
-    private function loadPhpFile(ContainerBuilder $container): PhpFileLoader
+    private function loadPhpFile(ContainerBuilder $containerBuilder): PhpFileLoader
     {
         return new PhpFileLoader(
-            $container,
+            $containerBuilder,
             new FileLocator(__DIR__.'/../../config/packages')
         );
     }

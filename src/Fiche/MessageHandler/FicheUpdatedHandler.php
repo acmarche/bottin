@@ -12,19 +12,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class FicheUpdatedHandler implements MessageHandlerInterface
 {
-    private $ficheRepository;
-    /**
-     * @var FlashBagInterface
-     */
-    private $flashBag;
-    /**
-     * @var ElasticServer
-     */
-    private $elasticServer;
-    /**
-     * @var LocationUpdater
-     */
-    private $locationUpdater;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
+    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,
@@ -39,7 +30,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
         $this->locationUpdater = $locationUpdater;
     }
 
-    public function __invoke(FicheUpdated $ficheUpdated)
+    public function __invoke(FicheUpdated $ficheUpdated): void
     {
         $fiche = $this->ficheRepository->find($ficheUpdated->getFicheId());
         if ($this->hasChangeAddress($ficheUpdated, $fiche)) {
@@ -54,7 +45,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
         $this->updateSearchEngine($fiche);
     }
 
-    private function updateSearchEngine(Fiche $fiche)
+    private function updateSearchEngine(Fiche $fiche): void
     {
         $this->elasticServer->updateFiche($fiche);
     }
@@ -62,11 +53,6 @@ class FicheUpdatedHandler implements MessageHandlerInterface
     private function hasChangeAddress(FicheUpdated $ficheUpdated, Fiche $fiche): bool
     {
         $adresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
-
-        if ($ficheUpdated->getOldAddress() !== $adresse) {
-            return true;
-        }
-
-        return false;
+        return $ficheUpdated->getOldAddress() !== $adresse;
     }
 }

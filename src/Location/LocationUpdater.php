@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -10,66 +9,56 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class LocationUpdater
 {
-    /**
-     * @var LocationInterface
-     */
-    private $location;
+    private \AcMarche\Bottin\Location\LocationInterface $location;
 
     public function __construct(LocationInterface $location)
     {
         $this->location = $location;
     }
 
-    public function convertAddressToCoordinates(LocationAbleInterface $object): bool
+    public function convertAddressToCoordinates(LocationAbleInterface $locationAble): bool
     {
-        if (!$object->getRue()) {
+        if (!$locationAble->getRue()) {
             throw new \Exception('Aucune rue encodée, pas de données de géolocalisation');
         }
 
         try {
-            $response = $this->location->search($this->getAdresseString($object));
+            $response = $this->location->search($this->getAdresseString($locationAble));
 
             //todo JSON_THROW_ON_ERROR 7.4
             $tab = json_decode($response, true);
 
-            if (is_array($tab) && count($tab) == 0) {
+            if (is_array($tab) && 0 == count($tab)) {
                 throw new \Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
             }
 
-            if ($tab == false) {
+            if (false == $tab) {
                 throw new \Exception('Decode json error:'.$response);
             }
 
             if (is_array($tab) && count($tab) > 0) {
-                $this->setCoordinates($object, $tab);
+                $this->setCoordinates($locationAble, $tab);
 
                 return true;
             } else {
                 throw new \Exception('Convertion en latitude longitude error:'.$response);
             }
-        } catch (ClientExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
-        } catch (RedirectionExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
-        } catch (ServerExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
-        } catch (TransportExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    private function setCoordinates(LocationAbleInterface $object, array $data)
+    private function setCoordinates(LocationAbleInterface $locationAble, array $data): void
     {
-        $object->setLatitude($data[0]['lat']);
-        $object->setLongitude($data[0]['lon']);
+        $locationAble->setLatitude($data[0]['lat']);
+        $locationAble->setLongitude($data[0]['lon']);
     }
 
-    private function getAdresseString(LocationAbleInterface $object): string
+    private function getAdresseString(LocationAbleInterface $locationAble): string
     {
-        return $object->getNumero().' '.
-            $object->getRue().', '.
-            $object->getCp().' '.
-            $object->getLocalite();
+        return $locationAble->getNumero().' '.
+            $locationAble->getRue().', '.
+            $locationAble->getCp().' '.
+            $locationAble->getLocalite();
     }
-
 }

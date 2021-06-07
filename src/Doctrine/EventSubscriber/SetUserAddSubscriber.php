@@ -4,21 +4,15 @@ namespace AcMarche\Bottin\Doctrine\EventSubscriber;
 
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Exception;
 use Symfony\Component\Security\Core\Security;
 
 final class SetUserAddSubscriber implements EventSubscriber
 {
-    /**
-     * @var Security
-     */
-    private $security;
-    /**
-     * @var PropertyUtil
-     */
-    private $propertyUtil;
+    private Security $security;
+    private PropertyUtil $propertyUtil;
 
     public function __construct(Security $security, PropertyUtil $propertyUtil)
     {
@@ -26,7 +20,7 @@ final class SetUserAddSubscriber implements EventSubscriber
         $this->propertyUtil = $propertyUtil;
     }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
             Events::prePersist,
@@ -36,7 +30,7 @@ final class SetUserAddSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void
     {
         $object = $lifecycleEventArgs->getObject();
-        if (! $this->propertyUtil->getPropertyAccessor()->isWritable($object, 'userAdd')) {
+        if (!$this->propertyUtil->getPropertyAccessor()->isWritable($object, 'userAdd')) {
             return;
         }
 
@@ -57,7 +51,7 @@ final class SetUserAddSubscriber implements EventSubscriber
         }
 
         if ($user) {
-            $entity->setUserAdd($user->getUsername());
+            $entity->setUserAdd($user->getUserIdentifier());
         }
     }
 }

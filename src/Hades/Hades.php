@@ -13,34 +13,27 @@ use Symfony\Component\Serializer\Serializer;
 class Hades
 {
     const COMMUNE = 263;
-    const PAYS = 9;
     const CATEGORY_HOTELS = 649;
-    const CATEGORY_CHMABRE = 651;
-    const CATEGORY_GITE = 650;
-    const CATEGORY_CAMPING = 652;
 
-    /**
-     * @var HadesRepository
-     */
-    private $hadesRepository;
+    private \AcMarche\Bottin\Hades\HadesRepository $hadesRepository;
 
     public function __construct(HadesRepository $hadesRepository)
     {
         $this->hadesRepository = $hadesRepository;
     }
 
-    public function getProperties()
+    public function getProperties(): void
     {
         $data = $this->hadesRepository->loadXml($this->hadesRepository->getOffres('hotel'));
 
         foreach ($data as $offre) {
-            foreach ($offre as $key => $att) {
+            foreach ($offre as $att) {
                 /**
                  * @var \SimpleXMLElement $att
                  */
                 // print_r($att->asXML());
                 // print_r($att->children());
-                foreach ($att->children() as $t => $p) {
+                foreach (array_keys($att->children()) as $t) {
                     //  print_r($t);
                     //    print_r("private $".$t.";");
                 }
@@ -49,7 +42,7 @@ class Hades
         }
     }
 
-    public function desirialize()
+    public function desirialize(): void
     {
         $xml = $this->hadesRepository->getOffres('hotel');
         $normalizers = [
@@ -69,12 +62,10 @@ class Hades
         var_dump($denormalized);
     }
 
-    public function getIdOffre(\SimpleXMLElement $element)
+    public function getIdOffre(\SimpleXMLElement $element): int
     {
-        if ($element->attributes()) {
-            if (isset($element->attributes()->id)) {
-                return (int)$element->attributes()->id;
-            }
+        if ($element->attributes() !== null && isset($element->attributes()->id)) {
+            return (int)$element->attributes()->id;
         }
 
         return 0;

@@ -9,16 +9,14 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Titre
 {
     /**
-     * @var string
      *
      * @SerializedName("@lg")
      */
-    public $lg;
+    public string $lg;
 
     /**
-     * @var string
      *
      * @SerializedName("#")
      */
-    public $value;
+    public string $value;
 }

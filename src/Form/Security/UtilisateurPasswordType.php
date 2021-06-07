@@ -4,40 +4,30 @@ namespace AcMarche\Bottin\Form\Security;
 
 use AcMarche\Bottin\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UtilisateurPasswordType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $builder
+        $formBuilder
             ->add(
-            'plainPassword',
-            RepeatedType::class,
-            [
-                'type' => PasswordType::class,
-                'first_options' => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
-            ]
-        );
+                'plainPassword',
+                TextType::class,
+                [
+                    'label' => 'Mot de passe',
+                ]
+            );
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $resolver->setDefaults(
-            array(
+        $optionsResolver->setDefaults(
+            [
                 'data_class' => User::class,
-            )
+            ]
         );
     }
 }

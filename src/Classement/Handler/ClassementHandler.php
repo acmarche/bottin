@@ -11,14 +11,8 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 
 class ClassementHandler
 {
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
 
     public function __construct(ClassementRepository $classementRepository, CategoryRepository $categoryRepository)
     {
@@ -31,7 +25,7 @@ class ClassementHandler
      * @param int|null $categoryId
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function handleNewClassement(Fiche $fiche, ?int $categoryId)
+    public function handleNewClassement(Fiche $fiche, ?int $categoryId): void
     {
         if (!$categoryId) {
             throw new \Exception('La référence à la rubrique n\'a pas été trouvée');
@@ -39,11 +33,11 @@ class ClassementHandler
 
         $category = $this->categoryRepository->find($categoryId);
 
-        if (!$category) {
+        if ($category === null) {
             throw new \Exception('La catégorie n\'a pas été trouvée.');
         }
 
-        if ($this->classementRepository->checkExist($fiche, $category)) {
+        if ($this->classementRepository->checkExist($fiche, $category) !== null) {
             throw new \Exception('La fiche est déjà classée dans cette rubrique');
         }
 

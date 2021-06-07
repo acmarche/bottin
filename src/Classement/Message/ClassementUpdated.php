@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Classement\Message;
 
 class ClassementUpdated
 {
-    private $ficheId;
+    private int $ficheId;
 
     public function __construct(int $ficheId)
     {

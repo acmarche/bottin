@@ -2,37 +2,27 @@
 
 namespace AcMarche\Bottin\Security;
 
+use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
+use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class StaffLdap
 {
-    /**
-     * @var Ldap
-     */
-    private $ldap;
-    /**
-     * @var string
-     */
-    private $dn;
-    /**
-     * @var string
-     */
-    private $user;
-    /**
-     * @var string
-     */
-    private $password;
+    private Ldap $ldap;
+    private string $dn;
+    private string $user;
+    private string $password;
 
     public function __construct(string $host, $dn, string $user, string $password)
     {
         $this->ldap = Ldap::create(
             'ext_ldap',
-            array(
+            [
                 'host' => $host,
                 'encryption' => 'ssl',
-            )
+            ]
         );
 
         $this->user = $user;
@@ -40,12 +30,7 @@ class StaffLdap
         $this->dn = $dn;
     }
 
-    /**
-     * @param $uid
-     * @return \Symfony\Component\Ldap\Entry|null
-     *
-     */
-    public function getEntry($uid)
+    public function getEntry(string $uid): ?Entry
     {
         $this->ldap->bind($this->user, $this->password);
         $filter = "(&(|(sAMAccountName=*$uid*))(objectClass=person))";
@@ -60,11 +45,9 @@ class StaffLdap
     }
 
     /**
-     * @param $user
-     * @param $password
      * @throws LdapException
      */
-    public function bind($user, $password)
+    public function bind(string $user, string $password): void
     {
         try {
             $this->ldap->bind($user, $password);
@@ -73,10 +56,7 @@ class StaffLdap
         }
     }
 
-    /**
-     * @return \Symfony\Component\Ldap\Adapter\EntryManagerInterface
-     */
-    public function getEntryManager()
+    public function getEntryManager(): EntryManagerInterface
     {
         return $this->ldap->getEntryManager();
     }

@@ -15,28 +15,15 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
  */
 class GoogleReverse implements LocationReverseInterface
 {
-    private $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY';
-    /**
-     * @var string
-     */
-    private $apiKeyGoogle;
-    /**
-     * @var string
-     */
-    private $baseUrl;
-    /**
-     * @var \Symfony\Contracts\HttpClient\HttpClientInterface
-     */
-    private $client;
-    /**
-     * @var array
-     */
-    private $result = [];
+    private string $apiKeyGoogle;
+    private string $baseUrl;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private array $result = [];
 
     public function __construct(string $apiKeyGoogle)
     {
         $this->baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
-        $this->client = HttpClient::create();
+        $this->httpClient = HttpClient::create();
         $this->apiKeyGoogle = $apiKeyGoogle;
     }
 
@@ -48,7 +35,7 @@ class GoogleReverse implements LocationReverseInterface
     public function reverse($latitude, $longitude): array
     {
         try {
-            $request = $this->client->request(
+            $request = $this->httpClient->request(
                 'GET',
                 $this->baseUrl,
                 [
@@ -75,18 +62,16 @@ class GoogleReverse implements LocationReverseInterface
     {
         $results = $this->result['results'];
         $first = $results[0];
-        $road = $first['address_components'][1]['long_name'];
 
-        return $road;
+        return $first['address_components'][1]['long_name'];
     }
 
     public function getLocality(): ?string
     {
         $results = $this->result['results'];
         $first = $results[0];
-        $road = $first['address_components'][2]['long_name'];
 
-        return $road;
+        return $first['address_components'][2]['long_name'];
     }
 
     public function getHouseNumber(): ?string

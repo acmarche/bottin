@@ -10,15 +10,9 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class AdresseUpdatedHandler implements MessageHandlerInterface
 {
-    private $adresseRepository;
-    /**
-     * @var FlashBagInterface
-     */
-    private $flashBag;
-    /**
-     * @var LocationUpdater
-     */
-    private $locationUpdater;
+    private \AcMarche\Bottin\Repository\AdresseRepository $adresseRepository;
+    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
 
     public function __construct(
         AdresseRepository $adresseRepository,
@@ -30,10 +24,10 @@ class AdresseUpdatedHandler implements MessageHandlerInterface
         $this->locationUpdater = $locationUpdater;
     }
 
-    public function __invoke(AdresseUpdated $adresseCreated)
+    public function __invoke(AdresseUpdated $adresseUpdated): void
     {
-        $adresse = $this->adresseRepository->find($adresseCreated->getAdresseId());
-        $oldRue = $adresseCreated->getOldRue();
+        $adresse = $this->adresseRepository->find($adresseUpdated->getAdresseId());
+        $oldRue = $adresseUpdated->getOldRue();
 
         if ($oldRue !== $adresse->getRue()) {
             try {

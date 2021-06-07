@@ -14,6 +14,7 @@ use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,18 +27,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CategoryController extends AbstractController
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
+    private CategoryRepository $categoryRepository;
+    private CategoryService $categoryService;
+    private PathUtils $pathUtils;
 
     public function __construct(
         CategoryRepository $categoryRepository,
@@ -54,7 +46,7 @@ class CategoryController extends AbstractController
      *
      * @Route("/", name="bottin_category", methods={"GET"})
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $session = $request->getSession();
 
@@ -65,7 +57,7 @@ class CategoryController extends AbstractController
             $args = json_decode($session->get('category_search'), true);
         }
 
-        $search_form = $this->createForm(
+        $form = $this->createForm(
             SearchCategoryType::class,
             $args,
             [
@@ -73,10 +65,10 @@ class CategoryController extends AbstractController
             ]
         );
 
-        $search_form->handleRequest($request);
+        $form->handleRequest($request);
 
-        if ($search_form->isSubmitted() && $search_form->isValid()) {
-            $args = $search_form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $args = $form->getData();
             $name = $args['name'];
             $root = $args['parent'] ?? false;
 
@@ -103,7 +95,7 @@ class CategoryController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/category/index.html.twig',
             [
-                'search_form' => $search_form->createView(),
+                'search_form' => $form->createView(),
                 'categories' => $data,
             ]
         );
@@ -115,11 +107,11 @@ class CategoryController extends AbstractController
      * @Route("/new", name="bottin_category_new")
      * @Route("/new/{id}", name="bottin_category_new_children", methods={"GET", "POST"})
      */
-    public function new(Request $request, Category $parent = null)
+    public function new(Request $request, Category $parent = null): Response
     {
         $category = new Category();
 
-        if ($parent) {
+        if (null !== $parent) {
             $category->setParent($parent);
         }
 
@@ -131,7 +123,7 @@ class CategoryController extends AbstractController
             $this->categoryRepository->persist($category);
             $this->categoryRepository->flush();
 
-            if ($parent) {
+            if (null !== $parent) {
                 $category->setChildNodeOf($parent);
                 $this->categoryRepository->flush();
             }
@@ -155,7 +147,7 @@ class CategoryController extends AbstractController
      *
      * @Route("/{id}", name="bottin_category_show", methods={"GET"})
      */
-    public function show(Category $category)
+    public function show(Category $category): Response
     {
         $paths = $this->pathUtils->getPath($category);
         /**
@@ -184,7 +176,7 @@ class CategoryController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_category_edit", methods={"GET", "POST"})
      */
-    public function edit(Category $category, Request $request)
+    public function edit(Category $category, Request $request): Response
     {
         $editForm = $this->createForm(CategoryType::class, $category);
 
@@ -212,7 +204,7 @@ class CategoryController extends AbstractController
      *
      * @Route("/{id}/move", name="bottin_category_move", methods={"GET", "POST"})
      */
-    public function move(Category $category, Request $request)
+    public function move(Category $category, Request $request): Response
     {
         $editForm = $this->createForm(CategoryMoveType::class, $category);
 
@@ -239,7 +231,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_category_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Category $category): Response
+    public function delete(Request $request, Category $category): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new CategoryDeleted($category->getId()));
@@ -248,7 +240,7 @@ class CategoryController extends AbstractController
             $this->categoryRepository->flush();
 
             $this->addFlash('success', 'La catégorie a bien été supprimée');
-            if ($parent) {
+            if (null !== $parent) {
                 return $this->redirect(
                     $this->generateUrl('bottin_category_show', ['id' => $parent->getId()])
                 );

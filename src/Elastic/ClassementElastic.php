@@ -9,14 +9,8 @@ use AcMarche\Bottin\Serializer\ClassementSerializer;
 
 class ClassementElastic
 {
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var ClassementSerializer
-     */
-    private $classementSerializer;
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private \AcMarche\Bottin\Serializer\ClassementSerializer $classementSerializer;
 
     public function __construct(ClassementRepository $classementRepository, ClassementSerializer $classementSerializer)
     {
@@ -27,9 +21,8 @@ class ClassementElastic
     /**
      * Pour cap
      * @param Fiche $fiche
-     * @return array
      */
-    public function getClassementsForApi(Fiche $fiche)
+    public function getClassementsForApi(Fiche $fiche): array
     {
         $classementsFiche = $this->classementRepository->getByFiche($fiche, true);
         $classements = [];
@@ -40,7 +33,7 @@ class ClassementElastic
         return $classements;
     }
 
-    public function getSecteursForApi(array $classements)
+    public function getSecteursForApi(array $classements): array
     {
         $tags = [];
         foreach ($classements as $classement) {

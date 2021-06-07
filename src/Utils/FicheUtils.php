@@ -9,17 +9,10 @@ use AcMarche\Bottin\Entity\Fiche;
 class FicheUtils
 {
 
-    public function __construct()
-    {
-
-    }
-
     /**
      * @param Fiche $fiche
-     *
-     * @return array
      */
-    public function extractEmailsFromFiche(Fiche $fiche)
+    public function extractEmailsFromFiche(Fiche $fiche): array
     {
         $emails = [];
         if (filter_var($fiche->getEmail(), FILTER_VALIDATE_EMAIL)) {

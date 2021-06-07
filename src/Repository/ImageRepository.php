@@ -14,28 +14,28 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ImageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, FicheImage::class);
+        parent::__construct($managerRegistry, FicheImage::class);
     }
 
-    public function insert(FicheImage $ficheImage)
+    public function insert(FicheImage $ficheImage): void
     {
         $this->_em->persist($ficheImage);
         $this->save();
     }
 
-    public function persist(FicheImage $ficheImage)
+    public function persist(FicheImage $ficheImage): void
     {
         $this->_em->persist($ficheImage);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }
 
-    public function remove(FicheImage $ficheImage)
+    public function remove(FicheImage $ficheImage): void
     {
         $this->_em->remove($ficheImage);
     }

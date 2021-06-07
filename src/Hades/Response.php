@@ -9,7 +9,7 @@ class Response
     /**
      * @var Offre[]
      */
-    private $offres = [];
+    private array $offres = [];
 
     /**
      * @return Offre[]
@@ -27,9 +27,9 @@ class Response
         $this->offres = $offres;
     }
 
-    public function addOffre(Offre $person): void
+    public function addOffre(Offre $offre): void
     {
-        $this->offres[] = $person;
+        $this->offres[] = $offre;
     }
 
 }

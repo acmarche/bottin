@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Adresse\Message;
 
 class AdresseCreated
 {
-    private $adresseId;
+    private int $adresseId;
 
     public function __construct(int $adresseId)
     {

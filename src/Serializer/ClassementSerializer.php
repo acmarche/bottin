@@ -9,20 +9,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ClassementSerializer
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct()
     {
-        $this->serializer = $serializer;
     }
 
-    public function serializeClassementForApi(Classement $classement)
+    public function serializeClassementForApi(Classement $classement): array
     {
         $category = $classement->getCategory();
-        $parentId = $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() !== null ? $category->getParent()->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
         $data['name'] = $category->getName();
@@ -39,7 +33,7 @@ class ClassementSerializer
         return $data;
     }
 
-    public function serializeClassementForApiAndroid(Classement $classement)
+    public function serializeClassementForApiAndroid(Classement $classement): array
     {
         $data = [];
         $data['id'] = $classement->getId();

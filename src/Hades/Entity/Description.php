@@ -9,33 +9,29 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Description
 {
     /**
-     * @var string
      * @SerializedName("@data")
      */
-    public $dat;
+    public string $dat;
     /**
-     * @var string
      * @SerializedName("@lot")
      */
-    public $lot;
+    public string $lot;
     /**
-     * @var int
      * @SerializedName("@tri")
      */
-    public $tri;
+    public int $tri;
     /**
-     * @var string
      * @SerializedName("@typ")
      */
-    public $typ;
+    public string $typ;
     /**
      * @var Titre[]
      *
      */
-    public $lib;
+    public array $lib;
 
     /**
      * @var Titre[]
      */
-    public $texte;
+    public array $texte;
 }

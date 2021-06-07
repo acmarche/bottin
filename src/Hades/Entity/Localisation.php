@@ -6,8 +6,5 @@ namespace AcMarche\Bottin\Hades\Entity;
 
 class Localisation
 {
-    /**
-     * @var Localite
-     */
-    public $localite;
+    public \AcMarche\Bottin\Hades\Entity\Localite $localite;
 }

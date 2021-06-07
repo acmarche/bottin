@@ -9,14 +9,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FicheDeletedHandler implements MessageHandlerInterface
 {
-    /**
-     * @var ElasticServer
-     */
-    private $elasticServer;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
 
     public function __construct(
         ElasticServer $elasticServer,
@@ -26,7 +20,7 @@ final class FicheDeletedHandler implements MessageHandlerInterface
         $this->ficheRepository = $ficheRepository;
     }
 
-    public function __invoke(FicheDeleted $ficheDeleted)
+    public function __invoke(FicheDeleted $ficheDeleted): void
     {
         $fiche = $this->ficheRepository->find($ficheDeleted->getFicheId());
         $this->elasticServer->deleteFiche($fiche);

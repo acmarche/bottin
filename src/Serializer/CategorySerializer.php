@@ -10,10 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorySerializer
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private SerializerInterface $serializer;
 
     public function __construct(SerializerInterface $serializer)
     {
@@ -32,7 +29,7 @@ class CategorySerializer
 
     public function serializeCategory2(Category $category): array
     {
-        $parentId = $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() !== null ? $category->getParent()->getId() : 0;
         $data['name'] = $category->getName();
         $data['description'] = $category->getDescription();
         $data['id'] = $category->getId();
@@ -50,7 +47,7 @@ class CategorySerializer
 
     public function serializePathCategoryForApi(Category $category): array
     {
-        $parentId = $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() !== null ? $category->getParent()->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
         $data['parent_id'] = $parentId;

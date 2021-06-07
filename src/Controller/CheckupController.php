@@ -5,14 +5,12 @@ namespace AcMarche\Bottin\Controller;
 use AcMarche\Bottin\Service\CategoryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CheckupController extends AbstractController
 {
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
+    private CategoryService $categoryService;
 
     public function __construct(
         CategoryService $categoryService
@@ -24,7 +22,7 @@ class CheckupController extends AbstractController
      * @Route("/empty", name="bottin_categories_empty")
      * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
-    public function empty()
+    public function empty(): Response
     {
         $categories = $this->categoryService->getEmpyCategories();
 

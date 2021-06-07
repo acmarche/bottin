@@ -12,28 +12,14 @@ use Exception;
 
 class ElasticServer
 {
+    public $indexDefinition;
     const INDEX_NAME = 'bottin';
 
-    /**
-     * @var Client
-     */
-    private $client;
-    /**
-     * @var FileUtils
-     */
-    private $fileUtils;
-    /**
-     * @var FicheSerializer
-     */
-    private $ficheSerializer;
-    /**
-     * @var CategorySerializer
-     */
-    private $categorySerializer;
-    /**
-     * @var ClassementElastic
-     */
-    private $classementElastic;
+    private \Elasticsearch\Client $client;
+    private \AcMarche\Bottin\Utils\FileUtils $fileUtils;
+    private \AcMarche\Bottin\Serializer\FicheSerializer $ficheSerializer;
+    private \AcMarche\Bottin\Serializer\CategorySerializer $categorySerializer;
+    private \AcMarche\Bottin\Elastic\ClassementElastic $classementElastic;
 
     public function __construct(
         Client $client,
@@ -53,7 +39,7 @@ class ElasticServer
     /**
      * @throws Exception
      */
-    function updateSettingAndMapping()
+    function updateSettingAndMapping(): void
     {
         $this->close();
         $this->updateSettins();
@@ -61,70 +47,48 @@ class ElasticServer
         $this->updateMappings();
     }
 
-    /**
-     *
-     */
-    function razIndex()
+    function razIndex(): void
     {
         $this->deleteIndex();
         $this->createIndex();
     }
 
-    /**
-     * @return array
-     *
-     */
-    function refresh()
+    function refresh(): array
     {
         return $this->client->indices()->refresh(['index' => self::INDEX_NAME]);
     }
 
-    /**
-     * @return array
-     *
-     */
-    function open()
+    function open(): array
     {
         return $this->client->indices()->open(['index' => self::INDEX_NAME]);
     }
 
-    /**
-     * @return array
-     *
-     */
-    function close()
+    function close(): array
     {
         return $this->client->indices()->close(['index' => self::INDEX_NAME]);
     }
 
     /**
-     * @return array
      * @throws Exception
      */
-    function createIndex()
+    function createIndex(): array
     {
         $index = json_decode($this->fileUtils->readConfigFile('schema.json'), true);
         try {
             return $this->client->indices()->create($index);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    /**
-     * @return array
-     */
-    function updateSettins()
+    function updateSettins(): array
     {
         $settings = json_decode($this->fileUtils->readConfigFile('settings.json'), true);
 
         return $this->client->indices()->putSettings($settings);
     }
 
-    /**
-     * @return array
-     */
-    function updateMappings()
+    function updateMappings(): array
     {
         $mappings = json_decode($this->fileUtils->readConfigFile('mappings.json'), true);
 
@@ -147,14 +111,14 @@ class ElasticServer
             try {
                 return $this->client->indices()->delete($params);
             } catch (Exception $e) {
-                throw new Exception($e->getMessage());
+                throw new Exception($e->getMessage(), $e->getCode(), $e);
             }
         }
 
         return true;
     }
 
-    function updateFiche($fiche)
+    function updateFiche($fiche): array
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
@@ -173,7 +137,7 @@ class ElasticServer
         return $this->client->index($params);
     }
 
-    function updateCategorie(Category $category)
+    function updateCategorie(Category $category): array
     {
         $data = $this->categorySerializer->serializeCategory($category);
         $data['type'] = 'category';
@@ -187,7 +151,7 @@ class ElasticServer
         return $this->client->index($params);
     }
 
-    function deleteFiche(Fiche $fiche)
+    function deleteFiche(Fiche $fiche): void
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -195,59 +159,6 @@ class ElasticServer
         ];
 
         $this->client->delete($params);
-    }
-
-    /**
-     * Creates index with mapping and analyzer.
-     * https://medium.com/@stefan.poeltl/symfony-meets-elasticsearch-implement-a-search-as-you-type-feature-307e2244f078
-     */
-    private function createIndex22(): void
-    {
-        if ($this->client->indices()->exists($this->indexDefinition)) {
-            $this->client->indices()->delete($this->indexDefinition);
-        }
-
-        $this->client->indices()->create(
-            array_merge(
-                $this->indexDefinition,
-                [
-                    'body' => [
-                        'settings' => [
-                            'number_of_shards' => 1,
-                            'number_of_replicas' => 0,
-                            "analysis" => [
-                                "analyzer" => [
-                                    "autocomplete" => [
-                                        "tokenizer" => "autocomplete",
-                                        "filter" => ["lowercase"],
-                                    ],
-                                ],
-                                "tokenizer" => [
-                                    "autocomplete" => [
-                                        "type" => "edge_ngram",
-                                        "min_gram" => 2,
-                                        "max_gram" => 20,
-                                        "token_chars" => [
-                                            "letter",
-                                            "digit",
-                                        ],
-                                    ],
-                                ],
-                            ],
-                        ],
-                        "mappings" => [
-                            "properties" => [
-                                "title" => [
-                                    "type" => "text",
-                                    "analyzer" => "autocomplete",
-                                    "search_analyzer" => "standard",
-                                ],
-                            ],
-                        ],
-                    ],
-                ]
-            )
-        );
     }
 
 }

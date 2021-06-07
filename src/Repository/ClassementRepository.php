@@ -17,9 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ClassementRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Classement::class);
+        parent::__construct($managerRegistry, Classement::class);
     }
 
     /**
@@ -27,9 +27,9 @@ class ClassementRepository extends ServiceEntityRepository
      * @param bool $onlyEco
      * @return Classement[]
      */
-    public function getByFiche(Fiche $fiche, bool $onlyEco = false)
+    public function getByFiche(Fiche $fiche, bool $onlyEco = false): array
     {
-        $qb = $this->createQueryBuilder('c')
+        $queryBuilder = $this->createQueryBuilder('c')
             ->leftJoin('c.fiche', 'f', 'WITH')
             ->leftJoin('c.category', 'cat', 'WITH')
             ->addSelect('f', 'cat')
@@ -38,21 +38,21 @@ class ClassementRepository extends ServiceEntityRepository
             ->orderBy('c.principal', 'DESC');
 
         if ($onlyEco) {
-            $qb->andWhere('cat.materializedPath LIKE :eco OR cat.materializedPath LIKE :sante')
+            $queryBuilder->andWhere('cat.materializedPath LIKE :eco OR cat.materializedPath LIKE :sante')
                 ->setParameter('eco', '%'.Cap::idEco.'%')
                 ->setParameter('sante', '%'.Cap::idSante.'%');
         }
 
-        return $qb->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @param array $categories
      * @return Classement[]
      */
-    public function findByCategories(array $categories)
+    public function findByCategories(array $categories): array
     {
-        $qb = $this->createQueryBuilder('c')
+        $queryBuilder = $this->createQueryBuilder('c')
             ->leftJoin('c.fiche', 'f', 'WITH')
             ->leftJoin('c.category', 'cat', 'WITH')
             ->addSelect('f', 'cat')
@@ -60,44 +60,43 @@ class ClassementRepository extends ServiceEntityRepository
             ->setParameter('categories', $categories)
             ->orderBy('c.fiche');
 
-        return $qb->getQuery()->getResult();
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
      * @param Fiche $fiche
      * @param Category $category
-     * @return Classement
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function checkExist(Fiche $fiche, Category $category): ?Classement
+    public function checkExist(Fiche $fiche, Category $category): \AcMarche\Bottin\Entity\Classement
     {
-        $qb = $this->createQueryBuilder('c')
+        $queryBuilder = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')
             ->setParameter('category', $category)
             ->andWhere('c.fiche = :fiche')
             ->setParameter('fiche', $fiche)
             ->orderBy('c.fiche');
 
-        return $qb->getQuery()->getOneOrNullResult();
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
-    public function insert(Classement $classement)
+    public function insert(Classement $classement): void
     {
         $this->_em->persist($classement);
         $this->flush();
     }
 
-    public function persist(Classement $classement)
+    public function persist(Classement $classement): void
     {
         $this->_em->persist($classement);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }
 
-    public function remove(Classement $classement)
+    public function remove(Classement $classement): void
     {
         $this->_em->remove($classement);
     }

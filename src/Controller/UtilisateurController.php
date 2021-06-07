@@ -8,10 +8,11 @@ use AcMarche\Bottin\Form\Security\UtilisateurType;
 use AcMarche\Bottin\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/utilisateur")
@@ -19,35 +20,31 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UtilisateurController extends AbstractController
 {
-    private $userRepository;
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
+    private UserRepository $userRepository;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(
         UserRepository $userRepository,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordHasherInterface $userPasswordHasher
     ) {
         $this->userRepository = $userRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
     /**
      * Lists all Utilisateur entities.
      *
      * @Route("/", name="bottin_utilisateur", methods={"GET"})
-     *
      */
-    public function index()
+    public function index(): Response
     {
         $users = $this->userRepository->findBy([], ['nom' => 'ASC']);
 
         return $this->render(
             '@AcMarcheBottin/utilisateur/index.html.twig',
-            array(
+            [
                 'users' => $users,
-            )
+            ]
         );
     }
 
@@ -55,33 +52,32 @@ class UtilisateurController extends AbstractController
      * Displays a form to create a new Utilisateur utilisateur.
      *
      * @Route("/new", name="bottin_utilisateur_new", methods={"GET","POST"})
-     *
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
-        $utilisateur = new User();
+        $user = new User();
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setPassword(
-                $this->passwordEncoder->encodePassword($utilisateur, $form->getData()->getPlainPassword())
+            $user->setPassword(
+                $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword())
             );
-            $this->userRepository->insert($utilisateur);
+            $this->userRepository->insert($user);
 
-            $this->addFlash("success", "L'utilisateur a bien été ajouté");
+            $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
             return $this->redirectToRoute('bottin_utilisateur');
         }
 
         return $this->render(
             '@AcMarcheBottin/utilisateur/new.html.twig',
-            array(
-                'utilisateur' => $utilisateur,
+            [
+                'utilisateur' => $user,
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 
@@ -89,15 +85,14 @@ class UtilisateurController extends AbstractController
      * Finds and displays a Utilisateur utilisateur.
      *
      * @Route("/{id}", name="bottin_utilisateur_show", methods={"GET"})
-     *
      */
-    public function show(User $utilisateur)
+    public function show(User $user): Response
     {
         return $this->render(
             '@AcMarcheBottin/utilisateur/show.html.twig',
-            array(
-                'utilisateur' => $utilisateur,
-            )
+            [
+                'utilisateur' => $user,
+            ]
         );
     }
 
@@ -105,27 +100,26 @@ class UtilisateurController extends AbstractController
      * Displays a form to edit an existing Utilisateur utilisateur.
      *
      * @Route("/{id}/edit", name="bottin_utilisateur_edit", methods={"GET","POST"})
-     *
      */
-    public function edit(Request $request, User $utilisateur)
+    public function edit(Request $request, User $user): Response
     {
-        $editForm = $this->createForm(UtilisateurEditType::class, $utilisateur);
+        $editForm = $this->createForm(UtilisateurEditType::class, $user);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userRepository->flush();
-            $this->addFlash("success", "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
 
             return $this->redirectToRoute('bottin_utilisateur');
         }
 
         return $this->render(
             '@AcMarcheBottin/utilisateur/edit.html.twig',
-            array(
-                'utilisateur' => $utilisateur,
+            [
+                'utilisateur' => $user,
                 'form' => $editForm->createView(),
-            )
+            ]
         );
     }
 
@@ -134,9 +128,9 @@ class UtilisateurController extends AbstractController
      *
      * @Route("/{id}", name="bottin_utilisateur_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, User $user): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -145,5 +139,4 @@ class UtilisateurController extends AbstractController
 
         return $this->redirectToRoute('bottin_utilisateur');
     }
-
 }

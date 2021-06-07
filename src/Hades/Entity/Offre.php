@@ -9,10 +9,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Offre
 {
     /**
-     * @var string
      * @SerializedName("@id")
      */
-    public $id;
+    public string $id;
     public $modif_date;
     public $publiable;
     public $oldkey;

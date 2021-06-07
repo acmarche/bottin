@@ -13,18 +13,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class CsvGenerator
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private \AcMarche\Bottin\Service\CategoryService $categoryService;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
 
     public function __construct(
         CategoryRepository $categoryRepository,
@@ -40,9 +31,9 @@ class CsvGenerator
     public function categoryXSLObject(Category $category = null): Spreadsheet
     {
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
+        $worksheet = $spreadsheet->getActiveSheet();
 
-        if (!$category) {
+        if ($category === null) {
             $categories = $this->categoryRepository->getRootNodes();
         } else {
             $categories = $this->categoryRepository->search(null, $category);
@@ -58,7 +49,7 @@ class CsvGenerator
         $lettre = 'A';
         foreach ($colonnes as $colonne) {
             //$sheet->getColumnDimension('A')->setWidth(20);
-            $sheet->setCellValue($lettre.$ligne, $colonne);
+            $worksheet->setCellValue($lettre.$ligne, $colonne);
             //    $sheet->getStyle($lettre.$ligne)->applyFromArray($font);
             ++$lettre;
         }
@@ -68,28 +59,28 @@ class CsvGenerator
         foreach ($categories as $categorie) {
             $lettre = 'A';
             $name = $categorie->getName();
-            $sheet->setCellValue($lettre++.$ligne, $name);
-            $sheet->setCellValue('E'.$ligne, $categorie->getId());
+            $worksheet->setCellValue($lettre++.$ligne, $name);
+            $worksheet->setCellValue('E'.$ligne, $categorie->getId());
 
             $children = $this->categoryRepository->getFlatTree($categorie->getRealMaterializedPath());
             foreach ($children as $child) {
                 ++$ligne;
                 $lettre = 'B';
                 $childName = $child->getName();
-                $sheet->setCellValue($lettre.$ligne, $childName);
-                $sheet->setCellValue('E'.$ligne, $child->getId());
+                $worksheet->setCellValue($lettre.$ligne, $childName);
+                $worksheet->setCellValue('E'.$ligne, $child->getId());
                 $enfants = $this->categoryRepository->getFlatTree($child->getRealMaterializedPath());
                 foreach ($enfants as $enfant) {
                     ++$ligne;
                     $lettre = 'C';
-                    $sheet->setCellValue($lettre.$ligne, $enfant->getName());
-                    $sheet->setCellValue('E'.$ligne, $enfant->getId());
+                    $worksheet->setCellValue($lettre.$ligne, $enfant->getName());
+                    $worksheet->setCellValue('E'.$ligne, $enfant->getId());
                     $lasts = $this->categoryRepository->getFlatTree($enfant->getRealMaterializedPath());
                     foreach ($lasts as $last) {
                         ++$ligne;
                         $lettre = 'D';
-                        $sheet->setCellValue($lettre.$ligne, $last->getName());
-                        $sheet->setCellValue('E'.$ligne, $last->getId());
+                        $worksheet->setCellValue($lettre.$ligne, $last->getName());
+                        $worksheet->setCellValue('E'.$ligne, $last->getId());
                     }
                 }
             }
@@ -102,10 +93,10 @@ class CsvGenerator
     public function ficheXSLObject(?Category $category = null): Spreadsheet
     {
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->getDefaultRowDimension()->setRowHeight(15);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $worksheet->getDefaultRowDimension()->setRowHeight(15);
 
-        if ($category) {
+        if ($category !== null) {
             $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
         } else {
             $fiches = $this->ficheRepository->findAll();
@@ -180,79 +171,79 @@ class CsvGenerator
         $lettre = 'A';
         foreach ($colonnes as $colonne) {
             //$sheet->getColumnDimension('A')->setWidth(20);
-            $sheet->setCellValue($lettre.$ligne, $colonne);
+            $worksheet->setCellValue($lettre.$ligne, $colonne);
             //  $sheet->getStyle($lettre.$ligne)->applyFromArray($font);
             ++$lettre;
         }
 
         ++$ligne;
         foreach ($fiches as $fiche) {
-            $pdv = $fiche->getPdv() ? $fiche->getPdv()->getIntitule() : '';
+            $pdv = $fiche->getPdv() !== null ? $fiche->getPdv()->getIntitule() : '';
 
             $lettre = 'A';
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getSociete());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getRue());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getNumero());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getCp());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getLocalite());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getTelephone());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getTelephoneAutre());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getGsm());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getFax());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getEmail());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getWebsite());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getSociete());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getRue());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getNumero());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getCp());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getLocalite());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getTelephone());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getTelephoneAutre());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getGsm());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getFax());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getEmail());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getWebsite());
             /*
              * Infos
              */
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getCentreville());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getMidi());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getPmr());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->isEcommerce());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->isClickCollect());
-            $sheet->setCellValue($lettre++.$ligne, $pdv);
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getCentreville());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getMidi());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getPmr());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->isEcommerce());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->isClickCollect());
+            $worksheet->setCellValue($lettre++.$ligne, $pdv);
             /*
              * CONTACT
              */
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getNom());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getPrenom());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getFonction());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactRue());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactNum());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactCp());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactLocalite());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactTelephone());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactTelephoneAutre());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactGsm());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactFax());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getContactEmail());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getNom());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getPrenom());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getFonction());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactRue());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactNum());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactCp());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactLocalite());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactTelephone());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactTelephoneAutre());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactGsm());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactFax());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getContactEmail());
             /*
              * Administrateur
              */
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminCivilite());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminNom());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminPrenom());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminFonction());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminTelephone());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminTelephoneAutre());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminFax());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminGsm());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getAdminEmail());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminCivilite());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminNom());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminPrenom());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminFonction());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminTelephone());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminTelephoneAutre());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminFax());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminGsm());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getAdminEmail());
             /*
              * Sociaux
              */
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getFacebook());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getTwitter());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getInstagram());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getFacebook());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getTwitter());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getInstagram());
             /*
              * Commentaires
              */
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getComment1());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getComment2());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getComment3());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getNote());
-            $sheet->setCellValue($lettre++.$ligne, $fiche->getUpdatedAt()->format('d-m-Y'));
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getComment1());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getComment2());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getComment3());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getNote());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getUpdatedAt()->format('d-m-Y'));
 
-            $this->addClassements($fiche, $sheet, $lettre, $ligne);
+            $this->addClassements($fiche, $worksheet, $lettre, $ligne);
 
             ++$ligne;
         }
@@ -260,13 +251,13 @@ class CsvGenerator
         return $spreadsheet;
     }
 
-    protected function addClassements(Fiche $fiche, Worksheet $sheet, $lettre, $ligne)
+    protected function addClassements(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
     {
         $classements = $fiche->getClassements();
 
         foreach ($classements as $classement) {
             $category = $classement->getCategory();
-            $sheet->setCellValue($lettre++.$ligne, $category->getName());
+            $worksheet->setCellValue($lettre++.$ligne, $category->getName());
             ++$lettre;
         }
     }

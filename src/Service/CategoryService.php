@@ -19,22 +19,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CategoryService
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var Category[]|iterable
-     */
-    private $data = [];
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private array $data = [];
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private \AcMarche\Bottin\Utils\PathUtils $pathUtils;
 
     public function __construct(
         CategoryRepository $categoryRepository,
@@ -49,7 +37,7 @@ class CategoryService
     /**
      * @return Category[]
      */
-    public function getEmpyCategories()
+    public function getEmpyCategories(): iterable
     {
         $roots = $this->categoryRepository->getRootNodes();
 
@@ -72,7 +60,7 @@ class CategoryService
         return $this->data;
     }
 
-    private function hasFiches(Category $category)
+    private function hasFiches(Category $category): void
     {
         $classements = $this->classementRepository->findBy(['category' => $category]);
         if (0 == count($classements)) {
@@ -86,33 +74,33 @@ class CategoryService
      *
      * @return Fiche[]
      */
-    public function getFichesByCategoryAndHerChildren(Category $category)
+    public function getFichesByCategoryAndHerChildren(Category $category): array
     {
         $categories = $this->categoryRepository->getFlatTree($category->getRealMaterializedPath());
         $classements = $this->classementRepository->findBy(['category' => $categories]);
 
         $fiches = array_column($classements, 'fiche', 'id');
-        $collection = new ArrayCollection();
+        $arrayCollection = new ArrayCollection();
 
         foreach ($fiches as $fiche) {
-            if (!$collection->contains($fiche)) {
-                $collection->add($fiche);
+            if (!$arrayCollection->contains($fiche)) {
+                $arrayCollection->add($fiche);
             }
         }
 
-        return SortUtils::sortFiche($collection->toArray());
+        return SortUtils::sortFiche($arrayCollection->toArray());
     }
 
     /**
      * @param int $idCategory
      * @return Fiche[]
      */
-    public function getFichesByCategoryId(int $idCategory)
+    public function getFichesByCategoryId(int $idCategory): array
     {
         return $this->getFichesByCategoryAndHerChildren($this->categoryRepository->find($idCategory));
     }
 
-    protected function test(Category $category)
+    protected function test(Category $category): void
     {
         //Returns a node hydrated with its children and parents
         ($this->categoryRepository->getTree($category->getRealMaterializedPath()));

@@ -18,14 +18,8 @@ final class LoadfixturesCommand extends Command
      * @var string
      */
     protected static $defaultName = 'bottin:load-fixtures';
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var FixtureLoader
-     */
-    private $fixtureLoader;
+    private \Doctrine\ORM\EntityManagerInterface $entityManager;
+    private \AcMarche\Bottin\Fixture\FixtureLoader $fixtureLoader;
 
     public function __construct(
         FixtureLoader $fixtureLoader,

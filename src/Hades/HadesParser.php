@@ -13,7 +13,7 @@ class HadesParser
      *
      * @return array("principal","contact","administratif")
      */
-    public function getContacts(\SimpleXMLElement $element)
+    public function getContacts(\SimpleXMLElement $element): array
     {
         $contacts = [];
 
@@ -47,7 +47,7 @@ class HadesParser
         return $contacts;
     }
 
-    public function getCommunications(array $data)
+    public function getCommunications(array $data): array
     {
         $communications = [];
         $i = 0;
@@ -67,7 +67,7 @@ class HadesParser
         return $communications;
     }
 
-    public function getMedias(\SimpleXMLElement $element)
+    public function getMedias(\SimpleXMLElement $element): array
     {
         $medias = [];
         $i = 0;
@@ -94,7 +94,7 @@ class HadesParser
         return $medias;
     }
 
-    public function getCategories(\SimpleXMLElement $element)
+    public function getCategories(\SimpleXMLElement $element): array
     {
         $categories = [];
         $i = 0;
@@ -115,7 +115,7 @@ class HadesParser
         return $categories;
     }
 
-    public function getLocalisations(\SimpleXMLElement $element)
+    public function getLocalisations(\SimpleXMLElement $element): array
     {
         $data = [];
         $localisation = (array)$element->localisation;
@@ -139,62 +139,20 @@ class HadesParser
         return $data;
     }
 
-    public function getDescriptions(Hotel $offre): string
+    public function getDescriptions(Hotel $hotel): string
     {
-        var_dump($offre->hot_desc_com_fr);
-        var_dump($offre->hot_desc_fr);
+        var_dump($hotel->hot_desc_com_fr);
+        var_dump($hotel->hot_desc_fr);
 
         return '';
-
-        $descriptions = [];
-        $elements = (array)$element->descriptions;
-
-        $datas = isset($elements['description']) ? $elements['description'] : null;
-
-        if (!$datas) {
-            return [];
-        }
-
-        //si qu' une description
-        if ($datas instanceof \SimpleXMLElement) {
-            $datas = [0 => $datas];
-        }
-
-        $i = 0;
-        foreach ($datas as $description) {
-            $descriptions[$i]['temporisation'] = (string)$description->attributes()->dat; //tjr, ann, dad
-            $descriptions[$i]['type_texte'] = (string)$description->attributes()->typ; //html ou non, multiligne ou pas
-            $descriptions[$i]['lot'] = (string)$description->attributes()->lot;
-            $descriptions[$i]['tri'] = (string)$description->attributes()->tri;
-
-            $libelles = (array)$description->lib;
-            $descriptions[$i]['lib_identifiant'] = $libelles[0];
-            $lib_fr = $libelles[1]; //Remarque
-            $lib_nls = $libelles[2]; //Opmerking
-            $lib_eng = $libelles[3]; //Notice
-            $lib_deu = $libelles[4]; //Anmerkung
-
-            $textes = $description->texte;
-            $descriptions[$i]['texte_fr'] = (string)$textes[0];
-            $descriptions[$i]['texte_nls'] = (string)$textes[1];
-            $descriptions[$i]['texte_eng'] = (string)$textes[2];
-            $descriptions[$i]['texte_deu'] = (string)$textes[3];
-
-            $descriptions[$i]['date_debut'] = (string)$description->date_deb;
-            $descriptions[$i]['date_fin'] = (string)$description->date_fin;
-
-            ++$i;
-        }
-
-        return $descriptions;
     }
 
-    public function getHoraires(\SimpleXMLElement $element)
+    public function getHoraires(\SimpleXMLElement $element): array
     {
         $horaires = [];
         $i = 0;
         $elements = (array)$element->horaires;
-        if (0 == count($horaires)) {
+        if (0 === count($horaires)) {
             return [];
         }
 

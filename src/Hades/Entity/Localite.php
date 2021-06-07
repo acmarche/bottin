@@ -9,10 +9,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Localite
 {
     /**
-     * @var int
      * @SerializedName("@id")
      */
-    public $id;
+    public int $id;
     public $l_nom;
     public $postal;
     public $x;

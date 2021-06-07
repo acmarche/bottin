@@ -29,38 +29,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var ApiUtils
-     */
-    private $apiUtils;
-    /**
-     * @var DemandeHandler
-     */
-    private $demandeHandler;
-    /**
-     * @var SearchEngineInterface
-     */
-    private $searchEngine;
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
+    private \AcMarche\Bottin\Service\CategoryService $categoryService;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private \AcMarche\Bottin\Cap\ApiUtils $apiUtils;
+    private \AcMarche\Bottin\Service\DemandeHandler $demandeHandler;
+    private \AcMarche\Bottin\Search\SearchEngineInterface $searchEngine;
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private \Psr\Log\LoggerInterface $logger;
 
     public function __construct(
         ApiUtils $apiUtils,
@@ -85,9 +61,9 @@ class ApiController extends AbstractController
     /**
      * Fiches par categorie
      *
-     * @Route("/bottin/fiches/category/{id}", name="bottin_api_fiche_by_category", methods={"GET"}, format="json")
+     * @Route("/bottin/fiches/category/{id}", name="bottin_api_fiche_by_category", methods={"GET"})
      */
-    public function fichesByCategory(Category $category)
+    public function fichesByCategory(Category $category): \Symfony\Component\HttpFoundation\JsonResponse
     {
         $data = [];
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
@@ -102,7 +78,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les rubriques de commerces
      *
-     * @Route("/bottin/commerces", name="bottin_api_commerces", methods={"GET"}, format="json")
+     * @Route("/bottin/commerces", name="bottin_api_commerces", methods={"GET"})
      */
     public function commerce(): JsonResponse
     {
@@ -114,7 +90,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les fiches des commerces
      *
-     * @Route("/bottin/fiches", name="bottin_api_fiches_commerces", methods={"GET"}, format="json")
+     * @Route("/bottin/fiches", name="bottin_api_fiches_commerces", methods={"GET"})
      */
     public function fiches(): JsonResponse
     {
@@ -138,7 +114,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les fiches pour android
      *
-     * @Route("/bottin/fichesandroid", name="bottin_api_fiches_all", methods={"GET"}, format="json")
+     * @Route("/bottin/fichesandroid", name="bottin_api_fiches_all", methods={"GET"})
      */
     public function fichesAndroid(): JsonResponse
     {
@@ -154,13 +130,13 @@ class ApiController extends AbstractController
 
     /**
      * Le detail de la fiche {id}
-     * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"}, format="json")
+     * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"})
      * @param Fiche $fiche
      */
     public function ficheById(int $id): JsonResponse
     {
         $fiche = $this->ficheRepository->find($id);
-        if (!$fiche) {
+        if ($fiche === null) {
             return $this->json(['error' => 'Fiche not found']);
         }
 
@@ -169,7 +145,7 @@ class ApiController extends AbstractController
 
     /**
      * Le detail de la fiche {id}
-     * @Route("/bottin/fichebyids", name="bottin_api_fiche_by_ids", methods={"POST"}, format="json")
+     * @Route("/bottin/fichebyids", name="bottin_api_fiche_by_ids", methods={"POST"})
      * @param Fiche $fiche
      */
     public function ficheByIds(Request $request): JsonResponse
@@ -187,15 +163,14 @@ class ApiController extends AbstractController
 
     /**
      * Le detail de la fiche {slugname}
-     * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_api_fiche_by_slugname", methods={"GET"}, format="json")
+     * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_api_fiche_by_slugname", methods={"GET"})
      * @ParamConverter("fiche", options={"mapping": {"slugname": "slug"}})
      * @param Fiche $fiche
-     *
      */
     public function ficheBySlug(string $slugname): JsonResponse
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
-        if (!$fiche) {
+        if ($fiche === null) {
             return $this->json(['error' => 'Fiche not found']);
         }
 
@@ -204,7 +179,7 @@ class ApiController extends AbstractController
 
     /**
      *
-     * @Route("/updatefiche", name="bottin_api_update_fiche", methods={"POST"}, format="json")
+     * @Route("/updatefiche", name="bottin_api_update_fiche", methods={"POST"})
      */
     public function updatefiche(Request $request): JsonResponse
     {
@@ -234,7 +209,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les classements pour android
      *
-     * @Route("/bottin/classements", name="bottin_api_classements", methods={"GET"}, format="json")
+     * @Route("/bottin/classements", name="bottin_api_classements", methods={"GET"})
      */
     public function classements(): JsonResponse
     {
@@ -250,7 +225,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les categories pour android
      *
-     * @Route("/bottin/categories", name="bottin_api_categories", methods={"GET"}, format="json")
+     * @Route("/bottin/categories", name="bottin_api_categories", methods={"GET"})
      */
     public function categories(): JsonResponse
     {

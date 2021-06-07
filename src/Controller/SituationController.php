@@ -7,6 +7,7 @@ use AcMarche\Bottin\Form\SituationType;
 use AcMarche\Bottin\Repository\SituationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SituationController extends AbstractController
 {
-    /**
-     * @var SituationRepository
-     */
-    private $situationRepository;
+    private SituationRepository $situationRepository;
 
     public function __construct(SituationRepository $situationRepository)
     {
@@ -34,7 +32,7 @@ class SituationController extends AbstractController
      *
      * @Route("/", name="bottin_situation", methods={"GET"})
      */
-    public function index()
+    public function index(): Response
     {
         $situations = $this->situationRepository->findAll();
 
@@ -51,7 +49,7 @@ class SituationController extends AbstractController
      *
      * @Route("/new", name="bottin_situation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $situation = new Situation();
 
@@ -82,7 +80,7 @@ class SituationController extends AbstractController
      *
      * @Route("/{id}", name="bottin_situation_show", methods={"GET"})
      */
-    public function show(Situation $situation)
+    public function show(Situation $situation): Response
     {
         $fiches = $situation->getFiches();
 
@@ -100,7 +98,7 @@ class SituationController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_situation_edit", methods={"GET", "POST"})
      */
-    public function edit(Situation $situation, Request $request)
+    public function edit(Situation $situation, Request $request): Response
     {
         $editForm = $this->createForm(SituationType::class, $situation);
 
@@ -125,15 +123,14 @@ class SituationController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_situation_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Situation $situation): Response
+    public function delete(Request $request, Situation $situation): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $situation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$situation->getId(), $request->request->get('_token'))) {
             $this->situationRepository->remove($situation);
             $this->situationRepository->flush();
-            $this->addFlash('success', "La situation a bien été supprimée");
+            $this->addFlash('success', 'La situation a bien été supprimée');
         }
 
         return $this->redirectToRoute('bottin_situation');
     }
-
 }

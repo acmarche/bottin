@@ -12,18 +12,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HadesRepository
 {
-    /**
-     * @var HttpClientInterface
-     */
-    private $httpClient;
-    /**
-     * @var string
-     */
-    private $baseUrl;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private string $baseUrl;
+    private \Symfony\Component\Serializer\SerializerInterface $serializer;
 
     /**
      * Hades constructor.
@@ -39,7 +30,7 @@ class HadesRepository
         $this->serializer = $serializer;
     }
 
-    public function getOffres(string $categorie)
+    public function getOffres(string $categorie): string
     {
         try {
             $request = $this->httpClient->request(
@@ -57,7 +48,7 @@ class HadesRepository
 
             return $request->getContent();
         } catch (ClientException $e) {
-            throw  new \Exception($e->getMessage());
+            throw  new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -75,7 +66,7 @@ class HadesRepository
     /**
      * @return Hotel2[]
      */
-    public function getHotels()
+    public function getHotels(): array
     {
         $data = $this->loadXml($this->getOffres('hotel'));
 
@@ -92,7 +83,7 @@ class HadesRepository
         return $hotels;
     }
 
-    protected function getChambres()
+    protected function getChambres(): array
     {
         $data = $this->loadXml($this->getOffres('chbre_chb,chbre_hote'));
         $hotels = [];
@@ -105,7 +96,7 @@ class HadesRepository
         return $hotels;
     }
 
-    protected function getCamping()
+    protected function getCamping(): array
     {
         $data = $this->loadXml($this->getOffres('camp_non_rec,camping'));
         $hotels = [];
@@ -118,7 +109,7 @@ class HadesRepository
         return $hotels;
     }
 
-    protected function getGites()
+    protected function getGites(): array
     {
         $data = $this->loadXml($this->getOffres('git_ferme,git_citad,git_big_cap,git_rural,mbl_trm,mbl_vac'));
         $hotels = [];

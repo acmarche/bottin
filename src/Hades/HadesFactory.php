@@ -13,14 +13,8 @@ use AcMarche\Bottin\Repository\FicheRepository;
 
 class HadesFactory
 {
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
 
     public function __construct(FicheRepository $ficheRepository, ClassementRepository $classementRepository)
     {
@@ -32,7 +26,7 @@ class HadesFactory
     {
         $fiche = $this->ficheRepository->findOneBy(['ftlb' => $offre->getId()]);
 
-        if (!$fiche) {
+        if ($fiche === null) {
             $fiche = new Fiche();
             $fiche->setUser('ftlb');
             $fiche->setFtlb($offre->getId());
@@ -45,7 +39,7 @@ class HadesFactory
         return $fiche;
     }
 
-    public function setClassement(Fiche $fiche, Category $category)
+    public function setClassement(Fiche $fiche, Category $category): void
     {
         if (count($fiche->getClassements()) > 0) {
             return;
@@ -56,7 +50,7 @@ class HadesFactory
         $this->classementRepository->persist($classement);
     }
 
-    public function setDescriptions(Fiche $fiche, array $descriptions)
+    public function setDescriptions(Fiche $fiche, array $descriptions): void
     {
         if (count($descriptions) == 0) {
             return;
@@ -73,7 +67,7 @@ class HadesFactory
         }
     }
 
-    public function setCoordonnees(Fiche $fiche, OffreInterface $offre)
+    public function setCoordonnees(Fiche $fiche, OffreInterface $offre): void
     {
         if ($offre->getTelephone()) {
             $fiche->setTelephone($offre->getTelephone());
@@ -110,13 +104,13 @@ class HadesFactory
         }
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->ficheRepository->flush();
         $this->classementRepository->flush();
     }
 
-    protected function setContacts(Fiche $fiche, $contacts)
+    protected function setContacts(Fiche $fiche, $contacts): void
     {
         if (!isset($contacts['ap']) && !isset($contacts['contact'])) {
             return;
@@ -228,7 +222,7 @@ class HadesFactory
         }
     }
 
-    protected function setDescriptions2(Fiche $fiche, $descriptions)
+    protected function setDescriptions2(Fiche $fiche, $descriptions): void
     {
         foreach ($descriptions as $description) {
             $lot = $description['lot'];
@@ -249,15 +243,15 @@ class HadesFactory
                     break;
             }
 
-            if ($comment1) {
+            if ($comment1 !== '') {
                 $fiche->setComment1($comment1);
             }
 
-            if ($comment2) {
+            if ($comment2 !== '') {
                 $fiche->setComment1($comment2);
             }
 
-            if ($comment3) {
+            if ($comment3 !== '') {
                 $fiche->setComment1($comment3);
             }
         }

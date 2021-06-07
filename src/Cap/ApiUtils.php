@@ -20,55 +20,16 @@ use AcMarche\Bottin\Utils\PathUtils;
 
 class ApiUtils
 {
-    /**
-     * @var CategoryService
-     */
-    private $categoryService;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var HoraireRepository
-     */
-    private $horaireRepository;
-    /**
-     * @var CategorySerializer
-     */
-    private $categorySerializer;
-    /**
-     * @var ClassementSerializer
-     */
-    private $classementSerializer;
-    /**
-     * @var FicheImageSerializer
-     */
-    private $ficheImageSerializer;
-    /**
-     * @var FicheSerializer
-     */
-    private $ficheSerializer;
-    /**
-     * @var HoraireSerializer
-     */
-    private $horaireSerializer;
+    private \AcMarche\Bottin\Utils\PathUtils $pathUtils;
+    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private \AcMarche\Bottin\Repository\HoraireRepository $horaireRepository;
+    private \AcMarche\Bottin\Serializer\CategorySerializer $categorySerializer;
+    private \AcMarche\Bottin\Serializer\ClassementSerializer $classementSerializer;
+    private \AcMarche\Bottin\Serializer\FicheImageSerializer $ficheImageSerializer;
+    private \AcMarche\Bottin\Serializer\FicheSerializer $ficheSerializer;
+    private \AcMarche\Bottin\Serializer\HoraireSerializer $horaireSerializer;
 
     public function __construct(
-        CategoryService $categoryService,
-        CategoryRepository $categoryRepository,
-        FicheRepository $ficheRepository,
         HoraireRepository $horaireRepository,
         ClassementRepository $classementRepository,
         PathUtils $pathUtils,
@@ -79,9 +40,6 @@ class ApiUtils
         HoraireSerializer $horaireSerializer
     )
     {
-        $this->categoryService = $categoryService;
-        $this->categoryRepository = $categoryRepository;
-        $this->ficheRepository = $ficheRepository;
         $this->pathUtils = $pathUtils;
         $this->classementRepository = $classementRepository;
         $this->horaireRepository = $horaireRepository;
@@ -109,7 +67,7 @@ class ApiUtils
         return $categories;
     }
 
-    public function serializeCategoryForAndroid(Category $category)
+    public function serializeCategoryForAndroid(Category $category): array
     {
         return $this->categorySerializer->serializeCategory2($category);
     }
@@ -170,7 +128,7 @@ class ApiUtils
         foreach ($dataFiche['images'] as $image) {
             $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
         }
-        $dataFiche['logo'] = count($urls > 0) ? $urls[0] : null;
+        $dataFiche['logo'] = count($urls > 0) > 0 ? $urls[0] : null;
         $dataFiche['photos'] = $urls;
 
         return $dataFiche;
@@ -187,7 +145,7 @@ class ApiUtils
         return $images;
     }
 
-    public function getHorairesForApi(Fiche $fiche)
+    public function getHorairesForApi(Fiche $fiche): array
     {
         $data = [];
         foreach ($this->horaireRepository->findBy(['fiche' => $fiche]) as $horaire) {
@@ -197,7 +155,7 @@ class ApiUtils
         return $data;
     }
 
-    public function getClassementsForApi(Fiche $fiche)
+    public function getClassementsForApi(Fiche $fiche): array
     {
         $classementsFiche = $this->classementRepository->getByFiche($fiche, true);
         $classements = [];
@@ -216,7 +174,7 @@ class ApiUtils
         return $this->classementSerializer->serializeClassementForApiAndroid($classement);
     }
 
-    protected function getPathsForApi(Category $category)
+    protected function getPathsForApi(Category $category): array
     {
         $data = [];
         $paths = $this->pathUtils->getPath($category);

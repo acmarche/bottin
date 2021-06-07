@@ -21,18 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AjaxController extends AbstractController
 {
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
+    private ClassementRepository $classementRepository;
+    private CategoryRepository $categoryRepository;
+    private PathUtils $pathUtils;
 
     public function __construct(
         PathUtils $pathUtils,
@@ -47,12 +38,12 @@ class AjaxController extends AbstractController
     /**
      * @Route("/removeclassment", name="bottin_ajax_remove_classement", methods={"POST"})
      */
-    public function removeClassement(Request $request)
+    public function removeClassement(Request $request): Response
     {
         $classementId = (int) $request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
-        if (!$classement) {
+        if (null === $classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/ajax/error.html.twig', ['error' => $error]);
         } else {
@@ -77,12 +68,12 @@ class AjaxController extends AbstractController
     /**
      * @Route("/setprincipalclassement", name="bottin_ajax_principal_classement", methods={"POST"})
      */
-    public function setPrincipal(Request $request)
+    public function setPrincipal(Request $request): Response
     {
         $classementId = (int) $request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
 
-        if (!$classementSelect) {
+        if (null === $classementSelect) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/ajax/error.html.twig', ['error' => $error]);
         } else {
@@ -91,7 +82,7 @@ class AjaxController extends AbstractController
             $classements = $fiche->getClassements();
 
             foreach ($classements as $classement) {
-                if ($classement->getId() == $classementSelect->getId()) {
+                if ($classement->getId() === $classementSelect->getId()) {
                     $classement->setPrincipal(true);
                 } else {
                     $classement->setPrincipal(false);
@@ -118,16 +109,16 @@ class AjaxController extends AbstractController
      */
     public function ajaxCategories(Request $request)
     {
-        $response = new JsonResponse();
+        $jsonResponse = new JsonResponse();
         $parentId = (int) $request->get('parentId');
         $level = (int) $request->get('level') + 1; // +1 pour div id ajax response
 
         $result = [];
 
-        if (!$parentId) {
-            $response->setData(['error' => 'Oups pas su obtenir les catégories']);
+        if (0 === $parentId) {
+            $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
 
-            return $response;
+            return $jsonResponse;
         }
 
         $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
@@ -145,15 +136,15 @@ class AjaxController extends AbstractController
         $result['catId'] = $parentId;
         $result['level'] = $level;
 
-        $response->setData($result);
+        $jsonResponse->setData($result);
 
-        return $response;
+        return $jsonResponse;
     }
 
     /**
      * @Route("/fetch/{query}", name="bottin_fetch")
      */
-    public function fetchCategorie(?string $query = null)
+    public function fetchCategorie(?string $query = null): JsonResponse
     {
         $data = [];
         $i = 0;

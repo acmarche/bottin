@@ -139,7 +139,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected int $ftlb;
+    protected ?int $ftlb;
 
     /**
      * @ORM\Column(type="string", nullable=true)

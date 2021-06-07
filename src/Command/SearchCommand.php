@@ -13,16 +13,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SearchCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'bottin:search';
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
+    private \Symfony\Component\Routing\RouterInterface $router;
+    private ?\Symfony\Component\Console\Style\SymfonyStyle $symfonyStyle;
 
     public function __construct(RouterInterface $router, string $name = null)
     {
@@ -30,7 +27,7 @@ class SearchCommand extends Command
         $this->router = $router;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Test search')
@@ -39,17 +36,17 @@ class SearchCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $this->symfonyStyle = new SymfonyStyle($input, $output);
 
         $keyword = 'boulangerie';
 
         $dataNew = $this->searchNew($keyword);
         $result = $dataNew['hits'];
-        $this->io->writeln('Trouvé: '.$result['total']['value']);
+        $this->symfonyStyle->writeln('Trouvé: '.$result['total']['value']);
 
         foreach ($result['hits'] as $hit) {
             $source = $hit['_source'];
-            $this->io->writeln('Trouvé: '.$source['societe'].' cap '.$source['cap']);
+            $this->symfonyStyle->writeln('Trouvé: '.$source['societe'].' cap '.$source['cap']);
         }
 
         return 0;

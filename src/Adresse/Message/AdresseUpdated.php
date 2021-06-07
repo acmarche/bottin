@@ -4,11 +4,8 @@ namespace AcMarche\Bottin\Adresse\Message;
 
 class AdresseUpdated
 {
-    private $adresseId;
-    /**
-     * @var string|null
-     */
-    private $oldRue;
+    private int $adresseId;
+    private ?string $oldRue;
 
     public function __construct(int $adresseId, ?string $oldRue)
     {

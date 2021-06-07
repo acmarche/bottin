@@ -10,6 +10,7 @@ use AcMarche\Bottin\Service\MailerBottin;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -23,22 +24,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DemandeController extends AbstractController
 {
-    /**
-     * @var DemandeRepository
-     */
-    private $demandeRepository;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
-    /**
-     * @var MailerBottin
-     */
-    private $mailerBottin;
-    /**
-     * @var PropertyUtil
-     */
-    private $propertyUtil;
+    private DemandeRepository $demandeRepository;
+    private FicheRepository $ficheRepository;
+    private MailerBottin $mailerBottin;
+    private PropertyUtil $propertyUtil;
 
     public function __construct(
         DemandeRepository $demandeRepository,
@@ -57,7 +46,7 @@ class DemandeController extends AbstractController
      *
      * @Route("/", name="bottin_demande", methods={"GET"})
      */
-    public function index()
+    public function index(): Response
     {
         $demandes = $this->demandeRepository->search();
 
@@ -78,7 +67,7 @@ class DemandeController extends AbstractController
     {
         $fiche = $this->ficheRepository->find($demande->getFiche());
 
-        if (!$fiche) {
+        if (null === $fiche) {
             return $this->createNotFoundException('Fiche non trouvée');
         }
 
@@ -138,7 +127,7 @@ class DemandeController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_demande_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Demande $demande): Response
+    public function delete(Request $request, Demande $demande): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {
             $this->demandeRepository->remove($demande);

@@ -9,7 +9,7 @@ class Hotel2
     /**
      * @var Titre[]
      */
-    public $titre;
+    public array $titre;
     public $modif_date;
     public $publiable;
     public $oldkey;
@@ -18,19 +18,19 @@ class Hotel2
     /**
      * @var Categories[]
      */
-    public $categories;
+    public array $categories;
     /**
      * @var Localisation[]
      */
-    public $localisation;
+    public array $localisation;
     /**
      * @var Geocodes[]
      */
-    public $geocodes;
+    public array $geocodes;
     /**
      * @var Descriptions[]
      */
-    public $descriptions;
+    public array $descriptions;
     public $contacts;
     public $attributs;
     public $tarifs;

@@ -15,22 +15,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AdresseRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
-        parent::__construct($registry, Adresse::class);
+        parent::__construct($managerRegistry, Adresse::class);
     }
 
-    public function persist(Adresse $adresse)
+    public function persist(Adresse $adresse): void
     {
         $this->_em->persist($adresse);
     }
 
-    public function remove(Adresse $adresse)
+    public function remove(Adresse $adresse): void
     {
         $this->_em->remove($adresse);
     }
 
-    public function flush()
+    public function flush(): void
     {
         $this->_em->flush();
     }

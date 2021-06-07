@@ -5,6 +5,8 @@ namespace AcMarche\Bottin\Hades\Entity;
 
 class Chambre
 {
+    public $hot_id;
+    public $hot_titre;
     public function getId(): int
     {
         return (int)$this->hot_id[0];
@@ -17,7 +19,7 @@ class Chambre
     }
 
 
-    public function getDescriptions(): array
+    public function getDescriptions(): void
     {
         // TODO: Implement getDescription() method.
     }

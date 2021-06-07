@@ -6,10 +6,7 @@ use AcMarche\Bottin\Repository\FicheRepository;
 
 class SearchSql implements SearchEngineInterface
 {
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private FicheRepository $ficheRepository;
 
     public function __construct(FicheRepository $ficheRepository)
     {
@@ -31,7 +28,7 @@ class SearchSql implements SearchEngineInterface
         // TODO: Implement renderResult() method.
     }
 
-    public function getFiches(array $fiches)
+    public function getFiches(array $fiches): array
     {
         return $fiches;
     }

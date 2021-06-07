@@ -9,17 +9,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class FicheImageSerializer
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct()
     {
-        $this->serializer = $serializer;
     }
 
-    public function serializeFicheImage(FicheImage $ficheImage)
+    public function serializeFicheImage(FicheImage $ficheImage): array
     {
         //$data = json_decode($this->serializer->serialize($ficheImage, 'json', ['group1']), true);
         $data = [];

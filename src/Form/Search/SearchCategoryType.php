@@ -12,17 +12,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchCategoryType extends AbstractType
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $categories = [];
         $roots = $this->categoryRepository->getRootNodes();
@@ -31,7 +28,7 @@ class SearchCategoryType extends AbstractType
             $categories[$root->getName()] = $root->getId();
         }
 
-        $builder
+        $formBuilder
             ->add(
                 'parent',
                 ChoiceType::class,
@@ -53,8 +50,8 @@ class SearchCategoryType extends AbstractType
             );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $resolver->setDefaults([]);
+        $optionsResolver->setDefaults([]);
     }
 }

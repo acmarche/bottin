@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Elastic;
 
 class Search
 {
-    function byGeolocalistion()
+    function byGeolocalistion(): void
     {
         /**
          * search

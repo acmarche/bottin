@@ -11,15 +11,9 @@ use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 class AdresseCreatedHandler implements MessageSubscriberInterface
 {
-    private $adresseRepository;
-    /**
-     * @var FlashBagInterface
-     */
-    private $flashBag;
-    /**
-     * @var LocationUpdater
-     */
-    private $locationUpdater;
+    private \AcMarche\Bottin\Repository\AdresseRepository $adresseRepository;
+    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
 
     public function __construct(
         AdresseRepository $adresseRepository,
@@ -31,14 +25,14 @@ class AdresseCreatedHandler implements MessageSubscriberInterface
         $this->locationUpdater = $locationUpdater;
     }
 
-    public function __invoke(AdresseCreated $adresseCreated)
+    public function __invoke(AdresseCreated $adresseCreated): void
     {
         $adresse = $this->adresseRepository->find($adresseCreated->getAdresseId());
         $this->setLocation($adresse);
         $this->adresseRepository->flush();
     }
 
-    private function setLocation(Adresse $adresse)
+    private function setLocation(Adresse $adresse): void
     {
         try {
             $this->locationUpdater->convertAddressToCoordinates($adresse);

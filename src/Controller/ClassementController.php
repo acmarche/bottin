@@ -12,6 +12,7 @@ use AcMarche\Bottin\Utils\PathUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,22 +23,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ClassementController extends AbstractController
 {
-    /**
-     * @var ClassementRepository
-     */
-    private $classementRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var PathUtils
-     */
-    private $pathUtils;
-    /**
-     * @var ClassementHandler
-     */
-    private $classementHandler;
+    private ClassementRepository $classementRepository;
+    private CategoryRepository $categoryRepository;
+    private PathUtils $pathUtils;
+    private ClassementHandler $classementHandler;
 
     public function __construct(
         ClassementRepository $classementRepository,
@@ -56,7 +45,7 @@ class ClassementController extends AbstractController
      *
      * @Route("/edit/{id}", name="bottin_classement_new", methods={"GET", "POST"})
      */
-    public function edit(Fiche $fiche, Request $request)
+    public function edit(Fiche $fiche, Request $request): Response
     {
         $form = $this->createForm(ClassementType::class);
 

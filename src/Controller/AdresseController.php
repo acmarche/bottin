@@ -11,6 +11,7 @@ use AcMarche\Bottin\Form\LocalisationType;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,10 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdresseController extends AbstractController
 {
-    /**
-     * @var AdresseRepository
-     */
-    private $adresseRepository;
+    private \AcMarche\Bottin\Repository\AdresseRepository $adresseRepository;
 
     public function __construct(AdresseRepository $adresseRepository)
     {
@@ -38,7 +36,7 @@ class AdresseController extends AbstractController
      *
      * @Route("/", name="bottin_adresse", methods={"GET"})
      */
-    public function index()
+    public function index(): Response
     {
         $adresses = $this->adresseRepository->findAll();
 
@@ -55,7 +53,7 @@ class AdresseController extends AbstractController
      *
      * @Route("/new", name="bottin_adresse_new", methods={"GET", "POST"})
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         $adresse = new Adresse();
 
@@ -87,7 +85,7 @@ class AdresseController extends AbstractController
      *
      * @Route("/{id}", name="bottin_adresse_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Adresse $adresse)
+    public function show(Request $request, Adresse $adresse): Response
     {
         $fiches = $adresse->getFiches();
         $form = $this->createForm(LocalisationType::class, $adresse);
@@ -115,7 +113,7 @@ class AdresseController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_adresse_edit", methods={"GET", "POST"})
      */
-    public function edit(Adresse $adresse, Request $request)
+    public function edit(Adresse $adresse, Request $request): Response
     {
         $oldRue = $adresse->getRue();
         $editForm = $this->createForm(AdresseType::class, $adresse);
@@ -143,7 +141,7 @@ class AdresseController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_adresse_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Adresse $adresse): Response
+    public function delete(Request $request, Adresse $adresse): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$adresse->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new AdresseDeleted($adresse->getId()));

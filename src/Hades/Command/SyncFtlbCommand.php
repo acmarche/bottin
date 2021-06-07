@@ -13,44 +13,28 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SyncFtlbCommand extends Command
 {
+    /**
+     * @var string
+     */
     protected static $defaultName = 'bottin:syncftlb';
-
-    /**
-     * @var HadesImport
-     */
-    private $hadesImport;
-    /**
-     * @var HadesRepository
-     */
-    private $hadesRepository;
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var SymfonyStyle
-     */
-    private $io;
-    /**
-     * @var Hades
-     */
-    private $hades;
+    private \AcMarche\Bottin\Hades\HadesRepository $hadesRepository;
+    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private ?\Symfony\Component\Console\Style\SymfonyStyle $symfonyStyle;
+    private \AcMarche\Bottin\Hades\Hades $hades;
 
     public function __construct(
         Hades $hades,
-        HadesImport $hadesImport,
         HadesRepository $hadesRepository,
         CategoryRepository $categoryRepository,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->hadesImport = $hadesImport;
         $this->hadesRepository = $hadesRepository;
         $this->categoryRepository = $categoryRepository;
         $this->hades = $hades;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Synchronise avec la ftlb');
@@ -58,7 +42,7 @@ class SyncFtlbCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io = new SymfonyStyle($input, $output);
+        $this->symfonyStyle = new SymfonyStyle($input, $output);
         $this->hades->desirialize();
 
        // $hotels = $this->hadesRepository->getHotels();
@@ -69,10 +53,10 @@ class SyncFtlbCommand extends Command
         return 0;
     }
 
-    protected function importHotels()
+    protected function importHotels(): void
     {
-        $categorie = $this->categoryRepository->find(Hades::CATEGORY_HOTELS);
-        if (!$categorie) {
+        $category = $this->categoryRepository->find(Hades::CATEGORY_HOTELS);
+        if (!$category) {
             return;
         }
 
@@ -83,7 +67,7 @@ class SyncFtlbCommand extends Command
                 //    $this->hadesImport->treatment($hotel, $categorie);
             }
         } catch (\Exception $e) {
-            $this->io->error($e->getMessage());
+            $this->symfonyStyle->error($e->getMessage());
         }
     }
 

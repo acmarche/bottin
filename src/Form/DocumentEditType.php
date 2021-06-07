@@ -8,16 +8,16 @@ use Symfony\Component\Form\FormBuilderInterface;
 class DocumentEditType extends AbstractType
 {
     /**
-     * @param FormBuilderInterface $builder
+     * @param FormBuilderInterface $formBuilder
      * @param array $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $builder
+        $formBuilder
             ->remove('file');
     }
 
-    public function getParent()
+    public function getParent(): string
     {
         return DocumentType::class;
     }

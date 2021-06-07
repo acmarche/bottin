@@ -12,24 +12,15 @@ use Symfony\Component\HttpClient\HttpClient;
  */
 class OpenStreetMapReverse implements LocationReverseInterface
 {
-    /**
-     * @var string
-     */
-    private $baseUrl;
-    /**
-     * @var \Symfony\Contracts\HttpClient\HttpClientInterface
-     */
-    private $client;
+    private string $baseUrl;
+    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
 
-    /**
-     * @var array
-     */
-    private $result = [];
+    private array $result = [];
 
     public function __construct()
     {
         $this->baseUrl = 'https://nominatim.openstreetmap.org/reverse';
-        $this->client = HttpClient::create();
+        $this->httpClient = HttpClient::create();
     }
 
     /**
@@ -42,7 +33,7 @@ class OpenStreetMapReverse implements LocationReverseInterface
     {
         sleep(1);//policy
         try {
-            $request = $this->client->request(
+            $request = $this->httpClient->request(
                 'GET',
                 $this->baseUrl,
                 [
@@ -62,7 +53,7 @@ class OpenStreetMapReverse implements LocationReverseInterface
 
             return $this->result;
         } catch (ClientException $e) {
-            throw new \Exception($e->getMessage());
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 

@@ -6,6 +6,7 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,25 +17,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class SecteurController extends AbstractController
 {
-    /**
-     * @var CategoryRepository
-     */
-    private $categoryRepository;
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private FicheRepository $ficheRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, FicheRepository $ficheRepository)
+    public function __construct(FicheRepository $ficheRepository)
     {
-        $this->categoryRepository = $categoryRepository;
         $this->ficheRepository = $ficheRepository;
     }
 
     /**
      * @Route("/{anchor}", name="bottin_index")
      */
-    public function index($anchor = null)
+    public function index($anchor = null): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
 

@@ -8,10 +8,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 class FeatureContext extends RawMinkContext
 {
 
-    /**
-     * @var FicheRepository
-     */
-    private $ficheRepository;
+    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
 
     public function __construct(FicheRepository $ficheRepository)
     {
@@ -59,8 +56,8 @@ class FeatureContext extends RawMinkContext
      */
     public function iAmOnThePageShowEntry(string $name): void
     {
-        $entry = $this->ficheRepository->findOneBy(['societe' => $name]);
-        $path = '/fiche/show/'.$entry->getId();
+        $fiche = $this->ficheRepository->findOneBy(['societe' => $name]);
+        $path = '/fiche/show/'.$fiche->getId();
         $this->visitPath($path);
     }
 

@@ -9,6 +9,7 @@ use AcMarche\Bottin\Form\DocumentType;
 use AcMarche\Bottin\Repository\DocumentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,10 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DocumentController extends AbstractController
 {
-    /**
-     * @var DocumentRepository
-     */
-    private $documentRepository;
+    private DocumentRepository $documentRepository;
 
     public function __construct(DocumentRepository $documentRepository)
     {
@@ -36,7 +34,7 @@ class DocumentController extends AbstractController
      *
      * @Route("/new/{id}", name="bottin_document_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, Fiche $fiche)
+    public function new(Request $request, Fiche $fiche): Response
     {
         $document = new Document($fiche);
 
@@ -67,7 +65,7 @@ class DocumentController extends AbstractController
      *
      * @Route("/{id}", name="bottin_document_show", methods={"GET"})
      */
-    public function show(Document $document)
+    public function show(Document $document): Response
     {
         return $this->render(
             '@AcMarcheBottin/document/show.html.twig',
@@ -83,7 +81,7 @@ class DocumentController extends AbstractController
      *
      * @Route("/{id}/edit", name="bottin_document_edit", methods={"GET", "POST"})
      */
-    public function edit(Document $document, Request $request)
+    public function edit(Document $document, Request $request): Response
     {
         $editForm = $this->createForm(DocumentEditType::class, $document);
 
@@ -108,16 +106,15 @@ class DocumentController extends AbstractController
     /**
      * @Route("/{id}", name="bottin_document_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Document $document): Response
+    public function delete(Request $request, Document $document): RedirectResponse
     {
         $fiche = $document->getFiche();
         if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
             $this->documentRepository->remove($document);
             $this->documentRepository->flush();
-            $this->addFlash('success', "Le document a bien été supprimé");
+            $this->addFlash('success', 'Le document a bien été supprimé');
         }
 
         return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
     }
-
 }
