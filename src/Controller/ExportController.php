@@ -27,7 +27,7 @@ class ExportController extends AbstractController
     /**
      * @Route("/", name="bottin_export_select", methods={"GET"})
      */
-    public function categoryXls(): Response
+    public function selection(): Response
     {
         $form = $this->createForm(SelectCategoryType::class);
         $categories = $this->categoryRepository->getRootNodes();

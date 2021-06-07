@@ -71,4 +71,27 @@ class SearchController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route("/search/ajax", name="bottin_search_ajax")
+     */
+    public function searchAjax(Request $request): Response
+    {
+        $hits = [];
+        $q = $request->query->get('q');
+
+        try {
+            $response = $this->searchEngine->doSearch($q);
+            $hits = $response['hits'];
+        } catch (BadRequest400Exception $e) {
+            $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+        }
+
+        return $this->render(
+            '@AcMarcheBottin/search/_ajax.html.twig',
+            [
+                'hits' => $hits,
+            ]
+        );
+    }
 }

@@ -1,0 +1,24 @@
+<div class="list-group">
+    {% for hit in hits.hits %}
+        {% set fiche = hit._source %}
+        <a
+                role="option"
+                class="list-group-item list-group-item-action"
+                href="{{ path('bottin_fiche_show', {'id': fiche.id}) }}"
+        >
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <img
+                            alt="{{ fiche.societe }}"
+                            src="{{ asset('bundles/acmarchebottin/images/ftlb.png') }}"
+                            class="rounded"
+                    >
+                    <span class="px-1">{{ fiche.societe }}</span>
+                </div>
+                <em>{{ fiche.localite }}</em>
+            </div>
+        </a>
+    {% else %}
+        <div class="list-group-item" role="option" aria-disabled="true">No results found!</div>
+    {% endfor %}
+</div>

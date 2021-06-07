@@ -17,6 +17,19 @@
             <h5 class="text-success">Ajout par recherche</h5>
             <hr>
             {{ form_row(form.name) }}
+            <div class="input-group"
+                    {{ stimulus_controller('search', {'url':path('bottin_search_ajax')}) }}>
+                <input
+                        type="search"
+                        name="q"
+                        autocomplete="off"
+                        class="form-control"
+                        data-action="search#onSearchInput"/>
+                <div class="search-preview"
+                 data-search-target="result">
+
+                </div>
+            </div>
             {{ form_end(form) }}
 
             <div {{ stimulus_controller('category', { categoryId: 511 }) }} >
