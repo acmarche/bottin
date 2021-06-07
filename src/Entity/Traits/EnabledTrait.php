@@ -4,13 +4,14 @@
 namespace AcMarche\Bottin\Entity\Traits;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait EnabledTrait
 {
     /**
-     * @var bool
      * @ORM\Column(type="boolean")
      */
-    protected $enabled = true;
+    protected bool $enabled = true;
 
     /**
      * @return bool

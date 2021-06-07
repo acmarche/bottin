@@ -14,63 +14,57 @@ class Horaire
     use IdTrait;
 
     /**
-     * @var Fiche|null
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="horaires")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     /**
-     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $day;
+    protected ?int $day;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $media_path;
+    protected ?string $media_path;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $is_open_at_lunch = false;
+    protected bool $is_open_at_lunch = false;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $is_rdv = false;
+    protected bool $is_rdv = false;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected $morning_start;
+    protected ?\DateTimeInterface $morning_start;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected $morning_end;
+    protected ?\DateTimeInterface $morning_end;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected $noon_start;
+    protected ?\DateTimeInterface $noon_start;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected $noon_end;
+    protected ?\DateTimeInterface $noon_end;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $is_closed = false;
+    protected bool $is_closed = false;
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         if (!$this->getIsClosed() && !$this->getMorningStart() && !$this->getMorningEnd()
             && !$this->getNoonStart() && !$this->getNoonEnd() && !$this->getIsRdv()) {

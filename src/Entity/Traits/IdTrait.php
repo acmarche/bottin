@@ -15,8 +15,7 @@ trait IdTrait
      * @ORM\Column(type="integer")
      * @Groups({"category:read"})
      */
-    private $id;
-
+    private ?int $id;
 
     public function getId(): ?int
     {

@@ -15,82 +15,69 @@ trait ContactTrait
      */
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $fonction;
+    protected ?string $fonction;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $civilite;
+    protected ?string $civilite;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $nom;
+    protected ?string $nom;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $prenom;
+    protected ?string $prenom;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_rue;
+    protected ?string $contact_rue;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_num;
+    protected ?string $contact_num;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_cp;
+    protected ?string $contact_cp;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_localite;
+    protected ?string $contact_localite;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_telephone;
+    protected ?string $contact_telephone;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_telephone_autre;
+    protected ?string $contact_telephone_autre;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_fax;
+    protected ?string $contact_fax;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_gsm;
+    protected ?string $contact_gsm;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contact_email;
+    protected ?string $contact_email;
 
     public function getFonction(): ?string
     {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\FicheImage;
@@ -10,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait ImageTrait
 {
     /**
-     * @var FicheImage[]|iterable
+     * @var FicheImage[]|iterable|Collection
      * @ORM\OneToMany(targetEntity="FicheImage", mappedBy="fiche", cascade={"persist", "remove"})
      */
-    protected $images;
+    protected iterable $images;
 
     /**
      * @return Collection|FicheImage[]
@@ -47,11 +46,10 @@ trait ImageTrait
     }
 
     /**
-     * Pour elastic
-     * @param array $images
+     * Pour elastic.
      */
-    public function setImages(array $images) {
+    public function setImages(array $images)
+    {
         $this->images = $images;
     }
-
 }

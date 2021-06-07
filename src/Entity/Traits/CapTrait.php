@@ -6,10 +6,7 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 trait CapTrait
 {
-    /**
-     * @var boolean
-     */
-    private $cap = false;
+    private bool $cap = false;
 
     /**
      * @return bool

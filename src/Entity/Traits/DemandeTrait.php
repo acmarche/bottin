@@ -6,14 +6,15 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Demande;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 trait DemandeTrait
 {
     /**
-     * @var Demande[]|iterable
+     * @var Demande[]|iterable|Collection
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Demande", mappedBy="fiche", cascade={"persist", "remove"})
      */
-    protected $demandes;
+    protected iterable $demandes;
 
     /**
      * @return Collection|Demande[]

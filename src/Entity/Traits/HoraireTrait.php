@@ -11,11 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
 trait HoraireTrait
 {
     /**
-     * @var Horaire[]|iterable
+     * @var Horaire[]|iterable|Collection
      * @ORM\OneToMany(targetEntity="Horaire", mappedBy="fiche", cascade={"persist", "remove"})
      * @ORM\OrderBy({"day": "ASC"})
      */
-    protected $horaires;
+    protected iterable $horaires;
 
     /**
      * @return Collection|Horaire[]

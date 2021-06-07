@@ -23,25 +23,25 @@ class Demande implements TimestampableInterface
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="demandes")
      * @ORM\JoinColumn(nullable=false))
      */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $traiter_by;
+    protected ?string $traiter_by;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $traiter = false;
+    protected bool $traiter = false;
 
     /**
-     * @var DemandeMeta[]
+     * @var DemandeMeta[]|ArrayCollection|iterable
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\DemandeMeta", mappedBy="demande", cascade={"persist", "remove"})
      */
-    protected $metas;
+    protected array $metas;
 
     public function __construct()
     {

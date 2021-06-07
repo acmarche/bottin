@@ -1,30 +1,25 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
+use Doctrine\ORM\Mapping as ORM;
 
 trait SociauxTrait
 {
-
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $facebook;
+    protected ?string $facebook;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $twitter;
+    protected ?string $twitter;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $instagram;
-
+    protected ?string $instagram;
 
     public function getFacebook(): ?string
     {
@@ -50,20 +45,13 @@ trait SociauxTrait
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getInstagram(): ?string
     {
         return $this->instagram;
     }
 
-    /**
-     * @param string|null $instagram
-     */
     public function setInstagram(?string $instagram): void
     {
         $this->instagram = $instagram;
     }
-
 }

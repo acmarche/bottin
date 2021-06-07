@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -24,13 +25,13 @@ class FicheImage
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="images")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
      */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $principale = false;
+    protected bool $principale = false;
 
     /**
      * @Vich\UploadableField(mapping="bottin_fiche_image", fileNameProperty="imageName")
@@ -40,30 +41,29 @@ class FicheImage
      *     maxSize="7M"
      * )
      *
-     * @var File
      */
-    protected $image;
+    protected ?File $image;
 
     /**
      * @ORM\Column(type="string", length=255, name="image_name")
      *
      * @var string|null
      */
-    protected $imageName;
+    protected ?string $imageName;
 
     /**
      * @ORM\Column(type="string")
      *
      * @var string|null
      */
-    protected $mime;
+    protected ?string $mime;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
      *
      * @var \DateTime
      */
-    protected $updatedAt;
+    protected \DateTime $updatedAt;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -72,9 +72,8 @@ class FicheImage
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      */
-    public function setImage(File $image = null)
+    public function setImage(?File $image = null)
     {
         $this->image = $image;
 
@@ -85,9 +84,6 @@ class FicheImage
         }
     }
 
-    /**
-     * @return File
-     */
     public function getImage()
     {
         return $this->image;
@@ -95,10 +91,8 @@ class FicheImage
 
     /**
      * Pour ajouter plusieurs images d'un coup.
-     *
-     * @var array
      */
-    protected $images;
+    protected array $images;
 
     public function setImages(array $images)
     {

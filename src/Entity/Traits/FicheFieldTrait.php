@@ -9,10 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait FicheFieldTrait
 {
-    /**
-     * @var Fiche|null
-     */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     public function getFiche(): ?Fiche
     {

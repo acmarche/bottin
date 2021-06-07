@@ -25,49 +25,42 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     use LocationTrait;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=150, nullable=false)
      */
-    private $nom;
+    private ?string $nom;
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=false)
      */
-    protected $rue;
+    protected ?string $rue;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $numero;
+    protected ?string $numero;
 
     /**
-     * @var int|null
      * @ORM\Column(type="integer", nullable=false)
      */
-    protected $cp;
+    protected ?int $cp;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=false)
      */
-    protected $localite;
+    protected ?string $localite;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $longitude;
+    protected ?string $longitude;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $latitude;
+    protected ?string $latitude;
 
     /**
      * @var Fiche[]
-     * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Fiche", mappedBy="adresse")
+     * @ORM\OneToMany(targetEntity=Fiche::class, mappedBy="adresse")
      */
     protected $fiches;
 
@@ -92,8 +85,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     }
 
     /**
-     * Fake pour location convert
-     * @return Adresse|null
+     * Fake pour location convert.
      */
     public function getAdresse(): ?Adresse
     {
@@ -164,5 +156,4 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
-
 }

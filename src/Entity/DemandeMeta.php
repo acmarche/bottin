@@ -15,23 +15,20 @@ class DemandeMeta
     use IdTrait;
 
     /**
-     * @var Demande
      * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Demande", inversedBy="metas")
      */
-    protected $demande;
+    protected Demande $demande;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected $champ;
+    protected ?string $champ;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $value;
+    protected ?string $value;
 
     public function __construct(Demande $demande, string $champ, ?string $value)
     {
@@ -64,12 +61,12 @@ class DemandeMeta
         return $this;
     }
 
-    public function getDemande(): ?Demande
+    public function getDemande(): Demande
     {
         return $this->demande;
     }
 
-    public function setDemande(?Demande $demande): self
+    public function setDemande(Demande $demande): self
     {
         $this->demande = $demande;
 

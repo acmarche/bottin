@@ -17,18 +17,17 @@ class Pdv
     use IdTrait;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected $intitule;
+    protected ?string $intitule;
 
     /**
      * @var Fiche[]
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Fiche", mappedBy="pdv")
      * @ORM\OrderBy({"societe": "ASC"})
      */
-    protected $fiches;
+    protected iterable $fiches;
 
     public function __construct()
     {
@@ -60,11 +59,11 @@ class Pdv
         return $this->fiches;
     }
 
-    public function addFich(Fiche $fich): self
+    public function addFich(Fiche $fiche): self
     {
-        if (!$this->fiches->contains($fich)) {
-            $this->fiches[] = $fich;
-            $fich->setPdv($this);
+        if (!$this->fiches->contains($fiche)) {
+            $this->fiches[] = $fiche;
+            $fiche->setPdv($this);
         }
 
         return $this;

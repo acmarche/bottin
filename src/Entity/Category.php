@@ -7,6 +7,7 @@ use AcMarche\Bottin\Entity\Traits\EnfantTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,11 +20,8 @@ use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
- *
- *
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\CategoryRepository")
  * @ORM\Table(name="category")
@@ -32,15 +30,14 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     collectionOperations={"get"},
  *     itemOperations={"get"})
  * @ApiFilter(SearchFilter::class, properties={"name": "partial", "id": "exact"})
-
  */
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface
 {
-    use LogoTrait,
-        TreeNodeTrait,
-        SluggableTrait,
-        TimestampableTrait,
-        EnfantTrait;
+    use LogoTrait;
+    use TreeNodeTrait;
+    use SluggableTrait;
+    use TimestampableTrait;
+    use EnfantTrait;
     use IdTrait;
 
     /**
@@ -48,37 +45,34 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
      * @Assert\NotBlank
      * @Groups({"category:read"})
      */
-    protected $name;
+    protected ?string $name;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $parent;
+    private ?Category $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="Classement", mappedBy="category", cascade={"remove"})
      */
-    protected $classements;
+    protected ArrayCollection $classements;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $mobile = false;
+    protected bool $mobile = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups("category:read")
      */
-    protected $description;
+    protected ?string $description;
 
     /**
      * Utiliser pour afficher le classement.
-     *
-     * @var array
      */
-    protected $path;
+    protected array $path;
 
     public function __construct()
     {
@@ -88,7 +82,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
     public function getLabelHierarchical()
     {
-        return str_repeat("-", $this->getNodeLevel() - 1).' '.$this->getName();
+        return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->getName();
     }
 
     public function getPath()
@@ -96,7 +90,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return $this->path;
     }
 
-    public function setPath($path)
+    public function setPath(array $path)
     {
         $this->path = $path;
 
@@ -220,5 +214,4 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
         return $this;
     }
-
 }

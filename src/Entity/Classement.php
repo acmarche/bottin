@@ -23,26 +23,22 @@ class Classement
     use IdTrait;
 
     /**
-     * @var Fiche|null
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="classements")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     /**
-     * @var Category|null
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="classements")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    protected $category;
+    protected ?Category $category;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean")
      * @Groups({"read", "write"})
-
      */
-    protected $principal = false;
+    protected bool $principal = false;
 
     public function __construct(Fiche $fiche, Category $category)
     {

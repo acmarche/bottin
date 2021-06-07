@@ -4,6 +4,8 @@
 namespace AcMarche\Bottin\Entity\Traits;
 
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait AdminTrait
 {
 
@@ -14,58 +16,49 @@ trait AdminTrait
      */
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_fonction;
+    protected ?string $admin_fonction;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_civilite;
+    protected ?string $admin_civilite;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_nom;
+    protected ?string $admin_nom;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_prenom;
+    protected ?string $admin_prenom;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_telephone;
+    protected ?string $admin_telephone;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_telephone_autre;
+    protected ?string $admin_telephone_autre;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_fax;
+    protected ?string $admin_fax;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_gsm;
+    protected ?string $admin_gsm;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $admin_email;
+    protected ?string $admin_email;
 
     public function getAdminFonction(): ?string
     {

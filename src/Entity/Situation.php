@@ -21,18 +21,17 @@ class Situation
     use IdTrait;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @var Fiche[]
      * @ORM\ManyToMany(targetEntity="AcMarche\Bottin\Entity\Fiche", mappedBy="situations")
      * @ORM\OrderBy({"societe": "ASC"})
      */
-    protected $fiches;
+    protected iterable $fiches;
 
     public function __construct()
     {

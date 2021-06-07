@@ -1,19 +1,18 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
-
 
 use AcMarche\Bottin\Entity\Classement;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
 trait ClassementTrait
 {
     /**
-     * @var Classement[]|iterable
-     * @ORM\OneToMany(targetEntity="Classement", mappedBy="fiche", cascade={"persist", "remove"})
+     * @var Classement[]|iterable|Collection
+     * @ORM\OneToMany(targetEntity=Classement::class, mappedBy="fiche", cascade={"persist", "remove"})
      */
-    protected $classements;
+    protected iterable $classements;
 
     /**
      * @return Collection|Classement[]
@@ -46,7 +45,8 @@ trait ClassementTrait
         return $this;
     }
 
-    public function setClassements(array $classements) {
+    public function setClassements(array $classements)
+    {
         $this->classements = $classements;
     }
 }

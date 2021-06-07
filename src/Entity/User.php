@@ -8,51 +8,52 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\UserRepository")
+ *
+ * @method string getUserIdentifier()
  */
 class User implements UserInterface
 {
-   use IdTrait;
+    use IdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=false)
      */
-    private $nom;
+    private ?string $nom;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      */
-    private $prenom;
+    private ?string $prenom;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * Plain password. Used for model validation. Must not be persisted.
-     *
-     * @var string|null
      */
-    protected $plainPassword;
+    protected ?string $plainPassword;
 
-    public function __construct()
+    public function __call($name, $arguments)
     {
+        // TODO: Implement @method string getUserIdentifier()
     }
 
     public function __toString()
@@ -80,17 +81,11 @@ class User implements UserInterface
         return in_array($role, $this->getRoles(), true);
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
-    /**
-     * @param string|null $plainPassword
-     */
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;

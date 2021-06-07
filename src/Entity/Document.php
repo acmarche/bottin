@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
@@ -23,51 +22,44 @@ class Document implements TimestampableInterface
     use IdTrait;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected $name;
+    protected string $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected $description;
+    protected ?string $description;
 
     /**
-     * @var Fiche|null
      * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Fiche", inversedBy="documents")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
      */
-    protected $fiche;
+    protected ?Fiche $fiche;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="bottin_fiche_document", fileNameProperty="fileName", size="fileSize")
      *
-     * @var File|null
      * @Assert\File(
      *     maxSize = "16384k",
      *     mimeTypes = {"application/pdf", "application/x-pdf"},
      *     mimeTypesMessage = "Uniquement des PDF"
      * )
      */
-    private $file;
+    private ?File $file;
 
     /**
      * @ORM\Column(type="string")
-     *
-     * @var string|null
      */
-    private $fileName;
+    private ?string $fileName;
 
     /**
      * @ORM\Column(type="integer")
-     *
-     * @var int|null
      */
-    private $fileSize;
+    private ?int $fileSize;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -89,17 +81,11 @@ class Document implements TimestampableInterface
         }
     }
 
-    /**
-     * @return File|null
-     */
     public function getFile(): ?File
     {
         return $this->file;
     }
 
-    /**
-     * @param File|null $file
-     */
     public function setFile(?File $file): void
     {
         $this->file = $file;
@@ -162,6 +148,4 @@ class Document implements TimestampableInterface
 
         return $this;
     }
-
-
 }

@@ -18,7 +18,6 @@ use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
-use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -52,138 +51,115 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     use SociauxTrait;
     use PdvTrait;
     use SituationsTrait;
-    use TokenTrait;
     use EnabledTrait;
     use CapTrait;
     use EcommerceTrait;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
     protected $societe;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $rue;
+    protected ?string $rue;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $numero;
+    protected ?string $numero;
 
     /**
-     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $cp;
+    protected ?int $cp;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $localite;
+    protected ?string $localite;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $telephone;
+    protected ?string $telephone;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $telephone_autre;
+    protected ?string $telephone_autre;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $fax;
+    protected ?string $fax;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $gsm;
+    protected ?string $gsm;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $website;
+    protected ?string $website;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $email;
+    protected ?string $email;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $longitude;
+    protected ?string $longitude;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $latitude;
+    protected ?string $latitude;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $centreville = false;
+    protected bool $centreville = false;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $midi = false;
+    protected bool $midi = false;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    protected $pmr = false;
+    protected bool $pmr = false;
 
     /**
-     * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected $ftlb;
+    protected int $ftlb;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $user;
+    protected ?string $user;
 
     /**
      * Utiliser lors de l'ajout d'un classement.
-     *
-     * @var int|null
      */
-    protected $categoryId;
+    protected ?int $categoryId;
 
     /**
-     * @var Adresse
-     * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Adresse", inversedBy="fiches")
+     * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="fiches")
      */
-    protected $adresse;
+    protected ?Adresse $adresse;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $numero_tva;
+    protected ?string $numero_tva;
 
     public function __construct()
     {
@@ -195,12 +171,12 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         $this->situations = new ArrayCollection();
     }
 
-    public function getCategoryId()
+    public function getCategoryId(): ?int
     {
         return $this->categoryId;
     }
 
-    public function setCategoryId($categoryId)
+    public function setCategoryId($categoryId): Fiche
     {
         $this->categoryId = $categoryId;
 

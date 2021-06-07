@@ -11,21 +11,14 @@ trait UuidTrait
 {
     /**
      * @ORM\Column(type="uuid", unique=true, nullable=true)
-     * @var ?string
      */
-    private $uuid;
+    private ?string $uuid;
 
-    /**
-     * @return string|null
-     */
     public function getUuid(): ?string
     {
         return $this->uuid;
     }
 
-    /**
-     * @param string|null $uuid
-     */
     public function setUuid(?string $uuid): void
     {
         $this->uuid = $uuid;

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
-
 
 use AcMarche\Bottin\Entity\Document;
 use Doctrine\Common\Collections\Collection;
@@ -11,10 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait DocumentsTrait
 {
     /**
-     * @var Document[]
+     * @var Document[]|Collection|iterable
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\Document", mappedBy="fiche", cascade={"persist", "remove"})
      */
-    private $documents;
+    private array $documents;
 
     /**
      * @return Collection|Document[]
@@ -48,12 +46,10 @@ trait DocumentsTrait
     }
 
     /**
-     * Pour elastic
-     * @param array $documents
+     * Pour elastic.
      */
     public function setDocuments(array $documents)
     {
         $this->documents = $documents;
     }
-
 }

@@ -4,39 +4,21 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 trait LocationTrait
 {
-    /**
-     * @var string|null
-     */
-    protected $rue;
+    protected ?string $rue;
 
-    /**
-     * @var string|null
-     */
-    protected $numero;
+    protected ?string $numero;
 
-    /**
-     * @var int|null
-     */
-    protected $cp;
+    protected ?int $cp;
 
-    /**
-     * @var string|null
-     */
-    protected $localite;
+    protected ?string $localite;
 
-    /**
-     * @var string|null
-     */
-    protected $longitude;
+    protected ?string $longitude;
 
-    /**
-     * @var string|null
-     */
-    protected $latitude;
+    protected ?string $latitude;
 
     public function getRue(): ?string
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getRue();
         }
 
@@ -52,7 +34,7 @@ trait LocationTrait
 
     public function getNumero(): ?string
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getNumero();
         }
 
@@ -68,7 +50,7 @@ trait LocationTrait
 
     public function getCp(): ?int
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getCp();
         }
 
@@ -84,7 +66,7 @@ trait LocationTrait
 
     public function getLocalite(): ?string
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getLocalite();
         }
 
@@ -100,7 +82,7 @@ trait LocationTrait
 
     public function getLongitude(): ?string
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getLongitude();
         }
 
@@ -116,7 +98,7 @@ trait LocationTrait
 
     public function getLatitude(): ?string
     {
-        if ($this->getAdresse() != null) {
+        if (null != $this->getAdresse()) {
             return $this->getAdresse()->getLatitude();
         }
 
