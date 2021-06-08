@@ -18,6 +18,7 @@ use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
+use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,7 +37,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
 {
     use IdTrait;
-    use UuidTrait;
     use LocationTrait;
     use SluggableTrait;
     use TimestampableTrait;
@@ -54,12 +54,13 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     use EnabledTrait;
     use CapTrait;
     use EcommerceTrait;
+    use TokenTrait;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected $societe;
+    protected ?string $societe;
 
     /**
      * @ORM\Column(type="string", nullable=true)

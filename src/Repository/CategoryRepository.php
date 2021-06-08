@@ -4,8 +4,8 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Cap\Cap;
 use AcMarche\Bottin\Entity\Category;
+use AcMarche\Bottin\Utils\SortUtils;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
 
@@ -52,7 +52,9 @@ class CategoryRepository extends ServiceEntityRepository
     public function getAllTree(): array
     {
         $categories = [];
-        foreach ($this->getRootNodes() as $rootNode) {
+        $roots = $this->getRootNodes();
+        $roots = SortUtils::sortCategories($roots);
+        foreach ($roots as $rootNode) {
             $categories[] = $this->getTree($rootNode->getRealMaterializedPath());
         }
 

@@ -90,9 +90,10 @@ class FicheRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('fiche')
             ->leftJoin('fiche.pdv', 'pdv', 'WITH')
             ->leftJoin('fiche.classements', 'classements', 'WITH')
+            ->leftJoin('fiche.token', 'token', 'WITH')
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images')
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token')
             ->getQuery()->getResult();
     }
 

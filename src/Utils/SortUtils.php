@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Utils;
 
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 
 class SortUtils
@@ -30,9 +31,9 @@ class SortUtils
     }
 
     /**
-     * @param \AcMarche\Bottin\Entity\Category[] $fiches
+     * @param Category[] $fiches
      *
-     * @return \AcMarche\Bottin\Entity\Category[]
+     * @return Category[]
      */
     public static function sortCategories(array $categories): array
     {

@@ -10,9 +10,9 @@ use Symfony\Component\Uid\Uuid;
 trait UuidTrait
 {
     /**
-     * @ORM\Column(type="uuid", unique=true, nullable=true)
+     * @ORM\Column(type="uuid", unique=true, nullable=false)
      */
-    private ?string $uuid;
+    protected ?string $uuid;
 
     public function getUuid(): ?string
     {
