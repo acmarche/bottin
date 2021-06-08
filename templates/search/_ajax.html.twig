@@ -3,8 +3,9 @@
         {% set fiche = hit._source %}
         <a
                 role="option"
+                data-action="search#selectX"
                 class="list-group-item list-group-item-action"
-                href="{{ path('bottin_fiche_show', {'id': fiche.id}) }}"
+                                        data-category-id="{{ fiche.id }}"
         >
             <div class="d-flex align-items-center justify-content-between">
                 <div>
@@ -19,6 +20,6 @@
             </div>
         </a>
     {% else %}
-        <div class="list-group-item" role="option" aria-disabled="true">No results found!</div>
+        <li class="list-group-item" role="option" aria-disabled="true">No results found!</li>
     {% endfor %}
 </div>
