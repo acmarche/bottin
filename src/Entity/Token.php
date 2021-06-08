@@ -31,6 +31,6 @@ class Token implements TimestampableInterface
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
-       // $this->uuid = $this->generateUuid();
+        $this->uuid = $this->generateUuid();
     }
 }

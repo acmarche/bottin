@@ -36,7 +36,7 @@ class TokenController extends AbstractController
         $fiches = $this->ficheRepository->findAllWithJoins();
 
         foreach ($fiches as $fiche) {
-            if (!$token = $fiche->getToken()) {
+            if (!$fiche->getToken()) {
                 $token = new Token($fiche);
                 $this->tokenRepository->persist($token);
             }
