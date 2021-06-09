@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Form;
 
-use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -11,10 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LocalisationType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
@@ -34,13 +29,10 @@ class LocalisationType extends AbstractType
             );
     }
 
-    /**
-     * @param OptionsResolver $optionsResolver
-     */
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(
-            array('data_class' => LocationAbleInterface::class)
+            ['data_class' => LocationAbleInterface::class]
         );
     }
 }
