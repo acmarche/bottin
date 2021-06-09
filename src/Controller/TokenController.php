@@ -4,28 +4,28 @@ namespace AcMarche\Bottin\Controller;
 
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Repository\TokenRepository;
+use AcMarche\Bottin\Token\TokenUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TokenController.
  *
- *  @Route("/token")
+ * @Route("/token")
  */
 class TokenController extends AbstractController
 {
+    private TokenUtils $tokenUtils;
     private FicheRepository $ficheRepository;
 
-    private TokenRepository $tokenRepository;
-
     public function __construct(
-        FicheRepository $ficheRepository,
-        TokenRepository $tokenRepository
+        TokenUtils $tokenUtils,
+        FicheRepository $ficheRepository
     ) {
+        $this->tokenUtils = $tokenUtils;
         $this->ficheRepository = $ficheRepository;
-        $this->tokenRepository = $tokenRepository;
     }
 
     /**
@@ -35,17 +35,22 @@ class TokenController extends AbstractController
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
 
-        foreach ($fiches as $fiche) {
-            if (!$fiche->getToken()) {
-                $token = new Token($fiche);
-                $this->tokenRepository->persist($token);
-            }
-        }
-        $this->tokenRepository->flush();
-
         return $this->render(
             '@AcMarcheBottin/default/uuid.html.twig',
             ['fiches' => $fiches]
+        );
+    }
+
+    /**
+     * @Route("/log/{uuid}",name="bottin_token_show")
+     */
+    public function show(Request $request, Token $token)
+    {
+        dump($this->tokenUtils->isExpired($token));
+
+        return $this->render(
+            '@AcMarcheBottin/default/index.html.twig',
+            ['categories' => []]
         );
     }
 }
