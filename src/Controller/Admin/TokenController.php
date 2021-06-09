@@ -47,10 +47,13 @@ class TokenController extends AbstractController
     public function show(Request $request, Token $token)
     {
         dump($this->tokenUtils->isExpired($token));
+        $fiche = $token->getFiche();
 
         return $this->render(
             '@AcMarcheBottin/admin/default/index.html.twig',
-            ['categories' => []]
+            [
+                'fiche' => $fiche
+            ]
         );
     }
 }

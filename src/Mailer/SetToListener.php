@@ -1,0 +1,28 @@
+<?php
+
+
+namespace AcMarche\Bottin\Mailer;
+
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Mailer\Event\MessageEvent;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+
+class SetToListener implements EventSubscriberInterface
+{
+    public function onMessage(MessageEvent $event)
+    {
+        $email = $event->getMessage();
+        if (!$email instanceof Email) {
+            return;
+        }
+        //$email->bcc(new Address('xx@xx.be', 'Test mail'));
+    }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            MessageEvent::class => 'onMessage',
+        ];
+    }
+}

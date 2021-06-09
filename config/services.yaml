@@ -5,6 +5,7 @@ parameters:
   router.request_context.host: 'bottin.local'
   router.request_context.scheme: 'http'
   bottin.url_update_category: '%env(BOTTIN_URL_UPDATE_CATEGORY)%'
+  bottin.email_from: '%env(EMAIL_FROM)%'
   es_config: { 'hosts': [ 'http://localhost:9200' ] }
 
 services:
