@@ -46,6 +46,7 @@ class SearchController extends AbstractController
             [
                 'search_form' => $form->createView(),
                 'hits' => $hits,
+                'keyword' => $args['nom'],
             ]
         );
     }

@@ -19,7 +19,6 @@ use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
-use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -192,6 +191,24 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
+    }
+
+    public function image(): ?string
+    {
+        if (count($this->images) > 0) {
+            return $this->images[0]->getImageName();
+        }
+
+        return null;
+    }
+
+    public function imageFile(): ?FicheImage
+    {
+        if (count($this->images) > 0) {
+            return $this->images[0];
+        }
+
+        return null;
     }
 
     public function __toString()

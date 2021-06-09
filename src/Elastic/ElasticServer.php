@@ -15,11 +15,11 @@ class ElasticServer
     public $indexDefinition;
     const INDEX_NAME = 'bottin';
 
-    private \Elasticsearch\Client $client;
-    private \AcMarche\Bottin\Utils\FileUtils $fileUtils;
-    private \AcMarche\Bottin\Serializer\FicheSerializer $ficheSerializer;
-    private \AcMarche\Bottin\Serializer\CategorySerializer $categorySerializer;
-    private \AcMarche\Bottin\Elastic\ClassementElastic $classementElastic;
+    private Client $client;
+    private FileUtils $fileUtils;
+    private FicheSerializer $ficheSerializer;
+    private CategorySerializer $categorySerializer;
+    private ClassementElastic $classementElastic;
 
     public function __construct(
         Client $client,
@@ -39,7 +39,7 @@ class ElasticServer
     /**
      * @throws Exception
      */
-    function updateSettingAndMapping(): void
+    public function updateSettingAndMapping(): void
     {
         $this->close();
         $this->updateSettins();
@@ -47,23 +47,23 @@ class ElasticServer
         $this->updateMappings();
     }
 
-    function razIndex(): void
+    public function razIndex(): void
     {
         $this->deleteIndex();
         $this->createIndex();
     }
 
-    function refresh(): array
+    public function refresh(): array
     {
         return $this->client->indices()->refresh(['index' => self::INDEX_NAME]);
     }
 
-    function open(): array
+    public function open(): array
     {
         return $this->client->indices()->open(['index' => self::INDEX_NAME]);
     }
 
-    function close(): array
+    public function close(): array
     {
         return $this->client->indices()->close(['index' => self::INDEX_NAME]);
     }
@@ -71,7 +71,7 @@ class ElasticServer
     /**
      * @throws Exception
      */
-    function createIndex(): array
+    public function createIndex(): array
     {
         $index = json_decode($this->fileUtils->readConfigFile('schema.json'), true);
         try {
@@ -81,14 +81,14 @@ class ElasticServer
         }
     }
 
-    function updateSettins(): array
+    public function updateSettins(): array
     {
         $settings = json_decode($this->fileUtils->readConfigFile('settings.json'), true);
 
         return $this->client->indices()->putSettings($settings);
     }
 
-    function updateMappings(): array
+    public function updateMappings(): array
     {
         $mappings = json_decode($this->fileUtils->readConfigFile('mappings.json'), true);
 
@@ -97,9 +97,10 @@ class ElasticServer
 
     /**
      * @return array|bool
+     *
      * @throws Exception
      */
-    function deleteIndex()
+    public function deleteIndex()
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -118,7 +119,7 @@ class ElasticServer
         return true;
     }
 
-    function updateFiche($fiche): array
+    public function updateFiche($fiche): array
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
@@ -137,7 +138,7 @@ class ElasticServer
         return $this->client->index($params);
     }
 
-    function updateCategorie(Category $category): array
+    public function updateCategorie(Category $category): array
     {
         $data = $this->categorySerializer->serializeCategory($category);
         $data['type'] = 'category';
@@ -151,7 +152,7 @@ class ElasticServer
         return $this->client->index($params);
     }
 
-    function deleteFiche(Fiche $fiche): void
+    public function deleteFiche(Fiche $fiche): void
     {
         $params = [
             'index' => self::INDEX_NAME,
@@ -160,5 +161,4 @@ class ElasticServer
 
         $this->client->delete($params);
     }
-
 }

@@ -1,0 +1,11 @@
+{% set imgUrl = asset('bundles/acmarchebottin/images/ftlb.png') %}
+
+{% if fiche.image %}
+    {% set imgUrl = imgUrl %}
+{% endif %}
+
+<img
+        alt="{{ fiche.societe }}"
+        src="{{ imgUrl }}"
+        class="rounded"
+>
