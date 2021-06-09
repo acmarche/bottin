@@ -1,0 +1,22 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>{{ document.name }}</h3>
+        </div>
+        <div class="card-body">
+
+            {% include '@AcMarcheBottin/admin/document/_actions.html.twig' %}
+
+            <a href="{{ vich_uploader_asset(document, 'file') }}">
+                <i class="fas fa-download"></i> Télécharger
+            </a>
+            <br/><br/>
+
+            {{ document.description | nl2br }}
+
+    {% include '@AcMarcheBottin/admin/document/_delete.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

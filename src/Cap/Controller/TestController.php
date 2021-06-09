@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Cap\Controller;
 
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -13,15 +12,13 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- *
- * @package AcMarche\Bottin\Controller
  * @Route("/test")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class TestController extends AbstractController
 {
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
-    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private HttpClientInterface $httpClient;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository)
     {
@@ -40,7 +37,7 @@ class TestController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('@AcMarcheBottin/test/index.html.twig');
+        return $this->render('@AcMarcheBottin/admin/test/index.html.twig');
     }
 
     /**
@@ -49,10 +46,10 @@ class TestController extends AbstractController
     public function fiches(): Response
     {
         $url = $this->generateUrl('bottin_api_fiches_commerces', [], false);
-        $request = $this->httpClient->request("GET", $url);
+        $request = $this->httpClient->request('GET', $url);
         $fiches = json_decode($request->getContent());
 
-        return $this->render('@AcMarcheBottin/test/fiches.html.twig', ['fiches' => $fiches, 'url' => $url]);
+        return $this->render('@AcMarcheBottin/admin/test/fiches.html.twig', ['fiches' => $fiches, 'url' => $url]);
     }
 
     /**
@@ -61,10 +58,10 @@ class TestController extends AbstractController
     public function commerces(): Response
     {
         $url = $this->generateUrl('bottin_api_commerces', [], false);
-        $request = $this->httpClient->request("GET", $url);
+        $request = $this->httpClient->request('GET', $url);
         $categories = json_decode($request->getContent());
 
-        return $this->render('@AcMarcheBottin/test/commerce.html.twig', ['categories' => $categories, 'url' => $url]);
+        return $this->render('@AcMarcheBottin/admin/test/commerce.html.twig', ['categories' => $categories, 'url' => $url]);
     }
 
     /**
@@ -73,12 +70,12 @@ class TestController extends AbstractController
     public function ficheByCategory($id): Response
     {
         $url = $this->generateUrl('bottin_api_fiche_by_category', ['id' => $id], false);
-        $request = $this->httpClient->request("GET", $url);
+        $request = $this->httpClient->request('GET', $url);
         $fiches = json_decode($request->getContent());
         $category = $this->categoryRepository->find($id);
 
         return $this->render(
-            '@AcMarcheBottin/test/fiches.html.twig',
+            '@AcMarcheBottin/admin/test/fiches.html.twig',
             ['fiches' => $fiches, 'category' => $category, 'url' => $url]
         );
     }
@@ -89,10 +86,10 @@ class TestController extends AbstractController
     public function ficheId($id): Response
     {
         $url = $this->generateUrl('bottin_api_fiche_by_id', ['id' => $id], false);
-        $request = $this->httpClient->request("GET", $url);
+        $request = $this->httpClient->request('GET', $url);
         $fiche = json_decode($request->getContent());
 
-        return $this->render('@AcMarcheBottin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
+        return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
 
     /**
@@ -106,7 +103,7 @@ class TestController extends AbstractController
         $url = $this->generateUrl('bottin_api_fiche_by_ids', [], false);
         try {
             $request = $this->httpClient->request(
-                "POST",
+                'POST',
                 $url,
                 [
                     'body' => $fields,
@@ -118,7 +115,7 @@ class TestController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/test/fiches_ids.html.twig',
+            '@AcMarcheBottin/admin/test/fiches_ids.html.twig',
             [
                 'fiches' => $result,
                 'url' => $url,
@@ -132,23 +129,22 @@ class TestController extends AbstractController
     public function ficheSlug($slug): Response
     {
         $url = $this->generateUrl('bottin_api_fiche_by_slugname', ['slugname' => $slug], false);
-        $request = $this->httpClient->request("GET", $url);
+        $request = $this->httpClient->request('GET', $url);
         $fiche = json_decode($request->getContent());
 
-        return $this->render('@AcMarcheBottin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
+        return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
 
     /**
-     *
      * @Route("/updatefiche", name="bottin_api_test_update_fiche", methods={"GET"})
      */
     public function updatefiche(): Response
     {
-        $fields = array('id' => 393, 'fax' => '084 12 34 56', 'gsm' => '0476 12 34 56');
+        $fields = ['id' => 393, 'fax' => '084 12 34 56', 'gsm' => '0476 12 34 56'];
 
         $url = $this->generateUrl('bottin_api_update_fiche', [], false);
         $request = $this->httpClient->request(
-            "POST",
+            'POST',
             $url,
             [
                 'body' => $fields,
@@ -156,12 +152,11 @@ class TestController extends AbstractController
         );
         $content = $request->getContent();
 
-        return $this->render('@AcMarcheBottin/test/update_fiche.html.twig', ['result' => $content]);
+        return $this->render('@AcMarcheBottin/admin/test/update_fiche.html.twig', ['result' => $content]);
     }
 
     /**
      * @Route("/bottin/test/search/{keyword}", name="bottin_api_test_search", methods={"GET"})
-     *
      */
     public function testSearch(string $keyword = 'axa'): Response
     {
@@ -169,7 +164,7 @@ class TestController extends AbstractController
 
         $url = $this->generateUrl('bottin_api_search', [], false);
         $request = $this->httpClient->request(
-            "POST",
+            'POST',
             $url,
             [
                 'body' => $data,
@@ -178,5 +173,4 @@ class TestController extends AbstractController
 
         return new Response($request->getContent());
     }
-
 }

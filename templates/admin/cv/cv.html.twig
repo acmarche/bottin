@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cv Jean-Francois Sénéchal</title>
+    {% block stylesheets %}{% endblock %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style type="text/css">
+        .width-25 {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+<main role="main" class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="text-center text-uppercase">
+                SENECHAL JEAN-FRANCOIS / Programmeur - Administrateur Linux
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4 bg-light">
+                    {% include '@AcMarcheBottin/admin/cv/_competences.html.twig' %}
+                </div>
+                <div class="col-8">
+                    {% include '@AcMarcheBottin/admin/cv/_experiences.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+</body>
+</html>

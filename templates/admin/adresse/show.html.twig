@@ -1,0 +1,30 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>{{ adresse }}</h3>
+        </div>
+        <div class="card-body">
+
+            {% include '@AcMarcheBottin/admin/adresse/_actions.html.twig' %}
+
+            <br/><br/>
+            <table class='table table-bordered table-hover'>
+                <tr>
+                    <th>
+                        <i class="fas fa-map-marked-alt"></i> Adresse
+                    </th>
+                    <td>
+                        {{ adresse.rue }} {{ adresse.numero }} <br/>
+                        {{ adresse.cp }} {{ adresse.localite }}
+                    </td>
+                </tr>
+            </table>
+            <h4 class="text-success">Situation sur la carte</h4>
+            {{ include('@AcMarcheBottin/admin/map/_localisation_form.html.twig') }}
+            {% include '@AcMarcheBottin/admin/map/_openstreetmap.html.twig' %}
+        </div>
+    </div>
+    {% include '@AcMarcheBottin/admin/adresse/_delete_form.html.twig' %}
+{% endblock %}

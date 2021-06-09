@@ -1,0 +1,65 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>Rechercher une fiche</h3>
+        </div>
+        <div class="card-body">
+    <span class="text-muted">
+        <a
+                href="{{ path('bottin_fiche_search_advanced') }}">Recherche avancé</a>
+    </span>
+
+            {% include '@AcMarcheBottin/admin/search/_fiche.html.twig' %}
+
+            {% if fiches|length > 0 %}
+
+                <h4 class="text-success">{{ fiches|length }} trouvé(s)</h4>
+
+                <table class='table table-bordered table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Societe</th>
+                        <th>Rue</th>
+                        <th>Localité</th>
+                        <th>Pmr</th>
+                        <th>Midi</th>
+                        <th>Centre</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for fiche in fiches %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}"
+                                   title="Détail de la fiche">
+                                    {{ fiche.societe }}
+                                </a>
+                            </td>
+                            <td>
+                                {{ fiche.rue }}
+                            </td>
+                            <td>
+                                {{ fiche.localite }}
+                            </td>
+                            <td>
+                                {{ fiche.pmr }}
+                            </td>
+                            <td>
+                                {{ fiche.midi }}
+                            </td>
+                            <td>
+                                {{ fiche.centreville }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

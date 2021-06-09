@@ -1,0 +1,16 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>Catégories sans fiche</h3></div>
+        <div class="card-body">
+
+            {% for category in categories %}
+                {% include '@AcMarcheBottin/admin/category/_breadcrumb.html.twig' with {'paths' : category.path } %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
