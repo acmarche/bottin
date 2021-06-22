@@ -13,10 +13,10 @@ use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 class FicheCreatedHandler implements MessageSubscriberInterface
 {
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
-    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
-    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
+    private FicheRepository $ficheRepository;
+    private FlashBagInterface $flashBag;
+    private ElasticServer $elasticServer;
+    private LocationUpdater $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,

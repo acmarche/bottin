@@ -109,7 +109,7 @@ class DocumentController extends AbstractController
     public function delete(Request $request, Document $document): RedirectResponse
     {
         $fiche = $document->getFiche();
-        if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $document->getId(), $request->request->get('_token'))) {
             $this->documentRepository->remove($document);
             $this->documentRepository->flush();
             $this->addFlash('success', 'Le document a bien été supprimé');

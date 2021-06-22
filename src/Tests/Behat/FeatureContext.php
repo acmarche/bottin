@@ -7,8 +7,7 @@ use Behat\MinkExtension\Context\RawMinkContext;
 
 class FeatureContext extends RawMinkContext
 {
-
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private FicheRepository $ficheRepository;
 
     public function __construct(FicheRepository $ficheRepository)
     {
@@ -21,7 +20,7 @@ class FeatureContext extends RawMinkContext
     public function iAmLoggedInAsAnAdmin(): void
     {
         $this->visitPath('/login');
-       // var_dump($this->getSession()->getPage()->getContent());
+        // var_dump($this->getSession()->getPage()->getContent());
         $this->fillField('username', 'jf@marche.be');
         $this->fillField('password', 'homer');
         $this->pressButton('Me connecter');
@@ -57,7 +56,7 @@ class FeatureContext extends RawMinkContext
     public function iAmOnThePageShowEntry(string $name): void
     {
         $fiche = $this->ficheRepository->findOneBy(['societe' => $name]);
-        $path = '/fiche/show/'.$fiche->getId();
+        $path = '/fiche/show/' . $fiche->getId();
         $this->visitPath($path);
     }
 

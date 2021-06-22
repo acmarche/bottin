@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -12,7 +11,7 @@ trait UuidTrait
     /**
      * @ORM\Column(type="uuid", unique=true, nullable=false)
      */
-    protected ?string $uuid;
+    protected ?string $uuid = null;
 
     public function getUuid(): ?string
     {

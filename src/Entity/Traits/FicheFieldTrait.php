@@ -3,13 +3,11 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use AcMarche\Bottin\Entity\Fiche;
-use Doctrine\ORM\Mapping as ORM;
 
 trait FicheFieldTrait
 {
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     public function getFiche(): ?Fiche
     {

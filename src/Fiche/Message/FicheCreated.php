@@ -15,5 +15,4 @@ class FicheCreated
     {
         return $this->ficheId;
     }
-
 }

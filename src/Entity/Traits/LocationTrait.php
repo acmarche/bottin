@@ -4,17 +4,17 @@ namespace AcMarche\Bottin\Entity\Traits;
 
 trait LocationTrait
 {
-    protected ?string $rue;
+    protected ?string $rue = null;
 
-    protected ?string $numero;
+    protected ?string $numero = null;
 
-    protected ?int $cp;
+    protected ?int $cp = null;
 
-    protected ?string $localite;
+    protected ?string $localite = null;
 
-    protected ?string $longitude;
+    protected ?string $longitude = null;
 
-    protected ?string $latitude;
+    protected ?string $latitude = null;
 
     public function getRue(): ?string
     {

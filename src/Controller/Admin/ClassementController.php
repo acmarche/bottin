@@ -9,6 +9,7 @@ use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,7 +66,7 @@ class ClassementController extends AbstractController
                 $this->addFlash('success', 'Le classement a bien été ajouté');
 
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
 
                 return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);

@@ -44,9 +44,9 @@ class TokenController extends AbstractController
     /**
      * @Route("/log/{uuid}",name="bottin_token_show")
      */
-    public function show(Request $request, Token $token)
+    public function show(Request $request, Token $token): Response
     {
-        dump($this->tokenUtils->isExpired($token));
+        dump();
         $fiche = $token->getFiche();
 
         return $this->render(

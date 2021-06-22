@@ -15,5 +15,4 @@ class CategoryUpdated
     {
         return $this->categoryId;
     }
-
 }

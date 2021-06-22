@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Pdv;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,7 +28,7 @@ class PdvRepository extends ServiceEntityRepository
         return $this->findBy([], ['intitule' => 'ASC']);
     }
 
-    public function getForList(): \Doctrine\ORM\QueryBuilder
+    public function getForList(): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('p');
         $queryBuilder->orderBy('p.intitule');
@@ -49,5 +50,4 @@ class PdvRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
-
 }

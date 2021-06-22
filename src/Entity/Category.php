@@ -45,13 +45,13 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
      * @Assert\NotBlank
      * @Groups({"category:read"})
      */
-    protected ?string $name;
+    protected ?string $name = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private ?Category $parent;
+    private ?Category $parent = null;
 
     /**
      * @ORM\OneToMany(targetEntity="Classement", mappedBy="category", cascade={"remove"})
@@ -67,7 +67,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
      * @ORM\Column(type="text", nullable=true)
      * @Groups("category:read")
      */
-    protected ?string $description;
+    protected ?string $description = null;
 
     /**
      * Utiliser pour afficher le classement.
@@ -83,17 +83,17 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         $this->classements = new ArrayCollection();
     }
 
-    public function getLabelHierarchical()
+    public function getLabelHierarchical(): string
     {
-        return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->getName();
+        return str_repeat('-', $this->getNodeLevel() - 1) . ' ' . $this->getName();
     }
 
-    public function getPath()
+    public function getPath(): array
     {
         return $this->path;
     }
 
-    public function setPath(array $path)
+    public function setPath(array $path): self
     {
         $this->path = $path;
 
@@ -127,7 +127,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return $this;
     }
 
-    public function getMobile(): ?bool
+    public function getMobile(): bool
     {
         return $this->mobile;
     }
@@ -175,7 +175,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return $this;
     }
 
-    public function getParent(): ?self
+    public function getParent(): ?\AcMarche\Bottin\Entity\Category
     {
         return $this->parent;
     }
@@ -190,7 +190,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     /**
      * @return Collection|Classement[]
      */
-    public function getClassements(): Collection
+    public function getClassements(): iterable
     {
         return $this->classements;
     }

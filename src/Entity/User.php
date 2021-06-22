@@ -18,22 +18,22 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $username;
+    private ?string $username = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=false)
      */
-    private ?string $nom;
+    private ?string $nom = null;
 
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      */
-    private ?string $prenom;
+    private ?string $prenom = null;
 
     /**
      * @ORM\Column(type="json")
@@ -49,7 +49,7 @@ class User implements UserInterface
     /**
      * Plain password. Used for model validation. Must not be persisted.
      */
-    protected ?string $plainPassword;
+    protected ?string $plainPassword = null;
 
     public function __call($name, $arguments)
     {

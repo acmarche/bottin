@@ -17,7 +17,7 @@ class Hotel implements OffreInterface
 
     public function getDescriptions(): array
     {
-        $comments1 = $this->hot_desc_com_fr.' '.$this->hot_remarque_fr;
+        $comments1 = $this->hot_desc_com_fr . ' ' . $this->hot_remarque_fr;
 
         return [$comments1, $this->getHoraire(), $this->hot_desc_fr];
     }
@@ -96,16 +96,16 @@ class Hotel implements OffreInterface
     public $hot_codecgt;
     public $hot_inscrit;
     public string $hot_titre;
-    public ?int $hot_etoiles;
-    public ?string $hot_adresse;
+    public ?int $hot_etoiles = null;
+    public ?string $hot_adresse = null;
     public $hot_cp;
     public $loc_id;
-    public ?string $hot_contact_nom;
-    public ?string $hot_contact_sex;
-    public ?string $hot_telephone;
-    public ?string $hot_fax;
-    public ?string $hot_email;
-    public ?string $hot_url;
+    public ?string $hot_contact_nom = null;
+    public ?string $hot_contact_sex = null;
+    public ?string $hot_telephone = null;
+    public ?string $hot_fax = null;
+    public ?string $hot_email = null;
+    public ?string $hot_url = null;
     public $hot_accueil_fr;
     public $hot_accueil_nl;
     public $hot_accueil_en;
@@ -121,7 +121,7 @@ class Hotel implements OffreInterface
     public $hot_chbr_fam_max;
     public $hot_cap_resto;
     public $hot_cap_conf;
-    public ?string $hot_ferm_fr;
+    public ?string $hot_ferm_fr = null;
     public $hot_desc_fr;
     public $hot_desc_nl;
     public $hot_desc_en;
@@ -130,8 +130,8 @@ class Hotel implements OffreInterface
     public $hot_desc_com_nl;
     public $hot_desc_com_en;
     public $hot_desc_com_de;
-    public ?float $hot_gpsx;
-    public ?float $hot_gpsy;
+    public ?float $hot_gpsx = null;
+    public ?float $hot_gpsy = null;
     public $hot_lab_vert;
     public $hot_logis;
     public $hot_lab_relsilence;
@@ -182,9 +182,9 @@ class Hotel implements OffreInterface
     public $hot_annee;
     public $hot_tf_mod_dat;
     public $lastmod;
-    public ?string $loc_cp;
-    public ?string $loc_nom;
-    public ?string $com_localite;
+    public ?string $loc_cp = null;
+    public ?string $loc_nom = null;
+    public ?string $com_localite = null;
     public $pay_id;
     public $com_id;
     public $photo;

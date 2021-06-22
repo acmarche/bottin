@@ -31,5 +31,4 @@ class Response
     {
         $this->offres[] = $offre;
     }
-
 }

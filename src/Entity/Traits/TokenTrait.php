@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use AcMarche\Bottin\Entity\Token;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,10 +11,10 @@ trait TokenTrait
     /**
      * @ORM\OneToOne(targetEntity="AcMarche\Bottin\Entity\Token", mappedBy="fiche")
      */
-    private ?Token $token;
+    private ?Token $token = null;
 
     /**
-     * @return \AcMarche\Bottin\Entity\Token|null
+     * @return Token|null
      */
     public function getToken(): ?Token
     {
@@ -23,7 +22,7 @@ trait TokenTrait
     }
 
     /**
-     * @param \AcMarche\Bottin\Entity\Token|null $token
+     * @param Token|null $token
      */
     public function setToken(?Token $token): void
     {

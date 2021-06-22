@@ -3,8 +3,11 @@
 namespace AcMarche\Bottin\Tests\Behat;
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Element\NodeElement;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 
@@ -14,7 +17,7 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 class XxContext
 {
     private $currentUser;
-    private \Doctrine\ORM\EntityManagerInterface $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * Initializes context.
@@ -43,7 +46,7 @@ class XxContext
     public function loadFixtures(): void
     {
         $containerAwareLoader = new ContainerAwareLoader($this->getContainer());
-        $containerAwareLoader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
+        $containerAwareLoader->loadFromDirectory(__DIR__ . '/../../src/AppBundle/DataFixtures');
         $ormExecutor = new ORMExecutor($this->getEntityManager());
         $ormExecutor->execute($containerAwareLoader->getFixtures(), true);
     }
@@ -51,7 +54,7 @@ class XxContext
     /**
      * @Given there is an admin user :username with password :password
      */
-    public function thereIsAnAdminUserWithPassword($username, $password)
+    public function thereIsAnAdminUserWithPassword($username, $password): \App\Entity\Security\User
     {
         $user = new \App\Entity\Security\User();
         $user->setUsername($username);
@@ -205,15 +208,15 @@ class XxContext
     public function iSaveAScreenshotIn($filename): void
     {
         sleep(1);
-        $this->saveScreenshot($filename, __DIR__.'/../sallessf');
+        $this->saveScreenshot($filename, __DIR__ . '/../sallessf');
     }
 
-    private function getPage(): \Behat\Mink\Element\DocumentElement
+    private function getPage(): DocumentElement
     {
         return $this->getSession()->getPage();
     }
 
-    private function getEntityManager(): \Doctrine\ORM\EntityManager
+    private function getEntityManager(): EntityManager
     {
         return $this->getContainer()->get('doctrine.orm.entity_manager');
     }
@@ -222,11 +225,11 @@ class XxContext
     {
         for ($i = 0; $i < $count; ++$i) {
             $product = new Product();
-            $product->setName('Product '.$i);
+            $product->setName('Product ' . $i);
             $product->setPrice(rand(10, 1_000));
             $product->setDescription('lorem');
 
-            if ($user) {
+            if ($user !== null) {
                 $product->setAuthor($user);
             }
 
@@ -239,7 +242,7 @@ class XxContext
     /**
      * @param $rowText
      */
-    private function findRowByText($rowText): ?\Behat\Mink\Element\NodeElement
+    private function findRowByText($rowText): ?NodeElement
     {
         $nodeElement = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
         assertNotNull($nodeElement, 'Cannot find a table row with this text!');

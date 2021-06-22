@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Hades;
 
-
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
@@ -13,8 +12,8 @@ use AcMarche\Bottin\Repository\FicheRepository;
 
 class HadesFactory
 {
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
-    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
+    private FicheRepository $ficheRepository;
+    private ClassementRepository $classementRepository;
 
     public function __construct(FicheRepository $ficheRepository, ClassementRepository $classementRepository)
     {

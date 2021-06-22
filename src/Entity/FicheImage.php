@@ -4,6 +4,8 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -21,14 +23,12 @@ class FicheImage
     use IdTrait;
 
     /**
-     * @var Fiche|null
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="images")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
      */
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", options={"default": 0})
      */
     protected bool $principale = false;
@@ -40,30 +40,23 @@ class FicheImage
      * @Assert\Image(
      *     maxSize="7M"
      * )
-     *
      */
-    protected ?File $image;
+    protected ?File $image = null;
 
     /**
      * @ORM\Column(type="string", length=255, name="image_name")
-     *
-     * @var string|null
      */
-    protected ?string $imageName;
+    protected ?string $imageName = null;
 
     /**
      * @ORM\Column(type="string")
-     *
-     * @var string|null
      */
-    protected ?string $mime;
+    protected ?string $mime = null;
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
-     *
-     * @var \DateTime
      */
-    protected \DateTime $updatedAt;
+    protected DateTime $updatedAt;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -71,20 +64,19 @@ class FicheImage
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
-     *
      */
-    public function setImage(?File $image = null)
+    public function setImage(?File $image = null): void
     {
         $this->image = $image;
 
-        if ($image) {
+        if (null !== $image) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTime('now');
+            $this->updatedAt = new DateTime('now');
         }
     }
 
-    public function getImage()
+    public function getImage(): ?File
     {
         return $this->image;
     }
@@ -94,14 +86,14 @@ class FicheImage
      */
     protected array $images;
 
-    public function setImages(array $images)
+    public function setImages(array $images): self
     {
         $this->images = $images;
 
         return $this;
     }
 
-    public function getImages()
+    public function getImages(): array
     {
         return $this->images;
     }
@@ -115,10 +107,10 @@ class FicheImage
     {
         $this->fiche = $fiche;
         $this->images = [];
-        $this->updatedAt = new \DateTime();
+        $this->updatedAt = new DateTime();
     }
 
-    public function getPrincipale(): ?bool
+    public function getPrincipale(): bool
     {
         return $this->principale;
     }
@@ -154,12 +146,12 @@ class FicheImage
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

@@ -15,5 +15,4 @@ class CategoryDeleted
     {
         return $this->categoryId;
     }
-
 }

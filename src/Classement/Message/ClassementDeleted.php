@@ -15,5 +15,4 @@ class ClassementDeleted
     {
         return $this->ficheId;
     }
-
 }

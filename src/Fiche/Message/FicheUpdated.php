@@ -25,5 +25,4 @@ class FicheUpdated
     {
         return $this->oldAddress;
     }
-
 }

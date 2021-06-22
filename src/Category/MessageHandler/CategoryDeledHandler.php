@@ -3,13 +3,12 @@
 namespace AcMarche\Bottin\Category\MessageHandler;
 
 use AcMarche\Bottin\Category\Message\CategoryDeleted;
-use AcMarche\Bottin\Category\Message\CategoryUpdated;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CategoryDeledHandler implements MessageHandlerInterface
 {
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private FlashBagInterface $flashBag;
 
     public function __construct(
         FlashBagInterface $flashBag
@@ -24,5 +23,4 @@ class CategoryDeledHandler implements MessageHandlerInterface
             "La catégorie a bien été supprimée"
         );
     }
-
 }

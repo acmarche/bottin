@@ -3,9 +3,7 @@
 
 namespace AcMarche\Bottin\Serializer;
 
-
 use AcMarche\Bottin\Entity\FicheImage;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class FicheImageSerializer
 {

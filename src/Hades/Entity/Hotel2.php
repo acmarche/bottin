@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-
 class Hotel2
 {
     /**

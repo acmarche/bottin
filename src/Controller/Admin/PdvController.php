@@ -125,7 +125,7 @@ class PdvController extends AbstractController
      */
     public function delete(Request $request, Pdv $pdv): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$pdv->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $pdv->getId(), $request->request->get('_token'))) {
             $this->pdvRepository->remove($pdv);
             $this->pdvRepository->flush();
             $this->addFlash('success', 'Le point de vente a bien été supprimé');

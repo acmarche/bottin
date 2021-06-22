@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 final class UserProcessor implements ProcessorInterface
 {
-    private \Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface $userPasswordEncoder;
+    private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
@@ -17,7 +17,7 @@ final class UserProcessor implements ProcessorInterface
 
     public function preProcess(string $fixtureId, $user): void
     {
-        if (! $user instanceof User) {
+        if (!$user instanceof User) {
             return;
         }
 

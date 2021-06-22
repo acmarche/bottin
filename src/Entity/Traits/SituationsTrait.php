@@ -40,5 +40,4 @@ trait SituationsTrait
 
         return $this;
     }
-
 }

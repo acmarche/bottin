@@ -25,5 +25,4 @@ class AdresseUpdated
     {
         return $this->oldRue;
     }
-
 }

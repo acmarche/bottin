@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Utils;
 
-
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 
@@ -51,5 +50,4 @@ class PathUtils
 
         return $classements;
     }
-
 }

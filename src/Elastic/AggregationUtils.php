@@ -55,5 +55,4 @@ class AggregationUtils
         }
         return [];
     }
-
 }

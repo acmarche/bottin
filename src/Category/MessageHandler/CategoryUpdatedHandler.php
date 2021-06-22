@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CategoryUpdatedHandler implements MessageHandlerInterface
 {
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private FlashBagInterface $flashBag;
 
     public function __construct(
         FlashBagInterface $flashBag
@@ -23,5 +23,4 @@ class CategoryUpdatedHandler implements MessageHandlerInterface
             "La catégorie a bien été mise à jour"
         );
     }
-
 }

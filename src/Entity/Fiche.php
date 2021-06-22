@@ -59,67 +59,67 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected ?string $societe;
+    protected ?string $societe = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $rue;
+    protected ?string $rue = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $numero;
+    protected ?string $numero = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $cp;
+    protected ?int $cp = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $localite;
+    protected ?string $localite = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $telephone;
+    protected ?string $telephone = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $telephone_autre;
+    protected ?string $telephone_autre = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $fax;
+    protected ?string $fax = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $gsm;
+    protected ?string $gsm = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $website;
+    protected ?string $website = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $email;
+    protected ?string $email = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $longitude;
+    protected ?string $longitude = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $latitude;
+    protected ?string $latitude = null;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
@@ -139,27 +139,27 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $ftlb;
+    protected ?int $ftlb = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $user;
+    protected ?string $user = null;
 
     /**
      * Utiliser lors de l'ajout d'un classement.
      */
-    protected ?int $categoryId;
+    protected ?int $categoryId = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="fiches")
      */
-    protected ?Adresse $adresse;
+    protected ?Adresse $adresse = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $numero_tva;
+    protected ?string $numero_tva = null;
 
     public function __construct()
     {
@@ -176,7 +176,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this->categoryId;
     }
 
-    public function setCategoryId($categoryId): Fiche
+    public function setCategoryId($categoryId): self
     {
         $this->categoryId = $categoryId;
 
@@ -300,7 +300,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this;
     }
 
-    public function getCentreville(): ?bool
+    public function getCentreville(): bool
     {
         return $this->centreville;
     }
@@ -312,7 +312,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this;
     }
 
-    public function getMidi(): ?bool
+    public function getMidi(): bool
     {
         return $this->midi;
     }
@@ -324,7 +324,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this;
     }
 
-    public function getPmr(): ?bool
+    public function getPmr(): bool
     {
         return $this->pmr;
     }

@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 trait CapTrait
 {
     private bool $cap = false;
@@ -23,6 +22,4 @@ trait CapTrait
     {
         $this->cap = $cap;
     }
-
-
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class CategoryCreatedHandler implements MessageHandlerInterface
 {
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
+    private FlashBagInterface $flashBag;
 
     public function __construct(
         FlashBagInterface $flashBag
@@ -23,5 +23,4 @@ class CategoryCreatedHandler implements MessageHandlerInterface
             "La catégorie a bien été crée"
         );
     }
-
 }

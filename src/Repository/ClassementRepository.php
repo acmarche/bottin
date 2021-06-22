@@ -7,6 +7,7 @@ use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,8 +40,8 @@ class ClassementRepository extends ServiceEntityRepository
 
         if ($onlyEco) {
             $queryBuilder->andWhere('cat.materializedPath LIKE :eco OR cat.materializedPath LIKE :sante')
-                ->setParameter('eco', '%'.Cap::idEco.'%')
-                ->setParameter('sante', '%'.Cap::idSante.'%');
+                ->setParameter('eco', '%' . Cap::idEco . '%')
+                ->setParameter('sante', '%' . Cap::idSante . '%');
         }
 
         return $queryBuilder->getQuery()->getResult();
@@ -66,9 +67,9 @@ class ClassementRepository extends ServiceEntityRepository
     /**
      * @param Fiche $fiche
      * @param Category $category
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
-    public function checkExist(Fiche $fiche, Category $category): \AcMarche\Bottin\Entity\Classement
+    public function checkExist(Fiche $fiche, Category $category): Classement
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')

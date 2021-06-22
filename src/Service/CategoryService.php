@@ -12,17 +12,16 @@ use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
-use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class CategoryService
 {
-    private \AcMarche\Bottin\Repository\CategoryRepository $categoryRepository;
+    private CategoryRepository $categoryRepository;
     private array $data = [];
-    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
-    private \AcMarche\Bottin\Utils\PathUtils $pathUtils;
+    private ClassementRepository $classementRepository;
+    private PathUtils $pathUtils;
 
     public function __construct(
         CategoryRepository $categoryRepository,

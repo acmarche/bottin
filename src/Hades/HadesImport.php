@@ -3,13 +3,12 @@
 
 namespace AcMarche\Bottin\Hades;
 
-
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Hades\Entity\OffreInterface;
 
 class HadesImport
 {
-    private \AcMarche\Bottin\Hades\HadesFactory $hadesFactory;
+    private HadesFactory $hadesFactory;
 
     public function __construct(HadesFactory $hadesFactory)
     {

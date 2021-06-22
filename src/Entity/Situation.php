@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity;
 
-
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -43,7 +42,7 @@ class Situation
         return $this->name;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -58,7 +57,7 @@ class Situation
     /**
      * @return Collection|Fiche[]
      */
-    public function getFiches(): Collection
+    public function getFiches(): iterable
     {
         return $this->fiches;
     }
@@ -102,5 +101,4 @@ class Situation
 
         return $this;
     }
-
 }

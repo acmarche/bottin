@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -21,5 +20,4 @@ trait IdTrait
     {
         return $this->id;
     }
-
 }

@@ -27,7 +27,7 @@ class Token implements TimestampableInterface
      * @ORM\OneToOne(targetEntity="AcMarche\Bottin\Entity\Fiche", inversedBy="token")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     /**
      * @ORM\Column(type="date",nullable=false)

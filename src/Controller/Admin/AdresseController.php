@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdresseController extends AbstractController
 {
-    private \AcMarche\Bottin\Repository\AdresseRepository $adresseRepository;
+    private AdresseRepository $adresseRepository;
 
     public function __construct(AdresseRepository $adresseRepository)
     {
@@ -143,7 +143,7 @@ class AdresseController extends AbstractController
      */
     public function delete(Request $request, Adresse $adresse): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$adresse->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $adresse->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new AdresseDeleted($adresse->getId()));
             $this->adresseRepository->remove($adresse);
             $this->adresseRepository->flush();

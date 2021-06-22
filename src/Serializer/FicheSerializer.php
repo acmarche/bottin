@@ -28,7 +28,7 @@ class FicheSerializer
         return $data;
     }
 
-    private function firstImage(Fiche $fiche): string
+    private function firstImage(Fiche $fiche): ?string
     {
         if ($fiche->image()) {
             return $this->uploaderHelper->asset($fiche->imageFile(), 'image');

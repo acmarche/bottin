@@ -9,8 +9,8 @@ use AcMarche\Bottin\Serializer\ClassementSerializer;
 
 class ClassementElastic
 {
-    private \AcMarche\Bottin\Repository\ClassementRepository $classementRepository;
-    private \AcMarche\Bottin\Serializer\ClassementSerializer $classementSerializer;
+    private ClassementRepository $classementRepository;
+    private ClassementSerializer $classementSerializer;
 
     public function __construct(ClassementRepository $classementRepository, ClassementSerializer $classementSerializer)
     {

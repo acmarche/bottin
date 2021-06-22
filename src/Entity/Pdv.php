@@ -20,7 +20,7 @@ class Pdv
      * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank
      */
-    protected ?string $intitule;
+    protected ?string $intitule = null;
 
     /**
      * @var Fiche[]
@@ -54,7 +54,7 @@ class Pdv
     /**
      * @return Collection|Fiche[]
      */
-    public function getFiches(): Collection
+    public function getFiches(): iterable
     {
         return $this->fiches;
     }

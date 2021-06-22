@@ -19,7 +19,7 @@ class SearchElastic implements SearchEngineInterface
 {
     public Client $client;
 
-    private ?Search $search;
+    private ?Search $search = null;
 
     public function __construct(Client $client)
     {
@@ -55,7 +55,8 @@ class SearchElastic implements SearchEngineInterface
     protected function createQueryForFiche(string $keyword): BoolQuery
     {
         $societeMatch = new MatchQuery(
-            'societe', $keyword,
+            'societe',
+            $keyword,
             [
                 //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
                 'boost' => 1.2,
@@ -64,14 +65,16 @@ class SearchElastic implements SearchEngineInterface
         );
 
         $societeStemmedMatch = new MatchQuery(
-            'societe.stemmed', $keyword,
+            'societe.stemmed',
+            $keyword,
             [
                 'boost' => 1.1,
             ]
         );
 
         $societeNgramMatch = new MatchQuery(
-            'societe.ngram', $keyword,
+            'societe.ngram',
+            $keyword,
             [
             ]
         );
@@ -174,7 +177,11 @@ class SearchElastic implements SearchEngineInterface
     protected function addSuggests(string $keyword): void
     {
         $suggest = new Suggest(
-            'societe_suggest', 'term', $keyword, 'societe', ['size' => 5, 'suggest_mode' => 'popular']
+            'societe_suggest',
+            'term',
+            $keyword,
+            'societe',
+            ['size' => 5, 'suggest_mode' => 'popular']
         );
         $this->search->addSuggest($suggest);
     }

@@ -3,12 +3,10 @@
 
 namespace AcMarche\Bottin\Utils;
 
-
 use AcMarche\Bottin\Entity\Fiche;
 
 class FicheUtils
 {
-
     /**
      * @param Fiche $fiche
      */
@@ -43,7 +41,4 @@ class FicheUtils
 
         return $tags;
     }
-
-
-
 }

@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Hades;
 
-use AcMarche\Bottin\Hades\Entity\Offre;
+use SimpleXMLElement;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -12,10 +12,10 @@ use Symfony\Component\Serializer\Serializer;
 
 class Hades
 {
-    const COMMUNE = 263;
-    const CATEGORY_HOTELS = 649;
+    public const COMMUNE = 263;
+    public const CATEGORY_HOTELS = 649;
 
-    private \AcMarche\Bottin\Hades\HadesRepository $hadesRepository;
+    private HadesRepository $hadesRepository;
 
     public function __construct(HadesRepository $hadesRepository)
     {
@@ -29,7 +29,7 @@ class Hades
         foreach ($data as $offre) {
             foreach ($offre as $att) {
                 /**
-                 * @var \SimpleXMLElement $att
+                 * @var SimpleXMLElement $att
                  */
                 // print_r($att->asXML());
                 // print_r($att->children());
@@ -62,13 +62,12 @@ class Hades
         var_dump($denormalized);
     }
 
-    public function getIdOffre(\SimpleXMLElement $element): int
+    public function getIdOffre(SimpleXMLElement $element): int
     {
-        if ($element->attributes() !== null && isset($element->attributes()->id)) {
+        if ($element->attributes() !== null && $element->attributes()->id !== null) {
             return (int)$element->attributes()->id;
         }
 
         return 0;
     }
-
 }

@@ -3,9 +3,7 @@
 
 namespace AcMarche\Bottin\Serializer;
 
-
 use AcMarche\Bottin\Entity\Horaire;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class HoraireSerializer
 {

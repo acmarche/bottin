@@ -7,8 +7,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class AdresseDeletedHandler implements MessageHandlerInterface
 {
-       public function __invoke(AdresseDeleted $adresseDeleted)
+    public function __invoke(AdresseDeleted $adresseDeleted)
     {
-
     }
 }

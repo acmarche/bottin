@@ -15,5 +15,4 @@ class ClassementUpdated
     {
         return $this->ficheId;
     }
-
 }

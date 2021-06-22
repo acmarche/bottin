@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Security;
 
+use Exception;
 use Symfony\Component\Ldap\Adapter\EntryManagerInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -51,7 +52,7 @@ class StaffLdap
     {
         try {
             $this->ldap->bind($user, $password);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new BadCredentialsException($exception->getMessage());
         }
     }

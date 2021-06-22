@@ -7,23 +7,23 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class FicheUpdatedHandler implements MessageHandlerInterface
 {
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
-    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
-    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
+    private FicheRepository $ficheRepository;
+    private FlashBagInterface $flashBag;
+    private ElasticServer $elasticServer;
+    private LocationUpdater $locationUpdater;
 
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
         ElasticServer $elasticServer,
         FlashBagInterface $flashBag
-    )
-    {
+    ) {
         $this->ficheRepository = $ficheRepository;
         $this->flashBag = $flashBag;
         $this->elasticServer = $elasticServer;
@@ -38,7 +38,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
                 $this->locationUpdater->convertAddressToCoordinates($fiche);
                 $this->ficheRepository->flush();
                 $this->flashBag->add('success', 'Coordonnées gps misent à jour');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->flashBag->add('danger', $e->getMessage());
             }
         }

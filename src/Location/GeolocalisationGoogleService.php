@@ -4,6 +4,7 @@
 namespace AcMarche\Bottin\Location;
 
 use AcMarche\Bottin\Entity\Fiche;
+use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -18,15 +19,9 @@ class GeolocalisationGoogleService
      */
     private $clefGoogle;
 
-    /**
-     * @var string
-     */
-    private $urlGoogle = 'https://maps.googleapis.com/maps/api/geocode/json';
+    private string $urlGoogle = 'https://maps.googleapis.com/maps/api/geocode/json';
 
-    /**
-     * @var HttpClientInterface
-     */
-    private $httpClient;
+    private HttpClientInterface $httpClient;
 
     public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
     {
@@ -37,15 +32,14 @@ class GeolocalisationGoogleService
     /**
      * @param Fiche $fiche
      *
-     * @return array
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function convertToCoordonate(Fiche $fiche, $withNum = true)
+    public function convertToCoordonate(Fiche $fiche, $withNum = true): array
     {
         $location = [];
 
-        $adresse = urlencode($this->getAdresseGeocode($fiche, $withNum).' BE');
+        $adresse = urlencode($this->getAdresseGeocode($fiche, $withNum) . ' BE');
 
         try {
             $request = $this->httpClient->request(
@@ -59,31 +53,31 @@ class GeolocalisationGoogleService
                 ]
             );
         } catch (TransportExceptionInterface $exception) {
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         try {
             $content = $request->getContent();
         } catch (ClientExceptionInterface $exception) {
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         } catch (RedirectionExceptionInterface $exception) {
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         } catch (ServerExceptionInterface $exception) {
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         } catch (TransportExceptionInterface $exception) {
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
         $coordonates = json_decode($content, true);
 
         if (is_array($coordonates)) {
             if (isset($coordonates['error_message'])) {
-                throw new \Exception($coordonates['error_message']);
+                throw new Exception($coordonates['error_message']);
             }
 
             $status = $coordonates['status'];
             if ('ZERO_RESULTS' === $status) {
-                throw new \Exception('Pas d\'adresse postale');
+                throw new Exception('Pas d\'adresse postale');
             }
 
             $results = $coordonates['results'];
@@ -103,10 +97,10 @@ class GeolocalisationGoogleService
         if ($fiche->getRue()) {
             $adresse = '';
             if ($fiche->getNumero() && $withNumero) {
-                $adresse = $fiche->getNumero().' ';
+                $adresse = $fiche->getNumero() . ' ';
             }
 
-            return $adresse.$fiche->getRue().' '.$fiche->getCp().' '.$fiche->getLocalite().' Belgium';
+            return $adresse . $fiche->getRue() . ' ' . $fiche->getCp() . ' ' . $fiche->getLocalite() . ' Belgium';
         } else {
             return 'Rue du Commerce Marche-en-Famenne Beligum';
         }

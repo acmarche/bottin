@@ -8,6 +8,7 @@ use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\MailerBottin;
 use AcMarche\Bottin\Utils\PropertyUtil;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -89,7 +90,7 @@ class DemandeController extends AbstractController
                 return $this->redirectToRoute('bottin_demande_show', ['id' => $demande->getId()]);
             }
             foreach ($metas as $champ => $value) {
-                $set = 'set'.ucfirst($champ);
+                $set = 'set' . ucfirst($champ);
                 $fiche->$set($value);
             }
 
@@ -105,9 +106,9 @@ class DemandeController extends AbstractController
                 $this->mailerBottin->sendMailConfirmDemande($fiche);
                 $this->addFlash('success', 'Un email de confirmation à bien été envoyé');
             } catch (TransportExceptionInterface $e) {
-                $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
-            } catch (\Exception $e) {
-                $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
+                $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : ' . $e->getMessage());
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : ' . $e->getMessage());
             }
 
             return $this->redirectToRoute('bottin_demande');
@@ -129,7 +130,7 @@ class DemandeController extends AbstractController
      */
     public function delete(Request $request, Demande $demande): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $demande->getId(), $request->request->get('_token'))) {
             $this->demandeRepository->remove($demande);
             $this->demandeRepository->flush();
             $this->addFlash('success', 'Le demande a bien été supprimée');

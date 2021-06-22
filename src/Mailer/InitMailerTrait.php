@@ -3,7 +3,7 @@
 
 namespace AcMarche\Bottin\Mailer;
 
-
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
@@ -23,7 +23,7 @@ trait InitMailerTrait
     }
 
     /**
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function sendMail(Email $email): void
     {

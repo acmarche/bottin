@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-
 interface OffreInterface
 {
     public function getId(): int;

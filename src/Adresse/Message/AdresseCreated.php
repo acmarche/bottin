@@ -15,5 +15,4 @@ class AdresseCreated
     {
         return $this->adresseId;
     }
-
 }

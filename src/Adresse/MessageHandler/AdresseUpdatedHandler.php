@@ -5,14 +5,15 @@ namespace AcMarche\Bottin\Adresse\MessageHandler;
 use AcMarche\Bottin\Adresse\Message\AdresseUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class AdresseUpdatedHandler implements MessageHandlerInterface
 {
-    private \AcMarche\Bottin\Repository\AdresseRepository $adresseRepository;
-    private \Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface $flashBag;
-    private \AcMarche\Bottin\Location\LocationUpdater $locationUpdater;
+    private AdresseRepository $adresseRepository;
+    private FlashBagInterface $flashBag;
+    private LocationUpdater $locationUpdater;
 
     public function __construct(
         AdresseRepository $adresseRepository,
@@ -33,7 +34,7 @@ class AdresseUpdatedHandler implements MessageHandlerInterface
             try {
                 $this->locationUpdater->convertAddressToCoordinates($adresse);
                 $this->adresseRepository->flush();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->flashBag->add(
                     'danger',
                     $e->getMessage()
@@ -41,5 +42,4 @@ class AdresseUpdatedHandler implements MessageHandlerInterface
             }
         }
     }
-
 }

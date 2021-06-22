@@ -5,8 +5,8 @@ namespace AcMarche\Bottin\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -21,7 +21,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
      */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
-        $yamlFileLoader = new Loader\YamlFileLoader($containerBuilder, new FileLocator(__DIR__.'/../../config'));
+        $yamlFileLoader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../config'));
         $yamlFileLoader->load('services.yaml');
     }
 
@@ -68,14 +68,14 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
             return;
         }
         $configs = $this->loadYamlFile($containerBuilder);
-        $configs->load($name.'.yaml');
+        $configs->load($name . '.yaml');
     }
 
-    protected function loadYamlFile(ContainerBuilder $containerBuilder): Loader\YamlFileLoader
+    protected function loadYamlFile(ContainerBuilder $containerBuilder): YamlFileLoader
     {
-        return new Loader\YamlFileLoader(
+        return new YamlFileLoader(
             $containerBuilder,
-            new FileLocator(__DIR__.'/../../config/packages')
+            new FileLocator(__DIR__ . '/../../config/packages')
         );
     }
 
@@ -83,7 +83,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
     {
         return new PhpFileLoader(
             $containerBuilder,
-            new FileLocator(__DIR__.'/../../config/packages')
+            new FileLocator(__DIR__ . '/../../config/packages')
         );
     }
 }

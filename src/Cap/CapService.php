@@ -22,8 +22,6 @@ class CapService
             $secteur = $first->getCategory()->getSlug();
         }
 
-        return $urlBase.$secteur."/".$fiche->getSlug();
+        return $urlBase . $secteur . "/" . $fiche->getSlug();
     }
-
-
 }

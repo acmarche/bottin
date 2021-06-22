@@ -9,17 +9,17 @@ trait SociauxTrait
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $facebook;
+    protected ?string $facebook = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $twitter;
+    protected ?string $twitter = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $instagram;
+    protected ?string $instagram = null;
 
     public function getFacebook(): ?string
     {

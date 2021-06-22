@@ -16,6 +16,7 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -83,7 +84,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
                 $fiches = $this->searchEngine->getFiches($response);
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
             }
         }
 
@@ -126,7 +127,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
             }
         }
 
@@ -149,7 +150,7 @@ class FicheController extends AbstractController
      *
      * @Route("/new", name="bottin_fiche_new", methods={"GET", "POST"})
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function new(Request $request): Response
     {
@@ -211,7 +212,7 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
         }
 
-        $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
+        $oldAdresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
 
         $editForm = $this->createForm(FicheType::class, $fiche);
@@ -246,7 +247,7 @@ class FicheController extends AbstractController
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $fiche->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new FicheDeleted($fiche->getId()));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();

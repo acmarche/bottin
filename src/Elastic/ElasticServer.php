@@ -13,7 +13,7 @@ use Exception;
 class ElasticServer
 {
     public $indexDefinition;
-    const INDEX_NAME = 'bottin';
+    public const INDEX_NAME = 'bottin';
 
     private Client $client;
     private FileUtils $fileUtils;
@@ -145,7 +145,7 @@ class ElasticServer
 
         $params = [
             'index' => self::INDEX_NAME,
-            'id' => 'cat_'.$data['id'],
+            'id' => 'cat_' . $data['id'],
             'body' => $data,
         ];
 

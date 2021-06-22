@@ -15,8 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class HoraireService
 {
-    public \Doctrine\Common\Collections\ArrayCollection $horaires;
-    private \AcMarche\Bottin\Repository\HoraireRepository $horaireRepository;
+    public ArrayCollection $horaires;
+    private HoraireRepository $horaireRepository;
 
     public function __construct(HoraireRepository $horaireRepository)
     {
@@ -77,5 +77,4 @@ class HoraireService
             $this->horaireRepository->persist($horaire);
         }
     }
-
 }

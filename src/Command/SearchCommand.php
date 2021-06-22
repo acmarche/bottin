@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpClient\HttpClient;
@@ -18,8 +17,8 @@ class SearchCommand extends Command
      */
     protected static $defaultName = 'bottin:search';
 
-    private \Symfony\Component\Routing\RouterInterface $router;
-    private ?\Symfony\Component\Console\Style\SymfonyStyle $symfonyStyle;
+    private RouterInterface $router;
+    private ?SymfonyStyle $symfonyStyle = null;
 
     public function __construct(RouterInterface $router, string $name = null)
     {
@@ -42,11 +41,11 @@ class SearchCommand extends Command
 
         $dataNew = $this->searchNew($keyword);
         $result = $dataNew['hits'];
-        $this->symfonyStyle->writeln('Trouvé: '.$result['total']['value']);
+        $this->symfonyStyle->writeln('Trouvé: ' . $result['total']['value']);
 
         foreach ($result['hits'] as $hit) {
             $source = $hit['_source'];
-            $this->symfonyStyle->writeln('Trouvé: '.$source['societe'].' cap '.$source['cap']);
+            $this->symfonyStyle->writeln('Trouvé: ' . $source['societe'] . ' cap ' . $source['cap']);
         }
 
         return 0;
@@ -73,5 +72,4 @@ class SearchCommand extends Command
 
         return json_decode($request->getContent(), true);
     }
-
 }

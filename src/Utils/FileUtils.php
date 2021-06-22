@@ -3,11 +3,12 @@
 
 namespace AcMarche\Bottin\Utils;
 
+use RuntimeException;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class FileUtils
 {
-    private \Symfony\Component\HttpKernel\Config\FileLocator $fileLocator;
+    private FileLocator $fileLocator;
 
     public function __construct(FileLocator $fileLocator)
     {
@@ -24,11 +25,13 @@ class FileUtils
     public function readConfigFile(string $fileName): string
     {
         $filePath = $this->getFilePath($fileName);
-        set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
+        set_error_handler(function ($type, $msg) use (&$error) {
+            $error = $msg;
+        });
         $content = file_get_contents($filePath);
         restore_error_handler();
         if (false === $content) {
-            throw new \RuntimeException($error);
+            throw new RuntimeException($error);
         }
 
         return $content;
@@ -36,6 +39,5 @@ class FileUtils
 
     public function jsonDecode(): void
     {
-
     }
 }

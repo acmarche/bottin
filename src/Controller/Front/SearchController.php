@@ -37,7 +37,7 @@ class SearchController extends AbstractController
                 $response = $this->searchEngine->doSearch($args['nom']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
             }
         }
 
@@ -85,7 +85,7 @@ class SearchController extends AbstractController
             $response = $this->searchEngine->doSearch($q);
             $hits = $response['hits'];
         } catch (BadRequest400Exception $e) {
-            $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+            $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
         }
 
         return $this->render(

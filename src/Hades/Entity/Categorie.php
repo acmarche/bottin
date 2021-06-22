@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Hades\Entity;
 
-
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class Categorie
@@ -20,5 +19,4 @@ class Categorie
      * @var Titre[]
      */
     public array $lib;
-
 }

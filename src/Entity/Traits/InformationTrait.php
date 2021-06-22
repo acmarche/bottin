@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 trait InformationTrait
@@ -12,25 +11,25 @@ trait InformationTrait
      * @ORM\Column(type="text", nullable=true)
      * Activite principale
      */
-    protected ?string $comment1;
+    protected ?string $comment1 = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * Specialites
      */
-    protected ?string $comment2;
+    protected ?string $comment2 = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * Prix, parking, rampe
      */
-    protected ?string $comment3;
+    protected ?string $comment3 = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      * Note interne
      */
-    protected ?string $note;
+    protected ?string $note = null;
 
     public function getComment1(): ?string
     {

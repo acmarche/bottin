@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Serializer;
 
-
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Service\Bottin;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -38,8 +37,8 @@ class CategorySerializer
         $data['rgt'] = '';
         $data['root'] = preg_replace("#/#", "", $category->getRootMaterializedPath());
         $data['slugname'] = $category->getSlug();
-        $data['logo'] = Bottin::url.$category->getLogo();
-        $data['logo_blanc'] = Bottin::url.$category->getLogoBlanc();
+        $data['logo'] = Bottin::url . $category->getLogo();
+        $data['logo_blanc'] = Bottin::url . $category->getLogoBlanc();
         $data['parent'] = $parentId;
 
         return $data;
@@ -71,5 +70,4 @@ class CategorySerializer
 
         return $data;
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Location;
 
-
 use AcMarche\Bottin\Entity\Adresse;
 
 interface LocationAbleInterface

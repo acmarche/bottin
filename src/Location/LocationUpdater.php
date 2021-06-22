@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Location;
 
+use Exception;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -9,7 +10,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class LocationUpdater
 {
-    private \AcMarche\Bottin\Location\LocationInterface $location;
+    private LocationInterface $location;
 
     public function __construct(LocationInterface $location)
     {
@@ -19,7 +20,7 @@ class LocationUpdater
     public function convertAddressToCoordinates(LocationAbleInterface $locationAble): bool
     {
         if (!$locationAble->getRue()) {
-            throw new \Exception('Aucune rue encodée, pas de données de géolocalisation');
+            throw new Exception('Aucune rue encodée, pas de données de géolocalisation');
         }
 
         try {
@@ -29,11 +30,11 @@ class LocationUpdater
             $tab = json_decode($response, true);
 
             if (is_array($tab) && 0 == count($tab)) {
-                throw new \Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
+                throw new Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:' . $response);
             }
 
             if (false == $tab) {
-                throw new \Exception('Decode json error:'.$response);
+                throw new Exception('Decode json error:' . $response);
             }
 
             if (is_array($tab) && count($tab) > 0) {
@@ -41,10 +42,10 @@ class LocationUpdater
 
                 return true;
             } else {
-                throw new \Exception('Convertion en latitude longitude error:'.$response);
+                throw new Exception('Convertion en latitude longitude error:' . $response);
             }
         } catch (ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -56,9 +57,9 @@ class LocationUpdater
 
     private function getAdresseString(LocationAbleInterface $locationAble): string
     {
-        return $locationAble->getNumero().' '.
-            $locationAble->getRue().', '.
-            $locationAble->getCp().' '.
+        return $locationAble->getNumero() . ' ' .
+            $locationAble->getRue() . ', ' .
+            $locationAble->getCp() . ' ' .
             $locationAble->getLocalite();
     }
 }

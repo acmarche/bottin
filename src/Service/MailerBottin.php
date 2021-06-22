@@ -5,7 +5,9 @@ namespace AcMarche\Bottin\Service;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Utils\FicheUtils;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
 class MailerBottin
@@ -21,15 +23,15 @@ class MailerBottin
 
     /**
      * @param Fiche $fiche
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-     * @throws \Exception
+     * @throws TransportExceptionInterface
+     * @throws Exception
      */
     public function sendMailConfirmDemande(Fiche $fiche): void
     {
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
 
         if (0 == count($emails)) {
-            throw new \Exception('Aucun email n\'a été trouvé pour ce commerçant');
+            throw new Exception('Aucun email n\'a été trouvé pour ce commerçant');
         }
 
         $templatedEmail = new TemplatedEmail();
@@ -46,8 +48,8 @@ class MailerBottin
 
     /**
      * @param Fiche $fiche
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-     * @throws \Exception
+     * @throws TransportExceptionInterface
+     * @throws Exception
      */
     public function sendMailNewDemande(Fiche $fiche): void
     {
@@ -61,5 +63,4 @@ class MailerBottin
 
         $this->mailer->send($templatedEmail);
     }
-
 }

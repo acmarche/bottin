@@ -61,7 +61,7 @@ class Classement
         return isset($this->$prop);
     }
 
-    public function getPrincipal(): ?bool
+    public function getPrincipal(): bool
     {
         return $this->principal;
     }

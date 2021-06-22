@@ -3,9 +3,7 @@
 
 namespace AcMarche\Bottin\Serializer;
 
-
 use AcMarche\Bottin\Entity\Classement;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class ClassementSerializer
 {

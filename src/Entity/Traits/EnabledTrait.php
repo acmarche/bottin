@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 trait EnabledTrait

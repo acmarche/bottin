@@ -5,18 +5,15 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Form\FicheImageType;
-use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\ImageRepository;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
@@ -76,14 +73,14 @@ class ImageController extends AbstractController
          */
         $file = $request->files->get('file');
 
-        $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
+        $nom = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName());
         $ficheImage->setMime($file->getMimeType());
         $ficheImage->setImageName($file->getClientOriginalName());
         $ficheImage->setImage($file);
 
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->render(
                 '@AcMarcheBottin/admin/upload/_response_fail.html.twig',
                 ['error' => $exception->getMessage()]
@@ -118,7 +115,7 @@ class ImageController extends AbstractController
     public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {
         $fiche = $ficheImage->getFiche();
-        if ($this->isCsrfTokenValid('delete'.$ficheImage->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ficheImage->getId(), $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
             $this->imageRepository->flush();
             $this->addFlash('success', "L'image a bien été supprimée");
@@ -126,6 +123,4 @@ class ImageController extends AbstractController
 
         return $this->redirect($this->generateUrl('bottin_fiche_show', ['id' => $fiche->getId()]));
     }
-
-
 }

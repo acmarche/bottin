@@ -9,8 +9,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FicheDeletedHandler implements MessageHandlerInterface
 {
-    private \AcMarche\Bottin\Elastic\ElasticServer $elasticServer;
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
+    private ElasticServer $elasticServer;
+    private FicheRepository $ficheRepository;
 
     public function __construct(
         ElasticServer $elasticServer,

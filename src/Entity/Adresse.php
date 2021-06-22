@@ -27,42 +27,42 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
      */
-    private ?string $nom;
+    private ?string $nom = null;
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    protected ?string $rue;
+    protected ?string $rue = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $numero;
+    protected ?string $numero = null;
 
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
-    protected ?int $cp;
+    protected ?int $cp = null;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      */
-    protected ?string $localite;
+    protected ?string $localite = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $longitude;
+    protected ?string $longitude = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $latitude;
+    protected ?string $latitude = null;
 
     /**
      * @var Fiche[]
      * @ORM\OneToMany(targetEntity=Fiche::class, mappedBy="adresse")
      */
-    protected $fiches;
+    protected Collection $fiches;
 
     public function __construct()
     {
@@ -107,7 +107,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     /**
      * @return Collection|Fiche[]
      */
-    public function getFiches(): Collection
+    public function getFiches(): array
     {
         return $this->fiches;
     }
@@ -147,11 +147,9 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
     public function removeFich(Fiche $fich): self
     {
-        if ($this->fiches->removeElement($fich)) {
-            // set the owning side to null (unless already changed)
-            if ($fich->getAdresse() === $this) {
-                $fich->setAdresse(null);
-            }
+        // set the owning side to null (unless already changed)
+        if ($this->fiches->removeElement($fich) && $fich->getAdresse() === $this) {
+            $fich->setAdresse(null);
         }
 
         return $this;

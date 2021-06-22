@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Security;
 
 use AcMarche\Bottin\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Ldap\Entry;
@@ -103,11 +104,11 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
                     $this->staffLdap->bind($dn, $credentials['password']);
 
                     return true;
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     //throw new BadCredentialsException($exception->getMessage());
                 }
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
         }
 
         //try check password in db
@@ -122,7 +123,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
         return $credentials['password'];
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): \Symfony\Component\HttpFoundation\RedirectResponse
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey): RedirectResponse
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);

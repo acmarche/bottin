@@ -5,6 +5,8 @@ namespace AcMarche\Bottin\Hades;
 
 use AcMarche\Bottin\Hades\Entity\Hotel;
 use AcMarche\Bottin\Hades\Entity\Hotel2;
+use Exception;
+use SimpleXMLElement;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -12,9 +14,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class HadesRepository
 {
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private HttpClientInterface $httpClient;
     private string $baseUrl;
-    private \Symfony\Component\Serializer\SerializerInterface $serializer;
+    private SerializerInterface $serializer;
 
     /**
      * Hades constructor.
@@ -48,11 +50,11 @@ class HadesRepository
 
             return $request->getContent();
         } catch (ClientException $e) {
-            throw  new \Exception($e->getMessage(), $e->getCode(), $e);
+            throw  new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    public function loadXml(string $xml): \SimpleXMLElement
+    public function loadXml(string $xml): SimpleXMLElement
     {
         $data = simplexml_load_string($xml);
 
@@ -73,7 +75,7 @@ class HadesRepository
         $hotels = [];
 
         foreach ($data as $item) {
-           // var_dump($item->offre->asXML());
+            // var_dump($item->offre->asXML());
             $hotel = $this->serializer->deserialize($item->offre->asXML(), Hotel2::class, 'xml');
             var_dump($hotel);
             $hotels[] = $hotel;
@@ -121,5 +123,4 @@ class HadesRepository
 
         return $hotels;
     }
-
 }

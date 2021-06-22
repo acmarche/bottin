@@ -21,7 +21,7 @@ class TokenUtils
         $this->tokenRepository = $tokenRepository;
     }
 
-    public function generateForAll()
+    public function generateForAll(): void
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
 
@@ -32,9 +32,9 @@ class TokenUtils
         $this->tokenRepository->flush();
     }
 
-    public function generateForOneFiche(Fiche $fiche)
+    public function generateForOneFiche(Fiche $fiche): void
     {
-        if (!$token = $fiche->getToken()) {
+        if (($token = $fiche->getToken()) === null) {
             $token = new Token($fiche);
             $this->tokenRepository->persist($token);
         }

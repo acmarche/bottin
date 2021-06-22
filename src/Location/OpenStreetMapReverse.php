@@ -2,8 +2,10 @@
 
 namespace AcMarche\Bottin\Location;
 
+use Exception;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * https://nominatim.org/release-docs/develop/api/Overview/
@@ -13,7 +15,7 @@ use Symfony\Component\HttpClient\HttpClient;
 class OpenStreetMapReverse implements LocationReverseInterface
 {
     private string $baseUrl;
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private HttpClientInterface $httpClient;
 
     private array $result = [];
 
@@ -27,7 +29,7 @@ class OpenStreetMapReverse implements LocationReverseInterface
      * @param $latitude
      * @param $longitude
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function reverse($latitude, $longitude): array
     {
@@ -53,7 +55,7 @@ class OpenStreetMapReverse implements LocationReverseInterface
 
             return $this->result;
         } catch (ClientException $e) {
-            throw new \Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 

@@ -15,5 +15,4 @@ class CategoryCreated
     {
         return $this->categoryId;
     }
-
 }

@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,23 +12,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Horaire
 {
+    public DateTimeInterface $modify_date;
     use IdTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="horaires")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $day;
+    protected ?int $day = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $media_path;
+    protected ?string $media_path = null;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
@@ -42,22 +44,22 @@ class Horaire
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected ?\DateTimeInterface $morning_start;
+    protected ?DateTimeInterface $morning_start = null;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected ?\DateTimeInterface $morning_end;
+    protected ?DateTimeInterface $morning_end = null;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected ?\DateTimeInterface $noon_start;
+    protected ?DateTimeInterface $noon_start = null;
 
     /**
      * @ORM\Column(type="time", nullable=true)
      */
-    protected ?\DateTimeInterface $noon_end;
+    protected ?DateTimeInterface $noon_end = null;
 
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
@@ -66,12 +68,8 @@ class Horaire
 
     public function isEmpty(): bool
     {
-        if (!$this->getIsClosed() && !$this->getMorningStart() && !$this->getMorningEnd()
-            && !$this->getNoonStart() && !$this->getNoonEnd() && !$this->getIsRdv()) {
-            return true;
-        }
-
-        return false;
+        return !$this->getIsClosed() && !$this->getMorningStart() && !$this->getMorningEnd()
+            && !$this->getNoonStart() && !$this->getNoonEnd() && !$this->getIsRdv();
     }
 
     public function getDay(): ?int
@@ -98,7 +96,7 @@ class Horaire
         return $this;
     }
 
-    public function getIsOpenAtLunch(): ?bool
+    public function getIsOpenAtLunch(): bool
     {
         return $this->is_open_at_lunch;
     }
@@ -110,7 +108,7 @@ class Horaire
         return $this;
     }
 
-    public function getIsRdv(): ?bool
+    public function getIsRdv(): bool
     {
         return $this->is_rdv;
     }
@@ -122,62 +120,62 @@ class Horaire
         return $this;
     }
 
-    public function getMorningStart(): ?\DateTimeInterface
+    public function getMorningStart(): ?DateTimeInterface
     {
         return $this->morning_start;
     }
 
-    public function setMorningStart(?\DateTimeInterface $morning_start): self
+    public function setMorningStart(?DateTimeInterface $morning_start): self
     {
         $this->morning_start = $morning_start;
 
         return $this;
     }
 
-    public function getMorningEnd(): ?\DateTimeInterface
+    public function getMorningEnd(): ?DateTimeInterface
     {
         return $this->morning_end;
     }
 
-    public function setMorningEnd(?\DateTimeInterface $morning_end): self
+    public function setMorningEnd(?DateTimeInterface $morning_end): self
     {
         $this->morning_end = $morning_end;
 
         return $this;
     }
 
-    public function getNoonStart(): ?\DateTimeInterface
+    public function getNoonStart(): ?DateTimeInterface
     {
         return $this->noon_start;
     }
 
-    public function setNoonStart(?\DateTimeInterface $noon_start): self
+    public function setNoonStart(?DateTimeInterface $noon_start): self
     {
         $this->noon_start = $noon_start;
 
         return $this;
     }
 
-    public function getNoonEnd(): ?\DateTimeInterface
+    public function getNoonEnd(): ?DateTimeInterface
     {
         return $this->noon_end;
     }
 
-    public function setNoonEnd(?\DateTimeInterface $noon_end): self
+    public function setNoonEnd(?DateTimeInterface $noon_end): self
     {
         $this->noon_end = $noon_end;
 
         return $this;
     }
 
-    public function setModifyDate(\DateTimeInterface $modify_date): self
+    public function setModifyDate(DateTimeInterface $modify_date): self
     {
         $this->modify_date = $modify_date;
 
         return $this;
     }
 
-    public function getIsClosed(): ?bool
+    public function getIsClosed(): bool
     {
         return $this->is_closed;
     }

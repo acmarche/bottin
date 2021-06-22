@@ -186,7 +186,7 @@ class ApiController extends AbstractController
         $data = $request->request->all();
         $result = $this->demandeHandler->handle($data);
 
-        $this->logger->info('api update fiche result'.json_encode($result));
+        $this->logger->info('api update fiche result' . json_encode($result));
 
         return $this->json($result);
     }

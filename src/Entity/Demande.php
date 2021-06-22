@@ -23,13 +23,13 @@ class Demande implements TimestampableInterface
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="demandes")
      * @ORM\JoinColumn(nullable=false))
      */
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $traiter_by;
+    protected ?string $traiter_by = null;
 
     /**
      * @var bool
@@ -65,7 +65,7 @@ class Demande implements TimestampableInterface
         return $this;
     }
 
-    public function getTraiter(): ?bool
+    public function getTraiter(): bool
     {
         return $this->traiter;
     }
@@ -92,7 +92,7 @@ class Demande implements TimestampableInterface
     /**
      * @return Collection|DemandeMeta[]
      */
-    public function getMetas(): Collection
+    public function getMetas(): iterable
     {
         return $this->metas;
     }

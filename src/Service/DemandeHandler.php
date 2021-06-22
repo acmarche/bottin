@@ -8,14 +8,15 @@ use AcMarche\Bottin\Entity\DemandeMeta;
 use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Exception;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class DemandeHandler
 {
-    private \AcMarche\Bottin\Repository\FicheRepository $ficheRepository;
-    private \AcMarche\Bottin\Repository\DemandeRepository $demandeRepository;
-    private \AcMarche\Bottin\Repository\DemandeMetaRepository $demandeMetaRepository;
-    private \AcMarche\Bottin\Service\MailerBottin $mailerBottin;
+    private FicheRepository $ficheRepository;
+    private DemandeRepository $demandeRepository;
+    private DemandeMetaRepository $demandeMetaRepository;
+    private MailerBottin $mailerBottin;
 
     public function __construct(
         FicheRepository $ficheRepository,
@@ -58,12 +59,10 @@ class DemandeHandler
 
         try {
             $this->mailerBottin->sendMailNewDemande($fiche);
-        } catch (TransportExceptionInterface | \Exception $e) {
+        } catch (TransportExceptionInterface | Exception $e) {
             return ['error' => $e->getMessage()];
         }
 
         return ['error' => 0];
     }
-
-
 }

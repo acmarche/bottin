@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Location;
 
-
 interface LocationReverseInterface
 {
     /**
@@ -18,5 +17,4 @@ interface LocationReverseInterface
     public function getLocality(): ?string;
 
     public function getHouseNumber(): ?string;
-
 }

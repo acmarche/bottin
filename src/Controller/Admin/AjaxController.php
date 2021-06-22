@@ -107,7 +107,7 @@ class AjaxController extends AbstractController
     /**
      * @Route("/getcategories", name="bottin_ajax_get_categories", methods={"POST"})
      */
-    public function ajaxCategories(Request $request)
+    public function ajaxCategories(Request $request): JsonResponse
     {
         $jsonResponse = new JsonResponse();
         $parentId = (int) $request->get('parentId');

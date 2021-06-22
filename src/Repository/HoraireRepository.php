@@ -34,6 +34,4 @@ class HoraireRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
-
-
 }

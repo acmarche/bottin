@@ -3,7 +3,6 @@
 
 namespace AcMarche\Bottin\Entity\Traits;
 
-
 use Doctrine\ORM\Mapping as ORM;
 
 trait ContactTrait
@@ -17,67 +16,67 @@ trait ContactTrait
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $fonction;
+    protected ?string $fonction = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $civilite;
+    protected ?string $civilite = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $nom;
+    protected ?string $nom = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $prenom;
+    protected ?string $prenom = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_rue;
+    protected ?string $contact_rue = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_num;
+    protected ?string $contact_num = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_cp;
+    protected ?string $contact_cp = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_localite;
+    protected ?string $contact_localite = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_telephone;
+    protected ?string $contact_telephone = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_telephone_autre;
+    protected ?string $contact_telephone_autre = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_fax;
+    protected ?string $contact_fax = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_gsm;
+    protected ?string $contact_gsm = null;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contact_email;
+    protected ?string $contact_email = null;
 
     public function getFonction(): ?string
     {
@@ -234,6 +233,4 @@ trait ContactTrait
 
         return $this;
     }
-
-
 }

@@ -3,15 +3,17 @@
 
 namespace AcMarche\Bottin\Location;
 
-
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class LocationOpenStreetMap implements LocationInterface
 {
     private string $baseUrl;
-    private \Symfony\Contracts\HttpClient\HttpClientInterface $httpClient;
+    private HttpClientInterface $httpClient;
 
     public function __construct()
     {
@@ -22,10 +24,10 @@ class LocationOpenStreetMap implements LocationInterface
     /**
      * @param string $query
      * @return mixed
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function search(string $query): string
     {
@@ -35,7 +37,7 @@ class LocationOpenStreetMap implements LocationInterface
             [
                 'query' => [
                     'format' => 'json',
-                    'q' => $query.' Belgium',
+                    'q' => $query . ' Belgium',
                     'addressdetails' => 1,
                 ],
             ]
@@ -43,5 +45,4 @@ class LocationOpenStreetMap implements LocationInterface
 
         return $response->getContent();
     }
-
 }

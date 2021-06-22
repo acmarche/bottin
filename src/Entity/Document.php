@@ -4,10 +4,12 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -30,13 +32,13 @@ class Document implements TimestampableInterface
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    protected ?string $description;
+    protected ?string $description = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Fiche", inversedBy="documents")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
      */
-    protected ?Fiche $fiche;
+    protected ?Fiche $fiche = null;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
@@ -49,17 +51,17 @@ class Document implements TimestampableInterface
      *     mimeTypesMessage = "Uniquement des PDF"
      * )
      */
-    private ?File $file;
+    private ?File $file = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private ?string $fileName;
+    private ?string $fileName = null;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private ?int $fileSize;
+    private ?int $fileSize = null;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -68,7 +70,7 @@ class Document implements TimestampableInterface
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $file
+     * @param File|UploadedFile|null $file
      */
     public function setDocFile(?File $file = null): void
     {
@@ -77,7 +79,7 @@ class Document implements TimestampableInterface
         if (null !== $file) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
     }
 
@@ -101,7 +103,7 @@ class Document implements TimestampableInterface
         return $this->name;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

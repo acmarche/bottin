@@ -12,7 +12,7 @@ trait PdvTrait
      * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Pdv", inversedBy="fiches")
      * @ORM\JoinColumn(nullable=true)
      */
-    protected ?Pdv $pdv;
+    protected ?Pdv $pdv = null;
 
     public function getPdv(): ?Pdv
     {
@@ -25,5 +25,4 @@ trait PdvTrait
 
         return $this;
     }
-
 }

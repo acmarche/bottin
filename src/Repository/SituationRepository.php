@@ -33,6 +33,4 @@ class SituationRepository extends ServiceEntityRepository
     {
         $this->_em->flush();
     }
-
-
 }

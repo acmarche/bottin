@@ -8,6 +8,5 @@ class Analyser
 {
     public function test(): void
     {
-
     }
 }

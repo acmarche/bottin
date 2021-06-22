@@ -20,7 +20,7 @@ class ElasticCommand extends Command
     private ElasticServer $elasticServer;
     private FicheRepository $ficheRepository;
     private CategoryRepository $categoryRepository;
-    private ?SymfonyStyle $symfonyStyle;
+    private ?SymfonyStyle $symfonyStyle = null;
 
     public function __construct(
         ElasticServer $elasticServer,
@@ -68,7 +68,7 @@ class ElasticCommand extends Command
         foreach ($this->ficheRepository->findAll() as $fiche) {
             $result = $this->elasticServer->updateFiche($fiche);
             if (1 == $result['_shards']['successful']) {
-                $this->symfonyStyle->success($fiche->getSociete().': '.$result['result']);
+                $this->symfonyStyle->success($fiche->getSociete() . ': ' . $result['result']);
             }
             if (1 == $result['_shards']['failed']) {
                 $this->symfonyStyle->error($fiche->getSociete());
@@ -82,7 +82,7 @@ class ElasticCommand extends Command
         foreach ($this->categoryRepository->findAll() as $category) {
             $result = $this->elasticServer->updateCategorie($category);
             if (1 == $result['_shards']['successful']) {
-                $this->symfonyStyle->success($category->getName().': '.$result['result']);
+                $this->symfonyStyle->success($category->getName() . ': ' . $result['result']);
             }
             if (1 == $result['_shards']['failed']) {
                 $this->symfonyStyle->error(var_export($result));

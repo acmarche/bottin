@@ -3,17 +3,17 @@
 
 namespace AcMarche\Bottin\Hades;
 
-
 use AcMarche\Bottin\Hades\Entity\Hotel;
+use SimpleXMLElement;
 
 class HadesParser
 {
     /**
-     * @param \SimpleXMLElement $element
+     * @param SimpleXMLElement $element
      *
      * @return array("principal","contact","administratif")
      */
-    public function getContacts(\SimpleXMLElement $element): array
+    public function getContacts(SimpleXMLElement $element): array
     {
         $contacts = [];
 
@@ -67,7 +67,7 @@ class HadesParser
         return $communications;
     }
 
-    public function getMedias(\SimpleXMLElement $element): array
+    public function getMedias(SimpleXMLElement $element): array
     {
         $medias = [];
         $i = 0;
@@ -77,7 +77,7 @@ class HadesParser
             return [];
         }
 
-        $datas = ($elements['media'] instanceof \SimpleXMLElement) ? [$elements['media']] : $elements['media'];
+        $datas = ($elements['media'] instanceof SimpleXMLElement) ? [$elements['media']] : $elements['media'];
 
         foreach ($datas as $element) {
             $medias[$i]['ext'] = (string)$element->attributes()->ext;
@@ -94,7 +94,7 @@ class HadesParser
         return $medias;
     }
 
-    public function getCategories(\SimpleXMLElement $element): array
+    public function getCategories(SimpleXMLElement $element): array
     {
         $categories = [];
         $i = 0;
@@ -115,7 +115,7 @@ class HadesParser
         return $categories;
     }
 
-    public function getLocalisations(\SimpleXMLElement $element): array
+    public function getLocalisations(SimpleXMLElement $element): array
     {
         $data = [];
         $localisation = (array)$element->localisation;
@@ -147,7 +147,7 @@ class HadesParser
         return '';
     }
 
-    public function getHoraires(\SimpleXMLElement $element): array
+    public function getHoraires(SimpleXMLElement $element): array
     {
         $horaires = [];
         $i = 0;

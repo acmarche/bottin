@@ -11,11 +11,10 @@ namespace AcMarche\Bottin\Elastic;
  */
 class SuggestUtils
 {
-
     public function getOptions(array $response)
     {
         $suggest = $this->getSuggest($response, 'societe_suggest');
-        dump($suggest);
+        dump();
         if (!isset($suggest[0])) {
             return [];
         }

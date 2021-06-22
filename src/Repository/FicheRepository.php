@@ -4,6 +4,8 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -64,7 +66,7 @@ class FicheRepository extends ServiceEntityRepository
                 fiche.societe LIKE :nom OR
                 fiche.nom LIKE :nom OR 
                 fiche.prenom LIKE :nom'
-            )->setParameter('nom', '%'.$name.'%');
+            )->setParameter('nom', '%' . $name . '%');
         }
 
         if ($localite) {
@@ -82,8 +84,8 @@ class FicheRepository extends ServiceEntityRepository
      *
      * @return Fiche[]
      *
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NoResultException
+     * @throws NonUniqueResultException
      */
     public function findAllWithJoins(): array
     {
@@ -117,6 +119,4 @@ class FicheRepository extends ServiceEntityRepository
     {
         $this->_em->remove($fiche);
     }
-
-
 }
