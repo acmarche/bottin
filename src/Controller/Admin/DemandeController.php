@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Demande controller.
  *
- * @Route("/demande")
+ * @Route("/admin/demande")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class DemandeController extends AbstractController
@@ -45,7 +45,7 @@ class DemandeController extends AbstractController
     /**
      * Lists all Demande entities.
      *
-     * @Route("/", name="bottin_demande", methods={"GET"})
+     * @Route("/", name="bottin_admin_demande", methods={"GET"})
      */
     public function index(): Response
     {
@@ -62,7 +62,7 @@ class DemandeController extends AbstractController
     /**
      * Finds and displays a Demande entity.
      *
-     * @Route("/{id}", name="bottin_demande_show", methods={"GET", "POST"})
+     * @Route("/{id}", name="bottin_admin_demande_show", methods={"GET", "POST"})
      */
     public function show(Request $request, Demande $demande)
     {
@@ -126,7 +126,7 @@ class DemandeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_demande_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_demande_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Demande $demande): RedirectResponse
     {

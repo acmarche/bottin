@@ -14,7 +14,7 @@
                     Êtes vous sur de supprimer la demande ?
                 </div>
                 <div class="modal-footer">
-                    <form method="post" action="{{ path('bottin_demande_delete', {'id': demande.id}) }}">
+                    <form method="post" action="{{ path('bottin_admin_demande_delete', {'id': demande.id}) }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ demande.id) }}">
                         <button type="button" class="btn btn-secondary"

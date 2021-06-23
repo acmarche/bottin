@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Classement controller.
  *
- * @Route("/classement")
+ * @Route("/admin/classement")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ClassementController extends AbstractController
@@ -44,7 +44,7 @@ class ClassementController extends AbstractController
     /**
      * Displays a form to create a new classement entity.
      *
-     * @Route("/edit/{id}", name="bottin_classement_new", methods={"GET", "POST"})
+     * @Route("/edit/{id}", name="bottin_admin_classement_new", methods={"GET", "POST"})
      */
     public function edit(Fiche $fiche, Request $request): Response
     {

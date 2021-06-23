@@ -5,7 +5,7 @@
         <tr>
             {% for image in fiche.images %}
             <td>
-                <a href="{{ path('bottin_image_show', { 'id': image.id }) }}">
+                <a href="{{ path('bottin_admin_image_show', { 'id': image.id }) }}">
                     <img class="img-thumbnail"
                          src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
                 </a>

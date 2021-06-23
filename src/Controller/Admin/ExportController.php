@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Export controller.
  *
- * @Route("/export/select")
+ * @Route("/admin/export/select")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ExportController extends AbstractController
@@ -25,7 +25,7 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_export_select", methods={"GET"})
+     * @Route("/", name="bottin_admin_export_select", methods={"GET"})
      */
     public function selection(): Response
     {
@@ -42,7 +42,7 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/add/{id}", name="bottin_export_add", methods={"POST"})
+     * @Route("/add/{id}", name="bottin_admin_export_add", methods={"POST"})
      */
     public function delete(): void
     {

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Document controller.
  *
- * @Route("/document")
+ * @Route("/admin/document")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class DocumentController extends AbstractController
@@ -32,7 +32,7 @@ class DocumentController extends AbstractController
     /**
      * Displays a form to create a new Document entity.
      *
-     * @Route("/new/{id}", name="bottin_document_new", methods={"GET", "POST"})
+     * @Route("/new/{id}", name="bottin_admin_document_new", methods={"GET", "POST"})
      */
     public function new(Request $request, Fiche $fiche): Response
     {
@@ -63,7 +63,7 @@ class DocumentController extends AbstractController
     /**
      * Finds and displays a Document entity.
      *
-     * @Route("/{id}", name="bottin_document_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_document_show", methods={"GET"})
      */
     public function show(Document $document): Response
     {
@@ -79,7 +79,7 @@ class DocumentController extends AbstractController
     /**
      * Displays a form to edit an existing Document entity.
      *
-     * @Route("/{id}/edit", name="bottin_document_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_document_edit", methods={"GET", "POST"})
      */
     public function edit(Document $document, Request $request): Response
     {
@@ -104,7 +104,7 @@ class DocumentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_document_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_document_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Document $document): RedirectResponse
     {

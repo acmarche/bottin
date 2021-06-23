@@ -8,7 +8,7 @@
         </div>
         <div class="card-body">
             {% for fiche in fiches %}
-                <a href="{{ path('bottin_token_show', {'uuid': fiche.token.uuid}) }}">{{ fiche.token.uuid }}</a>  <br/>
+                <a href="{{ path('bottin_admin_token_show', {'uuid': fiche.token.uuid}) }}">{{ fiche.token.uuid }}</a>  <br/>
             {% endfor %}
 
         </div>

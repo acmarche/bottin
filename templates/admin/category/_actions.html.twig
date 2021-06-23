@@ -1,12 +1,12 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
-    <a href="{{ path('bottin_category_edit', { 'id': category.id }) }}" class="btn btn-primary"
+    <a href="{{ path('bottin_admin_category_edit', { 'id': category.id }) }}" class="btn btn-primary"
        role="button"><i class="far fa-edit"></i> Modifier</a>
 
-    <a href="{{ path('bottin_category_new_children', { 'id': category.id }) }}"
+    <a href="{{ path('bottin_admin_category_new_children', { 'id': category.id }) }}"
        class="btn btn-primary" role="button"><i class="fas fa-plus"></i> Ajouter une sous catégorie</a>
 
-    <a href="{{ path('bottin_category_move', { 'id': category.id }) }}" class="btn btn-primary"
+    <a href="{{ path('bottin_admin_category_move', { 'id': category.id }) }}" class="btn btn-primary"
        role="button"><i class="fas fa-arrows-alt"></i> Déplacer</a>
 
     <div class="btn-group" role="group">
@@ -15,10 +15,10 @@
             <i class="fas fa-download"></i> Exporter
         </button>
         <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <li><a class="dropdown-item" href="{{ path('bottin_export_category_xls', { 'id': category.id }) }}">L'
+            <li><a class="dropdown-item" href="{{ path('bottin_admin_export_category_xls', { 'id': category.id }) }}">L'
                     arborescence en xls</a></li>
             <li><a class="dropdown-item"
-                   href="{{ path('bottin_export_fiches_xls_by_category', { 'id': category.id }) }}">Les fiches en
+                   href="{{ path('bottin_admin_export_fiches_xls_by_category', { 'id': category.id }) }}">Les fiches en
                     xls</a></li>
         </ul>
     </div>

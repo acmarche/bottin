@@ -15,7 +15,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/utilisateur")
+ * @Route("/admin/utilisateur")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class UtilisateurController extends AbstractController
@@ -34,7 +34,7 @@ class UtilisateurController extends AbstractController
     /**
      * Lists all Utilisateur entities.
      *
-     * @Route("/", name="bottin_utilisateur", methods={"GET"})
+     * @Route("/", name="bottin_admin_utilisateur", methods={"GET"})
      */
     public function index(): Response
     {
@@ -51,7 +51,7 @@ class UtilisateurController extends AbstractController
     /**
      * Displays a form to create a new Utilisateur utilisateur.
      *
-     * @Route("/new", name="bottin_utilisateur_new", methods={"GET","POST"})
+     * @Route("/new", name="bottin_admin_utilisateur_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -84,7 +84,7 @@ class UtilisateurController extends AbstractController
     /**
      * Finds and displays a Utilisateur utilisateur.
      *
-     * @Route("/{id}", name="bottin_utilisateur_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_utilisateur_show", methods={"GET"})
      */
     public function show(User $user): Response
     {
@@ -99,7 +99,7 @@ class UtilisateurController extends AbstractController
     /**
      * Displays a form to edit an existing Utilisateur utilisateur.
      *
-     * @Route("/{id}/edit", name="bottin_utilisateur_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="bottin_admin_utilisateur_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user): Response
     {
@@ -126,7 +126,7 @@ class UtilisateurController extends AbstractController
     /**
      * Deletes a Utilisateur utilisateur.
      *
-     * @Route("/{id}", name="bottin_utilisateur_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_utilisateur_delete", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): RedirectResponse
     {

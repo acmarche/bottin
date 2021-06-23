@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Lieu controller.
  *
- * @Route("/adresse")
+ * @Route("/admin/adresse")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class AdresseController extends AbstractController
@@ -34,7 +34,7 @@ class AdresseController extends AbstractController
     /**
      * Lists all Lieu entities.
      *
-     * @Route("/", name="bottin_adresse", methods={"GET"})
+     * @Route("/", name="bottin_admin_adresse", methods={"GET"})
      */
     public function index(): Response
     {
@@ -51,7 +51,7 @@ class AdresseController extends AbstractController
     /**
      * Displays a form to create a new Lieu entity.
      *
-     * @Route("/new", name="bottin_adresse_new", methods={"GET", "POST"})
+     * @Route("/new", name="bottin_admin_adresse_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -83,7 +83,7 @@ class AdresseController extends AbstractController
     /**
      * Finds and displays a Lieu entity.
      *
-     * @Route("/{id}", name="bottin_adresse_show", methods={"GET","POST"})
+     * @Route("/{id}", name="bottin_admin_adresse_show", methods={"GET","POST"})
      */
     public function show(Request $request, Adresse $adresse): Response
     {
@@ -111,7 +111,7 @@ class AdresseController extends AbstractController
     /**
      * Displays a form to edit an existing Lieu entity.
      *
-     * @Route("/{id}/edit", name="bottin_adresse_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_adresse_edit", methods={"GET", "POST"})
      */
     public function edit(Adresse $adresse, Request $request): Response
     {
@@ -139,7 +139,7 @@ class AdresseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_adresse_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_adresse_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Adresse $adresse): RedirectResponse
     {

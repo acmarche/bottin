@@ -4,8 +4,6 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,7 +20,6 @@ class FicheRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param array $ids
      * @return Fiche[]
      */
     public function findByIds(array $ids): array
@@ -47,6 +44,9 @@ class FicheRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    /**
+     * @return Fiche[]
+     */
     public function searchByNameAndCity(string $name, ?string $localite): array
     {
         $queryBuilder = $this->createQueryBuilder('fiche')
@@ -57,7 +57,7 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.adresse', 'adresse', 'WITH')
             ->addSelect('pdv', 'classements', 'horaires', 'images', 'adresse');
 
-        if ($name !== '') {
+        if ('' !== $name) {
             $queryBuilder->andWhere(
                 'fiche.societe LIKE :nom OR 
                 fiche.admin_email LIKE :nom OR 
@@ -66,7 +66,7 @@ class FicheRepository extends ServiceEntityRepository
                 fiche.societe LIKE :nom OR
                 fiche.nom LIKE :nom OR 
                 fiche.prenom LIKE :nom'
-            )->setParameter('nom', '%' . $name . '%');
+            )->setParameter('nom', '%'.$name.'%');
         }
 
         if ($localite) {
@@ -80,12 +80,7 @@ class FicheRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $args
-     *
      * @return Fiche[]
-     *
-     * @throws NoResultException
-     * @throws NonUniqueResultException
      */
     public function findAllWithJoins(): array
     {

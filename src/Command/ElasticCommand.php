@@ -38,9 +38,8 @@ class ElasticCommand extends Command
     {
         $this
             ->setDescription('Manipule l\'index du bottin')
-            ->addOption('raz', null, InputOption::VALUE_NONE, 'Mets à jour le mapping')
-            ->addOption('mapping', null, InputOption::VALUE_NONE, 'Mets à jour le mapping')
-            ->addOption('update', null, InputOption::VALUE_NONE, 'Mets à jour le contenu');
+            ->addOption('raz', null, InputOption::VALUE_NONE, 'Reset and update mapping')
+            ->addOption('update', null, InputOption::VALUE_NONE, 'Update content');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -49,9 +48,6 @@ class ElasticCommand extends Command
 
         if ($input->getOption('raz')) {
             $this->elasticServer->razIndex();
-        }
-
-        if ($input->getOption('mapping')) {
             $this->elasticServer->updateSettingAndMapping();
         }
 

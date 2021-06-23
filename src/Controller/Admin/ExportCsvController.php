@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Export controller.
  *
- * @Route("/export/csv")
+ * @Route("/admin/export/csv")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ExportCsvController extends AbstractController
@@ -28,8 +28,8 @@ class ExportCsvController extends AbstractController
     }
 
     /**
-     * @Route("/category/{id}", name="bottin_export_category_xls")
-     * @Route("/categories", name="bottin_export_categories_xls", methods={"GET"})
+     * @Route("/category/{id}", name="bottin_admin_export_category_xls")
+     * @Route("/categories", name="bottin_admin_export_categories_xls", methods={"GET"})
      */
     public function categoryXls(Category $category = null): BinaryFileResponse
     {
@@ -46,8 +46,8 @@ class ExportCsvController extends AbstractController
     }
 
     /**
-     * @Route("/fiche/{id}", name="bottin_export_fiches_xls_by_category", methods={"GET"})
-     * @Route("/fiches", name="bottin_export_fiches_xls", methods={"GET"})
+     * @Route("/fiche/{id}", name="bottin_admin_export_fiches_xls_by_category", methods={"GET"})
+     * @Route("/fiches", name="bottin_admin_export_fiches_xls", methods={"GET"})
      *
      * @return BinaryFileResponse
      *

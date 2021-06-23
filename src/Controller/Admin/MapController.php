@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Map controller.
  *
- * @Route("/map")
+ * @Route("/admin/map")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class MapController extends AbstractController
@@ -29,7 +29,7 @@ class MapController extends AbstractController
     /**
      * Displays a form to edit an existing Map entity.
      *
-     * @Route("/{id}/edit", name="bottin_map_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_map_edit", methods={"GET", "POST"})
      */
     public function edit(Fiche $fiche, Request $request): Response
     {

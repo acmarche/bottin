@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Pdv controller.
  *
- * @Route("/pdv")
+ * @Route("/admin/pdv")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class PdvController extends AbstractController
@@ -30,7 +30,7 @@ class PdvController extends AbstractController
     /**
      * Lists all Pdv entities.
      *
-     * @Route("/", name="bottin_pdv", methods={"GET"})
+     * @Route("/", name="bottin_admin_pdv", methods={"GET"})
      */
     public function index(): Response
     {
@@ -47,7 +47,7 @@ class PdvController extends AbstractController
     /**
      * Displays a form to create a new Pdv entity.
      *
-     * @Route("/new", name="bottin_pdv_new", methods={"GET", "POST"})
+     * @Route("/new", name="bottin_admin_pdv_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -78,7 +78,7 @@ class PdvController extends AbstractController
     /**
      * Finds and displays a Pdv entity.
      *
-     * @Route("/{id}", name="bottin_pdv_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_pdv_show", methods={"GET"})
      */
     public function show(Pdv $pdv): Response
     {
@@ -96,7 +96,7 @@ class PdvController extends AbstractController
     /**
      * Displays a form to edit an existing Pdv entity.
      *
-     * @Route("/{id}/edit", name="bottin_pdv_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_pdv_edit", methods={"GET", "POST"})
      */
     public function edit(Pdv $pdv, Request $request): Response
     {
@@ -121,7 +121,7 @@ class PdvController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_pdv_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_pdv_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Pdv $pdv): RedirectResponse
     {

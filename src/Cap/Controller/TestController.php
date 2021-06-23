@@ -33,7 +33,7 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_api_test_index", methods={"GET"})
+     * @Route("/", name="bottin_admin_api_test_index", methods={"GET"})
      */
     public function index(): Response
     {
@@ -41,11 +41,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/fiches", name="bottin_api_test_fiches", methods={"GET"})
+     * @Route("/fiches", name="bottin_admin_api_test_fiches", methods={"GET"})
      */
     public function fiches(): Response
     {
-        $url = $this->generateUrl('bottin_api_fiches_commerces', [], false);
+        $url = $this->generateUrl('bottin_admin_api_fiches_commerces', [], false);
         $request = $this->httpClient->request('GET', $url);
         $fiches = json_decode($request->getContent());
 
@@ -53,11 +53,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/commerces", name="bottin_api_test_commerces", methods={"GET"})
+     * @Route("/commerces", name="bottin_admin_api_test_commerces", methods={"GET"})
      */
     public function commerces(): Response
     {
-        $url = $this->generateUrl('bottin_api_commerces', [], false);
+        $url = $this->generateUrl('bottin_admin_api_commerces', [], false);
         $request = $this->httpClient->request('GET', $url);
         $categories = json_decode($request->getContent());
 
@@ -65,11 +65,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/fiches/rubrique/{id}", name="bottin_api_test_fiche_by_category", methods={"GET"})
+     * @Route("/fiches/rubrique/{id}", name="bottin_admin_api_test_fiche_by_category", methods={"GET"})
      */
     public function ficheByCategory($id): Response
     {
-        $url = $this->generateUrl('bottin_api_fiche_by_category', ['id' => $id], false);
+        $url = $this->generateUrl('bottin_admin_api_fiche_by_category', ['id' => $id], false);
         $request = $this->httpClient->request('GET', $url);
         $fiches = json_decode($request->getContent());
         $category = $this->categoryRepository->find($id);
@@ -81,11 +81,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/fiche/{id}", name="bottin_api_test_fiche_id", methods={"GET"})
+     * @Route("/fiche/{id}", name="bottin_admin_api_test_fiche_id", methods={"GET"})
      */
     public function ficheId($id): Response
     {
-        $url = $this->generateUrl('bottin_api_fiche_by_id', ['id' => $id], false);
+        $url = $this->generateUrl('bottin_admin_api_fiche_by_id', ['id' => $id], false);
         $request = $this->httpClient->request('GET', $url);
         $fiche = json_decode($request->getContent());
 
@@ -93,14 +93,14 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/fichebyids", name="bottin_api_test_fiche_ids", methods={"GET"})
+     * @Route("/fichebyids", name="bottin_admin_api_test_fiche_ids", methods={"GET"})
      */
     public function ficheIds(): Response
     {
         $ids = json_encode([393, 522, 55]);
         $fields = ['ids' => $ids];
 
-        $url = $this->generateUrl('bottin_api_fiche_by_ids', [], false);
+        $url = $this->generateUrl('bottin_admin_api_fiche_by_ids', [], false);
         try {
             $request = $this->httpClient->request(
                 'POST',
@@ -124,11 +124,11 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/fiche/slug/{slug}", name="bottin_api_test_fiche_slug", methods={"GET"})
+     * @Route("/fiche/slug/{slug}", name="bottin_admin_api_test_fiche_slug", methods={"GET"})
      */
     public function ficheSlug($slug): Response
     {
-        $url = $this->generateUrl('bottin_api_fiche_by_slugname', ['slugname' => $slug], false);
+        $url = $this->generateUrl('bottin_admin_api_fiche_by_slugname', ['slugname' => $slug], false);
         $request = $this->httpClient->request('GET', $url);
         $fiche = json_decode($request->getContent());
 
@@ -136,13 +136,13 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/updatefiche", name="bottin_api_test_update_fiche", methods={"GET"})
+     * @Route("/updatefiche", name="bottin_admin_api_test_update_fiche", methods={"GET"})
      */
     public function updatefiche(): Response
     {
         $fields = ['id' => 393, 'fax' => '084 12 34 56', 'gsm' => '0476 12 34 56'];
 
-        $url = $this->generateUrl('bottin_api_update_fiche', [], false);
+        $url = $this->generateUrl('bottin_admin_api_update_fiche', [], false);
         $request = $this->httpClient->request(
             'POST',
             $url,
@@ -156,13 +156,13 @@ class TestController extends AbstractController
     }
 
     /**
-     * @Route("/bottin/test/search/{keyword}", name="bottin_api_test_search", methods={"GET"})
+     * @Route("/bottin/test/search/{keyword}", name="bottin_admin_api_test_search", methods={"GET"})
      */
     public function testSearch(string $keyword = 'axa'): Response
     {
         $data = ['keyword' => $keyword];
 
-        $url = $this->generateUrl('bottin_api_search', [], false);
+        $url = $this->generateUrl('bottin_admin_api_search', [], false);
         $request = $this->httpClient->request(
             'POST',
             $url,

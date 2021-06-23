@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Ajax controller.
  *
- * @Route("/ajax")
+ * @Route("/admin/ajax")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class AjaxController extends AbstractController
@@ -36,7 +36,7 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/removeclassment", name="bottin_ajax_remove_classement", methods={"POST"})
+     * @Route("/removeclassment", name="bottin_admin_ajax_remove_classement", methods={"POST"})
      */
     public function removeClassement(Request $request): Response
     {
@@ -66,7 +66,7 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/setprincipalclassement", name="bottin_ajax_principal_classement", methods={"POST"})
+     * @Route("/setprincipalclassement", name="bottin_admin_ajax_principal_classement", methods={"POST"})
      */
     public function setPrincipal(Request $request): Response
     {
@@ -105,7 +105,7 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/getcategories", name="bottin_ajax_get_categories", methods={"POST"})
+     * @Route("/getcategories", name="bottin_admin_ajax_get_categories", methods={"POST"})
      */
     public function ajaxCategories(Request $request): JsonResponse
     {
@@ -142,7 +142,7 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/fetch/{query}", name="bottin_fetch")
+     * @Route("/fetch/{query}", name="bottin_admin_fetch")
      */
     public function fetchCategorie(?string $query = null): JsonResponse
     {

@@ -5,7 +5,7 @@
             <ul class='list-group'>
                 {% for child in category.getChildNodes %}
                     <li class="list-group-item">
-                        <a href="{{ path('bottin_category_show', { 'id': child.id }) }}">{{ child }}</a>
+                        <a href="{{ path('bottin_admin_category_show', { 'id': child.id }) }}">{{ child }}</a>
                         {% if child.mobile %}
                             <img class="float-right" src="{{ asset('bundles/acmarchebottin/images/mobile.png') }}" alt='mobile' title="Visible sur l'appli mobile" />
                         {% endif %}

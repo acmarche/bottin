@@ -6,7 +6,7 @@
     </div>
     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
-        <a href="{{ path('bottin_pdv_new') }}" class="btn btn-primary" role="button"><i
+        <a href="{{ path('bottin_admin_pdv_new') }}" class="btn btn-primary" role="button"><i
                     class="glyphicon glyphicon-plus"></i> Ajouter</a>
         <br/><br/>
 
@@ -23,7 +23,7 @@
         {% for pdv in pdvs %}
             <tr>
                 <td>
-                    <a href="{{ path('bottin_pdv_show', { 'id': pdv.id }) }}">
+                    <a href="{{ path('bottin_admin_pdv_show', { 'id': pdv.id }) }}">
                         {{ pdv.intitule }}
                     </a>
                 </td>

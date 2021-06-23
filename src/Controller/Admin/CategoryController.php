@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Category controller.
  *
- * @Route("/category")
+ * @Route("/admin/category")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class CategoryController extends AbstractController
@@ -44,7 +44,7 @@ class CategoryController extends AbstractController
     /**
      * Lists all Category entities.
      *
-     * @Route("/", name="bottin_category", methods={"GET"})
+     * @Route("/", name="bottin_admin_category", methods={"GET"})
      */
     public function index(Request $request): Response
     {
@@ -104,8 +104,8 @@ class CategoryController extends AbstractController
     /**
      * Displays a form to create a new Category entity.
      *
-     * @Route("/new", name="bottin_category_new")
-     * @Route("/new/{id}", name="bottin_category_new_children", methods={"GET", "POST"})
+     * @Route("/new", name="bottin_admin_category_new")
+     * @Route("/new/{id}", name="bottin_admin_category_new_children", methods={"GET", "POST"})
      */
     public function new(Request $request, Category $parent = null): Response
     {
@@ -145,7 +145,7 @@ class CategoryController extends AbstractController
     /**
      * Finds and displays a Category entity.
      *
-     * @Route("/{id}", name="bottin_category_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_category_show", methods={"GET"})
      */
     public function show(Category $category): Response
     {
@@ -174,7 +174,7 @@ class CategoryController extends AbstractController
     /**
      * Displays a form to edit an existing Category entity.
      *
-     * @Route("/{id}/edit", name="bottin_category_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_category_edit", methods={"GET", "POST"})
      */
     public function edit(Category $category, Request $request): Response
     {
@@ -202,7 +202,7 @@ class CategoryController extends AbstractController
     /**
      * Displays a form to edit an existing Category entity.
      *
-     * @Route("/{id}/move", name="bottin_category_move", methods={"GET", "POST"})
+     * @Route("/{id}/move", name="bottin_admin_category_move", methods={"GET", "POST"})
      */
     public function move(Category $category, Request $request): Response
     {
@@ -229,7 +229,7 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_category_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_category_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Category $category): RedirectResponse
     {

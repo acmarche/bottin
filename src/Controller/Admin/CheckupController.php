@@ -19,7 +19,7 @@ class CheckupController extends AbstractController
     }
 
     /**
-     * @Route("/empty", name="bottin_categories_empty")
+     * @Route("/admin/empty", name="bottin_admin_categories_empty")
      * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
     public function empty(): Response

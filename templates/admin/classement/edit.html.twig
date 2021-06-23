@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <h3>Classements pour
-                <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}">
+                <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}">
                     {{ fiche }}
                 </a>
             </h3>
@@ -87,7 +87,7 @@
                 },
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
-                    url: "{{ path('bottin_fetch') }}/%QUERY",
+                    url: "{{ path('bottin_admin_fetch') }}/%QUERY",
                     wildcard: '%QUERY'
                 }
             });
@@ -130,7 +130,7 @@
 
         function getCategories(item, level) {
             var rootId = item.value;
-            var url = '{{ path('bottin_ajax_get_categories') }}';
+            var url = '{{ path('bottin_admin_ajax_get_categories') }}';
             $.ajax({
                 'data': {parentId: rootId, level: level},
                 'url': url,
@@ -170,7 +170,7 @@
         function removeClassement(idClassement) {
             console.log("remove");
 
-            var url = '{{ path('bottin_ajax_remove_classement') }}';
+            var url = '{{ path('bottin_admin_ajax_remove_classement') }}';
             $.ajax({
                 'data': {classementId: idClassement},
                 'url': url,
@@ -195,7 +195,7 @@
 
         function setPrincipal(idClassement) {
 
-            var url = '{{ path('bottin_ajax_principal_classement') }}';
+            var url = '{{ path('bottin_admin_ajax_principal_classement') }}';
             $.ajax({
                 'data': {classementId: idClassement},
                 'url': url,

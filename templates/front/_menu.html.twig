@@ -1,10 +1,10 @@
 {% set action = app.request.attributes.get("_route") %}
 
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-    <li><a href="{{ path('bottin_fiche_new') }}" class="nav-link px-2 link-dark">Ajouter une fiche</a></li>
-    <li><a href="{{ path('bottin_fiche_index') }}" class="nav-link px-2 link-dark">Les fiches</a></li>
-    <li><a href="{{ path('bottin_category') }}" class="nav-link px-2 link-dark">Les catégories</a></li>
-    <li><a href="{{ path('bottin_utilisateur') }}" class="nav-link px-2 link-dark">Les utilisateurs</a></li>
+    <li><a href="{{ path('bottin_admin_fiche_new') }}" class="nav-link px-2 link-dark">Ajouter une fiche</a></li>
+    <li><a href="{{ path('bottin_admin_fiche_index') }}" class="nav-link px-2 link-dark">Les fiches</a></li>
+    <li><a href="{{ path('bottin_admin_category') }}" class="nav-link px-2 link-dark">Les catégories</a></li>
+    <li><a href="{{ path('bottin_admin_utilisateur') }}" class="nav-link px-2 link-dark">Les utilisateurs</a></li>
 
     <div class="dropdown text-end">
         <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
@@ -12,18 +12,36 @@
             ...
         </a>
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-            <a class="dropdown-item" href="{{ path('bottin_index') }}">Index des fiches</a>
-            <a class="dropdown-item" href="{{ path('bottin_demande') }}">Demande des commerçants</a>
-            <a class="dropdown-item" href="{{ path('bottin_adresse') }}">Adresses</a>
-            <a class="dropdown-item" href="{{ path('bottin_pdv') }}"> Points de vente</a>
-            <a class="dropdown-item" href="{{ path('bottin_categories_empty') }}">Catégories sans fiches</a>
-            <a class="dropdown-item" href="{{ path('bottin_publipostage') }}">Publipostage</a>
-            <a class="dropdown-item" href="{{ path('bottin_utilisateur') }}">Les utilisateurs</a>
-            <a class="dropdown-item" href="{{ path('bottin_api_test_index') }}">Api tests</a>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_index') }}">Index des fiches</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_demande') }}">Demande des commerçants</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_adresse') }}">Adresses</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_pdv') }}"> Points de vente</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_categories_empty') }}">Catégories sans fiches</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_publipostage') }}">Publipostage</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_utilisateur') }}">Les utilisateurs</a>
+            <li>
+            <li>
+                <a class="dropdown-item" href="{{ path('bottin_admin_api_test_index') }}">Api tests</a>
+            <li>
             <li>
                 <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+                <a class="dropdown-item" href="#">Profile</a>
+            </li>
         </ul>
     </div>
 

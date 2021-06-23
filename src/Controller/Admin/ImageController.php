@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 /**
  * Image controller.
  *
- * @Route("/image")
+ * @Route("/admin/image")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ImageController extends AbstractController
@@ -38,7 +38,7 @@ class ImageController extends AbstractController
     /**
      * Displays a form to create a new Image entity.
      *
-     * @Route("/new/{id}", name="bottin_image_new", methods={"GET", "POST"})
+     * @Route("/new/{id}", name="bottin_admin_image_new", methods={"GET", "POST"})
      */
     public function new(Fiche $fiche): Response
     {
@@ -62,7 +62,7 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/upload/{id}", name="bottin_image_upload")
+     * @Route("/upload/{id}", name="bottin_admin_image_upload")
      *
      */
     public function upload(Request $request, Fiche $fiche): Response
@@ -96,7 +96,7 @@ class ImageController extends AbstractController
     /**
      * Finds and displays a Image entity.
      *
-     * @Route("/{id}", name="bottin_image_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_image_show", methods={"GET"})
      */
     public function show(FicheImage $ficheImage): Response
     {
@@ -110,7 +110,7 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_image_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_image_delete", methods={"DELETE"})
      */
     public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {

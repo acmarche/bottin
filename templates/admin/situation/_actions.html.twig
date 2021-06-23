@@ -1,5 +1,5 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-    <a href="{{ path('bottin_situation_edit', { 'id': situation.id }) }}" class="btn btn-primary"
+    <a href="{{ path('bottin_admin_situation_edit', { 'id': situation.id }) }}" class="btn btn-primary"
        role="button"><i class="far fa-edit"></i> Editer</a>
 
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">

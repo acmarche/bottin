@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Fiche controller.
  *
- * @Route("/fiche")
+ * @Route("/admin/fiche")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class FicheController extends AbstractController
@@ -61,7 +61,7 @@ class FicheController extends AbstractController
     /**
      * Lists all Fiche entities.
      *
-     * @Route("/", name="bottin_fiche_index", methods={"GET"})
+     * @Route("/", name="bottin_admin_fiche_index", methods={"GET"})
      */
     public function index(Request $request): Response
     {
@@ -100,8 +100,8 @@ class FicheController extends AbstractController
     /**
      * Lists all Fiche entities.
      *
-     * @Route("/searchadvanced", name="bottin_fiche_search_advanced", methods={"GET"})
-     * @Route("/searchadvanced/{keyword}", name="bottin_fiche_search", methods={"GET"})
+     * @Route("/searchadvanced", name="bottin_admin_fiche_search_advanced", methods={"GET"})
+     * @Route("/searchadvanced/{keyword}", name="bottin_admin_fiche_search", methods={"GET"})
      */
     public function search(Request $request, ?string $keyword): Response
     {
@@ -148,7 +148,7 @@ class FicheController extends AbstractController
     /**
      * Displays a form to create a new Fiche fiche.
      *
-     * @Route("/new", name="bottin_fiche_new", methods={"GET", "POST"})
+     * @Route("/new", name="bottin_admin_fiche_new", methods={"GET", "POST"})
      *
      * @throws Exception
      */
@@ -183,7 +183,7 @@ class FicheController extends AbstractController
     /**
      * Finds and displays a Fiche fiche.
      *
-     * @Route("/{id}", name="bottin_fiche_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_fiche_show", methods={"GET"})
      */
     public function show(Fiche $fiche): Response
     {
@@ -202,7 +202,7 @@ class FicheController extends AbstractController
     /**
      * Displays a form to edit an existing Fiche fiche.
      *
-     * @Route("/{id}/edit", name="bottin_fiche_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_fiche_edit", methods={"GET", "POST"})
      */
     public function edit(Fiche $fiche, Request $request): Response
     {
@@ -243,7 +243,7 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_fiche_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_fiche_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {

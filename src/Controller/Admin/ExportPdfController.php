@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Export controller.
  *
- * @Route("/export/pdf")
+ * @Route("/admin/export/pdf")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ExportPdfController extends AbstractController
@@ -39,7 +39,7 @@ class ExportPdfController extends AbstractController
     }
 
     /**
-     * @Route("/fiche/{id}", name="bottin_export_fiche_pdf", methods={"GET"})
+     * @Route("/fiche/{id}", name="bottin_admin_export_fiche_pdf", methods={"GET"})
      */
     public function fichePdf(Fiche $fiche): PdfResponse
     {
@@ -63,7 +63,7 @@ class ExportPdfController extends AbstractController
     }
 
     /**
-     * @Route("/category/{category}", name="bottin_export_fiches_by_category_pdf", methods={"GET"})
+     * @Route("/category/{category}", name="bottin_admin_export_fiches_by_category_pdf", methods={"GET"})
      */
     public function fichesPdf(Category $category): PdfResponse
     {

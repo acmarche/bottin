@@ -11,7 +11,7 @@
                     Êtes vous sur de supprimer la fiche {{ fiche }}
                 </div>
                 <div class="modal-footer">
-                    <form method="post" action="{{ path('bottin_fiche_delete', {'id': fiche.id}) }}">
+                    <form method="post" action="{{ path('bottin_admin_fiche_delete', {'id': fiche.id}) }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fiche.id) }}">
                         <button type="button" class="btn btn-secondary"

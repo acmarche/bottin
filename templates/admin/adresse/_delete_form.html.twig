@@ -13,7 +13,7 @@
                 Supprimer {{ adresse }} ?
             </div>
             <div class="modal-footer">
-                <form method="post" action="{{ path('bottin_adresse_delete', {'id': adresse.id}) }}">
+                <form method="post" action="{{ path('bottin_admin_adresse_delete', {'id': adresse.id}) }}">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ adresse.id) }}">
                     <button type="button" class="btn btn-secondary"

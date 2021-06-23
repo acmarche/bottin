@@ -56,7 +56,7 @@ class ApiController extends AbstractController
     /**
      * Fiches par categorie.
      *
-     * @Route("/bottin/fiches/category/{id}", name="bottin_api_fiche_by_category", methods={"GET"})
+     * @Route("/bottin/fiches/category/{id}", name="bottin_admin_api_fiche_by_category", methods={"GET"})
      */
     public function fichesByCategory(Category $category): JsonResponse
     {
@@ -73,7 +73,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les rubriques de commerces.
      *
-     * @Route("/bottin/commerces", name="bottin_api_commerces", methods={"GET"})
+     * @Route("/bottin/commerces", name="bottin_admin_api_commerces", methods={"GET"})
      */
     public function commerce(): JsonResponse
     {
@@ -85,7 +85,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les fiches des commerces.
      *
-     * @Route("/bottin/fiches", name="bottin_api_fiches_commerces", methods={"GET"})
+     * @Route("/bottin/fiches", name="bottin_admin_api_fiches_commerces", methods={"GET"})
      */
     public function fiches(): JsonResponse
     {
@@ -109,7 +109,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les fiches pour android.
      *
-     * @Route("/bottin/fichesandroid", name="bottin_api_fiches_all", methods={"GET"})
+     * @Route("/bottin/fichesandroid", name="bottin_admin_api_fiches_all", methods={"GET"})
      */
     public function fichesAndroid(): JsonResponse
     {
@@ -126,7 +126,7 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @Route("/bottin/fichebyid/{id}", name="bottin_api_fiche_by_id", methods={"GET"})
+     * @Route("/bottin/fichebyid/{id}", name="bottin_admin_api_fiche_by_id", methods={"GET"})
      *
      * @param Fiche $fiche
      */
@@ -143,7 +143,7 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @Route("/bottin/fichebyids", name="bottin_api_fiche_by_ids", methods={"POST"})
+     * @Route("/bottin/fichebyids", name="bottin_admin_api_fiche_by_ids", methods={"POST"})
      *
      * @param Fiche $fiche
      */
@@ -163,7 +163,7 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_api_fiche_by_slugname", methods={"GET"})
+     * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_admin_api_fiche_by_slugname", methods={"GET"})
      * @ParamConverter("fiche", options={"mapping": {"slugname": "slug"}})
      *
      * @param Fiche $fiche
@@ -179,7 +179,7 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/updatefiche", name="bottin_api_update_fiche", methods={"POST"})
+     * @Route("/updatefiche", name="bottin_admin_api_update_fiche", methods={"POST"})
      */
     public function updatefiche(Request $request): JsonResponse
     {
@@ -194,7 +194,7 @@ class ApiController extends AbstractController
     /**
      * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
      *
-     * @Route("/bottin/search", name="bottin_api_search", methods={"POST"})
+     * @Route("/bottin/search", name="bottin_admin_api_search", methods={"POST"})
      */
     public function search(Request $request): JsonResponse
     {
@@ -210,7 +210,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les classements pour android.
      *
-     * @Route("/bottin/classements", name="bottin_api_classements", methods={"GET"})
+     * @Route("/bottin/classements", name="bottin_admin_api_classements", methods={"GET"})
      */
     public function classements(): JsonResponse
     {
@@ -226,7 +226,7 @@ class ApiController extends AbstractController
     /**
      * Toutes les categories pour android.
      *
-     * @Route("/bottin/categories", name="bottin_api_categories", methods={"GET"})
+     * @Route("/bottin/categories", name="bottin_admin_api_categories", methods={"GET"})
      */
     public function categories(): JsonResponse
     {

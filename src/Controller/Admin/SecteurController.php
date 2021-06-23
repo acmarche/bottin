@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Secteur controller.
  *
- * @Route("/secteur")
+ * @Route("/admin/secteur")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class SecteurController extends AbstractController
@@ -24,7 +24,7 @@ class SecteurController extends AbstractController
     }
 
     /**
-     * @Route("/{anchor}", name="bottin_index")
+     * @Route("/{anchor}", name="bottin_admin_index")
      */
     public function index($anchor = null): Response
     {

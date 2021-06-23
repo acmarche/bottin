@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Publipostage controller.
  *
- * @Route("/publipostage")
+ * @Route("/admin/publipostage")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class PublipostageController extends AbstractController
@@ -30,7 +30,7 @@ class PublipostageController extends AbstractController
     }
 
     /**
-     * @Route("/categories", name="bottin_publipostage", methods={"GET","POST"})
+     * @Route("/categories", name="bottin_admin_publipostage", methods={"GET","POST"})
      */
     public function index(Request $request): Response
     {

@@ -16,7 +16,7 @@
                 {% for hit in hits.hits %}
                     {% set fiche = hit._source %}
                     <li class="list-group-item">
-                        <a href="{{ path('bottin_fiche_show', {'id': fiche.id}) }}">
+                        <a href="{{ path('bottin_admin_fiche_show', {'id': fiche.id}) }}">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     {% include '@AcMarcheBottin/front/fiche/_image.html.twig' %}

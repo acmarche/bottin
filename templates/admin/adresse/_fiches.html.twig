@@ -9,9 +9,9 @@
             <i class="fas fa-download"></i> Exporter les fiches
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="{{ path('bottin_export_fiche_xls', { 'id' : category.id }) }}">En xls</a>
+            <a class="dropdown-item" href="{{ path('bottin_admin_export_fiche_xls', { 'id' : category.id }) }}">En xls</a>
             <a class="dropdown-item"
-               href="{{ path('bottin_export_fiches_by_category_pdf', { 'category' : category.id }) }}">En pdf</a>
+               href="{{ path('bottin_admin_export_fiches_by_category_pdf', { 'category' : category.id }) }}">En pdf</a>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
         {% for fiche in fiches %}
             <tr>
                 <td>
-                    <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}"
+                    <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}"
                        title="Détail de la fiche">{{ fiche.societe }}</a>
                 </td>
                 <td>{{ fiche.rue }}</td>

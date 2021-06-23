@@ -8,7 +8,7 @@
         <div class="card-body">
 
             {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-                <a href="{{ path('bottin_pdv_edit', { 'id': pdv.id }) }}" class="btn btn-primary"
+                <a href="{{ path('bottin_admin_pdv_edit', { 'id': pdv.id }) }}" class="btn btn-primary"
                    role="button"><i class="far fa-edit"></i> Editer</a>
             {% endif %}
 
@@ -32,7 +32,7 @@
                     {% for fiche in fiches %}
                         <tr>
                             <td>
-                                <a href="{{ path('bottin_fiche_show', { 'id': fiche.id }) }}"
+                                <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}"
                                    title="Détail de la fiche">{{ fiche.societe }}</a>
                             </td>
                             <td>{{ fiche.rue }}</td>

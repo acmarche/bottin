@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/utilisateur/password")
+ * @Route("/admin/utilisateur/password")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class PasswordController extends AbstractController
@@ -21,7 +21,7 @@ class PasswordController extends AbstractController
     /**
      * Displays a form to edit an existing Utilisateur utilisateur.
      *
-     * @Route("/{id}/password", name="bottin_utilisateur_password", methods={"GET","POST"})
+     * @Route("/{id}/password", name="bottin_admin_utilisateur_password", methods={"GET","POST"})
      *
      * @todo
      */
@@ -52,7 +52,7 @@ class PasswordController extends AbstractController
     /**
      * Displays a form to edit an existing categorie entity.
      *
-     * @Route("/password/{id}", name="bottin_utilisateur_password", methods={"GET","POST"})
+     * @Route("/password/{id}", name="bottin_admin_utilisateur_password", methods={"GET","POST"})
      */
     public function password(Request $request, User $user, UserPasswordHasherInterface $userPasswordEncoder): Response
     {

@@ -6,7 +6,7 @@
     </div>
     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
-        <a href="{{ path('bottin_adresse_new') }}" class="btn btn-primary" role="button">
+        <a href="{{ path('bottin_admin_adresse_new') }}" class="btn btn-primary" role="button">
            <i class="fas fa-plus"></i> Ajouter une adresse</a>
         <br/><br/>
 
@@ -24,7 +24,7 @@
         {% for adresse in adresses %}
             <tr>
                 <td>
-                    <a href="{{ path('bottin_adresse_show', { 'id': adresse.id }) }}">
+                    <a href="{{ path('bottin_admin_adresse_show', { 'id': adresse.id }) }}">
                         {{ adresse.nom }}
                     </a>
                 </td>

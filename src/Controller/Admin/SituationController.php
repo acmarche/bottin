@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Situation controller.
  *
- * @Route("/situation")
+ * @Route("/admin/situation")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class SituationController extends AbstractController
@@ -30,7 +30,7 @@ class SituationController extends AbstractController
     /**
      * Lists all Situation entities.
      *
-     * @Route("/", name="bottin_situation", methods={"GET"})
+     * @Route("/", name="bottin_admin_situation", methods={"GET"})
      */
     public function index(): Response
     {
@@ -47,7 +47,7 @@ class SituationController extends AbstractController
     /**
      * Displays a form to create a new Situation entity.
      *
-     * @Route("/new", name="bottin_situation_new", methods={"GET", "POST"})
+     * @Route("/new", name="bottin_admin_situation_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -78,7 +78,7 @@ class SituationController extends AbstractController
     /**
      * Finds and displays a Situation entity.
      *
-     * @Route("/{id}", name="bottin_situation_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_situation_show", methods={"GET"})
      */
     public function show(Situation $situation): Response
     {
@@ -96,7 +96,7 @@ class SituationController extends AbstractController
     /**
      * Displays a form to edit an existing Situation entity.
      *
-     * @Route("/{id}/edit", name="bottin_situation_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", name="bottin_admin_situation_edit", methods={"GET", "POST"})
      */
     public function edit(Situation $situation, Request $request): Response
     {
@@ -121,7 +121,7 @@ class SituationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_situation_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_situation_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Situation $situation): RedirectResponse
     {

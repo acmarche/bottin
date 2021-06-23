@@ -32,7 +32,7 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <a href="{{ path('bottin_fiche_show', {'id': fiche.id}) }}">{{ fiche.societe }}</a>
+                                    <a href="{{ path('bottin_admin_fiche_show', {'id': fiche.id}) }}">{{ fiche.societe }}</a>
                                     <br/>
                                     {% for classement in fiche.classements %}
                                         <span class="text-muted {% if classement.principal %} text-success{% endif %}">{{ classement }}</span>
