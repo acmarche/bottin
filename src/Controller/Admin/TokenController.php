@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Token\TokenUtils;
@@ -29,9 +30,9 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/generate", name="bottin_admin_token_generate_for_all")
+     * @Route("/generate/all", name="bottin_admin_token_generate_for_all")
      */
-    public function uuid(): Response
+    public function generateAll(): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
         $this->tokenUtils->generateForAll();
@@ -43,22 +44,14 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/log/{uuid}",name="bottin_admin_token_show")
+     * @Route("/generate/one/{id}", name="bottin_admin_token_generate_for_one")
      */
-    public function show(Request $request, Token $token): Response
+    public function generateOne(Fiche $fiche): Response
     {
-        if ($this->tokenUtils->isExpired($token)) {
-            $this->addFlash('danger', 'Page expirée');
+        $this->tokenUtils->generateForOneFiche($fiche, true);
 
-            return $this->redirectToRoute('bottin_home');
-        }
-        $fiche = $token->getFiche();
-
-        return $this->render(
-            '@AcMarcheBottin/admin/default/index.html.twig',
-            [
-                'fiche' => $fiche,
-            ]
-        );
+        return $this->redirectToRoute('bottin_admin_admin_fiche_show', ['id' => $fiche->getId()]);
     }
+
+
 }

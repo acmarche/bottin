@@ -38,9 +38,10 @@ class TokenController extends AbstractController
         $fiche = $token->getFiche();
 
         return $this->render(
-            '@AcMarcheBottin/front/default/index.html.twig',
+            '@AcMarcheBottin/front/fiche/show.html.twig',
             [
                 'fiche' => $fiche,
+                'token' => $token,
             ]
         );
     }

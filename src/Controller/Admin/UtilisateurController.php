@@ -69,7 +69,7 @@ class UtilisateurController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
 
-            return $this->redirectToRoute('bottin_utilisateur');
+            return $this->redirectToRoute('bottin_admin_utilisateur');
         }
 
         return $this->render(
@@ -111,7 +111,7 @@ class UtilisateurController extends AbstractController
             $this->userRepository->flush();
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('bottin_utilisateur');
+            return $this->redirectToRoute('bottin_admin_utilisateur');
         }
 
         return $this->render(
@@ -137,6 +137,6 @@ class UtilisateurController extends AbstractController
             $this->addFlash('success', 'L\'utilisateur a été supprimé');
         }
 
-        return $this->redirectToRoute('bottin_utilisateur');
+        return $this->redirectToRoute('bottin_admin_utilisateur');
     }
 }

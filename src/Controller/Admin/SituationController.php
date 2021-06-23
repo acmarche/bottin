@@ -63,7 +63,7 @@ class SituationController extends AbstractController
 
             $this->addFlash('success', 'La situation a bien été crée');
 
-            return $this->redirectToRoute('bottin_situation');
+            return $this->redirectToRoute('bottin_admin_situation');
         }
 
         return $this->render(
@@ -108,7 +108,7 @@ class SituationController extends AbstractController
             $this->situationRepository->flush();
             $this->addFlash('success', 'La situation a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_situation');
+            return $this->redirectToRoute('bottin_admin_situation');
         }
 
         return $this->render(
@@ -131,6 +131,6 @@ class SituationController extends AbstractController
             $this->addFlash('success', 'La situation a bien été supprimée');
         }
 
-        return $this->redirectToRoute('bottin_situation');
+        return $this->redirectToRoute('bottin_admin_situation');
     }
 }

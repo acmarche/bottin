@@ -48,7 +48,7 @@ class DocumentController extends AbstractController
 
             $this->addFlash('success', 'Le document a bien été créé');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
@@ -91,7 +91,7 @@ class DocumentController extends AbstractController
             $this->documentRepository->flush();
             $this->addFlash('success', 'Le document a bien été modifié');
 
-            return $this->redirectToRoute('bottin_document_show', ['id' => $document->getId()]);
+            return $this->redirectToRoute('bottin_admin_document_show', ['id' => $document->getId()]);
         }
 
         return $this->render(
@@ -115,6 +115,6 @@ class DocumentController extends AbstractController
             $this->addFlash('success', 'Le document a bien été supprimé');
         }
 
-        return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+        return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
     }
 }

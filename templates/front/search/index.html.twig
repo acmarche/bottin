@@ -15,8 +15,12 @@
                 </ul>
                 {% for hit in hits.hits %}
                     {% set fiche = hit._source %}
+                    {% set urlShow = path('bottin_fiche_show', {'id': fiche.id}) %}
+                    {% if is_granted('ROLE_BOTTIN_ADMIN') %}
+                        {% set urlShow = path('bottin_admin_fiche_show', {'id': fiche.id}) %}
+                    {% endif %}
                     <li class="list-group-item">
-                        <a href="{{ path('bottin_admin_fiche_show', {'id': fiche.id}) }}">
+                        <a href="{{ urlShow }}">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     {% include '@AcMarcheBottin/front/fiche/_image.html.twig' %}

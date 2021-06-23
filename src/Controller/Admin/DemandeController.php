@@ -80,14 +80,14 @@ class DemandeController extends AbstractController
             if ($demande->getTraiter()) {
                 $this->addFlash('warning', 'Cette demande a déjà été traitée');
 
-                return $this->redirectToRoute('bottin_demande_show', ['id' => $demande->getId()]);
+                return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
             }
 
             $metas = $request->request->get('metas');
             if (0 == count($metas)) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
-                return $this->redirectToRoute('bottin_demande_show', ['id' => $demande->getId()]);
+                return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
             }
             foreach ($metas as $champ => $value) {
                 $set = 'set' . ucfirst($champ);
@@ -111,7 +111,7 @@ class DemandeController extends AbstractController
                 $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : ' . $e->getMessage());
             }
 
-            return $this->redirectToRoute('bottin_demande');
+            return $this->redirectToRoute('bottin_admin_demande');
         }
 
         return $this->render(
@@ -136,6 +136,6 @@ class DemandeController extends AbstractController
             $this->addFlash('success', 'Le demande a bien été supprimée');
         }
 
-        return $this->redirectToRoute('bottin_demande');
+        return $this->redirectToRoute('bottin_admin_demande');
     }
 }

@@ -84,7 +84,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
                 $fiches = $this->searchEngine->getFiches($response);
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
 
@@ -127,7 +127,7 @@ class FicheController extends AbstractController
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response['hits'];
             } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
 
@@ -168,7 +168,7 @@ class FicheController extends AbstractController
 
             $this->addFlash('success', 'La fiche a bien été crée');
 
-            return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
@@ -209,10 +209,10 @@ class FicheController extends AbstractController
         if ($fiche->getFtlb()) {
             $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
-        $oldAdresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
+        $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
 
         $editForm = $this->createForm(FicheType::class, $fiche);
@@ -230,7 +230,7 @@ class FicheController extends AbstractController
 
             $this->addFlash('success', 'La fiche a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
@@ -247,7 +247,7 @@ class FicheController extends AbstractController
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $fiche->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new FicheDeleted($fiche->getId()));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();
@@ -255,6 +255,6 @@ class FicheController extends AbstractController
             $this->addFlash('success', 'La fiche a bien été supprimée');
         }
 
-        return $this->redirectToRoute('bottin_fiche_index');
+        return $this->redirectToRoute('bottin_admin_fiche_index');
     }
 }

@@ -63,7 +63,7 @@ class PdvController extends AbstractController
 
             $this->addFlash('success', 'Le point de vente a bien été créé');
 
-            return $this->redirectToRoute('bottin_pdv');
+            return $this->redirectToRoute('bottin_admin_pdv');
         }
 
         return $this->render(
@@ -108,7 +108,7 @@ class PdvController extends AbstractController
             $this->pdvRepository->flush();
             $this->addFlash('success', 'Le point de vente a bien été modifié');
 
-            return $this->redirectToRoute('bottin_pdv');
+            return $this->redirectToRoute('bottin_admin_pdv');
         }
 
         return $this->render(
@@ -131,6 +131,6 @@ class PdvController extends AbstractController
             $this->addFlash('success', 'Le point de vente a bien été supprimé');
         }
 
-        return $this->redirectToRoute('bottin_pdv');
+        return $this->redirectToRoute('bottin_admin_pdv');
     }
 }

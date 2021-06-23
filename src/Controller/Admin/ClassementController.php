@@ -65,11 +65,11 @@ class ClassementController extends AbstractController
                 $this->dispatchMessage(new ClassementUpdated($fiche->getId()));
                 $this->addFlash('success', 'Le classement a bien été ajouté');
 
-                return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
+                return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
 
-                return $this->redirectToRoute('bottin_classement_new', ['id' => $fiche->getId()]);
+                return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
             }
         }
 

@@ -130,7 +130,7 @@ class CategoryController extends AbstractController
 
             $this->dispatchMessage(new CategoryCreated($category->getId()));
 
-            return $this->redirectToRoute('bottin_category_show', ['id' => $category->getId()]);
+            return $this->redirectToRoute('bottin_admin_category_show', ['id' => $category->getId()]);
         }
 
         return $this->render(
@@ -187,7 +187,7 @@ class CategoryController extends AbstractController
 
             $this->dispatchMessage(new CategoryUpdated($category->getId()));
 
-            return $this->redirectToRoute('bottin_category_show', ['id' => $category->getId()]);
+            return $this->redirectToRoute('bottin_admin_category_show', ['id' => $category->getId()]);
         }
 
         return $this->render(
@@ -216,7 +216,7 @@ class CategoryController extends AbstractController
             $this->categoryRepository->flush();
             $this->addFlash('success', 'La catégorie a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_category_show', ['id' => $category->getId()]);
+            return $this->redirectToRoute('bottin_admin_category_show', ['id' => $category->getId()]);
         }
 
         return $this->render(

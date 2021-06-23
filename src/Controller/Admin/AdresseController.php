@@ -68,7 +68,7 @@ class AdresseController extends AbstractController
 
             $this->addFlash('success', 'L\'adresse a bien été crée');
 
-            return $this->redirectToRoute('bottin_adresse_show', ['id' => $adresse->getId()]);
+            return $this->redirectToRoute('bottin_admin_adresse_show', ['id' => $adresse->getId()]);
         }
 
         return $this->render(
@@ -126,7 +126,7 @@ class AdresseController extends AbstractController
             $this->dispatchMessage(new AdresseUpdated($adresse->getId(), $oldRue));
             $this->addFlash('success', 'L\'adresse a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_adresse_show', ['id' => $adresse->getId()]);
+            return $this->redirectToRoute('bottin_admin_adresse_show', ['id' => $adresse->getId()]);
         }
 
         return $this->render(
@@ -150,6 +150,6 @@ class AdresseController extends AbstractController
             $this->addFlash('success', "L'adresse a bien été supprimée");
         }
 
-        return $this->redirectToRoute('bottin_adresse');
+        return $this->redirectToRoute('bottin_admin_adresse');
     }
 }

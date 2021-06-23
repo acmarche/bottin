@@ -36,7 +36,7 @@ class MapController extends AbstractController
         if ($fiche->getFtlb()) {
             $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         $form = $this->createForm(LocalisationType::class, $fiche);
@@ -47,7 +47,7 @@ class MapController extends AbstractController
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La situation a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         return $this->render(

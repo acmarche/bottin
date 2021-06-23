@@ -37,7 +37,7 @@ class PasswordController extends AbstractController
             $em->flush();
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('bottin_utilisateur');
+            return $this->redirectToRoute('bottin_admin_utilisateur');
         }
 
         return $this->render(
@@ -69,7 +69,7 @@ class PasswordController extends AbstractController
 
             $this->addFlash('success', 'Mot de passe changé');
 
-            return $this->redirectToRoute('bottin_utilisateur_show', ['id' => $user->getId()]);
+            return $this->redirectToRoute('bottin_admin_utilisateur_show', ['id' => $user->getId()]);
         }
 
         return $this->render(

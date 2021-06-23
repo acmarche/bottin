@@ -32,7 +32,7 @@ class TokenUtils
         $this->tokenRepository->flush();
     }
 
-    public function generateForOneFiche(Fiche $fiche): void
+    public function generateForOneFiche(Fiche $fiche, bool $flush = false): void
     {
         if (($token = $fiche->getToken()) === null) {
             $token = new Token($fiche);
@@ -42,6 +42,9 @@ class TokenUtils
         $date = new DateTime();
         $date->modify('+30days');
         $token->setExpireAt($date);
+        if ($flush) {
+            $this->tokenRepository->flush();
+        }
     }
 
     public function isExpired(Token $token): bool

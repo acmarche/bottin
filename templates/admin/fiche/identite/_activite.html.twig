@@ -29,19 +29,39 @@
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-fax"></i> Fax </th>
+        <th><i class="fas fa-fax"></i> Fax</th>
         <td>{{ fiche.fax }}</td>
     </tr>
     <tr>
-        <th><i class="fas fa-mobile-alt"></i> Gsm </th>
+        <th><i class="fas fa-mobile-alt"></i> Gsm</th>
         <td>
             {{ fiche.gsm }}
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-barcode"></i> Numéro de tva </th>
+        <th><i class="fas fa-barcode"></i> Numéro de tva</th>
         <td>
             {{ fiche.numeroTva }}
+        </td>
+    </tr>
+    <tr>
+        <th>
+            <i class="fas fa-pencil-alt"></i> Url d'édition<br />
+        <span class="text-muted">L'utilisateur peut modifier <br />sa fiche</span>
+        </th>
+        <td>
+            {% if fiche.token %}
+                <a href="{{ path('bottin_token_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
+                    {{ absolute_url(path('bottin_token_show', {'uuid': fiche.token.uuid})) }}
+                </a>
+                <br/>
+                <span class="text-muted">Expire le {{ fiche.token.expireAt | format_date('full') }}</span>
+            {% endif %}
+            <p>
+                <a href="{{ path('bottin_admin_token_generate_for_one', {'id': fiche.id}) }}">
+                    Générer
+                </a>
+            </p>
         </td>
     </tr>
 
