@@ -96,6 +96,28 @@ mappings:
           type: text
           analyzer: edge_ngram_analyzer
     classements:
+      properties:
+        name:
+          type: text
+          analyzer: app_french_light
+          fields:
+            stemmed:
+              type: text
+              analyzer: app_french_heavy
+            ngram:
+              type: text
+              analyzer: edge_ngram_analyzer
+        description:
+          type: text
+          analyzer: app_french_light
+          fields:
+            stemmed:
+              type: text
+              analyzer: app_french_heavy
+            ngram:
+              type: text
+              analyzer: edge_ngram_analyzer
+    secteurs:
       type: text
       analyzer: app_french_light
       fields:
@@ -105,7 +127,7 @@ mappings:
         ngram:
           type: text
           analyzer: edge_ngram_analyzer
-    secteurs:
+    name:
       type: text
       analyzer: app_french_light
       fields:
