@@ -36,9 +36,10 @@ class SearchCommand extends Command
 
         try {
             $response = $this->searchEngine->doSearch($keyword);
-            $hits = $response['hits'];
+            $hits = $response->getResults();
             foreach ($hits as $hit) {
-                var_dump($hit);
+                $fiche = $hit->getData();
+                $io->writeln($fiche['societe']);
             }
         } catch (BadRequest400Exception $e) {
             $io->error('Erreur dans la recherche: '.$e->getMessage());

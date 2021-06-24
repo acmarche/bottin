@@ -6,15 +6,12 @@
             <h3>Recherche "{{ keyword }}"</h3>
         </div>
         <div class="card-body">
-            {% if hits|length > 0 %}
+            {% if count > 0 %}
 
-                <h4 class="text-success">{{ hits.total.value }} trouvé</h4>
+                <h4 class="text-success">{{ count }} trouvé(s)</h4>
 
-                <ul class="list-group">
-
-                </ul>
-                {% for hit in hits.hits %}
-                    {% set fiche = hit._source %}
+                {% for hit in hits %}
+                    {% set fiche = hit.data %}
                     {% set urlShow = path('bottin_fiche_show', {'slug': fiche.slug}) %}
                     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
                         {% set urlShow = path('bottin_admin_fiche_show', {'id': fiche.id}) %}

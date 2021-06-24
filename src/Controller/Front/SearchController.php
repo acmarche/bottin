@@ -35,9 +35,9 @@ class SearchController extends AbstractController
 
             try {
                 $response = $this->searchEngine->doSearch($args['nom']);
-                $hits = $response['hits'];
-            } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+                $hits = $response->getResults();
+            } catch (\Exception $e) {
+                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
 
@@ -47,6 +47,7 @@ class SearchController extends AbstractController
                 'search_form' => $form->createView(),
                 'hits' => $hits,
                 'keyword' => $args['nom'],
+                'count' => $response->count(),
             ]
         );
     }
@@ -85,7 +86,7 @@ class SearchController extends AbstractController
             $response = $this->searchEngine->doSearch($q);
             $hits = $response['hits'];
         } catch (BadRequest400Exception $e) {
-            $this->addFlash('danger', 'Erreur dans la recherche: ' . $e->getMessage());
+            $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
         }
 
         return $this->render(

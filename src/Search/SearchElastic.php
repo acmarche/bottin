@@ -28,12 +28,6 @@ class SearchElastic implements SearchEngineInterface
         }
     }
 
-    /**
-     * @param string $keyword
-     * @param string|null $localite
-     * @param int $limit
-     * @return iterable|ResultSet
-     */
     public function doSearch(string $keyword, ?string $localite = null, int $limit = 50): iterable
     {
         $boolQuery = $this->createQueryForFiche($keyword, $localite);
