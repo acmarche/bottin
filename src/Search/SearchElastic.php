@@ -2,34 +2,85 @@
 
 namespace AcMarche\Bottin\Search;
 
+use AcMarche\Bottin\Elasticsearch\ElasticClientTrait;
 use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
-use Elasticsearch\Client;
+use Elastica\Query;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\MatchQuery;
+use Elastica\Query\MultiMatch;
+use Elastica\ResultSet;
+use Elastica\Search;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
-use ONGR\ElasticsearchDSL\Aggregation\Bucketing\TermsAggregation;
-use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
-use ONGR\ElasticsearchDSL\Query\FullText\MatchQuery;
-use ONGR\ElasticsearchDSL\Query\FullText\MultiMatchQuery;
-use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceQuery;
-use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
-use ONGR\ElasticsearchDSL\Search;
-use ONGR\ElasticsearchDSL\Suggest\Suggest;
+use Psr\Log\LoggerInterface;
 
 class SearchElastic implements SearchEngineInterface
 {
-    public Client $client;
+    use ElasticClientTrait;
 
-    private ?Search $search = null;
+    private ?BoolQuery $boolQuery = null;
 
-    public function __construct(Client $client)
+    public function __construct(string $elasticIndexName, ?LoggerInterface $logger = null)
     {
-        $this->client = $client;
+        $this->connect($elasticIndexName);
+        if (null !== $logger) {
+            $this->client->setLogger($logger);
+        }
     }
 
     /**
-     * @throws BadRequest400Exception
+     * @param string $keyword
+     * @param string|null $localite
+     * @param int $limit
+     * @return iterable|ResultSet
      */
-    public function doSearchForCap(string $keyword): array
+    public function doSearch(string $keyword, ?string $localite = null, int $limit = 50): iterable
+    {
+        $boolQuery = $this->createQueryForFiche($keyword, $localite);
+
+        $query = new Query();
+        $query->setQuery($boolQuery);
+
+        $search = new Search($this->client);
+        $search->addIndex($this->index);
+        $search->setQuery($query);
+
+        $options = ['limit' => $limit];
+
+        return $search->search($query, $options);
+    }
+
+    private function createQueryForFiche(string $keyword, ?string $localite = null): BoolQuery
+    {
+        $this->boolQuery = new BoolQuery();
+
+        if ($localite) {
+            $match = new MatchQuery('localite', $localite);
+            $this->boolQuery->addMust($match);
+        }
+
+        $match = new MultiMatch();
+        $match->setFields(
+            [
+                'societe^1.2',
+                'societe.stemmed',
+                'societe.ngram',
+                'comment1',
+                'comment1.stemmed',
+                'secteurs',
+                'secteurs.stemmed',
+            ]
+        );
+        $match->setQuery($keyword);
+        $match->setType(MultiMatch::TYPE_MOST_FIELDS);
+        $this->boolQuery->addMust($match);
+
+        $ficheFilter = new MatchQuery('type', 'fiche');
+
+        return $this->boolQuery;
+    }
+
+    public function doSearchForCap(string $keyword): iterable
     {
         $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
@@ -49,92 +100,15 @@ class SearchElastic implements SearchEngineInterface
 
         //   echo(json_encode($this->search->toArray()));
 
-        return $this->client->search($params);
-    }
+        $search = new Search($this->client);
 
-    protected function createQueryForFiche(string $keyword): BoolQuery
-    {
-        $societeMatch = new MatchQuery(
-            'societe',
-            $keyword,
-            [
-                //  "cutoff_frequency" => 0.001, //TAVERNE LE PALACE
-                'boost' => 1.2,
-                //          "fuzziness" => "AUTO",//manda => mazda
-            ]
-        );
-
-        $societeStemmedMatch = new MatchQuery(
-            'societe.stemmed',
-            $keyword,
-            [
-                'boost' => 1.1,
-            ]
-        );
-
-        $societeNgramMatch = new MatchQuery(
-            'societe.ngram',
-            $keyword,
-            [
-            ]
-        );
-
-        $multiMatchQuery = new MultiMatchQuery(
-            [
-                'comment1',
-                'comment1.stemmed',
-                'secteurs',
-                'secteurs.stemmed',
-            ],
-            $keyword
-        );
-
-        $ficheFilter = new MatchQuery('type', 'fiche');
-
-        $boolQuery = new BoolQuery();
-        $boolQuery->add($societeMatch, BoolQuery::SHOULD);
-        $boolQuery->add($societeStemmedMatch, BoolQuery::SHOULD);
-        $boolQuery->add($societeNgramMatch, BoolQuery::SHOULD);
-        $boolQuery->add($multiMatchQuery, BoolQuery::SHOULD);
-        $boolQuery->add($ficheFilter, BoolQuery::FILTER);
-
-        $boolQuery->addParameter('minimum_should_match', 1);
-
-        return $boolQuery;
+        return $search->search($query, $options);
     }
 
     /**
      * @throws BadRequest400Exception
      */
-    public function doSearch(string $keyword, ?string $localite = null): array
-    {
-        $this->getInstance();
-        $boolQuery = $this->createQueryForFiche($keyword);
-
-        if ($localite) {
-            $matchQuery = new MatchQuery('localite', $localite);
-            $boolQuery->add($matchQuery, BoolQuery::FILTER);
-        }
-
-        $this->search->addQuery($boolQuery);
-
-        //  $this->addAggregations();
-
-        $params = [
-            'index' => ElasticServer::INDEX_NAME,
-            'size' => 100,
-            'body' => $this->search->toArray(),
-        ];
-
-        //  var_dump($this->search->toArray());
-
-        return $this->client->search($params);
-    }
-
-    /**
-     * @throws BadRequest400Exception
-     */
-    public function doSearchAdvanced(string $keyword, ?string $localite = null): array
+    public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable
     {
         $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
@@ -184,14 +158,6 @@ class SearchElastic implements SearchEngineInterface
             ['size' => 5, 'suggest_mode' => 'popular']
         );
         $this->search->addSuggest($suggest);
-    }
-
-    protected function getAll(): Search
-    {
-        $search = new Search();
-        $search->addQuery(new MatchAllQuery());
-
-        return $search;
     }
 
     protected function location(string $latitude, string $longitude, string $distance): Search

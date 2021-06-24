@@ -2,13 +2,14 @@
 
 namespace AcMarche\Bottin\Search;
 
+
 interface SearchEngineInterface
 {
-    public function doSearch(string $keyword, ?string $localite = null): array;
+    public function doSearch(string $keyword, ?string $localite = null): iterable;
 
-    public function doSearchAdvanced(string $keyword, ?string $localite = null): array;
+    public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable;
 
-    public function renderResult(): array;
+    public function renderResult(): iterable;
 
     public function getFiches(array $hits);
 }
