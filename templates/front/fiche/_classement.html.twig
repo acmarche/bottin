@@ -1,0 +1,15 @@
+{% if classements | length > 0 %}
+    <h4 class="text-success">Classés dans</h4>
+    {% for classement in classements %}
+        {% set category = classement.category %}
+        {% set paths =  category.path %}
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% for cat in paths %}
+                    <li class="breadcrumb-item"><a
+                                href="{{ path('bottin_category_show', {'slug': cat.slug}) }}">{{ cat }}</a></li>
+                {% endfor %}
+            </ol>
+        </nav>
+    {% endfor %}
+{% endif %}

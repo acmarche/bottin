@@ -1,0 +1,20 @@
+{% if category.getChildNodes | length > 0 %}
+<br />
+    <div class='row well'>
+        <div class='col-md-6'>
+            <ul class='list-group'>
+                {% for child in category.getChildNodes %}
+                    <li class="list-group-item">
+                        <a href="{{ path('bottin_category_show', { 'slug': child.slug }) }}">{{ child }}</a>
+                    </li>
+                    {% if (loop.index) == loop.length // 2 %}
+                    </ul>
+                </div>
+                <div class='col-md-6'>
+                    <ul>
+                {% endif %}
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endif %}

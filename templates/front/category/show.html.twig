@@ -1,0 +1,24 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>{{ category }} </h3>
+            {% include '@AcMarcheBottin/front/category/_breadcrumb_light.html.twig' %}
+        </div>
+        <div class="card-body">
+
+            {% if category.description %}
+                <p class="text-muted">{{ category.description|nl2br }}</p>
+            {% endif %}
+
+            {% include '@AcMarcheBottin/front/category/_children.html.twig' %}
+
+            <br/>
+
+            {% include '@AcMarcheBottin/front/category/_fiches.html.twig' %}
+        </div>
+    </div>
+
+{% endblock %}

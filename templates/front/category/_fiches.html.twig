@@ -1,0 +1,29 @@
+{% set count = fiches | length %}
+{% if  count > 0 %}
+
+    <h4 class="text-success">{% if  count > 0 %} {{ count }} {% endif %}fiches</h4>
+
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Societe</th>
+            <th>Adresse</th>
+            <th>Téléphone</th>
+            <th>Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fiche in fiches %}
+            <tr>
+                <td>
+                    <a href="{{ path('bottin_fiche_show', { 'slug': fiche.slug }) }}"
+                       title="Détail de la fiche">{{ fiche.societe }}</a>
+                </td>
+                <td>{{ fiche.rue }}</td>
+                <td>{{ fiche.telephone }}</td>
+                <td>{{ fiche.nom }} {{ fiche.prenom }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

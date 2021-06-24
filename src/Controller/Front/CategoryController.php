@@ -15,9 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Category controller.
  *
- * @Route("/secteur")
+ * @Route("/category")
  */
-class SecteurController extends AbstractController
+class CategoryController extends AbstractController
 {
     private CategoryRepository $categoryRepository;
     private CategoryService $categoryService;
@@ -36,7 +36,7 @@ class SecteurController extends AbstractController
     /**
      * Lists all Category entities.
      *
-     * @Route("/", name="bottin_secteur_index", methods={"GET"})
+     * @Route("/", name="bottin_category_index", methods={"GET"})
      */
     public function index(Request $request): Response
     {
@@ -57,7 +57,7 @@ class SecteurController extends AbstractController
     /**
      * Finds and displays a Category entity.
      *
-     * @Route("/{id}", name="bottin_secteur_show", methods={"GET"})
+     * @Route("/{slug}", name="bottin_category_show", methods={"GET"})
      */
     public function show(Category $category): Response
     {
@@ -65,7 +65,7 @@ class SecteurController extends AbstractController
         /**
          * get all fiches of this category and there children.
          */
-        $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
+        $fiches = $this->categoryService->getFichesByCategoryIdWithOutChildrend($category);
 
         $category->getMaterializedPath(); //1/2
         $category->getRealMaterializedPath(); //1/2/3

@@ -10,7 +10,7 @@
                 {% for category in categories %}
                     <div class="col shadow-sm p-1 mb-1 bg-body rounded">
                         <h5 class="card-title">
-                            <a href="{{ path('bottin_admin_category_show', {'id': category.id}) }}">{{ category.name }}</a>
+                            <a href="{{ path('bottin_category_show', {'slug': category.slug}) }}">{{ category.name }}</a>
                         </h5>
                     </div>
                 {% endfor %}

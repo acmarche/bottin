@@ -69,8 +69,6 @@ class CategoryService
     }
 
     /**
-     * @param Category $category
-     *
      * @return Fiche[]
      */
     public function getFichesByCategoryAndHerChildren(Category $category): array
@@ -91,12 +89,32 @@ class CategoryService
     }
 
     /**
-     * @param int $idCategory
      * @return Fiche[]
      */
     public function getFichesByCategoryId(int $idCategory): array
     {
         return $this->getFichesByCategoryAndHerChildren($this->categoryRepository->find($idCategory));
+    }
+
+    /**
+     * @param int $idCategory
+     *
+     * @return Fiche[]
+     */
+    public function getFichesByCategoryIdWithOutChildrend(Category $category): array
+    {
+        $classements = $this->classementRepository->findBy(['category' => $category]);
+
+        $fiches = array_column($classements, 'fiche', 'id');
+        $arrayCollection = new ArrayCollection();
+
+        foreach ($fiches as $fiche) {
+            if (!$arrayCollection->contains($fiche)) {
+                $arrayCollection->add($fiche);
+            }
+        }
+
+        return SortUtils::sortFiche($arrayCollection->toArray());
     }
 
     protected function test(Category $category): void

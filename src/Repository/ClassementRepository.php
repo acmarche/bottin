@@ -24,8 +24,6 @@ class ClassementRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Fiche $fiche
-     * @param bool $onlyEco
      * @return Classement[]
      */
     public function getByFiche(Fiche $fiche, bool $onlyEco = false): array
@@ -40,15 +38,14 @@ class ClassementRepository extends ServiceEntityRepository
 
         if ($onlyEco) {
             $queryBuilder->andWhere('cat.materializedPath LIKE :eco OR cat.materializedPath LIKE :sante')
-                ->setParameter('eco', '%' . Cap::idEco . '%')
-                ->setParameter('sante', '%' . Cap::idSante . '%');
+                ->setParameter('eco', '%'.Cap::idEco.'%')
+                ->setParameter('sante', '%'.Cap::idSante.'%');
         }
 
         return $queryBuilder->getQuery()->getResult();
     }
 
     /**
-     * @param array $categories
      * @return Classement[]
      */
     public function findByCategories(array $categories): array
@@ -65,8 +62,6 @@ class ClassementRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Fiche $fiche
-     * @param Category $category
      * @throws NonUniqueResultException
      */
     public function checkExist(Fiche $fiche, Category $category): Classement

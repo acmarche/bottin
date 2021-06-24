@@ -33,10 +33,10 @@ class CategoryRepository extends ServiceEntityRepository
 
         if ($name) {
             $queryBuilder->andWhere('category.name LIKE :nom')
-                ->setParameter('nom', '%' . $name . '%');
+                ->setParameter('nom', '%'.$name.'%');
         }
 
-        if ($category !== null) {
+        if (null !== $category) {
             $queryBuilder->andWhere('category.parent = :root')
                 ->setParameter('root', $category);
         }
