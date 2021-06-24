@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Form\Fiche;
 
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Service\Bottin;
+use AcMarche\Bottin\Repository\LocaliteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -14,9 +14,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheActiviteType extends AbstractType
 {
+    private LocaliteRepository $localiteRepository;
+
+    public function __construct(LocaliteRepository $localiteRepository)
+    {
+        $this->localiteRepository = $localiteRepository;
+    }
+
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
-        $localites = array_combine(Bottin::LOCALITES, Bottin::LOCALITES);
+        $localites = $this->localiteRepository->findAllOrderyByNom();
+
         $formBuilder
             ->add('societe', TextType::class)
             ->add(
@@ -38,6 +46,8 @@ class FicheActiviteType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => $localites,
+                    'choice_label' => fn ($localite) => $localite->getNom(),
+                    'choice_value' => fn ($localite) => $localite,
                     'required' => false,
                 ]
             )

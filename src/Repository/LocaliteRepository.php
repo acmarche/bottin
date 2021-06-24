@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Entity\Localite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,8 +34,13 @@ class LocaliteRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function queryBuilderForSelect(): QueryBuilder
+    /**
+     * @return Localite[]
+     */
+    public function findAllOrderyByNom(): array
     {
-        return $this->createQueryBuilder('localite')->orderBy('localite.nom');
+        return $this->createQueryBuilder('localite')
+            ->orderBy('localite.nom')
+            ->getQuery()->getResult();
     }
 }
