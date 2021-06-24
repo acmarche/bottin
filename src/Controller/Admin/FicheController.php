@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Elastic\AggregationUtils;
-use AcMarche\Bottin\Elastic\SuggestUtils;
+use AcMarche\Bottin\Elasticsearch\AggregationUtils;
+use AcMarche\Bottin\Elasticsearch\SuggestUtils;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;

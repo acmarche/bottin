@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
@@ -15,19 +15,19 @@ class FicheUpdatedHandler implements MessageHandlerInterface
 {
     private FicheRepository $ficheRepository;
     private FlashBagInterface $flashBag;
-    private ElasticServer $elasticServer;
     private LocationUpdater $locationUpdater;
+    private ElasticIndexer $elasticIndexer;
 
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
-        ElasticServer $elasticServer,
+        ElasticIndexer $elasticIndexer,
         FlashBagInterface $flashBag
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->flashBag = $flashBag;
-        $this->elasticServer = $elasticServer;
         $this->locationUpdater = $locationUpdater;
+        $this->elasticIndexer = $elasticIndexer;
     }
 
     public function __invoke(FicheUpdated $ficheUpdated): void
@@ -47,7 +47,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
 
     private function updateSearchEngine(Fiche $fiche): void
     {
-        $this->elasticServer->updateFiche($fiche);
+        $this->elasticIndexer->updateFiche($fiche);
     }
 
     private function hasChangeAddress(FicheUpdated $ficheUpdated, Fiche $fiche): bool

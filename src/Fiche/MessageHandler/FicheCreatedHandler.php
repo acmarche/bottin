@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Location\LocationUpdater;
@@ -15,19 +15,19 @@ class FicheCreatedHandler implements MessageSubscriberInterface
 {
     private FicheRepository $ficheRepository;
     private FlashBagInterface $flashBag;
-    private ElasticServer $elasticServer;
     private LocationUpdater $locationUpdater;
+    private ElasticIndexer $elasticIndexer;
 
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
         FlashBagInterface $flashBag,
-        ElasticServer $elasticServer
+        ElasticIndexer $elasticIndexer
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->flashBag = $flashBag;
-        $this->elasticServer = $elasticServer;
         $this->locationUpdater = $locationUpdater;
+        $this->elasticIndexer = $elasticIndexer;
     }
 
     public function __invoke(FicheCreated $ficheCreated): void
@@ -40,7 +40,7 @@ class FicheCreatedHandler implements MessageSubscriberInterface
 
     private function updateFiche(Fiche $fiche): void
     {
-        $this->elasticServer->updateFiche($fiche);
+        $this->elasticIndexer->updateFiche($fiche);
     }
 
     private function setLocation(Fiche $fiche): void

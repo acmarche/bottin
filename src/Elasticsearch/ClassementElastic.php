@@ -1,7 +1,6 @@
 <?php
 
-
-namespace AcMarche\Bottin\Elastic;
+namespace AcMarche\Bottin\Elasticsearch;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
@@ -19,8 +18,7 @@ class ClassementElastic
     }
 
     /**
-     * Pour cap
-     * @param Fiche $fiche
+     * Pour cap.
      */
     public function getClassementsForApi(Fiche $fiche): array
     {

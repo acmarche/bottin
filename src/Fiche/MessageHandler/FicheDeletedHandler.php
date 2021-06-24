@@ -2,27 +2,27 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FicheDeletedHandler implements MessageHandlerInterface
 {
-    private ElasticServer $elasticServer;
     private FicheRepository $ficheRepository;
+    private ElasticIndexer $elasticIndexer;
 
     public function __construct(
-        ElasticServer $elasticServer,
-        FicheRepository $ficheRepository
+        FicheRepository $ficheRepository,
+        ElasticIndexer $elasticIndexer
     ) {
-        $this->elasticServer = $elasticServer;
         $this->ficheRepository = $ficheRepository;
+        $this->elasticIndexer = $elasticIndexer;
     }
 
     public function __invoke(FicheDeleted $ficheDeleted): void
     {
         $fiche = $this->ficheRepository->find($ficheDeleted->getFicheId());
-        $this->elasticServer->deleteFiche($fiche);
+        $this->elasticIndexer->deleteFiche($fiche);
     }
 }

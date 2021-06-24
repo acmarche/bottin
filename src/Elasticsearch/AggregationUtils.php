@@ -1,12 +1,10 @@
 <?php
 
-
-namespace AcMarche\Bottin\Elastic;
+namespace AcMarche\Bottin\Elasticsearch;
 
 /**
  * todo utiliser $this->search->getAggregations()
- * Class AggregationUtils
- * @package AcMarche\Bottin\Elastic
+ * Class AggregationUtils.
  */
 class AggregationUtils
 {
@@ -16,6 +14,7 @@ class AggregationUtils
         if (!isset($agg['buckets'])) {
             return [];
         }
+
         return $agg['buckets'];
     }
 
@@ -41,10 +40,11 @@ class AggregationUtils
             return 0;
         }
         foreach ($agg['buckets'] as $data) {
-            if ($data['key'] == "true") {
+            if ('true' == $data['key']) {
                 return $data['doc_count'];
             }
         }
+
         return 0;
     }
 
@@ -53,6 +53,7 @@ class AggregationUtils
         if (isset($response['aggregations'][$key])) {
             return $response['aggregations'][$key];
         }
+
         return [];
     }
 }

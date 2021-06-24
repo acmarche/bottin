@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Search;
 
-use AcMarche\Bottin\Elastic\ElasticServer;
+use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;

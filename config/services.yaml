@@ -18,6 +18,8 @@ services:
     # this means you cannot fetch services directly from the container via $container->get()
     # if you need to do this, you can override this setting on individual services
     public: false
+    bind:
+      string $elasticIndexName: !php/const AcMarche\Bottin\Elasticsearch\ElasticServer::INDEX_NAME
 
   # makes classes in src/App available to be used as services
   # this creates a service per class whose id is the fully-qualified class name

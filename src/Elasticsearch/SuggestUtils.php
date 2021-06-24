@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AcMarche\Bottin\Elastic;
+namespace AcMarche\Bottin\Elasticsearch;
 
 /**
  * Class SuggestUtils

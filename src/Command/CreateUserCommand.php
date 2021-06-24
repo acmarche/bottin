@@ -13,9 +13,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class CreateUserCommand extends Command
 {
-    /**
-     * @var string
-     */
     protected static $defaultName = 'bottin:create-user';
     private UserRepository $userRepository;
     private UserPasswordHasherInterface $userPasswordEncoder;
@@ -75,6 +72,6 @@ class CreateUserCommand extends Command
 
         $symfonyStyle->success('Utilisateur créé.');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
