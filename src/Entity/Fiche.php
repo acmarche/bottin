@@ -10,6 +10,7 @@ use AcMarche\Bottin\Entity\Traits\DemandeTrait;
 use AcMarche\Bottin\Entity\Traits\DocumentsTrait;
 use AcMarche\Bottin\Entity\Traits\EcommerceTrait;
 use AcMarche\Bottin\Entity\Traits\EnabledTrait;
+use AcMarche\Bottin\Entity\Traits\EtapeTrait;
 use AcMarche\Bottin\Entity\Traits\HoraireTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Entity\Traits\ImageTrait;
@@ -54,6 +55,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     use CapTrait;
     use EcommerceTrait;
     use TokenTrait;
+    use EtapeTrait;
 
     /**
      * @ORM\Column(type="string", nullable=false)

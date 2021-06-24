@@ -5,10 +5,9 @@ namespace AcMarche\Bottin\Controller\Front;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
-use AcMarche\Bottin\Form\Fiche\FicheActiviteType;
-use AcMarche\Bottin\Form\FicheType;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use AcMarche\Bottin\Service\FormUtils;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -29,23 +28,26 @@ class FicheController extends AbstractController
     private HoraireService $horaireService;
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
+    private FormUtils $formUtils;
 
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
         FicheRepository $ficheRepository,
-        HoraireService $horaireService
+        HoraireService $horaireService,
+        FormUtils $formUtils
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
+        $this->formUtils = $formUtils;
     }
 
     /**
      * Finds and displays a Fiche fiche.
      *
-     * @Route("/{id}", name="bottin_fiche_show", methods={"GET"})
+     * @Route("/{slug}", name="bottin_fiche_show", methods={"GET"})
      */
     public function show(Fiche $fiche): Response
     {
@@ -64,10 +66,10 @@ class FicheController extends AbstractController
     /**
      * Displays a form to edit an existing Fiche fiche.
      *
-     * @Route("/{uuid}/edit", name="bottin_fiche_edit", methods={"GET", "POST"})
+     * @Route("/{uuid}/edit/{etape}", name="bottin_fiche_edit", methods={"GET", "POST"})
      * IsGranted("POST_EDIT", subject="token")
      */
-    public function edit(Request $request, Token $token): Response
+    public function edit(Request $request, Token $token, int $etape = 1): Response
     {
         if (!$this->isGranted('POST_EDIT', $token)) {
             $this->addFlash('danger', 'Page expirée');
@@ -78,27 +80,31 @@ class FicheController extends AbstractController
         //  $this->denyAccessUnlessGranted('POST_EDIT', $token);
 
         $fiche = $token->getFiche();
+        if ($etape) {
+            $fiche->setEtape($etape);
+        }
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
 
-        $form = $this->createForm(FicheActiviteType::class, $fiche);
-
+        $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //      $this->ficheRepository->flush();
 
-            $this->ficheRepository->flush();
-
-            $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
+            //      $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
 
             $this->addFlash('success', 'La fiche a bien été modifiée');
+            $etape = $fiche->getEtape() + 1;
 
-            return $this->redirectToRoute('bottin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_fiche_edit', ['uuid' => $token->getUuid(), 'etape' => $etape]);
         }
 
         return $this->render(
             '@AcMarcheBottin/backend/fiche/edit.html.twig',
             [
                 'fiche' => $fiche,
+                'token' => $token,
+                'etape' => $fiche->getEtape(),
                 'form' => $form->createView(),
             ]
         );

@@ -11,10 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheComplementType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
@@ -22,9 +18,10 @@ class FicheComplementType extends AbstractType
                 'midi',
                 CheckboxType::class,
                 [
+                    'label' => 'Ouvert sur le temps de midi',
                     'required' => false,
                     'label_attr' => [
-                        'class' => 'switch-custom',
+                        'class' => 'checkbox-switch',
                     ],
                 ]
             )
@@ -34,8 +31,9 @@ class FicheComplementType extends AbstractType
                 [
                     'required' => false,
                     'label_attr' => [
-                        'class' => 'switch-custom',
+                        'class' => 'checkbox-switch',
                     ],
+                    'label' => 'Accessible aux personnes à mobilités réduites',
                 ]
             )
             ->add(
@@ -44,6 +42,7 @@ class FicheComplementType extends AbstractType
                 [
                     'required' => false,
                     'attr' => ['rows' => 6],
+                    'help' => 'Description de votre activité',
                 ]
             )
             ->add(
@@ -52,6 +51,7 @@ class FicheComplementType extends AbstractType
                 [
                     'required' => false,
                     'attr' => ['rows' => 6],
+                    'help' => 'Horaires',
                 ]
             )
             ->add(
@@ -60,13 +60,11 @@ class FicheComplementType extends AbstractType
                 [
                     'required' => false,
                     'attr' => ['rows' => 6],
+                    'help' => 'D\'autres informations',
                 ]
             );
     }
 
-    /**
-     * @param OptionsResolver $optionsResolver
-     */
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(
