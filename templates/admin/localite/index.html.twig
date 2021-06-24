@@ -3,33 +3,32 @@
 {% block body %}
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Liste des points de vente</h3>
+            <h3>Liste des localités</h3>
         </div>
         <div class="card-body">
-            <a href="{{ path('bottin_admin_pdv_new') }}" class="btn btn-primary" role="button"><i
+            <a href="{{ path('bottin_admin_localite_new') }}" class="btn btn-primary" role="button"><i
                         class="fas fa-plus"></i> Ajouter</a>
             <br/><br/>
 
             <table class='table table-bordered table-hover'>
                 <thead>
                 <tr>
-                    <th>Intitule</th>
-                    <th>Fiches</th>
+                    <th>Nom</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for pdv in pdvs %}
+                {% for localite in localites %}
                     <tr>
                         <td>
-                            <a href="{{ path('bottin_admin_pdv_show', { 'id': pdv.id }) }}">
-                                {{ pdv.intitule }}
+                            <a href="{{ path('bottin_admin_localite_show', { 'id': localite.id }) }}">
+                                {{ localite.nom }}
                             </a>
                         </td>
-                        <td>{{ pdv.fiches | length }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
+
 {% endblock %}
