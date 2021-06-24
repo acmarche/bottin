@@ -29,6 +29,10 @@
             {% endif %}
 
             {{ form_end(form) }}
+            <a href="{{ path('bottin_fiche_show', {'slug': fiche.slug}) }}"
+               class="btn btn-warning mr-1 mb-2 float-end" type="submit"><i class="fas fa-arrow-up" aria-hidden="true"></i>
+                Annuler
+            </a>
         </div>
     </div>
 

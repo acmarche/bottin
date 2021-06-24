@@ -4,13 +4,11 @@ namespace AcMarche\Bottin\Controller\Front;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
-use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Service\FormUtils;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
