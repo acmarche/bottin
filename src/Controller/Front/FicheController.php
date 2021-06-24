@@ -62,57 +62,18 @@ class FicheController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Fiche fiche.
-     *
-     * @Route("/{uuid}/edit/{etape}", name="bottin_fiche_edit", methods={"GET", "POST"})
-     * IsGranted("POST_EDIT", subject="token")
+     * @Route("/by/index/{anchor}", name="bottin_fiche_by_index")
      */
-    public function edit(Request $request, Token $token, int $etape = 1): Response
+    public function index($anchor = null): Response
     {
-        if (!$this->isGranted('POST_EDIT', $token)) {
-            $this->addFlash('danger', 'Page expirée');
-
-            return $this->redirectToRoute('bottin_home');
-        }
-
-        //  $this->denyAccessUnlessGranted('POST_EDIT', $token);
-
-        $fiche = $token->getFiche();
-        if ($etape) {
-            $fiche->setEtape($etape);
-        }
-        $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
-
-        $form = $this->formUtils->createFormByEtape($fiche);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //      $this->ficheRepository->flush();
-
-            //      $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
-
-            $this->addFlash('success', 'La fiche a bien été modifiée');
-            $etape = $fiche->getEtape() + 1;
-
-            return $this->redirectToRoute('bottin_fiche_edit', ['uuid' => $token->getUuid(), 'etape' => $etape]);
-        }
+        $fiches = $this->ficheRepository->findAllWithJoins();
 
         return $this->render(
-            '@AcMarcheBottin/backend/fiche/edit.html.twig',
+            '@AcMarcheBottin/front/fiche/byindex.html.twig',
             [
-                'fiche' => $fiche,
-                'token' => $token,
-                'etape' => $fiche->getEtape(),
-                'form' => $form->createView(),
+                'fiches' => $fiches,
+                'anchor' => $anchor,
             ]
         );
-    }
-
-    /**
-     * @Route("/{id}", name="bottin_fiche_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Fiche $fiche): RedirectResponse
-    {
-        return $this->redirectToRoute('bottin_home');
     }
 }
