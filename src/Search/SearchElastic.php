@@ -58,7 +58,7 @@ class SearchElastic implements SearchEngineInterface
             [
                 'societe^1.2',
                 'societe.stemmed',
-                'societe.ngram',
+                'societe.edgengram',
                 'comment1',
                 'comment1.stemmed',
                 'secteurs',

@@ -26,16 +26,20 @@ class SearchController extends AbstractController
     public function search(Request $request): Response
     {
         $hits = [];
+        $keyword = null;
+        $count = 0;
         $form = $this->createForm(SearchSimpleType::class, [], ['method' => 'GET']);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
+            $keyword = $args['nom'];
 
             try {
-                $response = $this->searchEngine->doSearch($args['nom']);
+                $response = $this->searchEngine->doSearch($keyword);
                 $hits = $response->getResults();
+                $count = $response->count();
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
@@ -44,10 +48,10 @@ class SearchController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/front/search/index.html.twig',
             [
-                'search_form' => $form->createView(),
+                'form' => $form->createView(),
                 'hits' => $hits,
-                'keyword' => $args['nom'],
-                'count' => $response->count(),
+                'keyword' => $keyword,
+                'count' => $count,
             ]
         );
     }

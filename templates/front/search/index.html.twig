@@ -6,6 +6,7 @@
             <h3>Recherche "{{ keyword }}"</h3>
         </div>
         <div class="card-body">
+            {{ form(form) }}
             {% if count > 0 %}
 
                 <h4 class="text-success">{{ count }} trouvé(s)</h4>
