@@ -39,7 +39,8 @@
           },
           "ngram": {
             "type": "text",
-            "analyzer": "french_ngram"
+            "analyzer": "french_ngram",
+            "search_analyzer": "edge_ngram_search_analyzer"
           }
         }
       },
