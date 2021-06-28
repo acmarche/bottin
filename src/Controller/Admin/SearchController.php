@@ -36,6 +36,7 @@ class SearchController extends AbstractController
     {
         $session = $request->getSession();
         $args = $hits = $suggest = $response = [];
+        $count = 0;
 
         if ($session->has('fiche_search')) {
             $args = json_decode($session->get('fiche_search'), true);
@@ -54,7 +55,8 @@ class SearchController extends AbstractController
 
             try {
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
-                $hits = $response['hits'];
+                $hits = $response->getResults();
+                $count = $response->count();
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
@@ -65,7 +67,8 @@ class SearchController extends AbstractController
             [
                 'search_form' => $form->createView(),
                 'hits' => $hits,
-                'localites' => $this->aggregationUtils->getLocalites($response),
+                'count'=>$count,
+                'localites' => $this->aggregationUtils->getAggregations($response, 'localites'),
                 'pmr' => $this->aggregationUtils->countPmr($response),
                 'midi' => $this->aggregationUtils->countMidi($response),
                 'centre_ville' => $this->aggregationUtils->countCentreVille($response),

@@ -1,30 +1,33 @@
 <?php
 
-
 namespace AcMarche\Bottin\Elasticsearch;
 
+use Elastica\ResultSet;
+
 /**
- * Class SuggestUtils
- * @package AcMarche\Bottin\Elastic
- *
- * https://www.elastic.co/guide/en/elasticsearch/reference/current/search-suggesters.html
+ * Class SuggestUtils.
  */
 class SuggestUtils
 {
-    public function getOptions(array $response)
+    public function getOptions(ResultSet $response)
     {
         $suggest = $this->getSuggest($response, 'societe_suggest');
+        dump($suggest);
+        return $suggest;
         if (!isset($suggest[0])) {
             return [];
         }
+
         return $suggest[0]['options'];
     }
 
-    private function getSuggest(array $response, string $key): array
+    private function getSuggest(ResultSet $response, string $key): array
     {
-        if (isset($response['suggest'][$key])) {
-            return $response['suggest'][$key];
+        $suggests = $response->getSuggests();
+        if (isset($suggests[$key])) {
+            return $suggests[$key];
         }
+
         return [];
     }
 }

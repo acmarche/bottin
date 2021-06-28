@@ -2,40 +2,48 @@
 
 namespace AcMarche\Bottin\Elasticsearch;
 
+use Elastica\ResultSet;
+
 /**
  * todo utiliser $this->search->getAggregations()
  * Class AggregationUtils.
  */
 class AggregationUtils
 {
-    public function getLocalites(array $response): array
+    public function getAggregations(ResultSet $response, string $name): array
     {
-        $agg = $this->getAggreations($response, 'localites');
-        if (!isset($agg['buckets'])) {
+        $aggregations = $response->getAggregation($name);
+        dump($aggregations);
+        if (!isset($aggregations['buckets'])) {
             return [];
         }
 
-        return $agg['buckets'];
+        return $aggregations['buckets'];
     }
 
-    public function countPmr(array $response): int
+    public function getLocalites(ResultSet $response): array
+    {
+        return $this->getAggregations($response, 'localites');
+    }
+
+    public function countPmr(ResultSet $response): int
     {
         return $this->countTrue($response, 'pmr');
     }
 
-    public function countMidi(array $response): int
+    public function countMidi(ResultSet $response): int
     {
         return $this->countTrue($response, 'midi');
     }
 
-    public function countCentreVille(array $response): int
+    public function countCentreVille(ResultSet $response): int
     {
         return $this->countTrue($response, 'centre_ville');
     }
 
-    private function countTrue(array $response, string $key): int
+    private function countTrue(ResultSet $response, string $key): int
     {
-        $agg = $this->getAggreations($response, $key);
+        $agg = $response->getAggregation($key);
         if (!isset($agg['buckets'])) {
             return 0;
         }
@@ -46,14 +54,5 @@ class AggregationUtils
         }
 
         return 0;
-    }
-
-    private function getAggreations(array $response, string $key): array
-    {
-        if (isset($response['aggregations'][$key])) {
-            return $response['aggregations'][$key];
-        }
-
-        return [];
     }
 }
