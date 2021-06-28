@@ -118,14 +118,14 @@ class ImageController extends AbstractController
         if (!$imageId) {
             $this->addFlash('danger', 'Image non trouvée');
 
-            return $this->redirect($this->generateUrl('bottin_home'));
+            return $this->redirect($this->generateUrl('bottin_front_home'));
         }
 
         $ficheImage = $this->imageRepository->find($imageId);
         if (!$ficheImage) {
             $this->addFlash('danger', 'Image non trouvée');
 
-            return $this->redirect($this->generateUrl('bottin_home'));
+            return $this->redirect($this->generateUrl('bottin_front_home'));
         }
 
         $fiche = $ficheImage->getFiche();

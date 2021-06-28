@@ -104,7 +104,7 @@ class DocumentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_document_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_document_delete", methods={"POST"})
      */
     public function delete(Request $request, Document $document): RedirectResponse
     {

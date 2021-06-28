@@ -229,11 +229,11 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_category_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_category_delete", methods={"POST"})
      */
     public function delete(Request $request, Category $category): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new CategoryDeleted($category->getId()));
             $parent = $category->getParent();
             $this->categoryRepository->remove($category);
@@ -242,11 +242,11 @@ class CategoryController extends AbstractController
             $this->addFlash('success', 'La catégorie a bien été supprimée');
             if (null !== $parent) {
                 return $this->redirect(
-                    $this->generateUrl('bottin_category_show', ['id' => $parent->getId()])
+                    $this->generateUrl('bottin_admin_category_show', ['id' => $parent->getId()])
                 );
             }
         }
 
-        return $this->redirect($this->generateUrl('bottin_category'));
+        return $this->redirect($this->generateUrl('bottin_admin_category'));
     }
 }

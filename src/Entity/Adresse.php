@@ -62,7 +62,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
      * @var Fiche[]
      * @ORM\OneToMany(targetEntity=Fiche::class, mappedBy="adresse")
      */
-    protected Collection $fiches;
+    protected iterable $fiches;
 
     public function __construct()
     {
@@ -107,7 +107,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     /**
      * @return Collection|Fiche[]
      */
-    public function getFiches(): array
+    public function getFiches(): iterable
     {
         return $this->fiches;
     }

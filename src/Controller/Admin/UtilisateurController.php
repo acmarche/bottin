@@ -126,7 +126,7 @@ class UtilisateurController extends AbstractController
     /**
      * Deletes a Utilisateur utilisateur.
      *
-     * @Route("/{id}", name="bottin_admin_utilisateur_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_utilisateur_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user): RedirectResponse
     {

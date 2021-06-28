@@ -109,7 +109,7 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_image_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_image_delete", methods={"POST"})
      */
     public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {
@@ -120,6 +120,6 @@ class ImageController extends AbstractController
             $this->addFlash('success', "L'image a bien été supprimée");
         }
 
-        return $this->redirect($this->generateUrl('bottin_fiche_show', ['id' => $fiche->getId()]));
+        return $this->redirect($this->generateUrl('bottin_admin_fiche_show', ['id' => $fiche->getId()]));
     }
 }

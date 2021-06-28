@@ -23,29 +23,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class FicheController extends AbstractController
 {
     private FicheRepository $ficheRepository;
-    private HoraireService $horaireService;
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
-    private FormUtils $formUtils;
 
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
-        FicheRepository $ficheRepository,
-        HoraireService $horaireService,
-        FormUtils $formUtils
+        FicheRepository $ficheRepository
     ) {
         $this->ficheRepository = $ficheRepository;
-        $this->horaireService = $horaireService;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
-        $this->formUtils = $formUtils;
     }
 
     /**
      * Finds and displays a Fiche fiche.
      *
-     * @Route("/{slug}", name="bottin_fiche_show", methods={"GET"})
+     * @Route("/{slug}", name="bottin_front_fiche_show", methods={"GET"})
      */
     public function show(Fiche $fiche): Response
     {
@@ -62,7 +56,7 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/by/index/{anchor}", name="bottin_fiche_by_index")
+     * @Route("/by/index/{anchor}", name="bottin_front_fiche_by_index")
      */
     public function index($anchor = null): Response
     {

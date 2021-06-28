@@ -3,17 +3,12 @@
 {% block body -%}
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Image de {{ fiche }}</h3>
+            <h3>Image de <a href="{{ path('bottin_admin_fiche_show', {'id' : fiche.id }) }}">{{ fiche }}</a></h3>
         </div>
         <div class="card-body">
-
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="fas fa-trash"></i> Supprimer l'image
             </button>
-
-            <a href="{{ path('bottin_admin_fiche_show', {'id' : fiche.id }) }}" class="btn btn-secondary">
-                <i class="fas fa-long-arrow-alt-left"></i> Annuler
-            </a>
 
             <br/> <br/>
             <img class="img-thumbnail"

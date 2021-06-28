@@ -126,7 +126,7 @@ class DemandeController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_demande_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_demande_delete", methods={"POST"})
      */
     public function delete(Request $request, Demande $demande): RedirectResponse
     {

@@ -36,7 +36,7 @@ class CategoryController extends AbstractController
     /**
      * Lists all Category entities.
      *
-     * @Route("/", name="bottin_category_index", methods={"GET"})
+     * @Route("/", name="bottin_front_category_index", methods={"GET"})
      */
     public function index(Request $request): Response
     {
@@ -57,7 +57,7 @@ class CategoryController extends AbstractController
     /**
      * Finds and displays a Category entity.
      *
-     * @Route("/{slug}", name="bottin_category_show", methods={"GET"})
+     * @Route("/{slug}", name="bottin_front_category_show", methods={"GET"})
      */
     public function show(Category $category): Response
     {

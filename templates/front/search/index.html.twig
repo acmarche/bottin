@@ -13,7 +13,7 @@
 
                 {% for hit in hits %}
                     {% set fiche = hit.data %}
-                    {% set urlShow = path('bottin_fiche_show', {'slug': fiche.slug}) %}
+                    {% set urlShow = path('bottin_front_fiche_show', {'slug': fiche.slug}) %}
                     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
                         {% set urlShow = path('bottin_admin_fiche_show', {'id': fiche.id}) %}
                     {% endif %}

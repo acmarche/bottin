@@ -19,7 +19,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_home")
+     * @Route("/", name="bottin_front_home")
      */
     public function index(): Response
     {

@@ -120,7 +120,7 @@ class LocaliteController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_localite_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_localite_delete", methods={"POST"})
      */
     public function delete(Request $request, Localite $localite): RedirectResponse
     {

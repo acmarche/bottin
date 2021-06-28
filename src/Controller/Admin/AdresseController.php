@@ -96,6 +96,7 @@ class AdresseController extends AbstractController
             $this->adresseRepository->flush();
 
             $this->addFlash('success', 'La géolocalisation a bien été modifiée');
+            return $this->redirectToRoute('bottin_admin_adresse_show', ['id' => $adresse->getId()]);
         }
 
         return $this->render(
@@ -139,11 +140,11 @@ class AdresseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_adresse_delete", methods={"DELETE"})
+     * @Route("/{id}/delete", name="bottin_admin_adresse_delete", methods={"POST"})
      */
     public function delete(Request $request, Adresse $adresse): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $adresse->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$adresse->getId(), $request->request->get('_token'))) {
             $this->dispatchMessage(new AdresseDeleted($adresse->getId()));
             $this->adresseRepository->remove($adresse);
             $this->adresseRepository->flush();

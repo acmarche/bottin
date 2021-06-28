@@ -3,7 +3,7 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
     {% include '@AcMarcheBottin/admin/_menu_admin.html.twig' %}
 {% else %}
-    <li><a href="{{ path('bottin_search') }}" class="nav-link px-2 link-dark"><i class="fa fa-search"></i> Rechercher</a></li>
-    <li><a href="{{ path('bottin_category_index') }}" class="nav-link px-2 link-dark"><i class="fa fa-list"></i> Secteurs</a></li>
-    <li><a href="{{ path('bottin_fiche_by_index') }}" class="nav-link px-2 link-dark"><i class="fa fa-list"></i> Index</a></li>
+    <li><a href="{{ path('bottin_front_search') }}" class="nav-link px-2 link-dark"><i class="fa fa-search"></i> Rechercher</a></li>
+    <li><a href="{{ path('bottin_front_category_index') }}" class="nav-link px-2 link-dark"><i class="fa fa-list"></i> Secteurs</a></li>
+    <li><a href="{{ path('bottin_front_fiche_by_index') }}" class="nav-link px-2 link-dark"><i class="fa fa-list"></i> Index</a></li>
 {% endif %}

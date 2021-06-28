@@ -144,7 +144,7 @@ class Document implements TimestampableInterface
         return $this->fileSize;
     }
 
-    public function setFileSize(int $fileSize): self
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

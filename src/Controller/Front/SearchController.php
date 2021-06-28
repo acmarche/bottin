@@ -21,7 +21,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="bottin_search")
+     * @Route("/search", name="bottin_front_search")
      */
     public function search(Request $request): Response
     {
@@ -57,7 +57,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search/form", name="bottin_search_form")
+     * @Route("/search/form", name="bottin_front_search_form")
      */
     public function searchForm(): Response
     {
@@ -66,7 +66,7 @@ class SearchController extends AbstractController
             [],
             [
                 'method' => 'GET',
-                'action' => $this->generateUrl('bottin_search'),
+                'action' => $this->generateUrl('bottin_front_search'),
             ]
         );
 
@@ -79,7 +79,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search/ajax", name="bottin_search_ajax")
+     * @Route("/search/ajax", name="bottin_front_search_ajax")
      */
     public function searchAjax(Request $request): Response
     {

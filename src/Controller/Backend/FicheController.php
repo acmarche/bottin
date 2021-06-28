@@ -52,7 +52,7 @@ class FicheController extends AbstractController
         if (!$this->isGranted('POST_EDIT', $token)) {
             $this->addFlash('danger', 'Page expirée');
 
-            return $this->redirectToRoute('bottin_home');
+            return $this->redirectToRoute('bottin_front_home');
         }
         $fiche = $token->getFiche();
         $classements = $this->classementRepository->getByFiche($fiche);
@@ -119,11 +119,11 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_backend_fiche_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_backend_fiche_delete", methods={"POST"})
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
-        return $this->redirectToRoute('bottin_home');
+        return $this->redirectToRoute('bottin_front_home');
     }
 
 }

@@ -25,14 +25,14 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/log/{uuid}",name="bottin_token_show")
+     * @Route("/log/{uuid}",name="bottin_front_token_show")
      */
     public function show(Request $request, Token $token): Response
     {
         if ($this->tokenUtils->isExpired($token)) {
             $this->addFlash('danger', 'Page expirée');
 
-            return $this->redirectToRoute('bottin_home');
+            return $this->redirectToRoute('bottin_front_home');
         }
 
         $fiche = $token->getFiche();

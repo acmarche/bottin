@@ -13,7 +13,7 @@
                 </div>
                 <div class="modal-footer">
                     <form method="post" action="{{ path('bottin_admin_category_delete', {'id': category.id}) }}">
-                        <input type="hidden" name="_method" value="DELETE">
+
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Annuler

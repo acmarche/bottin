@@ -121,7 +121,7 @@ class SituationController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_situation_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_situation_delete", methods={"POST"})
      */
     public function delete(Request $request, Situation $situation): RedirectResponse
     {

@@ -7,7 +7,7 @@
             <ol class="breadcrumb">
                 {% for cat in paths %}
                     <li class="breadcrumb-item"><a
-                                href="{{ path('bottin_category_show', {'slug': cat.slug}) }}">{{ cat }}</a></li>
+                                href="{{ path('bottin_front_category_show', {'slug': cat.slug}) }}">{{ cat }}</a></li>
                 {% endfor %}
             </ol>
         </nav>
