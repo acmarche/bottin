@@ -1,12 +1,12 @@
 <span class="text-muted">
 
-<a href='{{ path('bottin_category_index') }}'>Secteurs</a>
+<a href='{{ path('bottin_front_category_index') }}'>Secteurs</a>
 /
 {% for path in paths %}
     {% if loop.last %}
         {{ path }}
     {% else %}
-        <a href="{{ path('bottin_category_show', { 'slug': path.slug }) }}">{{ path }}</a> /
+        <a href="{{ path('bottin_front_category_show', { 'slug': path.slug }) }}">{{ path }}</a> /
     {% endif %}
 {% endfor %}
 </span>

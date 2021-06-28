@@ -5,7 +5,7 @@
             <ul class='list-group'>
                 {% for child in category.getChildNodes %}
                     <li class="list-group-item">
-                        <a href="{{ path('bottin_category_show', { 'slug': child.slug }) }}">{{ child }}</a>
+                        <a href="{{ path('bottin_front_category_show', { 'slug': child.slug }) }}">{{ child }}</a>
                     </li>
                     {% if (loop.index) == loop.length // 2 %}
                     </ul>

@@ -16,7 +16,7 @@
         {% for fiche in fiches %}
             <tr>
                 <td>
-                    <a href="{{ path('bottin_front_fiche_show', { 'slug': fiche.slug }) }}"
+                    <a href="{{ bottin_url_fiche_show(fiche) }}"
                        title="Détail de la fiche">{{ fiche.societe }}</a>
                 </td>
                 <td>{{ fiche.rue }}</td>

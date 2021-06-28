@@ -82,7 +82,7 @@ class ElasticIndexer
 
     public function deleteFiche(Fiche $fiche): Response
     {
-        $id = 'fiche_'.$fiche->getId();
+        $id = $fiche->getId();
 
         return $this->index->deleteById($id);
     }
