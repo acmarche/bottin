@@ -23,12 +23,7 @@ class SearchSql implements SearchEngineInterface
         return $this->ficheRepository->searchByNameAndCity($keyword, $localite);
     }
 
-    public function renderResult(): iterable
-    {
-        // TODO: Implement renderResult() method.
-    }
-
-    public function getFiches(array $fiches): array
+    public function getFiches(iterable $fiches): iterable
     {
         return $fiches;
     }
