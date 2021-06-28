@@ -26,31 +26,26 @@ class Mailer
         $this->sendMail($templatedEmail);
     }
 
-    public function create(Fiche $message): TemplatedEmail
+    /**
+     * @param string $nom
+     * @param string $from
+     * @param string $message
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
+    public function sendContact(string $nom, string $from, string $message): void
     {
         $templatedEmail = (new TemplatedEmail())
-            ->subject($message->getSujet())
-            ->from($message->getFrom())
-            //  ->htmlTemplate('@AcMarcheMercrediAdmin/mail/mail.html.twig')
-            ->textTemplate('@AcMarcheMercrediAdmin/message/_mail.txt.twig')
+            ->subject('Contact depuis bottin marche')
+            ->from($from)
+            ->to('jf@marche.be')
+            ->textTemplate('@AcMarcheBottin/backend/mail/_frombottin.txt.twig')
             ->context(
                 [
-                    'texte' => $message->getTexte(),
-                    'organisation' => $this->organisation,
+                    'nom' => $nom,
+                    'from' => $from,
+                    'content' => $message,
                 ]
             );
-
-        /*
-         * Pieces jointes.
-         */
-        if (null !== ($uploadedFile = $message->getFile())) {
-            $templatedEmail->attachFromPath(
-                $uploadedFile->getRealPath(),
-                $uploadedFile->getClientOriginalName(),
-                $uploadedFile->getClientMimeType()
-            );
-        }
-
-        return $templatedEmail;
+        $this->sendMail($templatedEmail);
     }
 }

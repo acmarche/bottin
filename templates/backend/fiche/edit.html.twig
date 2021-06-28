@@ -3,7 +3,9 @@
 {% block body -%}
     <div class="card mb-3">
         <div class="card-header">
-            <h3>{{ fiche }}</h3>
+            <h3>
+                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}">{{ fiche }}</a>
+            </h3>
         </div>
         <div class="card-body">
             {{ form_start(form) }}
@@ -22,17 +24,14 @@
                     Suivant
                 </button>
             {% else %}
-                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}" class="btn btn-primary mr-1 mb-2"
+                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}"
+                   class="btn btn-primary mr-1 mb-2"
                    type="submit"><i class="fas fa-check" aria-hidden="true"></i>
                     Terminer
                 </a>
             {% endif %}
 
             {{ form_end(form) }}
-            <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}"
-               class="btn btn-warning mr-1 mb-2 float-end" type="submit"><i class="fas fa-arrow-up" aria-hidden="true"></i>
-                Annuler
-            </a>
         </div>
     </div>
 
