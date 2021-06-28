@@ -14,7 +14,5 @@ interface SearchEngineInterface
 
     public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable;
 
-    public function renderResult(): iterable;
-
-    public function getFiches(array $hits);
+    public function getFiches(iterable $hits): iterable;
 }

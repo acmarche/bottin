@@ -2,8 +2,6 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Elasticsearch\AggregationUtils;
-use AcMarche\Bottin\Elasticsearch\SuggestUtils;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
@@ -34,8 +32,6 @@ class FicheController extends AbstractController
 {
     private FicheRepository $ficheRepository;
     private HoraireService $horaireService;
-    private AggregationUtils $aggregationUtils;
-    private SuggestUtils $suggestUtils;
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
     private SearchEngineInterface $searchEngine;
@@ -45,14 +41,10 @@ class FicheController extends AbstractController
         ClassementRepository $classementRepository,
         FicheRepository $ficheRepository,
         HoraireService $horaireService,
-        SearchEngineInterface $searchEngine,
-        AggregationUtils $aggregationUtils,
-        SuggestUtils $suggestUtils
+        SearchEngineInterface $searchEngine
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
-        $this->aggregationUtils = $aggregationUtils;
-        $this->suggestUtils = $suggestUtils;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->searchEngine = $searchEngine;
@@ -93,54 +85,6 @@ class FicheController extends AbstractController
             [
                 'search_form' => $form->createView(),
                 'fiches' => $fiches,
-            ]
-        );
-    }
-
-    /**
-     * Lists all Fiche entities.
-     *
-     * @Route("/searchadvanced", name="bottin_admin_fiche_search_advanced", methods={"GET"})
-     * @Route("/searchadvanced/{keyword}", name="bottin_admin_fiche_search", methods={"GET"})
-     */
-    public function search(Request $request, ?string $keyword): Response
-    {
-        $session = $request->getSession();
-        $args = $hits = $suggest = $response = [];
-
-        if ($session->has('fiche_search')) {
-            $args = json_decode($session->get('fiche_search'), true);
-        }
-
-        if ($keyword) {
-            $args['nom'] = $keyword;
-        }
-        $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $args = $form->getData();
-            $session->set('fiche_search', json_encode($args));
-
-            try {
-                $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
-                $hits = $response['hits'];
-            } catch (BadRequest400Exception $e) {
-                $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
-            }
-        }
-
-        return $this->render(
-            '@AcMarcheBottin/admin/fiche/search.html.twig',
-            [
-                'search_form' => $form->createView(),
-                'hits' => $hits,
-                'localites' => $this->aggregationUtils->getLocalites($response),
-                'pmr' => $this->aggregationUtils->countPmr($response),
-                'midi' => $this->aggregationUtils->countMidi($response),
-                'centre_ville' => $this->aggregationUtils->countCentreVille($response),
-                'suggests' => $this->suggestUtils->getOptions($response),
             ]
         );
     }

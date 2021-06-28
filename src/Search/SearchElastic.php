@@ -3,15 +3,16 @@
 namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Elasticsearch\ElasticClientTrait;
-use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
+use Elastica\Aggregation\Terms as AggregationTerms;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\GeoDistance;
 use Elastica\Query\MatchQuery;
 use Elastica\Query\MultiMatch;
-use Elastica\ResultSet;
 use Elastica\Search;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
+use Elastica\Suggest;
+use Elastica\Suggest\Term as SuggestTerm;
 use Psr\Log\LoggerInterface;
 
 class SearchElastic implements SearchEngineInterface
@@ -76,94 +77,108 @@ class SearchElastic implements SearchEngineInterface
 
     public function doSearchForCap(string $keyword): iterable
     {
-        $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
 
-        $matchQuery = new MatchQuery('cap', 'true');
-        $boolQuery->add($matchQuery, BoolQuery::FILTER);
+        $capFilter = new MatchQuery('cap', 'true');
+        $this->boolQuery->addMust($capFilter);
+        $ficheFilter = new MatchQuery('type', 'fiche');
+        $this->boolQuery->addMust($ficheFilter);
+        //$boolQuery->add($matchQuery, BoolQuery::FILTER);
 
-        $this->search->addQuery($boolQuery);
-
-        //  $this->addAggregations();
-
-        $params = [
-            'index' => ElasticServer::INDEX_NAME,
-            'size' => 1_000,
-            'body' => $this->search->toArray(),
-        ];
-
-        //   echo(json_encode($this->search->toArray()));
+        $query = new Query();
+        $query->setQuery($boolQuery);
 
         $search = new Search($this->client);
+        $search->addIndex($this->index);
+        $search->setQuery($query);
+
+        $options = ['limit' => 100];
 
         return $search->search($query, $options);
     }
 
-    /**
-     * @throws BadRequest400Exception
-     */
     public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable
     {
-        $this->getInstance();
         $boolQuery = $this->createQueryForFiche($keyword);
 
         if ($localite) {
-            $matchQuery = new MatchQuery('localite', $localite);
-            $boolQuery->add($matchQuery, BoolQuery::FILTER);
+            $match = new MatchQuery('localite', $localite);
+            $this->boolQuery->addMust($match);
         }
 
-        $this->search->addQuery($boolQuery);
+        $query = new Query();
+        $query->setQuery($boolQuery);
 
-        $this->addAggregations();
-        $this->addSuggests($keyword);
+        $this->addAggregations($query);
+        $query->setSuggest($this->addSuggests($keyword));
 
-        $params = [
-            'index' => ElasticServer::INDEX_NAME,
-            'size' => 100,
-            'body' => $this->search->toArray(),
-        ];
+        $search = new Search($this->client);
+        $search->addIndex($this->index);
+        $search->setQuery($query);
 
-        //  var_dump($this->search->toArray());
+        $options = ['limit' => 100];
 
-        return $this->client->search($params);
+        return $search->search($query, $options);
     }
 
-    protected function addAggregations(): void
+    protected function addAggregations(Query $query): void
     {
-        $cap = new TermsAggregation('cap', 'cap.keyword');
-        $localite = new TermsAggregation('localites', 'localite.keyword');
-        $pmr = new TermsAggregation('pmr', 'pmr');
-        $centreVille = new TermsAggregation('centre_ville', 'centreville');
-        $midi = new TermsAggregation('midi', 'midi');
-        $this->search->addAggregation($cap);
-        $this->search->addAggregation($localite);
-        $this->search->addAggregation($pmr);
-        $this->search->addAggregation($centreVille);
-        $this->search->addAggregation($midi);
+        $cap = new AggregationTerms('cap');
+        $cap->setField('cap.keyword');
+
+        $localite = new AggregationTerms('localites');
+        $localite->setField('localite.keyword');
+
+        $pmr = new AggregationTerms('pmr');
+        $pmr->setField('pmr');
+
+        $centreVille = new AggregationTerms('centre_ville');
+        $centreVille->setField('centreville');
+
+        $midi = new AggregationTerms('midi');
+        $midi->setField('midi');
+
+        $query->addAggregation($cap);
+        $query->addAggregation($localite);
+        $query->addAggregation($pmr);
+        $query->addAggregation($centreVille);
+        $query->addAggregation($midi);
     }
 
-    protected function addSuggests(string $keyword): void
+    protected function addSuggests(string $keyword): Suggest
     {
-        $suggest = new Suggest(
-            'societe_suggest',
-            'term',
-            $keyword,
-            'societe',
-            ['size' => 5, 'suggest_mode' => 'popular']
-        );
-        $this->search->addSuggest($suggest);
+        $suggestSociete = new SuggestTerm('societe_suggest', 'societe');
+        $suggestSociete->setSize(5);
+        $suggestSociete->setSuggestMode('popular');
+
+        $suggest = new Suggest();
+        $suggest->addSuggestion($suggestSociete->setText($keyword));
+
+        return $suggest;
+        // $query->addSuggest($suggest);
     }
 
-    protected function location(string $latitude, string $longitude, string $distance): Search
+    /**
+     * @return Fiche[]
+     */
+    public function getFiches(iterable $hits): iterable
     {
-        $search = new Search();
-        $boolQuery = new BoolQuery();
-        $boolQuery->add(new MatchAllQuery());
-        $geoDistanceQuery = new GeoDistanceQuery('location', $distance, ['lat' => $latitude, 'lon' => $longitude]);
-        $boolQuery->add($geoDistanceQuery, BoolQuery::FILTER);
-        $search->addQuery($boolQuery);
+        $fiches = [];
+        foreach ($hits['hits']['hits'] as $hit) {
+            $fiches[] = $hit['_source'];
+        }
 
-        return $search;
+        return $fiches;
+    }
+
+    protected function location(string $latitude, string $longitude, string $distance): GeoDistance
+    {
+        $geoQuery = new GeoDistance('point', ['lat' => $longitude, 'lon' => $longitude], $distance);
+
+        $query = new Query();
+        $query->setPostFilter($geoQuery);
+
+        return $geoQuery;
     }
 
     protected function laura(string $keyword): array
@@ -247,26 +262,4 @@ class SearchElastic implements SearchEngineInterface
         ];
     }
 
-    private function getInstance(): void
-    {
-        $this->search = new Search();
-    }
-
-    public function renderResult(): array
-    {
-        // TODO: Implement renderResult() method.
-    }
-
-    /**
-     * @return Fiche[]
-     */
-    public function getFiches(array $hits): array
-    {
-        $fiches = [];
-        foreach ($hits['hits']['hits'] as $hit) {
-            $fiches[] = $hit['_source'];
-        }
-
-        return $fiches;
-    }
 }
