@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Classement\Handler;
 
 use AcMarche\Bottin\Entity\Classement;
@@ -22,8 +21,6 @@ class ClassementHandler
     }
 
     /**
-     * @param Fiche $fiche
-     * @param int|null $categoryId
      * @throws NonUniqueResultException
      */
     public function handleNewClassement(Fiche $fiche, ?int $categoryId): void
@@ -34,11 +31,11 @@ class ClassementHandler
 
         $category = $this->categoryRepository->find($categoryId);
 
-        if ($category === null) {
+        if (null === $category) {
             throw new Exception('La catégorie n\'a pas été trouvée.');
         }
 
-        if ($this->classementRepository->checkExist($fiche, $category) !== null) {
+        if (null !== $this->classementRepository->checkExist($fiche, $category)) {
             throw new Exception('La fiche est déjà classée dans cette rubrique');
         }
 
@@ -46,7 +43,7 @@ class ClassementHandler
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         if ($category->getChildNodes()->count() > 0) {
-            throw new Exception('Vous ne pouvez pas classer dans une rubrique qui contient des enfants');
+            throw new Exception('Vous ne pouvez pas classer dans une rubrique qui contient des sous éléments');
         }
 
         $this->classementRepository->insert($classement);

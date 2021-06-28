@@ -12,7 +12,7 @@
             {% include "@AcMarcheBottin/backend/fiche/form/_etape_"~etape~".html.twig" %}
 
             {% if etape > 1 %}
-                <a href="{{ path('bottin_fiche_edit', {'etape':  etape -1, 'uuid': token.uuid}) }}"
+                <a href="{{ path('bottin_backend_fiche_edit', {'etape':  etape -1, 'uuid': token.uuid}) }}"
                    class="btn btn-primary mr-1 mb-2" type="submit"><i class="fas fa-arrow-left" aria-hidden="true"></i>
                     Précédent
                 </a>
@@ -22,14 +22,14 @@
                     Suivant
                 </button>
             {% else %}
-                <a href="{{ path('bottin_fiche_show', {'slug': fiche.slug}) }}" class="btn btn-primary mr-1 mb-2"
+                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}" class="btn btn-primary mr-1 mb-2"
                    type="submit"><i class="fas fa-check" aria-hidden="true"></i>
                     Terminer
                 </a>
             {% endif %}
 
             {{ form_end(form) }}
-            <a href="{{ path('bottin_fiche_show', {'slug': fiche.slug}) }}"
+            <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}"
                class="btn btn-warning mr-1 mb-2 float-end" type="submit"><i class="fas fa-arrow-up" aria-hidden="true"></i>
                 Annuler
             </a>

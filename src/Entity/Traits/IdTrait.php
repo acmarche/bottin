@@ -14,10 +14,11 @@ trait IdTrait
      * @ORM\Column(type="integer")
      * @Groups({"category:read"})
      */
-    private int $id = 0;
+    private ?int $id = 0;
 
     public function getId(): int
     {
         return $this->id;
     }
+
 }

@@ -51,8 +51,8 @@
         </th>
         <td>
             {% if fiche.token %}
-                <a href="{{ path('bottin_backend_fiche_edit', {'uuid': fiche.token.uuid}) }}" target="_blank">
-                    {{ absolute_url(path('bottin_backend_fiche_edit', {'uuid': fiche.token.uuid})) }}
+                <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
+                    {{ absolute_url(path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid})) }}
                 </a>
                 <br/>
                 <span class="text-muted">Expire le {{ fiche.token.expireAt | format_date('full') }}</span>

@@ -46,21 +46,23 @@ class AjaxController extends AbstractController
         if (null === $classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
-        } else {
-            $fiche = $classement->getFiche();
-            $this->classementRepository->remove($classement);
-            $this->classementRepository->flush();
 
-            $this->dispatchMessage(new ClassementDeleted($fiche->getId()));
+            return new Response($template);
+        }
 
-            $classements = $this->classementRepository->getByFiche($fiche);
-            $classements = $this->pathUtils->setPathForClassements($classements);
+        $fiche = $classement->getFiche();
+        $this->classementRepository->remove($classement);
+        $this->classementRepository->flush();
 
-            $template = $this->renderView(
+        $this->dispatchMessage(new ClassementDeleted($fiche->getId()));
+
+        $classements = $this->classementRepository->getByFiche($fiche);
+        $classements = $this->pathUtils->setPathForClassements($classements);
+
+        $template = $this->renderView(
                 '@AcMarcheBottin/admin/classement/_list.html.twig',
                 ['classements' => $classements]
             );
-        }
 
         return new Response($template);
     }

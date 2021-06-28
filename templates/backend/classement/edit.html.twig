@@ -1,4 +1,4 @@
-{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+{% extends '@AcMarcheBottin/backend/layout.html.twig' %}
 
 {% block stylesheets %}
     <link href="{{ asset('bundles/acmarchebottin/css/typeahead.css') }}" rel="stylesheet">
@@ -8,26 +8,22 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Classements pour
-                <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}">
+            <h3>
+                Sélectionnez vos secteurs d'activités
+                <a href="{{ path('bottin_backend_fiche_show', { 'uuid': token.uuid }) }}">
                     {{ fiche }}
                 </a>
             </h3>
         </div>
         <div class="card-body">
 
-            {% include '@AcMarcheBottin/admin/classement/_list.html.twig' %}
-
-            {{ form_start(form, { 'attr': {'class': 'well'} }) }}
-            {{ form_errors(form) }}
-
-            <h5 class="text-success">Ajout par recherche</h5>
-            <hr>
-            {{ form_row(form.name) }}
+            {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
 
             <h5 class="text-success">Ajout par navigation</h5>
             <hr>
 
+            {{ form_start(form, { 'attr': {'class': 'well'} }) }}
+            {{ form_errors(form) }}
             <div class="d-flex gap-2">
                 <div class="">
                     <label>
@@ -40,7 +36,7 @@
                     </label>
                 </div>
 
-                <div class="">
+                <div class="c">
                     <div id="ajaxsuccess-1">
 
                     </div>
@@ -60,16 +56,12 @@
 
             <br clear="all" class="mb-2"/>
 
-            {{ form_row(form.principal) }}
-
             <div class="btn-group">
                 <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
                     Ajouter
                 </button>
             </div>
-
             {{ form_end(form) }}
-
         </div>
     </div>
 
@@ -113,7 +105,7 @@
             $('.typeahead').typeahead(options, dataSetCategories);
             $('.typeahead').bind('typeahead:select', function (ev, suggestion) {
                 console.log(suggestion);
-                $('#classement_categorySelected').val(suggestion.id)
+                $('#classement_simple_categorySelected').val(suggestion.id)
             });
         }
 
@@ -123,7 +115,6 @@
         $(document).ready(function () {
             initTypeahead();
         });
-
     </script>
 
     <script type="text/javascript">
@@ -147,7 +138,7 @@
                         level = data.level;
                         console.log(level);
                         $("#ajaxsuccess-" + level).html(html);
-                        $("#classement_categorySelected").val(catId);
+                        $("#classement_simple_categorySelected").val(catId);
                     }
                 }
             }).done(function (data) {
@@ -162,15 +153,10 @@
             //  removeClassement(idClassement);
         });
 
-        $(".setprincipal").click(function () {
-            var idClassement = $(this).attr("data-id");
-            setPrincipal(idClassement);
-        });
-
         function removeClassement(idClassement) {
             console.log("remove");
 
-            var url = '{{ path('bottin_admin_ajax_remove_classement') }}';
+            var url = '{{ path('bottin_backend_ajax_remove_classement', {'uuid': token.uuid}) }}';
             $.ajax({
                 'data': {classementId: idClassement},
                 'url': url,
@@ -189,33 +175,6 @@
             }).done(function (data) {
                 if (console && console.log) {
 
-                }
-            });
-        }
-
-        function setPrincipal(idClassement) {
-
-            var url = '{{ path('bottin_admin_ajax_principal_classement') }}';
-            $.ajax({
-                'data': {classementId: idClassement},
-                'url': url,
-                'method': "POST",
-                'dataType': "html",
-                'success': function (data) {
-                    //console.log(data);
-                    error = data.error;
-                    if (error) {
-                        alert(error);
-                        return;
-                    } else {
-                        console.log("oki");
-                        $("#classements").html(data);
-                        //$("#classements").append(data);
-                    }
-                }
-            }).done(function (data) {
-                if (console && console.log) {
-                    //   console.log("data:", data);
                 }
             });
         }

@@ -187,7 +187,7 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_fiche_delete", methods={"DELETE"})
+     * @Route("/{id}", name="bottin_admin_fiche_delete", methods={"POST"})
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {

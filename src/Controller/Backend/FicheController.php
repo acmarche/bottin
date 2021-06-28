@@ -45,17 +45,24 @@ class FicheController extends AbstractController
     /**
      * Finds and displays a Fiche fiche.
      *
-     * @Route("/{slug}", name="bottin_backend_fiche_show", methods={"GET"})
+     * @Route("/{uuid}", name="bottin_backend_fiche_show", methods={"GET"})
      */
-    public function show(Fiche $fiche): Response
+    public function show(Token $token): Response
     {
+        if (!$this->isGranted('POST_EDIT', $token)) {
+            $this->addFlash('danger', 'Page expirée');
+
+            return $this->redirectToRoute('bottin_home');
+        }
+        $fiche = $token->getFiche();
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
 
         return $this->render(
-            '@AcMarcheBottin/front/fiche/show.html.twig',
+            '@AcMarcheBottin/backend/fiche/show.html.twig',
             [
                 'fiche' => $fiche,
+                'token' => $token,
                 'classements' => $classements,
             ]
         );
@@ -94,7 +101,10 @@ class FicheController extends AbstractController
             $this->addFlash('success', 'La fiche a bien été modifiée');
             $etape = $fiche->getEtape() + 1;
 
-            return $this->redirectToRoute('bottin_backend_fiche_edit', ['uuid' => $token->getUuid(), 'etape' => $etape]);
+            return $this->redirectToRoute(
+                'bottin_backend_fiche_edit',
+                ['uuid' => $token->getUuid(), 'etape' => $etape]
+            );
         }
 
         return $this->render(

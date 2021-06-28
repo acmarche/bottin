@@ -64,7 +64,7 @@ class ClassementRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function checkExist(Fiche $fiche, Category $category): Classement
+    public function checkExist(Fiche $fiche, Category $category): ?Classement
     {
         $queryBuilder = $this->createQueryBuilder('c')
             ->andWhere('c.category = :category')
