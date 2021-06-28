@@ -6,9 +6,11 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use AcMarche\Bottin\Security\Voter\TokenVoter;
 use AcMarche\Bottin\Service\FormUtils;
 use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class FicheController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-    private HoraireService $horaireService;
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
     private FormUtils $formUtils;
@@ -31,25 +31,20 @@ class FicheController extends AbstractController
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
-        FicheRepository $ficheRepository,
-        HoraireService $horaireService,
         FormUtils $formUtils
     ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->horaireService = $horaireService;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->formUtils = $formUtils;
     }
 
     /**
-     * Finds and displays a Fiche fiche.
-     *
      * @Route("/{uuid}", name="bottin_backend_fiche_show", methods={"GET"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function show(Token $token): Response
     {
-        if (!$this->isGranted('POST_EDIT', $token)) {
+        if (!$this->isGranted(TokenVoter::TOKEN_EDIT, $token)) {
             $this->addFlash('danger', 'Page expirée');
 
             return $this->redirectToRoute('bottin_front_home');
@@ -69,21 +64,11 @@ class FicheController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Fiche fiche.
-     *
      * @Route("/{uuid}/edit/{etape}", name="bottin_backend_fiche_edit", methods={"GET", "POST"})
-     * IsGranted("POST_EDIT", subject="token")
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
-        if (!$this->isGranted('POST_EDIT', $token)) {
-            $this->addFlash('danger', 'Page expirée');
-
-            return $this->redirectToRoute('bottin_home');
-        }
-
-        //  $this->denyAccessUnlessGranted('POST_EDIT', $token);
-
         $fiche = $token->getFiche();
         if ($etape) {
             $fiche->setEtape($etape);
@@ -120,6 +105,7 @@ class FicheController extends AbstractController
 
     /**
      * @Route("/{id}", name="bottin_backend_fiche_delete", methods={"POST"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {

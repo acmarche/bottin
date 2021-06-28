@@ -12,6 +12,7 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,9 +43,8 @@ class ClassementController extends AbstractController
     }
 
     /**
-     * Displays a form to create a new classement entity.
-     *
      * @Route("/edit/{uuid}", name="bottin_backend_classement_edit", methods={"GET", "POST"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function edit(Token $token, Request $request): Response
     {
@@ -87,6 +87,7 @@ class ClassementController extends AbstractController
 
     /**
      * @Route("/removeclassment/{uuid}", name="bottin_backend_ajax_remove_classement", methods={"POST"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function removeClassement(Request $request, Token $token): Response
     {

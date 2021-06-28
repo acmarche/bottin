@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class TokenVoter extends Voter
 {
     private TokenUtils $tokenUtils;
+    const TOKEN_EDIT = '';
 
     public function __construct(
         TokenUtils $tokenUtils

@@ -6,7 +6,9 @@ use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\FicheImageType;
 use AcMarche\Bottin\Repository\ImageRepository;
+use AcMarche\Bottin\Security\Voter\TokenVoter;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,9 +36,8 @@ class ImageController extends AbstractController
     }
 
     /**
-     * Displays a form to create a new Image entity.
-     *
      * @Route("/new/{uuid}", name="bottin_backend_image_edit", methods={"GET", "POST"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function new(Token $token): Response
     {
@@ -63,6 +64,7 @@ class ImageController extends AbstractController
 
     /**
      * @Route("/upload/{uuid}", name="bottin_backend_image_upload")
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function upload(Request $request, Token $token): Response
     {
@@ -94,12 +96,16 @@ class ImageController extends AbstractController
     }
 
     /**
-     * Finds and displays a Image entity.
-     *
      * @Route("/{id}", name="bottin_backend_image_show", methods={"GET"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function show(FicheImage $ficheImage): Response
     {
+        $fiche = $ficheImage->getFiche();
+        $token = $fiche->getToken();
+
+        $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
+
         return $this->render(
             '@AcMarcheBottin/admin/image/show.html.twig',
             [
@@ -130,6 +136,7 @@ class ImageController extends AbstractController
 
         $fiche = $ficheImage->getFiche();
         $token = $fiche->getToken();
+        $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
 
         if ($this->isCsrfTokenValid('deleteimage', $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
