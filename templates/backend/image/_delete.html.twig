@@ -1,0 +1,24 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Supprimer l'image ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Êtes vous sur de supprimer ?
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{{ path('bottin_backend_image_delete') }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('deleteimage' ) }}">
+                    <input type="hidden" id="imageid" name="imageid" value="0">
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Annuler
+                    </button>
+                    <button type="submit" class="btn btn-danger">Supprimer l'image</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

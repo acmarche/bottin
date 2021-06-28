@@ -1,13 +1,12 @@
 <?php
 
-namespace AcMarche\Bottin\Controller\Admin;
+namespace AcMarche\Bottin\Controller\Backend;
 
-use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
+use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\FicheImageType;
 use AcMarche\Bottin\Repository\ImageRepository;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,8 +18,7 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 /**
  * Image controller.
  *
- * @Route("/admin/image")
- * @IsGranted("ROLE_BOTTIN_ADMIN")
+ * @Route("/backend/image")
  */
 class ImageController extends AbstractController
 {
@@ -38,34 +36,37 @@ class ImageController extends AbstractController
     /**
      * Displays a form to create a new Image entity.
      *
-     * @Route("/new/{id}", name="bottin_admin_image_new", methods={"GET", "POST"})
+     * @Route("/new/{uuid}", name="bottin_backend_image_edit", methods={"GET", "POST"})
      */
-    public function new(Fiche $fiche): Response
+    public function new(Token $token): Response
     {
+        $fiche = $token->getFiche();
         $ficheImage = new FicheImage($fiche);
 
         $form = $this->createForm(
             FicheImageType::class,
             $ficheImage,
             [
-                'action' => $this->generateUrl('bottin_admin_image_upload', ['id' => $fiche->getId()]),
+                'action' => $this->generateUrl('bottin_backend_image_upload', ['uuid' => $token->getUuid()]),
             ]
         );
 
         return $this->render(
-            '@AcMarcheBottin/admin/image/new.html.twig',
+            '@AcMarcheBottin/backend/image/edit.html.twig',
             [
                 'fiche' => $fiche,
+                'token' => $token,
                 'form' => $form->createView(),
             ]
         );
     }
 
     /**
-     * @Route("/upload/{id}", name="bottin_admin_image_upload")
+     * @Route("/upload/{uuid}", name="bottin_backend_image_upload")
      */
-    public function upload(Request $request, Fiche $fiche): Response
+    public function upload(Request $request, Token $token): Response
     {
+        $fiche = $token->getFiche();
         $ficheImage = new FicheImage($fiche);
         /**
          * @var UploadedFile $file
@@ -95,7 +96,7 @@ class ImageController extends AbstractController
     /**
      * Finds and displays a Image entity.
      *
-     * @Route("/{id}", name="bottin_admin_image_show", methods={"GET"})
+     * @Route("/{id}", name="bottin_backend_image_show", methods={"GET"})
      */
     public function show(FicheImage $ficheImage): Response
     {
@@ -109,17 +110,33 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_image_delete", methods={"DELETE"})
+     * @Route("/", name="bottin_backend_image_delete", methods={"POST"})
      */
-    public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
+    public function delete(Request $request): RedirectResponse
     {
+        $imageId = (int) $request->request->get('imageid');
+        if (!$imageId) {
+            $this->addFlash('danger', 'Image non trouvée');
+
+            return $this->redirect($this->generateUrl('bottin_home'));
+        }
+
+        $ficheImage = $this->imageRepository->find($imageId);
+        if (!$ficheImage) {
+            $this->addFlash('danger', 'Image non trouvée');
+
+            return $this->redirect($this->generateUrl('bottin_home'));
+        }
+
         $fiche = $ficheImage->getFiche();
-        if ($this->isCsrfTokenValid('delete'.$ficheImage->getId(), $request->request->get('_token'))) {
+        $token = $fiche->getToken();
+
+        if ($this->isCsrfTokenValid('deleteimage', $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
             $this->imageRepository->flush();
             $this->addFlash('success', "L'image a bien été supprimée");
         }
 
-        return $this->redirect($this->generateUrl('bottin_fiche_show', ['id' => $fiche->getId()]));
+        return $this->redirect($this->generateUrl('bottin_backend_image_edit', ['uuid' => $token->getUuid()]));
     }
 }

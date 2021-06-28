@@ -1,0 +1,49 @@
+{% extends '@AcMarcheBottin/backend/layout.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/acmarchebottin/dropzone/dropzone.css') }}">
+{% endblock %}
+
+{% block body -%}
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>Images pour <a href="{{ path('bottin_backend_fiche_show',{'uuid': token.uuid}) }}">{{ fiche }}</a></h3>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr':{'id': 'formdrop','class': 'dropzone jumbotron'}}) }}
+            {{ form_errors(form) }}
+
+            <div class="dz-message d-flex flex-column">
+                <i class="fas fa-upload"></i> Charger de nouvelles images
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    <h4 class="text-success">Image(s) actuelles</h4>
+    {% include '@AcMarcheBottin/backend/image/_list.html.twig' %}
+    {% include '@AcMarcheBottin/backend/image/_delete.html.twig' %}
+
+{% endblock %}
+{% block scripts %}
+    <script src="{{ asset('bundles/acmarchebottin/dropzone/dropzone.js') }}"></script>
+    <script type="text/javascript">
+        Dropzone.options.formdrop = {
+            dictDefaultMessage: "Glissez ici vos images ou cliquez sur cette zone pour ajouter des photos",
+            init: function () {
+                this.on("addedfile", function (file) {
+                    console.log("finished");
+                });
+            }
+        };
+    </script>
+    <script type="text/javascript">
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var cmdid = button.data('imageid');
+            var modal = $(this);
+            modal.find('#imageid').val(cmdid)
+        })
+    </script>
+{% endblock %}

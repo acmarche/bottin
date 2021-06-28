@@ -1,0 +1,26 @@
+{% if fiche.images | length > 0 %}
+    <table class="table table-bordered">
+        {% for image in fiche.images %}
+            <tr>
+                <td>
+                    <a href="{{ vich_uploader_asset(image, 'image') }}">
+                        <img class="img-thumbnail"
+                             src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}"
+                             alt="img"/>
+                    </a>
+                </td>
+                <td>
+                    <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                            data-imageid="{{ image.id }}"
+                            title="supprimer cette image"
+                            class="removeclassment text-center"
+                            style="cursor: pointer;">
+                        <i class="far fa-trash-alt"></i> Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

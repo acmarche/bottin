@@ -1,13 +1,8 @@
-
 {% if fiche.images | length > 0 %}
-
-            {% for image in fiche.images %}
-
-                <a href="{{ vich_uploader_asset(image, 'image') }}">
-                    <img class="img-thumbnail"
-                         src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
-                </a>
-
-            {% endfor %}
-
+    {% for image in fiche.images %}
+        <a href="{{ vich_uploader_asset(image, 'image') }}">
+            <img class="img-thumbnail"
+                 src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
+        </a>
+    {% endfor %}
 {% endif %}
