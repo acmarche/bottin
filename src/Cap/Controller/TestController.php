@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -61,7 +64,10 @@ class TestController extends AbstractController
         $request = $this->httpClient->request('GET', $url);
         $categories = json_decode($request->getContent());
 
-        return $this->render('@AcMarcheBottin/admin/test/commerce.html.twig', ['categories' => $categories, 'url' => $url]);
+        return $this->render(
+            '@AcMarcheBottin/admin/test/commerce.html.twig',
+            ['categories' => $categories, 'url' => $url]
+        );
     }
 
     /**
@@ -163,14 +169,27 @@ class TestController extends AbstractController
         $data = ['keyword' => $keyword];
 
         $url = $this->generateUrl('bottin_admin_api_search', [], false);
-        $request = $this->httpClient->request(
-            'POST',
-            $url,
-            [
-                'body' => $data,
-            ]
-        );
 
-        return new Response($request->getContent());
+        try {
+            $request = $this->httpClient->request(
+                'POST',
+                $url,
+                [
+                    'body' => $data,
+                ]
+            );
+        } catch (TransportExceptionInterface $e) {
+            return $this->json(['error' => $e->getMessage()]);
+        }
+
+        try {
+            $content = $request->getContent();
+
+            return $this->json($content);
+        } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
+
+            return $this->json(['error' => $e->getMessage()]);
+        }
+
     }
 }
