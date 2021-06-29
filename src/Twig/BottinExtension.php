@@ -22,16 +22,24 @@ class BottinExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('bottin_url_fiche_show', [$this, 'doSomething']),
+            new TwigFunction('bottin_url_fiche_show', [$this, 'urlFiche']),
         ];
     }
 
-    public function doSomething(Fiche $fiche): string
+    public function urlFiche($fiche): string
     {
-        if ($this->security->isGranted('ROLE_BOTTIN_ADMIN')) {
-            return $this->router->generate('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+        if (is_array($fiche)) {
+            $id = $fiche['id'];
+            $slug = $fiche['slug'];
+        } else {
+            $id = $fiche->getId();
+            $slug = $fiche->getSlug();
         }
 
-        return $this->router->generate('bottin_front_fiche_show', ['slug' => $fiche->getSlug()]);
+        if ($this->security->isGranted('ROLE_BOTTIN_ADMIN')) {
+            return $this->router->generate('bottin_admin_fiche_show', ['id' => $id]);
+        }
+
+        return $this->router->generate('bottin_front_fiche_show', ['slug' => $slug]);
     }
 }

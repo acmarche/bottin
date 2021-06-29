@@ -1,11 +1,10 @@
 <?php
 
-namespace AcMarche\Bottin\Controller\Admin;
+namespace AcMarche\Bottin\Controller\Backend;
 
-use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\LocalisationType;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Map controller.
  *
- * @Route("/admin/map")
- * @IsGranted("ROLE_BOTTIN_ADMIN")
+ * @Route("/backend/map")
  */
 class MapController extends AbstractController
 {
@@ -29,16 +27,11 @@ class MapController extends AbstractController
     /**
      * Displays a form to edit an existing Map entity.
      *
-     * @Route("/{id}/edit", name="bottin_admin_map_edit", methods={"GET", "POST"})
+     * @Route("/{uuid}/edit", name="bottin_backend_map_edit", methods={"GET", "POST"})
      */
-    public function edit(Fiche $fiche, Request $request): Response
+    public function edit(Token $token, Request $request): Response
     {
-        if ($fiche->getFtlb()) {
-            $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
-
-            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
-        }
-
+        $fiche = $token->getFiche();
         $form = $this->createForm(LocalisationType::class, $fiche);
 
         $form->handleRequest($request);
@@ -47,13 +40,14 @@ class MapController extends AbstractController
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La localisation a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_backend_fiche_show', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
-            '@AcMarcheBottin/admin/map/edit.html.twig',
+            '@AcMarcheBottin/backend/map/edit.html.twig',
             [
                 'fiche' => $fiche,
+                'token' => $token,
                 'form' => $form->createView(),
             ]
         );

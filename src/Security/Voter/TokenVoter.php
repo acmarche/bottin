@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class TokenVoter extends Voter
 {
     private TokenUtils $tokenUtils;
-    const TOKEN_EDIT = '';
+    const TOKEN_EDIT = 'TOKEN_EDIT';
 
     public function __construct(
         TokenUtils $tokenUtils
@@ -22,7 +22,7 @@ class TokenVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['POST_EDIT', 'POST_VIEW'])
+        return in_array($attribute, [self::TOKEN_EDIT])
             && $subject instanceof Token;
     }
 
@@ -36,17 +36,6 @@ class TokenVoter extends Voter
         }
         if ($this->tokenUtils->isExpired($subject)) {
             return false;
-        }
-
-        switch ($attribute) {
-            case 'POST_EDIT':
-                // logic to determine if the user can EDIT
-                // return true or false
-                break;
-            case 'POST_VIEW':
-                // logic to determine if the user can VIEW
-                // return true or false
-                break;
         }
 
         return true;
