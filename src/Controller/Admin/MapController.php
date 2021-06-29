@@ -27,8 +27,6 @@ class MapController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Map entity.
-     *
      * @Route("/{id}/edit", name="bottin_admin_map_edit", methods={"GET", "POST"})
      */
     public function edit(Fiche $fiche, Request $request): Response

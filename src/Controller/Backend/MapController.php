@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\LocalisationType;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +26,8 @@ class MapController extends AbstractController
     }
 
     /**
-     * Displays a form to edit an existing Map entity.
-     *
      * @Route("/{uuid}/edit", name="bottin_backend_map_edit", methods={"GET", "POST"})
+     * @IsGranted("TOKEN_EDIT", subject="token")
      */
     public function edit(Token $token, Request $request): Response
     {
@@ -40,7 +40,7 @@ class MapController extends AbstractController
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La localisation a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_backend_fiche_show', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);
         }
 
         return $this->render(
