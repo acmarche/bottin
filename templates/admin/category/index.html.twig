@@ -10,17 +10,9 @@
             {% include '@AcMarcheBottin/admin/search/_category.html.twig' %}
 
             {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-                <div class="mb-4 float-right">
-
-                    <a href="{{ path('bottin_admin_category_new') }}" class="btn btn-primary" role="button">
+                <div class="mb-4 float-end">
+                    <a href="{{ path('bottin_admin_category_new') }}" class="btn btn-sm btn-warning" role="button">
                         <i class="fas fa-plus"></i> Ajouter une catégorie</a>
-
-                    <a href="{{ path('bottin_admin_export_categories_xls') }}" class="btn btn-primary" role="button">
-                        <i class="fas fa-download"></i> Exporter l'arborescence</a>
-
-                    <a href="{{ path('bottin_admin_export_fiches_xls') }}" class="btn btn-primary" role="button">
-                        <i class="fas fa-download"></i>Exporter toutes les fiches</a>
-
                 </div>
             {% endif %}
 

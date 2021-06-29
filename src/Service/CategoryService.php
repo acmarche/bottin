@@ -89,6 +89,22 @@ class CategoryService
     }
 
     /**
+     * @param array|Category[] $categories
+     * @return array|Fiche[]
+     */
+    public function getFichesByCategoriesAndHerChildren(iterable $categories): array
+    {
+        $fiches = [[]];
+        foreach ($categories as $category) {
+            $fiches[] = $this->getFichesByCategoryAndHerChildren($category);
+        }
+
+        $fiches = array_merge(...$fiches);
+
+        return $fiches;
+    }
+
+    /**
      * @return Fiche[]
      */
     public function getFichesByCategoryId(int $idCategory): array

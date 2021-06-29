@@ -8,8 +8,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\UserRepository")
- *
- * @method string getUserIdentifier()
  */
 class User implements UserInterface
 {

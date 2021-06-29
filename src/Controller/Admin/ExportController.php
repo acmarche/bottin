@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Export controller.
  *
- * @Route("/admin/export/select")
+ * @Route("/admin/export")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class ExportController extends AbstractController
@@ -37,7 +37,20 @@ class ExportController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_admin_export_select", methods={"GET", "POST"})
+     * @Route("/", name="bottin_admin_export_index", methods={"GET"})
+     */
+    public function index(Request $request): Response
+    {
+        return $this->render(
+            '@AcMarcheBottin/admin/export/index.html.twig',
+            [
+            ]
+        );
+
+    }
+
+    /**
+     * @Route("/select", name="bottin_admin_export_select", methods={"GET", "POST"})
      */
     public function selection(Request $request): Response
     {
@@ -76,7 +89,7 @@ class ExportController extends AbstractController
         );
 
         return $this->render(
-            '@AcMarcheBottin/admin/export/index.html.twig',
+            '@AcMarcheBottin/admin/export/select.html.twig',
             [
                 'form' => $form->createView(),
                 'categories' => $categories,

@@ -4,50 +4,31 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <h3>Sélection pour export</h3>
+            <h3>Exportation</h3>
         </div>
         <div class="card-body">
 
-            <div class="alert alert-info">
-                Sélectionnez le ou les catégories que vous souhaitez <a
-                        href="{{ path('bottin_admin_export_categories_xls') }}">
-                    exporter
-                </a> ou <a href="{{ path('bottin_admin_publipostage') }}">publiposter</a>
-            </div>
+            <p>
+                <a href="{{ path('bottin_admin_export_select') }}">Suivant votre sélection, exporter :</a>
+            </p>
 
-            {% include '@AcMarcheBottin/admin/export/_selections.html.twig' %}
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_export_fiches_xls') }}" class="btn btn-primary" role="button">
+                        <i class="fas fa-download"></i> Exporter les fiches</a>
 
-            <div {{ stimulus_controller('category', { categoryId: 0, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
-                {{ form_start(form) }}
-                {{ form_errors(form) }}
-                <button class="btn btn-warning mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
-                    Ajouter
-                </button>
-                {{ form_end(form) }}
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_export_categories_xls') }}" class="btn btn-primary" role="button">
+                        <i class="fas fa-download"></i> Exporter l'arborescence de rubriques</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_publipostage') }}" class="btn btn-primary" role="button">
+                        <i class="far fa-paper-plane"></i>
+                        Publiposter</a>
+                </li>
+            </ul>
 
-                <div class="d-flex gap-2">
-                    <ul>
-                        {% for category in categories %}
-                            <li class="list-group-item">
-                                <button
-                                        class="btn btn-sm btn-primary"
-                                        data-action="category#selectCategory"
-                                        data-category-target="categories"
-                                        data-category-id="{{ category.id }}"
-                                        data-category-level="1"
-                                >
-                                    {{ category }}
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="d-flex" data-category-target="result1"></div>
-                    <div class="d-flex" data-category-target="result2"></div>
-                    <div class="d-flex" data-category-target="result3"></div>
-                    <div class="d-flex" data-category-target="result4"></div>
-                </div>
-
-            </div>
         </div>
     </div>
 

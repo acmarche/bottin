@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
 use AcMarche\Bottin\Mailer\Mailer;
 use AcMarche\Bottin\Repository\FicheRepository;
@@ -20,17 +21,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublipostageController extends AbstractController
 {
     private Mailer $mailer;
+    private ExportUtils $exportUtils;
 
-    private FicheRepository $ficheRepository;
-
-    public function __construct(Mailer $mailer, FicheRepository $ficheRepository)
+    public function __construct(Mailer $mailer, ExportUtils $exportUtils)
     {
         $this->mailer = $mailer;
-        $this->ficheRepository = $ficheRepository;
+        $this->exportUtils = $exportUtils;
     }
 
     /**
-     * @Route("/categories", name="bottin_admin_publipostage", methods={"GET","POST"})
+     * @Route("/", name="bottin_admin_publipostage", methods={"GET","POST"})
      */
     public function index(Request $request): Response
     {
@@ -40,11 +40,20 @@ class PublipostageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $user = $this->getUser();
 
-            $fiches = $this->ficheRepository->findAllWithJoins();
-            $fiche = $fiches[rand(0, 1000)];
+            $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+
+            foreach ($fiches as $fiche) {
+                $message = $data['message'];
+                $message = $this->exportUtils->replaceUrlToken($fiche, $message);
+                $this->mailer->sendMessage($data['from'], $data['subject'], $message, $fiche);
+                break;
+            }
             $this->mailer->sendMessage($data['from'], $data['subject'], $data['message'], $fiche);
             $this->addFlash('success', 'Message envoyé');
+
+            return $this->redirectToRoute('bottin_admin_publipostage');
         }
 
         return $this->render(

@@ -9,20 +9,6 @@
     <a href="{{ path('bottin_admin_category_move', { 'id': category.id }) }}" class="btn btn-primary"
        role="button"><i class="fas fa-arrows-alt"></i> Déplacer</a>
 
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
-            <i class="fas fa-download"></i> Exporter
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <li><a class="dropdown-item" href="{{ path('bottin_admin_export_category_xls', { 'id': category.id }) }}">L'
-                    arborescence en xls</a></li>
-            <li><a class="dropdown-item"
-                   href="{{ path('bottin_admin_export_fiches_xls_by_category', { 'id': category.id }) }}">Les fiches en
-                    xls</a></li>
-        </ul>
-    </div>
-
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <i class="fas fa-trash"></i> Supprimer

@@ -1,9 +1,2 @@
-coucou {{ message }}
 
-Consulter et modifier ma fiche :
-
-{% if fiche.token %}
-
- {{ absolute_url(path('bottin_admin_token_show', {'uuid': fiche.token.uuid})) }}
-
-{% endif %}
+{{ message }}
