@@ -13,6 +13,7 @@ use Elastica\Query\MultiMatch;
 use Elastica\Search;
 use Elastica\Suggest;
 use Elastica\Suggest\Term as SuggestTerm;
+use Elasticsearch\ClientBuilder;
 use Psr\Log\LoggerInterface;
 
 class SearchElastic implements SearchEngineInterface
@@ -75,7 +76,10 @@ class SearchElastic implements SearchEngineInterface
         return $this->boolQuery;
     }
 
-    public function doSearchForCap(string $keyword): iterable
+    /**
+     * @return iterable|\Elastica\ResultSet
+     */
+    public function doSearchForCap(string $keyword): array
     {
         $boolQuery = $this->createQueryForFiche($keyword);
 
@@ -92,9 +96,15 @@ class SearchElastic implements SearchEngineInterface
         $search->addIndex($this->index);
         $search->setQuery($query);
 
-        $options = ['limit' => 100];
+        $query = $search->getQuery();
 
-        return $search->search($query, $options);
+        $params = [
+            'index' => $this->index->getName(),
+            'body' => $query->toArray(),
+        ];
+        $client = ClientBuilder::create()->build();
+
+        return $client->search($params);
     }
 
     public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable
@@ -261,5 +271,4 @@ class SearchElastic implements SearchEngineInterface
             ],
         ];
     }
-
 }
