@@ -144,6 +144,29 @@ class AjaxController extends AbstractController
     }
 
     /**
+     * @Route("/getcategoriesforexport", name="bottin_admin_ajax_get_categories_for_export", methods={"POST"})
+     */
+    public function ajaxCategoriesForExport(Request $request): Response
+    {
+        $jsonResponse = new JsonResponse();
+        $parentId = (int) $request->get('parentId');
+
+        if (!$parentId) {
+            $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
+
+            return $jsonResponse;
+        }
+
+        $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
+
+        return $this->render(
+                '@AcMarcheBottin/admin/classement/_ajaxCategoriesForExport.html.twig', [
+                    'categories' => $categories,
+                ]
+            );
+    }
+
+    /**
      * @Route("/fetch/{query}", name="bottin_admin_fetch")
      */
     public function fetchCategorie(?string $query = null): JsonResponse

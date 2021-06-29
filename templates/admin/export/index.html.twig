@@ -2,49 +2,34 @@
 
 {% block body -%}
 
-    <div class="card bg-lig2ht mb-3">
-        <div class="card-header">
-            <h3>Export</h3>
-        </div>
-        <div class="card-body">
-            {{ form_start(form, { 'attr': {'class': 'well'} }) }}
-            {{ form_errors(form) }}
+<div class="card bg-lig2ht mb-3">
+    <div class="card-header">
+        <h3>Export</h3>
+    </div>
+    <div class="card-body">
 
-            <h5 class="text-success">Ajout par recherche</h5>
-            <hr>
-            {{ form_row(form.name) }}
-            <div class="input-group"
-                    {{ stimulus_controller('search', {'url':path('bottin_admin_search_ajax')}) }}>
-                <input
-                        type="search"
-                        name="q"
-                        autocomplete="off"
-                        class="form-control"
-                        data-action="search#onSearchInput"/>
-                <div class="search-preview" data-search-target="result"></div>
-            </div>
-            {{ form_end(form) }}
+        <div {{ stimulus_controller('category', { categoryId: 511, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
 
-            <div {{ stimulus_controller('category', { categoryId: 511 }) }} >
-                <table class="table table-bordered">
+            <div class="d-flex gap-2">
+                <ul>
                     {% for category in categories %}
-                        <tr>
-                            <th>
-                                <button
-                                        class="btn btn-primary"
-                                        data-action="category#selectCategory"
-                                        data-category-target="categories"
-                                        data-category-id="{{ category.id }}"
-                                >
-                                    {{ category }}
-                                </button>
-                            </th>
-                        </tr>
+                        <li class="list-group-item">
+                            <button
+                                    class="btn btn-primary"
+                                    data-action="category#selectCategory"
+                                    data-category-target="categories"
+                                    data-category-id="{{ category.id }}"
+                            >
+                                {{ category }}
+                            </button>
+                        </li>
                     {% endfor %}
-                </table>
-                <input type="number" name="x" data-category-target="select">
+                </ul>
+                <div class="search-preview2" data-category-target="result">zeze</div>
             </div>
+
+            <input type="number" name="x" data-category-target="select">
         </div>
     </div>
 
-{% endblock %}
+    {% endblock %}

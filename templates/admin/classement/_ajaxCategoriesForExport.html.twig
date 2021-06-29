@@ -1,0 +1,17 @@
+<ul class="list-group">
+    {% for category in categories %}
+        <li class="list-group-item"
+            data-category-id="{{ category.id }}">
+
+                <button
+                        class="btn btn-primary"
+                        data-action="category#selectCategory"
+                        data-category-target="categories"
+                        data-category-id="{{ category.id }}"
+                >
+                        {{ category }}
+                </button>
+
+        </li>
+    {% endfor %}
+</ul>
