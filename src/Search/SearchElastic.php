@@ -92,12 +92,6 @@ class SearchElastic implements SearchEngineInterface
         $query = new Query();
         $query->setQuery($boolQuery);
 
-        $search = new Search($this->client);
-        $search->addIndex($this->index);
-        $search->setQuery($query);
-
-        $query = $search->getQuery();
-
         $params = [
             'index' => $this->index->getName(),
             'body' => $query->toArray(),
