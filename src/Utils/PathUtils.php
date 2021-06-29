@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Utils;
 
 use AcMarche\Bottin\Entity\Category;
@@ -9,8 +8,6 @@ use AcMarche\Bottin\Entity\Classement;
 class PathUtils
 {
     /**
-     * @param Category $category
-     *
      * @return Category[]
      *
      * donne vetement enfant
@@ -28,7 +25,7 @@ class PathUtils
     {
         $path = [];
         $parent = $category->getParent();
-        if ($parent !== null) {
+        if (null !== $parent) {
             $path[] = $parent;
             $path = array_merge(self::getFullPath($parent), $path);
         }
@@ -37,7 +34,6 @@ class PathUtils
     }
 
     /**
-     * @param array $classements
      * @return Classement[]
      */
     public function setPathForClassements(array $classements): array

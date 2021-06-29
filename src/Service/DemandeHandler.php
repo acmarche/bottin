@@ -1,10 +1,10 @@
 <?php
 
-
 namespace AcMarche\Bottin\Service;
 
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Entity\DemandeMeta;
+use AcMarche\Bottin\Mailer\MailerBottin;
 use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
@@ -38,7 +38,7 @@ class DemandeHandler
         }
 
         $fiche = $this->ficheRepository->find($idFiche);
-        if ($fiche === null) {
+        if (null === $fiche) {
             return ['error' => 404];
         }
 
@@ -46,7 +46,7 @@ class DemandeHandler
         $demande->setFiche($fiche);
         $this->demandeRepository->persist($demande);
         foreach ($data as $key => $value) {
-            if ($key == 'id') {
+            if ('id' == $key) {
                 continue;
             }
             $demandeMeta = new DemandeMeta($demande, $key, $value);

@@ -51,9 +51,9 @@ class User implements UserInterface
      */
     protected ?string $plainPassword = null;
 
-    public function __call($name, $arguments)
+    public function getUserIdentifier(): ?string
     {
-        // TODO: Implement @method string getUserIdentifier()
+        return $this->getUsername();
     }
 
     public function __toString()

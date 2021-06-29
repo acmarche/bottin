@@ -60,9 +60,9 @@ class AjaxController extends AbstractController
         $classements = $this->pathUtils->setPathForClassements($classements);
 
         $template = $this->renderView(
-                '@AcMarcheBottin/admin/classement/_list.html.twig',
-                ['classements' => $classements]
-            );
+            '@AcMarcheBottin/admin/classement/_list.html.twig',
+            ['classements' => $classements]
+        );
 
         return new Response($template);
     }
@@ -150,6 +150,8 @@ class AjaxController extends AbstractController
     {
         $jsonResponse = new JsonResponse();
         $parentId = (int) $request->get('parentId');
+        $level = (int) $request->get('level');
+        ++$level;
 
         if (!$parentId) {
             $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
@@ -160,10 +162,12 @@ class AjaxController extends AbstractController
         $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
 
         return $this->render(
-                '@AcMarcheBottin/admin/classement/_ajaxCategoriesForExport.html.twig', [
-                    'categories' => $categories,
-                ]
-            );
+            '@AcMarcheBottin/admin/classement/_ajaxCategoriesForExport.html.twig',
+            [
+                'categories' => $categories,
+                'level' => $level,
+            ]
+        );
     }
 
     /**

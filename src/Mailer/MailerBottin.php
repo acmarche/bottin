@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Mailer;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Utils\FicheUtils;

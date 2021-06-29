@@ -3,15 +3,18 @@
         <li class="list-group-item"
             data-category-id="{{ category.id }}">
 
-                <button
-                        class="btn btn-primary"
-                        data-action="category#selectCategory"
-                        data-category-target="categories"
-                        data-category-id="{{ category.id }}"
-                >
-                        {{ category }}
-                </button>
+            <button
+                    class="btn btn-sm btn-primary"
+                    data-action="category#selectCategory"
+                    data-category-target="categories"
+                    data-category-id="{{ category.id }}"
+                    data-category-level="{{ level }}"
+            >
+                {{ category }}
+            </button>
 
         </li>
+    {% else %}
+        <li class="list-group-item">Pas de catégories enfants</li>
     {% endfor %}
 </ul>

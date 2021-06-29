@@ -6,7 +6,7 @@ use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Form\DemandeType;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\MailerBottin;
+use AcMarche\Bottin\Mailer\MailerBottin;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

@@ -1,0 +1,34 @@
+<h4 class="text-success">Votre sélection</h4>
+<table class='table table-bordered'>
+    <tbody>
+    {% for selection in selections %}
+        {% set category = selection.category %}
+        {% set paths =  category.path %}
+        <tr>
+            <td>
+                <nav aria-label="breadcrumb">
+                    <ol class='breadcrumb'>
+                        {% for path in paths %}
+                            {% if loop.last %}
+                                <li class="breadcrumb-item active" aria-current="page">{{ path }}</li>
+                            {% else %}
+                                <li class="breadcrumb-item" aria-current="page">
+                                    {{ path }}
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ol>
+                </nav>
+            </td>
+            <td>
+                <a title="supprimer cette sélection"
+                   href="{{ path('bottin_admin_selection_delete', {'id': selection.id}) }}">
+                   <i class="far fa-trash-alt"></i>
+                </a>
+            </td>
+        </tr>
+    {% else %}
+        <p class="text-warning">Aucune sélection</p>
+    {% endfor %}
+    </tbody>
+</table>
