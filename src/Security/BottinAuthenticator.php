@@ -95,7 +95,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         try {
-            $entry = $this->staffLdap->getEntry($user->getUsername());
+            $entry = $this->staffLdap->getEntry($user->getUserIdentifier());
 
             if ($entry instanceof Entry) {
                 $dn = $entry->getDn();
@@ -129,7 +129,7 @@ class BottinAuthenticator extends AbstractFormLoginAuthenticator implements Pass
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('bottin_home'));
+        return new RedirectResponse($this->urlGenerator->generate('bottin_front_home'));
     }
 
     protected function getLoginUrl(): string
