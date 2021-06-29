@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Token\TokenUtils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class TokenController.
  *
  * @Route("/admin/token")
+ * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class TokenController extends AbstractController
 {
