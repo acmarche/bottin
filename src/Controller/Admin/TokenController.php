@@ -50,7 +50,7 @@ class TokenController extends AbstractController
     {
         $this->tokenUtils->generateForOneFiche($fiche, true);
 
-        return $this->redirectToRoute('bottin_admin_admin_fiche_show', ['id' => $fiche->getId()]);
+        return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
     }
 
 
