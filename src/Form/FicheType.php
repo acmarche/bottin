@@ -372,7 +372,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'Note (privé)',
-                    'help' => 'Cette information n\'apparaitra pas pour le publique',
+                    'help' => 'Cette information n\'apparaitra pas pour le public',
                     'attr' => ['rows' => 3],
                 ]
             )
