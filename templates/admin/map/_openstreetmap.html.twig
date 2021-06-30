@@ -1,30 +1,5 @@
 <div id='openmap' style='width: 90%; height: 600px;' class="border border-primary"></div>
+<div {{ stimulus_controller('map', { 'societe': fiche.societe, 'latitude': fiche.latitude, 'longitude': fiche.longitude, 'drop': true}) }} >
 
-<script type="text/javascript">
-    let latitude = '{{ adresse.latitude }}';
-    let longitude = '{{ adresse.longitude }}';
-
-    if (latitude === '' || latitude === '') {
-        latitude = 50.226484;
-        longitude = 5.342961;
-    }
-
-    const center = [latitude, longitude];
-    const map = L.map('openmap').setView(center, 16);
-    const societe = '{{ adresse.rue }}';
-
-    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        minZoom: 1,
-        maxZoom: 20
-    }).addTo(map);
-
-    var marker = L.marker(center, {title: societe, draggable: true}).addTo(map);
-
-    marker.on('dragend', function (e) {
-        document.getElementById('localisation_latitude').value = marker.getLatLng().lat;
-        document.getElementById('localisation_longitude').value = marker.getLatLng().lng;
-    });
-
-</script>
+</div>
 
