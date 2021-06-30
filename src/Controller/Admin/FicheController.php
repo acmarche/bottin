@@ -74,7 +74,7 @@ class FicheController extends AbstractController
 
             try {
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
-                $fiches = $this->searchEngine->getFiches($response);
+                $fiches = $response->getResults();
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
