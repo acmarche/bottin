@@ -93,13 +93,12 @@ class FicheController extends AbstractController
             $this->addFlash('success', 'La fiche a bien été modifiée');
             $etape = $fiche->getEtape() + 1;
 
-
             $this->propertyUtils->diffFiche($fiche);
 
-            /*     return $this->redirectToRoute(
-                     'bottin_backend_fiche_edit',
-                     ['uuid' => $token->getUuid(), 'etape' => $etape]
-                 );*/
+            return $this->redirectToRoute(
+                'bottin_backend_fiche_edit',
+                ['uuid' => $token->getUuid(), 'etape' => $etape]
+            );
         }
 
         return $this->render(

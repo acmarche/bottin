@@ -41,7 +41,6 @@ class HistoryUtils
         if (count($changes) > 0) {
             $this->historyRepository->flush();
         }
-        dump($changes);
     }
 
     public function toArray(Fiche $fiche): array
