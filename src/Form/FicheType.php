@@ -14,8 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -75,35 +77,35 @@ class FicheType extends AbstractType
             )
             ->add(
                 'telephone',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'telephone_autre',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'fax',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'gsm',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'website',
-                TextType::class,
+                UrlType::class,
                 [
                     'required' => false,
                 ]
@@ -244,28 +246,28 @@ class FicheType extends AbstractType
             )
             ->add(
                 'contact_telephone',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'contact_telephone_autre',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'contact_fax',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'contact_gsm',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
@@ -307,28 +309,28 @@ class FicheType extends AbstractType
             )
             ->add(
                 'admin_telephone',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'admin_telephone_autre',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'admin_fax',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'admin_gsm',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]

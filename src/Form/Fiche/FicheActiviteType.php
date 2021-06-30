@@ -7,6 +7,7 @@ use AcMarche\Bottin\Repository\LocaliteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -46,35 +47,35 @@ class FicheActiviteType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => $localites,
-                    'choice_label' => fn ($localite) => $localite->getNom(),
-                    'choice_value' => fn ($localite) => $localite,
+                    'choice_label' => fn($localite) => $localite->getNom(),
+                    'choice_value' => fn($localite) => $localite,
                     'required' => false,
                 ]
             )
             ->add(
                 'telephone',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'telephone_autre',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'fax',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
                 'gsm',
-                TextType::class,
+                TelType::class,
                 [
                     'required' => false,
                 ]
