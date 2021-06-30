@@ -33,7 +33,7 @@ final class ClassementDeletedHandler implements MessageHandlerInterface
         $category = $this->categoryRepository->find($classementDeleted->getCategoryId());
         $fiche = $this->ficheRepository->find($classementDeleted->getFicheId());
 
-        $this->historyUtils->diffClassement($fiche, $category);
+        $this->historyUtils->diffClassement($fiche, $category, 'suppression');
         $this->flashBag->add('success', 'Le classement a bien été supprimé');
     }
 }

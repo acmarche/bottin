@@ -32,6 +32,6 @@ class ClassementCreatedHandler implements MessageHandlerInterface
 
         $this->flashBag->add('success', 'Le classement a bien été ajouté');
 
-        $this->historyUtils->diffClassement($fiche, $category);
+        $this->historyUtils->diffClassement($fiche, $category, 'ajout');
     }
 }

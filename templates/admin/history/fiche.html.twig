@@ -28,7 +28,7 @@
                         <td>{{ history.property }}</td>
                         <td>{{ history.oldValue }}</td>
                         <td>{{ history.newValue }}</td>
-                        <td>{{ history.createdAt | format_date('full') }}</td>
+                        <td>{{ history.createdAt | format_datetime('full', 'short') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

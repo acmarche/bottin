@@ -79,11 +79,12 @@ class HistoryUtils
         $this->historyRepository->persist($history);
     }
 
-    public function diffClassement(Fiche $fiche, Category $category)
+    public function diffClassement(Fiche $fiche, Category $category, string $action)
     {
         $username = $this->getUsername();
         $path = $this->pathUtils->getPath($category);
         $classementPath = join(' > ', $path);
-        $this->createForFiche($fiche, $username, 'classement', null, $classementPath);
+        $this->createForFiche($fiche, $username, 'classement', $action, $classementPath);
+        $this->historyRepository->flush();
     }
 }
