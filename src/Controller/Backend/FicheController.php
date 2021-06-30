@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
@@ -27,15 +28,21 @@ class FicheController extends AbstractController
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
     private FormUtils $formUtils;
+    private FicheRepository $ficheRepository;
+    private HistoryUtils $propertyUtils;
 
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
-        FormUtils $formUtils
+        FormUtils $formUtils,
+        FicheRepository $ficheRepository,
+        HistoryUtils $propertyUtils
     ) {
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->formUtils = $formUtils;
+        $this->ficheRepository = $ficheRepository;
+        $this->propertyUtils = $propertyUtils;
     }
 
     /**
@@ -86,10 +93,13 @@ class FicheController extends AbstractController
             $this->addFlash('success', 'La fiche a bien été modifiée');
             $etape = $fiche->getEtape() + 1;
 
-            return $this->redirectToRoute(
-                'bottin_backend_fiche_edit',
-                ['uuid' => $token->getUuid(), 'etape' => $etape]
-            );
+
+            $this->propertyUtils->diffFiche($fiche);
+
+            /*     return $this->redirectToRoute(
+                     'bottin_backend_fiche_edit',
+                     ['uuid' => $token->getUuid(), 'etape' => $etape]
+                 );*/
         }
 
         return $this->render(

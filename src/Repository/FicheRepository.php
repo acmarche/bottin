@@ -114,4 +114,9 @@ class FicheRepository extends ServiceEntityRepository
     {
         $this->_em->remove($fiche);
     }
+
+    public function getOriginalEntityData(Fiche $fiche)
+    {
+        return $this->_em->getUnitOfWork()->getOriginalEntityData($fiche);
+    }
 }
