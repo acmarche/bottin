@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
-use AcMarche\Bottin\Classement\Message\ClassementUpdated;
+use AcMarche\Bottin\Classement\Message\ClassementCreated;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -61,9 +61,8 @@ class ClassementController extends AbstractController
             $categoryId = (int) $data['categorySelected'];
 
             try {
-                $this->classementHandler->handleNewClassement($fiche, $categoryId);
-                $this->dispatchMessage(new ClassementUpdated($fiche->getId()));
-                $this->addFlash('success', 'Le classement a bien été ajouté');
+                $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
+                $this->dispatchMessage(new ClassementCreated($fiche->getId(), $classement->getId()));
 
                 return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
             } catch (Exception $e) {

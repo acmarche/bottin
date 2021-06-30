@@ -51,10 +51,11 @@ class AjaxController extends AbstractController
         }
 
         $fiche = $classement->getFiche();
+        $category = $classement->getCategory();
         $this->classementRepository->remove($classement);
         $this->classementRepository->flush();
 
-        $this->dispatchMessage(new ClassementDeleted($fiche->getId()));
+        $this->dispatchMessage(new ClassementDeleted($fiche->getId(), $classementId, $category->getId()));
 
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);

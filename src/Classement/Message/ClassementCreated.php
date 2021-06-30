@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Classement\Message;
 
-class ClassementUpdated
+class ClassementCreated
 {
     private int $ficheId;
     private int $classementId;

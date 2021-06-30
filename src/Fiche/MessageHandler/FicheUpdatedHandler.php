@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Fiche\MessageHandler;
 use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Exception;
@@ -17,17 +18,20 @@ class FicheUpdatedHandler implements MessageHandlerInterface
     private FlashBagInterface $flashBag;
     private LocationUpdater $locationUpdater;
     private ElasticIndexer $elasticIndexer;
+    private HistoryUtils $historyUtils;
 
     public function __construct(
         FicheRepository $ficheRepository,
         LocationUpdater $locationUpdater,
         ElasticIndexer $elasticIndexer,
-        FlashBagInterface $flashBag
+        FlashBagInterface $flashBag,
+        HistoryUtils $historyUtils
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->flashBag = $flashBag;
         $this->locationUpdater = $locationUpdater;
         $this->elasticIndexer = $elasticIndexer;
+        $this->historyUtils = $historyUtils;
     }
 
     public function __invoke(FicheUpdated $ficheUpdated): void
@@ -43,6 +47,7 @@ class FicheUpdatedHandler implements MessageHandlerInterface
             }
         }
         $this->updateSearchEngine($fiche);
+        $this->history($fiche);
     }
 
     private function updateSearchEngine(Fiche $fiche): void
@@ -52,7 +57,13 @@ class FicheUpdatedHandler implements MessageHandlerInterface
 
     private function hasChangeAddress(FicheUpdated $ficheUpdated, Fiche $fiche): bool
     {
-        $adresse = $fiche->getRue() . ' ' . $fiche->getNumero() . ' ' . $fiche->getLocalite();
+        $adresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
+
         return $ficheUpdated->getOldAddress() !== $adresse;
+    }
+
+    private function history(Fiche $fiche)
+    {
+        $this->historyUtils->diffFiche($fiche);
     }
 }

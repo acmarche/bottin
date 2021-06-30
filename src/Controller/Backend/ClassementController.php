@@ -3,8 +3,8 @@
 namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
+use AcMarche\Bottin\Classement\Message\ClassementCreated;
 use AcMarche\Bottin\Classement\Message\ClassementDeleted;
-use AcMarche\Bottin\Classement\Message\ClassementUpdated;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\ClassementSimpleType;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -60,12 +60,11 @@ class ClassementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $categoryId = (int) $data['categorySelected'];
+            $categoryId = (int)$data['categorySelected'];
 
             try {
-                $this->classementHandler->handleNewClassement($fiche, $categoryId);
-                $this->dispatchMessage(new ClassementUpdated($fiche->getId()));
-                $this->addFlash('success', 'Le classement a bien été ajouté');
+                $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
+                $this->dispatchMessage(new ClassementCreated($fiche->getId(), $classement->getId()));
             } catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
@@ -91,7 +90,7 @@ class ClassementController extends AbstractController
      */
     public function removeClassement(Request $request, Token $token): Response
     {
-        $classementId = (int) $request->request->get('classementId');
+        $classementId = (int)$request->request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
         if (null === $classement) {
@@ -102,6 +101,7 @@ class ClassementController extends AbstractController
         }
 
         $ficheFromClassement = $classement->getFiche();
+        $category = $classement->getCategory();
         $fiche = $token->getFiche();
 
         if ($fiche->getId() != $ficheFromClassement->getId()) {
@@ -113,15 +113,15 @@ class ClassementController extends AbstractController
         $this->classementRepository->remove($classement);
         $this->classementRepository->flush();
 
-        $this->dispatchMessage(new ClassementDeleted($fiche->getId()));
+        $this->dispatchMessage(new ClassementDeleted($ficheFromClassement->getId(), $classementId, $category->getId()));
 
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
 
         $template = $this->renderView(
-                '@AcMarcheBottin/backend/classement/_list.html.twig',
-                ['classements' => $classements]
-            );
+            '@AcMarcheBottin/backend/classement/_list.html.twig',
+            ['classements' => $classements]
+        );
 
         return new Response($template);
     }

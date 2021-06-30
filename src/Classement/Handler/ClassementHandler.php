@@ -23,7 +23,7 @@ class ClassementHandler
     /**
      * @throws NonUniqueResultException
      */
-    public function handleNewClassement(Fiche $fiche, ?int $categoryId): void
+    public function handleNewClassement(Fiche $fiche, ?int $categoryId): Classement
     {
         if (!$categoryId) {
             throw new Exception('La référence à la rubrique n\'a pas été trouvée');
@@ -47,5 +47,7 @@ class ClassementHandler
         }
 
         $this->classementRepository->insert($classement);
+
+        return $classement;
     }
 }
