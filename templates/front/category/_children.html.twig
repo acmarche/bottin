@@ -1,6 +1,5 @@
 {% if category.getChildNodes | length > 0 %}
-<br />
-    <div class='row well'>
+    <div class='row'>
         <div class='col-md-6'>
             <ul class='list-group'>
                 {% for child in category.getChildNodes %}
@@ -11,7 +10,7 @@
                     </ul>
                 </div>
                 <div class='col-md-6'>
-                    <ul>
+                    <ul class="list-group">
                 {% endif %}
             {% endfor %}
             </ul>
