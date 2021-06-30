@@ -1,0 +1,41 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body -%}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3>
+                Historique des changements <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}">
+                    {{ fiche }}
+                </a>
+            </h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Par</th>
+                    <th>Propriété</th>
+                    <th>Ancienne valeur</th>
+                    <th>Nouvelle valeur</th>
+                    <th>Le</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for history in histories %}
+                    <tr>
+                        <td>{{ history.madeBy }}</td>
+                        <td>{{ history.property }}</td>
+                        <td>{{ history.oldValue }}</td>
+                        <td>{{ history.newValue }}</td>
+                        <td>{{ history.createdAt | format_date('full') }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+{% endblock %}

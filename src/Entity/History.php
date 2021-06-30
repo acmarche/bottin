@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity;
-
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
@@ -46,12 +44,13 @@ class History implements TimestampableInterface
      */
     protected ?string $new_value = null;
 
-    public function __construct(?Fiche $fiche, ?string $property, ?string $old_value, ?string $new_value)
+    public function __construct(?Fiche $fiche, ?string $made_by, ?string $property, ?string $old_value, ?string $new_value)
     {
         $this->fiche = $fiche;
         $this->old_value = $old_value;
         $this->new_value = $new_value;
         $this->property = $property;
+        $this->made_by = $made_by;
     }
 
     public function getMadeBy(): ?string

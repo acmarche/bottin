@@ -28,7 +28,7 @@ class HistoryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('h')
             ->andWhere('h.fiche = :fiche')
             ->setParameter('fiche', $fiche)
-            ->orderBy('h.created_at', 'DESC')
+            ->orderBy('h.createdAt', 'DESC')
             ->setMaxResults(100)
             ->getQuery()
             ->getResult();

@@ -15,6 +15,9 @@
     <a href="{{ path('bottin_admin_map_edit', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
         <i class="fas fa-map-marker-alt"></i> Géolocalisation</a>
 
+    <a href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
+        <i class="fas fa-history"></i> Historique</a>
+
     <a href="{{ path('bottin_admin_export_fiche_pdf', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
         <i class="far fa-file-pdf"></i> Pdf</a>
 

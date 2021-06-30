@@ -30,13 +30,18 @@ class HistoryUtils
 
     public function diffFiche(Fiche $fiche)
     {
+        $username = null;
+        if ($user = $this->security->getUser()) {
+            $username = $user->getUserIdentifier();
+        }
+
         $originalData = $this->ficheRepository->getOriginalEntityData($fiche);
         $toArrayEntity = $this->toArray($fiche);
         unset($toArrayEntity['created_at']);
         unset($toArrayEntity['updated_at']);
         $changes = array_diff_assoc($toArrayEntity, $originalData);
         foreach ($changes as $property => $change) {
-            $this->createForFiche($fiche, $property, $originalData[$property], $change);
+            $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
         }
         if (count($changes) > 0) {
             $this->historyRepository->flush();
@@ -51,9 +56,14 @@ class HistoryUtils
         return $data;
     }
 
-    private function createForFiche(?Fiche $fiche, ?string $property, ?string $oldValue, ?string $newValue)
-    {
-        $history = new History($fiche, $property, $oldValue, $newValue);
+    private function createForFiche(
+        ?Fiche $fiche,
+        ?string $made_by,
+        ?string $property,
+        ?string $oldValue,
+        ?string $newValue
+    ) {
+        $history = new History($fiche, $made_by, $property, $oldValue, $newValue);
         $this->historyRepository->persist($history);
     }
 }
