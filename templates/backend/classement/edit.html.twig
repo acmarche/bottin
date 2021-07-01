@@ -1,9 +1,5 @@
 {% extends '@AcMarcheBottin/backend/layout.html.twig' %}
 
-{% block stylesheets %}
-    <link href="{{ asset('bundles/acmarchebottin/css/typeahead.css') }}" rel="stylesheet">
-{% endblock %}
-
 {% block body -%}
 
     <div class="card mb-3">
@@ -19,165 +15,43 @@
 
             {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
 
-            <h5 class="text-success">Ajout par navigation</h5>
+            <h5 class="text-success">Ajouter un secteur</h5>
             <hr>
 
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            <div class="d-flex gap-2">
-                <div class="">
-                    <label>
-                        <select name="category" size="10" class="form-select my-1 mr-sm-2 category-root"
-                                onchange="getCategories(this, '0')">
-                            {% for root in roots %}
-                                <option value="{{ root.id }}">{{ root }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                </div>
-
-                <div class="c">
-                    <div id="ajaxsuccess-1">
-
-                    </div>
-                </div>
-                <div class="">
-                    <div id="ajaxsuccess-2">
-
-                    </div>
-                </div>
-
-                <div class="">
-                    <div id="ajaxsuccess-3">
-
-                    </div>
-                </div>
-            </div>
-
-            <br clear="all" class="mb-2"/>
-
-            <div class="btn-group">
-                <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
+            <div {{ stimulus_controller('category', { categoryId: 0, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <button class="btn btn-warning mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
                     Ajouter
                 </button>
+                {{ form_end(form) }}
+
+                <div class="d-flex gap-2">
+                    <ul>
+                        {% for category in roots %}
+                            <li class="list-group-item">
+                                <button
+                                        class="btn btn-sm btn-primary"
+                                        data-action="category#selectCategory"
+                                        data-category-target="categories"
+                                        data-category-id="{{ category.id }}"
+                                        data-category-level="1"
+                                >
+                                    {{ category }}
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="d-flex" data-category-target="result1"></div>
+                    <div class="d-flex" data-category-target="result2"></div>
+                    <div class="d-flex" data-category-target="result3"></div>
+                    <div class="d-flex" data-category-target="result4"></div>
+                </div>
+
             </div>
-            {{ form_end(form) }}
+
+
         </div>
     </div>
 
-{% endblock %}
-
-{% block javascripts %}
-
-    <script type="text/javascript">
-
-        function initTypeahead() {
-
-            var categories = new Bloodhound({
-                datumTokenizer: function (datum) {
-                    return Bloodhound.tokenizers.whitespace(datum.value);
-                },
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: {
-                    url: "{{ path('bottin_admin_fetch') }}/%QUERY",
-                    wildcard: '%QUERY'
-                }
-            });
-
-            var options = {
-                hint: true,
-                highlight: true,
-                minLength: 2
-            };
-
-            var dataSetCategories = {
-                display: 'label',
-                limit: 10,
-                source: categories,
-                templates: {
-                    suggestion: function (data) {
-                        var value = data.name;
-                        return '<p>' + value + '</p>';
-                    }
-                }
-            };
-
-            $('.typeahead').typeahead(options, dataSetCategories);
-            $('.typeahead').bind('typeahead:select', function (ev, suggestion) {
-                console.log(suggestion);
-                $('#classement_simple_categorySelected').val(suggestion.id)
-            });
-        }
-
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            initTypeahead();
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        function getCategories(item, level) {
-            var rootId = item.value;
-            var url = '{{ path('bottin_admin_ajax_get_categories') }}';
-            $.ajax({
-                'data': {parentId: rootId, level: level},
-                'url': url,
-                'method': 'POST',
-                'dataType': "json",
-                'success': function (data) {
-                    error = data.error;
-                    if (error) {
-                        alert(error);
-                        return;
-                    } else {
-                        html = data.html;
-                        catId = data.catId;
-                        level = data.level;
-                        console.log(level);
-                        $("#ajaxsuccess-" + level).html(html);
-                        $("#classement_simple_categorySelected").val(catId);
-                    }
-                }
-            }).done(function (data) {
-                if (console && console.log) {
-                    //   console.log("data:", data);
-                }
-            });
-        }
-
-        $(".removeclassment").click(function () {
-            var idClassement = $(this).attr("data-id");
-            //  removeClassement(idClassement);
-        });
-
-        function removeClassement(idClassement) {
-            console.log("remove");
-
-            var url = '{{ path('bottin_backend_ajax_remove_classement', {'uuid': token.uuid}) }}';
-            $.ajax({
-                'data': {classementId: idClassement},
-                'url': url,
-                'method': "POST",
-                'dataType': "html",
-                'success': function (data) {
-                    error = data.error;
-                    if (error) {
-                        alert(error);
-                        return;
-                    } else {
-                        console.log("oki");
-                        $("#classements").html(data);
-                    }
-                }
-            }).done(function (data) {
-                if (console && console.log) {
-
-                }
-            });
-        }
-
-    </script>
 {% endblock %}
