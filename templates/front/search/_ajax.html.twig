@@ -1,18 +1,24 @@
 <div class="list-group">
-    {% for hit in hits.hits %}
-        {% set fiche = hit._source %}
+    {% for hit in hits %}
+        {% set fiche = hit.data %}
+        {% set imgUrl = asset('bundles/acmarchebottin/images/ftlb.png') %}
+        {% if fiche.image %}
+            {% set imgUrl = 'https://bottin.marche.be'~fiche.image %}
+        {% endif %}
         <a
                 role="option"
                 data-action="search#selectX"
                 class="list-group-item list-group-item-action"
-                                        data-category-id="{{ fiche.id }}"
+                data-category-id="{{ fiche.id }}"
         >
             <div class="d-flex align-items-center justify-content-between">
                 <div>
                     <img
                             alt="{{ fiche.societe }}"
-                            src="{{ asset('bundles/acmarchebottin/images/ftlb.png') }}"
+                            src="{{ imgUrl }}"
+                            loading="lazy"
                             class="rounded"
+                            width="150px"
                     >
                     <span class="px-1">{{ fiche.societe }}</span>
                 </div>

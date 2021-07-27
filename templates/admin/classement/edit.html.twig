@@ -23,51 +23,34 @@
 
             <h5 class="text-success">Ajout par navigation</h5>
             <hr>
-
-            <div class="d-flex gap-2">
-                <div class="">
-                    <label>
-                        <select name="category" size="10" class="form-select my-1 mr-sm-2 category-root"
-                                onchange="getCategories(this, '0')">
-                            {% for root in roots %}
-                                <option value="{{ root.id }}">{{ root }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                </div>
-
-                <div class="">
-                    <div id="ajaxsuccess-1">
-
-                    </div>
-                </div>
-                <div class="">
-                    <div id="ajaxsuccess-2">
-
-                    </div>
-                </div>
-
-                <div class="">
-                    <div id="ajaxsuccess-3">
-
-                    </div>
-                </div>
-            </div>
-
-            <br clear="all" class="mb-2"/>
-
-            {{ form_row(form.principal) }}
-
-            <div class="btn-group">
-                <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
+            <div {{ stimulus_controller('category', { categoryId: 0, url: path('bottin_admin_ajax_get_categories_for_export')}) }} >
+                <button class="btn btn-warning mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
                     Ajouter
                 </button>
+
+                <div class="d-flex gap-2">
+                    <ul>
+                        {% for category in roots %}
+                            <li class="list-group-item">
+                                <button
+                                        class="btn btn-sm btn-primary"
+                                        data-action="category#selectCategory"
+                                        data-category-target="categories"
+                                        data-category-id="{{ category.id }}"
+                                        data-category-level="1"
+                                >
+                                    {{ category }}
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="d-flex" data-category-target="result1"></div>
+                    <div class="d-flex" data-category-target="result2"></div>
+                    <div class="d-flex" data-category-target="result3"></div>
+                    <div class="d-flex" data-category-target="result4"></div>
+                </div>
             </div>
-
             {{ form_end(form) }}
-
         </div>
     </div>
-
 {% endblock %}
-

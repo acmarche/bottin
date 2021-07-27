@@ -18,7 +18,7 @@
             <h5 class="text-success">Ajouter un secteur</h5>
             <hr>
 
-            <div {{ stimulus_controller('category', { categoryId: 0, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
+            <div {{ stimulus_controller('category', { categoryId: 0, url: path('bottin_admin_ajax_get_categories_for_export')}) }} >
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <button class="btn btn-warning mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>

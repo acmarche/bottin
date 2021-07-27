@@ -88,7 +88,8 @@ class SearchController extends AbstractController
 
         try {
             $response = $this->searchEngine->doSearch($q);
-            $hits = $response['hits'];
+            $hits = $response->getResults();
+            $count = $response->count();
         } catch (BadRequest400Exception $e) {
             $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
         }

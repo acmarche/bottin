@@ -6,7 +6,19 @@
             <h3>Recherche "{{ keyword }}"</h3>
         </div>
         <div class="card-body">
-            {{ form(form) }}
+            {#{ form(form) }#}
+
+            <div class="input-group"
+                    {{ stimulus_controller('search', {url: path('bottin_front_search_ajax')}) }}>
+                <input
+                        type="search"
+                        name="q"
+                        autocomplete="off"
+                        class="form-control"
+                        data-action="search#onSearchInput"/>
+                <div class="search-preview" data-search-target="result"></div>
+            </div>
+
             {% if count > 0 %}
 
                 <h4 class="text-success">{{ count }} trouvé(s)</h4>
