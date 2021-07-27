@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\FicheImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,29 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ImageRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, FicheImage::class);
-    }
-
-    public function insert(FicheImage $ficheImage): void
-    {
-        $this->_em->persist($ficheImage);
-        $this->save();
-    }
-
-    public function persist(FicheImage $ficheImage): void
-    {
-        $this->_em->persist($ficheImage);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(FicheImage $ficheImage): void
-    {
-        $this->_em->remove($ficheImage);
     }
 }

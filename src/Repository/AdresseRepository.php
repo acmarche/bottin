@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Adresse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,24 +16,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AdresseRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Adresse::class);
-    }
-
-    public function persist(Adresse $adresse): void
-    {
-        $this->_em->persist($adresse);
-    }
-
-    public function remove(Adresse $adresse): void
-    {
-        $this->_em->remove($adresse);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 
     public function queryBuilderForSelect(): QueryBuilder

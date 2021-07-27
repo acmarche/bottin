@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\History;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class HistoryRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, History::class);
@@ -32,15 +35,5 @@ class HistoryRepository extends ServiceEntityRepository
             ->setMaxResults(100)
             ->getQuery()
             ->getResult();
-    }
-
-    public function persist(History $history)
-    {
-        $this->_em->persist($history);
-    }
-
-    public function flush()
-    {
-        $this->_em->flush();
     }
 }

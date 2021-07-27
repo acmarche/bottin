@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Demande;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DemandeRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Demande::class);
@@ -34,20 +37,5 @@ class DemandeRepository extends ServiceEntityRepository
         $query = $queryBuilder->getQuery();
 
         return $query->getResult();
-    }
-
-    public function persist(Demande $demande): void
-    {
-        $this->_em->persist($demande);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Demande $demande): void
-    {
-        $this->_em->remove($demande);
     }
 }

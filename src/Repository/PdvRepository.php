@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Pdv;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -15,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PdvRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Pdv::class);
@@ -34,20 +37,5 @@ class PdvRepository extends ServiceEntityRepository
         $queryBuilder->orderBy('p.intitule');
 
         return $queryBuilder;
-    }
-
-    public function persist(Pdv $pdv): void
-    {
-        $this->_em->persist($pdv);
-    }
-
-    public function remove(Pdv $pdv): void
-    {
-        $this->_em->remove($pdv);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Situation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,23 +15,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SituationRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Situation::class);
     }
 
-    public function persist(Situation $situation): void
-    {
-        $this->_em->persist($situation);
-    }
-
-    public function remove(Situation $situation): void
-    {
-        $this->_em->remove($situation);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
 }

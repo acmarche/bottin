@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Document;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,29 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DocumentRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Document::class);
-    }
-
-    public function insert(Document $document): void
-    {
-        $this->persist($document);
-        $this->flush();
-    }
-
-    public function persist(Document $document): void
-    {
-        $this->_em->persist($document);
-    }
-
-    public function remove(Document $document): void
-    {
-        $this->_em->remove($document);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 }

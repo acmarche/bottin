@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Selection;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SelectionRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Selection::class);
@@ -30,20 +33,4 @@ class SelectionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    public function persist(Selection $selection): void
-    {
-        $this->_em->persist($selection);
-    }
-
-    public function remove(Selection $selection): void
-    {
-        $this->_em->remove($selection);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
 }

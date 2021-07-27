@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FicheRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Fiche::class);
@@ -92,31 +95,5 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.images', 'images', 'WITH')
             ->addSelect('pdv', 'classements', 'horaires', 'images', 'token')
             ->getQuery()->getResult();
-    }
-
-    public function insert(Fiche $fiche): void
-    {
-        $this->persist($fiche);
-        $this->flush();
-    }
-
-    public function persist(Fiche $fiche): void
-    {
-        $this->_em->persist($fiche);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Fiche $fiche): void
-    {
-        $this->_em->remove($fiche);
-    }
-
-    public function getOriginalEntityData(Fiche $fiche)
-    {
-        return $this->_em->getUnitOfWork()->getOriginalEntityData($fiche);
     }
 }

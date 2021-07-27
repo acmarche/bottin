@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use DateTimeInterface;
@@ -16,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TokenRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Token::class);
@@ -40,20 +43,5 @@ class TokenRepository extends ServiceEntityRepository
             ->setParameter('val', $date->format('Y-m-d'))
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    public function persist(Token $token): void
-    {
-        $this->_em->persist($token);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Token $token): void
-    {
-        $this->_em->remove($token);
     }
 }

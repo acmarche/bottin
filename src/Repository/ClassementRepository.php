@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Cap\Cap;
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
@@ -18,6 +19,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ClassementRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Classement::class);
@@ -74,26 +77,5 @@ class ClassementRepository extends ServiceEntityRepository
             ->orderBy('c.fiche');
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
-    }
-
-    public function insert(Classement $classement): void
-    {
-        $this->_em->persist($classement);
-        $this->flush();
-    }
-
-    public function persist(Classement $classement): void
-    {
-        $this->_em->persist($classement);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Classement $classement): void
-    {
-        $this->_em->remove($classement);
     }
 }

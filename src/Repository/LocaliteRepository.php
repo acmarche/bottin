@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Localite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,24 +15,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class LocaliteRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Localite::class);
-    }
-
-    public function persist(Localite $adresse): void
-    {
-        $this->_em->persist($adresse);
-    }
-
-    public function remove(Localite $adresse): void
-    {
-        $this->_em->remove($adresse);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\DemandeMeta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,18 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class DemandeMetaRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, DemandeMeta::class);
-    }
-
-    public function persist(DemandeMeta $demandeMeta): void
-    {
-        $this->_em->persist($demandeMeta);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 }

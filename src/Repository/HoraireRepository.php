@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Repository;
 
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Horaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,24 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class HoraireRepository extends ServiceEntityRepository
 {
+    use OrmCrudTrait;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Horaire::class);
-    }
-
-    public function insert(Horaire $horaire): void
-    {
-        $this->persist($horaire);
-        $this->flush();
-    }
-
-    public function persist(Horaire $horaire): void
-    {
-        $this->_em->persist($horaire);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
     }
 }

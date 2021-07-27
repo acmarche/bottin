@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Cap\Cap;
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Utils\SortUtils;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -17,7 +18,7 @@ use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    use TreeTrait;
+    use TreeTrait, OrmCrudTrait;
 
     public function __construct(ManagerRegistry $managerRegistry)
     {
@@ -123,20 +124,5 @@ class CategoryRepository extends ServiceEntityRepository
      */
     protected function addFlatTreeConditions(): void
     {
-    }
-
-    public function persist(Category $category): void
-    {
-        $this->_em->persist($category);
-    }
-
-    public function flush(): void
-    {
-        $this->_em->flush();
-    }
-
-    public function remove(Category $category): void
-    {
-        $this->_em->remove($category);
     }
 }
