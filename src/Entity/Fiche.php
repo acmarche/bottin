@@ -163,6 +163,13 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
      */
     protected ?string $numero_tva = null;
 
+    /**
+     * Pour cascade
+     * @ORM\OneToMany(targetEntity=History::class, mappedBy="fiche", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false))
+     */
+    protected ?iterable $histories;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();
@@ -171,6 +178,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         $this->documents = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->situations = new ArrayCollection();
+        $this->histories = new ArrayCollection();
     }
 
     public function getCategoryId(): ?int

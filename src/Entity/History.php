@@ -19,8 +19,8 @@ class History implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fiche")
-     * @ORM\JoinColumn(nullable=true))
+     * @ORM\ManyToOne(targetEntity=Fiche::class, inversedBy="histories")
+     * @ORM\JoinColumn(nullable=false))
      */
     protected ?Fiche $fiche = null;
 
@@ -44,8 +44,13 @@ class History implements TimestampableInterface
      */
     protected ?string $new_value = null;
 
-    public function __construct(?Fiche $fiche, ?string $made_by, ?string $property, ?string $old_value, ?string $new_value)
-    {
+    public function __construct(
+        ?Fiche $fiche,
+        ?string $made_by,
+        ?string $property,
+        ?string $old_value,
+        ?string $new_value
+    ) {
         $this->fiche = $fiche;
         $this->old_value = $old_value;
         $this->new_value = $new_value;
