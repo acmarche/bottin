@@ -17,7 +17,7 @@
 
             {% include '@AcMarcheBottin/admin/export/_selections.html.twig' %}
 
-            <div {{ stimulus_controller('category', { categoryId: 0, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
+            <div {{ stimulus_controller('classement', { categoryId: 0, 'url':path('bottin_admin_ajax_get_categories_for_export')}) }} >
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <button class="btn btn-warning mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
@@ -26,13 +26,13 @@
                 {{ form_end(form) }}
 
                 <div class="d-flex gap-2">
-                    <ul>
+                    <ul class="list-group">
                         {% for category in categories %}
                             <li class="list-group-item">
                                 <button
                                         class="btn btn-sm btn-primary"
-                                        data-action="category#selectCategory"
-                                        data-category-target="categories"
+                                        data-action="classement#selectCategory"
+                                        data-classement-target="categories"
                                         data-category-id="{{ category.id }}"
                                         data-category-level="1"
                                 >
@@ -41,10 +41,10 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <div class="d-flex" data-category-target="result1"></div>
-                    <div class="d-flex" data-category-target="result2"></div>
-                    <div class="d-flex" data-category-target="result3"></div>
-                    <div class="d-flex" data-category-target="result4"></div>
+                    <div class="d-flex" data-classement-target="result1"></div>
+                    <div class="d-flex" data-classement-target="result2"></div>
+                    <div class="d-flex" data-classement-target="result3"></div>
+                    <div class="d-flex" data-classement-target="result4"></div>
                 </div>
 
             </div>
