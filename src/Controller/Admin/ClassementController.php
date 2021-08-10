@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Classement\Message\ClassementCreated;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Form\ClassementSimpleType;
 use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
@@ -48,7 +49,7 @@ class ClassementController extends AbstractController
      */
     public function edit(Fiche $fiche, Request $request): Response
     {
-        $form = $this->createForm(ClassementType::class);
+        $form = $this->createForm(ClassementSimpleType::class);
 
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);

@@ -16,6 +16,7 @@ class ClassementSimpleType extends AbstractType
                 HiddenType::class,
                 [
                     'required' => true,
+                    'attr' => ['data-classement-target' => 'selectedCategory'],
                 ]
             );
     }
