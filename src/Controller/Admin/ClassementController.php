@@ -58,7 +58,7 @@ class ClassementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $request->request->get('classement');
+            $data = $form->getData();
             $categoryId = (int) $data['categorySelected'];
 
             try {

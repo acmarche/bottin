@@ -60,7 +60,7 @@ class ClassementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $categoryId = (int)$data['categorySelected'];
+            $categoryId = (int) $data['categorySelected'];
 
             try {
                 $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
@@ -90,7 +90,7 @@ class ClassementController extends AbstractController
      */
     public function removeClassement(Request $request, Token $token): Response
     {
-        $classementId = (int)$request->request->get('classementId');
+        $classementId = (int) $request->request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
         if (null === $classement) {
