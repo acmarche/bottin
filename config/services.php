@@ -57,19 +57,23 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
 
     if (interface_exists(LdapInterface::class)) {
-        $services->set(Symfony\Component\Ldap\Ldap::class)->args(['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter']
-        )->tag('ldap');
-        $services->set(Adapter::class)->args([
-            '$arguments' => [
-                '$host' => '%env(ACLDAP_URL)%',
-                '$port' => 636,
-                '$encryption' => 'ssl',
-                '$options' => [
-                    '$protocole_version' => 3,
-                    '$referrals' => false,
+        $services
+            ->set(Symfony\Component\Ldap\Ldap::class)
+            ->args(['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter'])
+            ->tag('ldap');
+        $services->set(Adapter::class)->args(
+            [
+                [
+                    '$host' => '%env(ACLDAP_URL)%',
+                    '$port' => 636,
+                    '$encryption' => 'ssl',
+                    '$options' => [
+                        '$protocole_version' => 3,
+                        '$referrals' => false,
+                    ],
                 ],
-            ],
-        ]);
+            ]
+        );
 
         $services->set(LdapBottin::class)
             ->arg('$adapter', service('Symfony\Component\Ldap\Adapter\ExtLdap\Adapter'))
