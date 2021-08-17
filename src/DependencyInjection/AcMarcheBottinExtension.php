@@ -2,11 +2,12 @@
 
 namespace AcMarche\Bottin\DependencyInjection;
 
+use AcMarche\Mercredi\Presence\Constraint\PresenceConstraintInterface;
+use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -16,13 +17,12 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class AcMarcheBottinExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    private PhpFileLoader $loader;
+
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
-        $yamlFileLoader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../config'));
-        $yamlFileLoader->load('services.yaml');
+        $this->loader->load('services.php');
+        //$this->loader->load('routes/routes.php');
     }
 
     /**
@@ -30,60 +30,52 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
      */
     public function prepend(ContainerBuilder $containerBuilder): void
     {
-        // get all bundles
-        $bundles = $containerBuilder->getParameter('kernel.bundles');
+        $this->loader = $this->initPhpFilerLoader($containerBuilder);
 
-        if (isset($bundles['DoctrineBundle'])) {
-            foreach (array_keys($containerBuilder->getExtensions()) as $name) {
-                switch ($name) {
-                    case 'doctrine':
-                        $this->loadConfig($containerBuilder, 'doctrine');
-                        break;
-                    case 'twig':
-                        $this->loadConfig($containerBuilder, 'twig', true);
-                        break;
-                    case 'liip_imagine':
-                        $this->loadConfig($containerBuilder, 'liip_imagine');
-                        break;
-                    case 'framework':
-                        $this->loadConfig($containerBuilder, 'security');
-                        break;
-                    case 'vich_uploader':
-                        $this->loadConfig($containerBuilder, 'vich_uploader');
-                        break;
-                    case 'api_platform':
-                        $this->loadConfig($containerBuilder, 'api_platform');
-                        break;
-                }
+        foreach (array_keys($containerBuilder->getExtensions()) as $name) {
+            switch ($name) {
+                case 'doctrine':
+                    $this->loadConfig('doctrine');
+
+                    break;
+                case 'twig':
+                    $this->loadConfig('twig');
+
+                    break;
+                case 'liip_imagine':
+                    $this->loadConfig('liip_imagine');
+
+                    break;
+                case 'framework':
+                    $this->loadConfig('security');
+
+                    break;
+                case 'vich_uploader':
+                    $this->loadConfig('vich_uploader');
+
+                    break;
+                case 'api_platform':
+                    $this->loadConfig('api_platform');
+                    break;
             }
         }
     }
 
-    protected function loadConfig(ContainerBuilder $containerBuilder, string $name, bool $php = false): void
+    protected function loadConfig(string $name): void
     {
-        if ($php) {
-            $configs = $this->loadPhpFile($containerBuilder);
-            //  $configs->load($name.'.php');
-
-            return;
-        }
-        $configs = $this->loadYamlFile($containerBuilder);
-        $configs->load($name . '.yaml');
+        $this->loader->load('packages/'.$name.'.php');
     }
 
-    protected function loadYamlFile(ContainerBuilder $containerBuilder): YamlFileLoader
-    {
-        return new YamlFileLoader(
-            $containerBuilder,
-            new FileLocator(__DIR__ . '/../../config/packages')
-        );
-    }
-
-    private function loadPhpFile(ContainerBuilder $containerBuilder): PhpFileLoader
+    protected function initPhpFilerLoader(ContainerBuilder $containerBuilder): PhpFileLoader
     {
         return new PhpFileLoader(
             $containerBuilder,
-            new FileLocator(__DIR__ . '/../../config/packages')
+            new FileLocator(__DIR__.'/../../config/'),
+            null,
+            class_exists(ConfigBuilderGenerator::class) ? new ConfigBuilderGenerator(
+                $containerBuilder->getParameter('kernel.cache_dir')
+            ) : null
         );
     }
+
 }
