@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @Route("/admin/ajax")
  * IsGranted("ROLE_BOTTIN_ADMIN")
+ *
  * @todo protect
  */
 class AjaxController extends AbstractController
@@ -186,5 +187,16 @@ class AjaxController extends AbstractController
         }
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Route("/getcategory", name="bottin_ajax_fetch_category")
+     */
+    public function fetchCategory(Request $request): Response
+    {
+        $categoryId = (int) $request->get('id');
+        $category = $this->categoryRepository->find($categoryId);
+
+        return new Response($category->getName());
     }
 }
