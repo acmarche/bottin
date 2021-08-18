@@ -6,7 +6,6 @@ use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * Ajax controller.
  *
  * @Route("/admin/ajax")
- * @IsGranted("ROLE_BOTTIN_ADMIN")
+ * IsGranted("ROLE_BOTTIN_ADMIN")
+ * @todo protect
  */
 class AjaxController extends AbstractController
 {
@@ -90,7 +90,6 @@ class AjaxController extends AbstractController
                 } else {
                     $classement->setPrincipal(false);
                 }
-                $this->classementRepository->persist($classement);
             }
 
             $this->classementRepository->flush();
@@ -99,7 +98,7 @@ class AjaxController extends AbstractController
             $classements = $this->pathUtils->setPathForClassements($classements);
 
             $template = $this->renderView(
-                '@AcMarcheBottin/admin/classement/_list.html.twig',
+                '@AcMarcheBottin/backend/classement/_list.html.twig',
                 ['classements' => $classements]
             );
         }

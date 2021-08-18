@@ -5,7 +5,7 @@
             {% for classement in classements %}
                 {% set category = classement.category %}
                 {% set paths =  category.path %}
-                <tr>
+                <tr {% if classement.principal %}class="table-info"{% endif %}>
                     <td>
                         <nav aria-label="breadcrumb">
                             <ol class='breadcrumb'>
@@ -21,20 +21,19 @@
                             </ol>
                         </nav>
                     </td>
-                    <td>
-                        <a title="Définir en principal"
-                           onclick="setPrincipal({{ classement.id }});return false;" href="#"
-                           class="setprincipal text-center"
-                           data-id="{{ classement.id }}"><i class="fas fa-check"></i>
-                        </a>
+                    <td class="text-center">
+                        <button title="Définir en principal"
+                           data-action="classement#principalClassement"
+                           data-classement-id="{{ classement.id }}"
+                           class="btn btn-primary btn-sm"><i class="fas fa-check"></i>
+                        </button>
                     </td>
-                    <td>
-                        <a title="supprimer ce classement"
+                    <td class="text-center">
+                        <button title="supprimer ce classement"
                            data-action="classement#deleteClassement"
                            data-classement-id="{{ classement.id }}"
-                           href="#"
-                           class="text-center"> <i class="far fa-trash-alt"></i>
-                        </a>
+                           class="btn btn-danger btn-sm"> <i class="far fa-trash-alt"></i>
+                        </button>
                     </td>
                 </tr>
             {% endfor %}

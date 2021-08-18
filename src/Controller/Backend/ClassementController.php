@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Classement\Message\ClassementCreated;
-use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\ClassementSimpleType;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -82,47 +81,5 @@ class ClassementController extends AbstractController
                 'form' => $form->createView(),
             ]
         );
-    }
-
-    /**
-     * @Route("/removeclassment/{uuid}", name="bottin_backend_ajax_remove_classement", methods={"POST"})
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
-    public function removeClassement(Request $request, Token $token): Response
-    {
-        $classementId = (int) $request->request->get('classementId');
-        $classement = $this->classementRepository->find($classementId);
-
-        if (null === $classement) {
-            $error = 'classement non trouvé';
-            $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
-
-            return new Response($template);
-        }
-
-        $ficheFromClassement = $classement->getFiche();
-        $category = $classement->getCategory();
-        $fiche = $token->getFiche();
-
-        if ($fiche->getId() != $ficheFromClassement->getId()) {
-            $txt = 'Non authorisé';
-
-            return new Response($txt);
-        }
-
-        $this->classementRepository->remove($classement);
-        $this->classementRepository->flush();
-
-        $this->dispatchMessage(new ClassementDeleted($ficheFromClassement->getId(), $classementId, $category->getId()));
-
-        $classements = $this->classementRepository->getByFiche($fiche);
-        $classements = $this->pathUtils->setPathForClassements($classements);
-
-        $template = $this->renderView(
-            '@AcMarcheBottin/backend/classement/_list.html.twig',
-            ['classements' => $classements]
-        );
-
-        return new Response($template);
     }
 }

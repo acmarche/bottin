@@ -16,6 +16,7 @@
             <div {{ stimulus_controller('classement', {
                 categoryId: 0,
                 urlGetCategories: path('bottin_admin_ajax_get_categories_for_export'),
+                urlPrincipalClassement: path('bottin_admin_ajax_principal_classement'),
                 urlDeleteClassement: path('bottin_admin_ajax_remove_classement')}) }} >
                 {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
 
