@@ -1,4 +1,4 @@
-<div id="classements">
+<div data-classement-target="classementList">
     {% if classements | length > 0 %}
         <table class='table table-bordered'>
             <tbody>
@@ -22,10 +22,18 @@
                         </nav>
                     </td>
                     <td>
+                        <a title="Définir en principal"
+                           onclick="setPrincipal({{ classement.id }});return false;" href="#"
+                           class="setprincipal text-center"
+                           data-id="{{ classement.id }}"><i class="fas fa-check"></i>
+                        </a>
+                    </td>
+                    <td>
                         <a title="supprimer ce classement"
-                           onclick="removeClassement({{ classement.id }});return false;" href="#"
-                           class="removeclassment text-center"
-                           data-id="{{ classement.id }}"> <i class="far fa-trash-alt"></i>
+                           data-action="classement#deleteClassement"
+                           data-classement-id="{{ classement.id }}"
+                           href="#"
+                           class="text-center"> <i class="far fa-trash-alt"></i>
                         </a>
                     </td>
                 </tr>

@@ -61,7 +61,7 @@ class AjaxController extends AbstractController
         $classements = $this->pathUtils->setPathForClassements($classements);
 
         $template = $this->renderView(
-            '@AcMarcheBottin/admin/classement/_list.html.twig',
+            '@AcMarcheBottin/backend/classement/_list.html.twig',
             ['classements' => $classements]
         );
 

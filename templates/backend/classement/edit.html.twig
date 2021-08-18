@@ -13,12 +13,15 @@
         </div>
         <div class="card-body">
 
-            {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
+            <div {{ stimulus_controller('classement', {
+                categoryId: 0,
+                urlGetCategories: path('bottin_admin_ajax_get_categories_for_export'),
+                urlDeleteClassement: path('bottin_admin_ajax_remove_classement')}) }} >
+                {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
 
-            <h5 class="text-success">Ajouter un secteur</h5>
-            <hr>
+                <h5 class="text-success">Ajouter un secteur</h5>
+                <hr>
 
-            <div {{ stimulus_controller('classement', { categoryId: 0, url: path('bottin_admin_ajax_get_categories_for_export')}) }} >
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
                 <button id="btnadd" class="btn btn-warning mr-1 mb-2" type="submit">
@@ -47,10 +50,7 @@
                     <div class="d-flex" data-classement-target="result3"></div>
                     <div class="d-flex" data-classement-target="result4"></div>
                 </div>
-
             </div>
-
-
         </div>
     </div>
 
