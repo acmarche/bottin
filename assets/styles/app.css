@@ -1,5 +1,6 @@
 @import '~bootstrap';
 @import "~leaflet";
+@import '~lightgallery/css/lightgallery-bundle.min.css';
 
 .search-preview {
     position: absolute;
