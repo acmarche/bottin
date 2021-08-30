@@ -64,12 +64,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         $services->set(Adapter::class)->args(
             [
                 [
-                    '$host' => '%env(ACLDAP_URL)%',
-                    '$port' => 636,
-                    '$encryption' => 'ssl',
-                    '$options' => [
-                        '$protocole_version' => 3,
-                        '$referrals' => false,
+                    'host' => '%env(ACLDAP_URL)%',
+                    'port' => 636,
+                    'encryption' => 'ssl',
+                    'options' => [
+                        'protocol_version' => 3,
+                        'referrals' => false,
                     ],
                 ],
             ]
