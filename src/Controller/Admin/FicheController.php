@@ -8,6 +8,7 @@ use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Form\FicheType;
 use AcMarche\Bottin\Form\Search\SearchFicheType;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
@@ -35,19 +36,22 @@ class FicheController extends AbstractController
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
     private SearchEngineInterface $searchEngine;
+    private HistoryUtils $historyUtils;
 
     public function __construct(
         PathUtils $pathUtils,
         ClassementRepository $classementRepository,
         FicheRepository $ficheRepository,
         HoraireService $horaireService,
-        SearchEngineInterface $searchEngine
+        SearchEngineInterface $searchEngine,
+        HistoryUtils $historyUtils
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->horaireService = $horaireService;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->searchEngine = $searchEngine;
+        $this->historyUtils = $historyUtils;
     }
 
     /**
@@ -58,7 +62,7 @@ class FicheController extends AbstractController
     public function index(Request $request): Response
     {
         $session = $request->getSession();
-        $args = $hits = $response = $fiches = [];
+        $args = $fiches = [];
 
         if ($session->has('fiche_search')) {
             $args = json_decode($session->get('fiche_search'), true);
@@ -108,6 +112,7 @@ class FicheController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ficheRepository->insert($fiche);
 
+            $this->historyUtils->newFiche($fiche);
             $this->dispatchMessage(new FicheCreated($fiche->getId()));
 
             $this->addFlash('success', 'La fiche a bien été crée');
@@ -168,6 +173,7 @@ class FicheController extends AbstractController
             $horaires = $data->getHoraires();
             $this->horaireService->handleEdit($fiche, $horaires);
 
+            $this->historyUtils->diffFiche($fiche);
             $this->ficheRepository->flush();
 
             $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));

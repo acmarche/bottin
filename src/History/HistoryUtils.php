@@ -41,6 +41,7 @@ class HistoryUtils
         $toArrayEntity = $this->ficheToArray($fiche);
         unset($toArrayEntity['created_at']);
         unset($toArrayEntity['updated_at']);
+        unset($toArrayEntity['id']);
         $changes = array_diff_assoc($toArrayEntity, $originalData);
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
@@ -85,6 +86,13 @@ class HistoryUtils
         $path = $this->pathUtils->getPath($category);
         $classementPath = join(' > ', $path);
         $this->createForFiche($fiche, $username, 'classement', $action, $classementPath);
+        $this->historyRepository->flush();
+    }
+
+    public function newFiche(Fiche $fiche)
+    {
+        $username = $this->getUsername();
+        $this->createForFiche($fiche, $username, 'new', '', '');
         $this->historyRepository->flush();
     }
 }
