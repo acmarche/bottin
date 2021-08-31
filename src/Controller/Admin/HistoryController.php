@@ -40,4 +40,19 @@ class HistoryController extends AbstractController
         );
     }
 
+    /**
+     * @Route("/", name="bottin_admin_history_index")
+     */
+    public function index(): Response
+    {
+        $histories = $this->historyRepository->findOrdered();
+dump($histories);
+        return $this->render(
+            '@AcMarcheBottin/admin/history/index.html.twig',
+            [
+                'histories' => $histories,
+            ]
+        );
+    }
+
 }

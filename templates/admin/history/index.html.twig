@@ -1,0 +1,15 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <h3 class="card-header">Les 100 dernières modifications</h3>
+
+        <div class="card-body">
+            <table class="table">
+                {% for history in histories %}
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

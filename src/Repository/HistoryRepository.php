@@ -29,10 +29,27 @@ class HistoryRepository extends ServiceEntityRepository
     public function findByFiche(Fiche $fiche)
     {
         return $this->createQueryBuilder('h')
+            ->leftJoin('h.fiche', 'fiche', 'WITH')
+            ->addSelect('fiche')
             ->andWhere('h.fiche = :fiche')
             ->setParameter('fiche', $fiche)
             ->orderBy('h.createdAt', 'DESC')
             ->setMaxResults(100)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return History[] Returns an array of History objects
+     */
+    public function findOrdered()
+    {
+        return $this->createQueryBuilder('h')
+            ->leftJoin('h.fiche', 'fiche', 'WITH')
+            ->addSelect('fiche')
+            ->orderBy('h.createdAt', 'DESC')
+            ->setMaxResults(100)
+            ->groupBy('h.fiche')
             ->getQuery()
             ->getResult();
     }
