@@ -5,10 +5,27 @@
         <h3 class="card-header">Les 100 dernières modifications</h3>
 
         <div class="card-body">
-            <table class="table">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Par</th>
+                    <th>Propriété</th>
+                    <th>Ancienne valeur</th>
+                    <th>Nouvelle valeur</th>
+                    <th>Le</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for history in histories %}
-
+                    <tr>
+                        <td>{{ history.madeBy }}</td>
+                        <td>{{ history.property }}</td>
+                        <td>{{ history.oldValue }}</td>
+                        <td>{{ history.newValue }}</td>
+                        <td>{{ history.createdAt | format_datetime('full', 'short') }}</td>
+                    </tr>
                 {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>

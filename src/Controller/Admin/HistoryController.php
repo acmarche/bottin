@@ -46,7 +46,7 @@ class HistoryController extends AbstractController
     public function index(): Response
     {
         $histories = $this->historyRepository->findOrdered();
-dump($histories);
+
         return $this->render(
             '@AcMarcheBottin/admin/history/index.html.twig',
             [
