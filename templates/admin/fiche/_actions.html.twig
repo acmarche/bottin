@@ -1,33 +1,53 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
+    <div class="row gy-2 gx-1 align-items-center d-print-none">
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_fiche_edit', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button"><i class="far fa-edit"></i> Editer</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_fiche_edit', { 'id': fiche.id }) }}" class="btn btn-primary"
-       role="button"><i class="far fa-edit"></i> Editer</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_classement_new', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button">
+                <i class="fas fa-th-list"></i> Ses classements</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_classement_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="fas fa-th-list"></i> Ses classements</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_image_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
+                <i class="far fa-images"></i> Images</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_image_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="far fa-images"></i> Images</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_document_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
+                <i class="far fa-folder"></i> Document</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_document_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="far fa-folder"></i> Document</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_map_edit', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
+                <i class="fas fa-map-marker-alt"></i> Géolocalisation</a></div>
 
-    <a href="{{ path('bottin_admin_map_edit', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="fas fa-map-marker-alt"></i> Géolocalisation</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button">
+                <i class="fas fa-history"></i> Historique</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="fas fa-history"></i> Historique</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_export_fiche_pdf', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button">
+                <i class="far fa-file-pdf"></i> Pdf</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_export_fiche_pdf', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-        <i class="far fa-file-pdf"></i> Pdf</a>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_fiche_index') }}" class="btn btn-primary" role="button">
+                <i class="fas fa-list"></i> Retour à la liste</a>
+        </div>
 
-    <a href="{{ path('bottin_admin_fiche_index') }}" class="btn btn-primary" role="button">
-        <i class="fas fa-list"></i> Retour à la liste</a>
-
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="fas fa-trash"></i> Supprimer la fiche
-    </button>
-
+        <div class="col-auto">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fas fa-trash"></i> Supprimer la fiche
+            </button>
+        </div>
+    </div>
     <br/>
     <br/>
 {% endif %}
