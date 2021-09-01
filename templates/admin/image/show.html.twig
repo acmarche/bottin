@@ -3,7 +3,7 @@
 {% block body -%}
     <div class="card">
         <div class="card-header">
-            <h3>Image de <a href="{{ path('bottin_admin_fiche_show', {'id' : fiche.id }) }}">{{ fiche }}</a></h3>
+            <h3>Image de <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche }}</a></h3>
         </div>
         <div class="card-body">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">

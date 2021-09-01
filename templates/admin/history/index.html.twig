@@ -20,7 +20,7 @@
                 {% for history in histories %}
                     <tr>
                         <td>
-                            <a href="{{ path('bottin_admin_fiche_show', {'id': history.fiche.id}) }}">
+                            <a href="{{ bottin_url_fiche_show(history.fiche) }}">
                                 {{ history.fiche }}
                             </a>
                         </td>

@@ -44,7 +44,7 @@
                         {% set fiche = hit.data %}
                         <tr>
                             <td>
-                                <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}"
+                                <a href="{{ bottin_url_fiche_show(fiche) }}"
                                    title="Détail de la fiche">
                                     {{ fiche.societe }}
                                 </a>

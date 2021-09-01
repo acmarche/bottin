@@ -43,4 +43,13 @@ class TokenRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findOneByUuid(string $tokenParam): ?Token
+    {
+         return $this->createQueryBuilder('token')
+            ->andWhere('token.uuid = :val')
+            ->setParameter('val', $tokenParam)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

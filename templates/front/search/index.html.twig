@@ -3,10 +3,10 @@
 {% block body %}
     <div class="card">
         <div class="card-header">
-            <h3>Recherche "{{ keyword }}"</h3>
+            <h3>Rechercher {% if keyword %}"{{ keyword }}"{% endif %}</h3>
         </div>
         <div class="card-body">
-            {#{ form(form) }#}
+            {# { form(form) } #}
 
             <div class="input-group"
                     {{ stimulus_controller('search', {url: path('bottin_front_search_ajax')}) }}>

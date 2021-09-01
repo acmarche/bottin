@@ -13,7 +13,7 @@
 
             {% include '@AcMarcheBottin/admin/fiche/_form.html.twig' %}
 
-            <a href="{{ path('bottin_admin_fiche_show', {'id' : fiche.id }) }}" class="btn btn-secondary">
+            <a href="{{ bottin_url_fiche_show(fiche) }}" class="btn btn-secondary">
              <i class="fas fa-long-arrow-alt-left"></i> Annuler
             </a>
         </div>

@@ -32,7 +32,7 @@
                     {% for fiche in fiches %}
                         <tr>
                             <td>
-                                <a href="{{ path('bottin_admin_fiche_show', { 'id': fiche.id }) }}"
+                                <a href="{{ bottin_url_fiche_show(fiche) }}"
                                    title="Détail de la fiche">{{ fiche.societe }}</a>
                             </td>
                             <td>{{ fiche.rue }}</td>

@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
             <h3>
-                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}">{{ fiche }}</a>
+                <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche }}</a>
             </h3>
         </div>
         <div class="card-body">
@@ -24,7 +24,7 @@
                     Suivant
                 </button>
             {% else %}
-                <a href="{{ path('bottin_backend_fiche_show', {'uuid': token.uuid}) }}"
+                <a href="{{ bottin_url_fiche_show(fiche) }}"
                    class="btn btn-primary mr-1 mb-2"
                    type="submit"><i class="fas fa-check" aria-hidden="true"></i>
                     Terminer

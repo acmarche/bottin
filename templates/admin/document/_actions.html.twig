@@ -2,7 +2,7 @@
     <a href="{{ path('bottin_admin_document_edit', { 'id': document.id }) }}" class="btn btn-primary"
        role="button"><i class="far fa-edit"></i> Editer</a>
 
-    <a href="{{ path('bottin_admin_fiche_show',{'id': document.fiche.id}) }}" class="btn btn-primary">
+    <a href="{{ bottin_url_fiche_show(fiche) }}" class="btn btn-primary">
         <i class="fas fa-long-arrow-alt-left"></i> Retour à la fiche
     </a>
 
