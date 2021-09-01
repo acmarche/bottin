@@ -1,0 +1,15 @@
+{% extends '@email/default/notification/body.html.twig' %}
+{% block lead %}
+    <p class="lead">
+        {{ subject }}
+    </p>
+{% endblock %}
+
+{% block content %}
+
+    De: {{ nom }}
+
+    Message: {{ content|nl2br }}
+
+{% endblock %}
+

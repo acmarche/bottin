@@ -4,11 +4,13 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
-use AcMarche\Bottin\Mailer\Mailer;
+use AcMarche\Bottin\Mailer\MailFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,13 +21,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PublipostageController extends AbstractController
 {
-    private Mailer $mailer;
+    private MailerInterface $mailer;
     private ExportUtils $exportUtils;
+    private MailFactory $mailFactory;
 
-    public function __construct(Mailer $mailer, ExportUtils $exportUtils)
+    public function __construct(MailerInterface $mailer, MailFactory $mailFactory, ExportUtils $exportUtils)
     {
         $this->mailer = $mailer;
         $this->exportUtils = $exportUtils;
+        $this->mailFactory = $mailFactory;
     }
 
     /**
@@ -45,11 +49,22 @@ class PublipostageController extends AbstractController
             foreach ($fiches as $fiche) {
                 $message = $data['message'];
                 $message = $this->exportUtils->replaceUrlToken($fiche, $message);
-                $this->mailer->sendMessage($data['from'], $data['subject'], $message, $fiche);
+                $email = $this->mailFactory->mailMessageToFiche($data['from'], $data['subject'], $message, $fiche);
+                try {
+                    $this->mailer->send($email);
+                    $this->addFlash('success', 'Votre message a bien été envoyé');
+                } catch (TransportExceptionInterface $e) {
+                    $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
+                }
                 break;
             }
-            $this->mailer->sendMessage($data['from'], $data['subject'], $data['message'], $fiche);
-            $this->addFlash('success', 'Message envoyé');
+            $email = $this->mailFactory->mailMessageToFiche($data['from'], $data['subject'], $data['message'], $fiche);
+            try {
+                $this->mailer->send($email);
+                $this->addFlash('success', 'Votre message a bien été envoyé');
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
+            }
 
             return $this->redirectToRoute('bottin_admin_publipostage');
         }

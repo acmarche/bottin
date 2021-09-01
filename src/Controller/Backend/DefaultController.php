@@ -4,12 +4,13 @@ namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\ContactType;
-use AcMarche\Bottin\Mailer\Mailer;
+use AcMarche\Bottin\Mailer\MailFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,11 +20,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DefaultController extends AbstractController
 {
-    private Mailer $mailer;
+    private MailerInterface $mailer;
+    private MailFactory $mailFactory;
 
-    public function __construct(Mailer $mailer)
+    public function __construct(MailerInterface $mailer, MailFactory $mailFactory)
     {
         $this->mailer = $mailer;
+        $this->mailFactory = $mailFactory;
     }
 
     /**
@@ -49,8 +52,9 @@ class DefaultController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $email = $this->mailFactory->mailContact($data['nom'], $data['email'], $data['message']);
             try {
-                $this->mailer->sendContact($data['nom'], $data['email'], $data['message']);
+                $this->mailer->send($email);
                 $this->addFlash('success', 'Votre message a bien été envoyé');
             } catch (TransportExceptionInterface $e) {
                 $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());

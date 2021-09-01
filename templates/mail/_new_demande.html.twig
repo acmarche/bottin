@@ -1,0 +1,16 @@
+{% extends '@email/default/notification/body.html.twig' %}
+{% block lead %}
+    <p class="lead">
+        {{ email.subject }}
+    </p>
+{% endblock %}
+
+{% block content %}
+    Pour la fiche {{ fiche.societe }}
+
+    Vous pouvez aller valider sur
+
+    {{ absolute_url(path('bottin_admin_demande')) }}
+
+{% endblock %}
+

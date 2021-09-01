@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Form\DemandeType;
-use AcMarche\Bottin\Mailer\MailerBottin;
+use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Utils\PropertyUtil;
@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -27,19 +28,22 @@ class DemandeController extends AbstractController
 {
     private DemandeRepository $demandeRepository;
     private FicheRepository $ficheRepository;
-    private MailerBottin $mailerBottin;
     private PropertyUtil $propertyUtil;
+    private MailFactory $mailFactory;
+    private MailerInterface $mailer;
 
     public function __construct(
         DemandeRepository $demandeRepository,
         FicheRepository $ficheRepository,
-        MailerBottin $mailerBottin,
+        MailFactory $mailFactory,
+        MailerInterface $mailer,
         PropertyUtil $propertyUtil
     ) {
         $this->demandeRepository = $demandeRepository;
         $this->ficheRepository = $ficheRepository;
-        $this->mailerBottin = $mailerBottin;
         $this->propertyUtil = $propertyUtil;
+        $this->mailFactory = $mailFactory;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -101,9 +105,10 @@ class DemandeController extends AbstractController
             $this->ficheRepository->flush();
 
             $this->addFlash('success', 'Les changements ont bien été appliqués');
+            $email = $this->mailFactory->mailConfirmDemande($fiche);
 
             try {
-                $this->mailerBottin->sendMailConfirmDemande($fiche);
+                $this->mailer->send($email);
                 $this->addFlash('success', 'Un email de confirmation à bien été envoyé');
             } catch (TransportExceptionInterface $e) {
                 $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());

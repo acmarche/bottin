@@ -4,30 +4,33 @@ namespace AcMarche\Bottin\Service;
 
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Entity\DemandeMeta;
-use AcMarche\Bottin\Mailer\MailerBottin;
+use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Exception;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 
 class DemandeHandler
 {
     private FicheRepository $ficheRepository;
     private DemandeRepository $demandeRepository;
     private DemandeMetaRepository $demandeMetaRepository;
-    private MailerBottin $mailerBottin;
+    private MailFactory $mailFactory;
+    private MailerInterface $mailer;
 
     public function __construct(
         FicheRepository $ficheRepository,
         DemandeRepository $demandeRepository,
         DemandeMetaRepository $demandeMetaRepository,
-        MailerBottin $mailerBottin
+        MailFactory $mailFactory,
+        MailerInterface $mailer
     ) {
         $this->ficheRepository = $ficheRepository;
         $this->demandeRepository = $demandeRepository;
         $this->demandeMetaRepository = $demandeMetaRepository;
-        $this->mailerBottin = $mailerBottin;
+        $this->mailFactory = $mailFactory;
+        $this->mailer = $mailer;
     }
 
     public function handle(array $data): array
@@ -56,13 +59,13 @@ class DemandeHandler
 
         $this->demandeRepository->flush();
         $this->demandeMetaRepository->flush();
-
+        $email = $this->mailFactory->mailNewDemande($fiche);
         try {
-            $this->mailerBottin->sendMailNewDemande($fiche);
-        } catch (TransportExceptionInterface | Exception $e) {
+            $this->mailer->send($email);
+
+            return ['error' => 0];
+        } catch (TransportExceptionInterface $e) {
             return ['error' => $e->getMessage()];
         }
-
-        return ['error' => 0];
     }
 }
