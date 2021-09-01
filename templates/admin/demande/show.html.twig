@@ -64,9 +64,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             var btns = document.querySelectorAll('.btncancel');
             Array.prototype.forEach.call(btns, function (btn, i) {
-                midi.addEventListener('click', () => {
-                    var datajf = btn.getAttribute("data-jf");
-                    document.querySelectorAll("#meta-" + datajf).disabled = !document.querySelectorAll("#meta-" + datajf).disabled;
+                btn.addEventListener('change', () => {
+                    let input = document.querySelector("#meta-" + btn.getAttribute("data-jf"));
+                    input.disabled = !input.disabled;
                 })
             });
         });
