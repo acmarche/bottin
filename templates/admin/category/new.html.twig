@@ -1,7 +1,7 @@
 {% extends '@AcMarcheBottin/front/layout.html.twig' %}
 
 {% block body -%}
-    <div class="card mb-3">
+    <div class="card">
         <div class="card-header">
             <h3>Nouvelle catégorie {% if parent %}<strong>dans {{ parent }}</strong> {% endif %}</h3>
         </div>
@@ -9,7 +9,7 @@
 
             {% include '@AcMarcheBottin/admin/category/_form.html.twig' %}
 
-            <a href="{{ path('bottin_admin_category') }}" class="float-right">
+            <a href="{{ path('bottin_admin_category') }}" class="float-end">
                 <i class="fas fa-long-arrow-alt-left"></i> Annuler
             </a>
         </div>

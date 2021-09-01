@@ -1,9 +1,11 @@
 {% extends '@AcMarcheBottin/front/layout.html.twig' %}
 
 {% block body %}
-    <div class="page-header">
-        <h3>Liste des adresses</h3>
-    </div>
+
+    <div class="card">
+        <h3 class="card-header">Liste des adresses</h3>
+
+        <div class="card-body">
     {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
         <a href="{{ path('bottin_admin_adresse_new') }}" class="btn btn-primary" role="button">
@@ -34,5 +36,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+        </div>
+        </div>
 {% endblock %}

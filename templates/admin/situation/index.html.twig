@@ -1,36 +1,40 @@
 {% extends '@AcMarcheBottin/front/layout.html.twig' %}
 
 {% block body %}
-    <div class="page-header">
-        <h3>Liste des situations</h3>
+    <div class="card">
+        <h3 class="card-header">Liste des situations</h3>
+
+        <div class="card-body">
+
+
+            {% if is_granted('ROLE_BOTTIN_ADMIN') %}
+
+                <a href="{{ path('bottin_admin_situation_new') }}" class="btn btn-primary" role="button"><i
+                            class="glyphicon glyphicon-plus"></i> Ajouter</a>
+                <br/><br/>
+
+            {% endif %}
+
+            <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Fiches</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for situation in situations %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('bottin_admin_situation_show', { 'id': situation.id }) }}">
+                                {{ situation.name }}
+                            </a>
+                        </td>
+                        <td>{{ situation.fiches | length }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-
-        <a href="{{ path('bottin_admin_situation_new') }}" class="btn btn-primary" role="button"><i
-                    class="glyphicon glyphicon-plus"></i> Ajouter</a>
-        <br/><br/>
-
-    {% endif %}
-
-    <table class='table table-bordered table-hover'>
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Fiches</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for situation in situations %}
-            <tr>
-                <td>
-                    <a href="{{ path('bottin_admin_situation_show', { 'id': situation.id }) }}">
-                        {{ situation.name }}
-                    </a>
-                </td>
-                <td>{{ situation.fiches | length }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
 {% endblock %}
