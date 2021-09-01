@@ -1,7 +1,7 @@
 {% for hit in hits %}
     {% set fiche = hit.data %}
     <li class="list-group-item" role="option" data-autocomplete-valu22e="{{ fiche.id }}" style="cursor: pointer;">
-        <a href="{{ path('bottin_front_fiche_show', {'slug': fiche.slug}) }}">{{ fiche.societe }} {{ fiche.localite }}</a>
+        <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche.societe }} {{ fiche.localite }}</a>
     </li>
 {% else %}
     <li class="list-group-item" role="option" aria-disabled="true">No results found!</li>
