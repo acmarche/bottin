@@ -1,16 +1,12 @@
 {% extends '@AcMarcheBottin/front/layout.html.twig' %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/acmarchebottin/dropzone/dropzone.css') }}">
-{% endblock %}
-
 {% block body -%}
     <div class="card">
         <div class="card-header">
             <h3>Images de <a href="{{ path('bottin_admin_fiche_show',{'id': fiche.id}) }}">{{ fiche }}</a></h3>
         </div>
         <div class="card-body">
-            {{ form_start(form, {'attr':{'id': 'formdrop','class': 'dropzone jumbotron'}}) }}
+            {{ form_start(form, { 'attr': {'id': 'formdrop','class': 'mt-3 dropzone', 'data-controller': 'dropzone'}}) }}
             {{ form_errors(form) }}
 
             <div class="dz-message d-flex flex-column">
@@ -20,17 +16,4 @@
             {{ form_end(form) }}
         </div>
     </div>
-{% endblock %}
-{% block scripts %}
-    <script src="{{ asset('bundles/acmarchebottin/dropzone/dropzone.js') }}"></script>
-    <script type="text/javascript">
-        Dropzone.options.formdrop = {
-            dictDefaultMessage: "Glissez ici vos images ou cliquez sur cette zone pour ajouter des photos",
-            init: function () {
-                this.on("addedfile", function (file) {
-                    console.log("finished");
-                });
-            }
-        };
-    </script>
 {% endblock %}
