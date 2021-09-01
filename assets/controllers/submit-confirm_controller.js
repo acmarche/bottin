@@ -1,6 +1,5 @@
-import { Controller } from 'stimulus';
-import Swal from 'sweetalert2';
-import { useDispatch } from 'stimulus-use';
+import {Controller} from 'stimulus';
+import {useDispatch} from 'stimulus-use';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -18,20 +17,6 @@ export default class extends Controller {
 
     onSubmit(event) {
         event.preventDefault();
-
-        Swal.fire({
-            title: this.titleValue || null,
-            text: this.textValue || null,
-            icon: this.iconValue || null,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: this.confirmButtonTextValue || 'Yes',
-            showLoaderOnConfirm: true,
-            preConfirm: () => {
-                return this.submitForm();
-            }
-        });
     }
 
     async submitForm() {
