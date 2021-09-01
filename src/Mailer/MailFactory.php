@@ -44,7 +44,7 @@ class MailFactory
             ->htmlTemplate('@AcMarcheBottin/mail/_frombottin.html.twig')
             ->context(
                 [
-                    'importance' => 'low',
+                    'importance' => 'HIGH',
                     'nom' => $nom,
                     'from' => $from,
                     'content' => $message,
