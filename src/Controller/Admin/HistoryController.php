@@ -54,5 +54,4 @@ class HistoryController extends AbstractController
             ]
         );
     }
-
 }

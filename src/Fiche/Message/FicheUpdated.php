@@ -18,9 +18,6 @@ class FicheUpdated
         return $this->ficheId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOldAddress(): ?string
     {
         return $this->oldAddress;

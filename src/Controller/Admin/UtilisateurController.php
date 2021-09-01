@@ -51,7 +51,7 @@ class UtilisateurController extends AbstractController
     /**
      * Displays a form to create a new Utilisateur utilisateur.
      *
-     * @Route("/new", name="bottin_admin_utilisateur_new", methods={"GET","POST"})
+     * @Route("/new", name="bottin_admin_utilisateur_new", methods={"GET", "POST"})
      */
     public function new(Request $request): Response
     {
@@ -99,7 +99,7 @@ class UtilisateurController extends AbstractController
     /**
      * Displays a form to edit an existing Utilisateur utilisateur.
      *
-     * @Route("/{id}/edit", name="bottin_admin_utilisateur_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="bottin_admin_utilisateur_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, User $user): Response
     {
@@ -130,7 +130,7 @@ class UtilisateurController extends AbstractController
      */
     public function delete(Request $request, User $user): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();

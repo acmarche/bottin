@@ -26,7 +26,7 @@ final class FixtureLoader
 
     public function getPath(): string
     {
-        return $this->parameterBag->get('kernel.project_dir') . '/src/AcMarche/Bottin/src/Fixture/Files/';
+        return $this->parameterBag->get('kernel.project_dir').'/src/AcMarche/Bottin/src/Fixture/Files/';
     }
 
     public function load(): void
@@ -34,10 +34,10 @@ final class FixtureLoader
         $path = $this->getPath();
 
         $files = [
-            $path . 'fiche.yaml',
-            $path . 'adresse.yaml',
+            $path.'fiche.yaml',
+            $path.'adresse.yaml',
             //  $path.'category.yaml',
-            $path . 'user.yaml',
+            $path.'user.yaml',
         ];
 
         $this->loader->load($files, [], [], PurgeMode::createTruncateMode());

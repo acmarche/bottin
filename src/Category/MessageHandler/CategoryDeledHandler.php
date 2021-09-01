@@ -20,7 +20,7 @@ class CategoryDeledHandler implements MessageHandlerInterface
     {
         $this->flashBag->add(
             'success',
-            "La catégorie a bien été supprimée"
+            'La catégorie a bien été supprimée'
         );
     }
 }

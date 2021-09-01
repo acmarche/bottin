@@ -6,7 +6,6 @@ use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Classement\Message\ClassementCreated;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\ClassementSimpleType;
-use AcMarche\Bottin\Form\ClassementType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;

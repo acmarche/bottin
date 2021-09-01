@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 interface LocationReverseInterface
@@ -8,7 +7,6 @@ interface LocationReverseInterface
     /**
      * @param $latitude
      * @param $longitude
-     * @return array
      */
     public function reverse($latitude, $longitude): array;
 

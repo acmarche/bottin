@@ -13,6 +13,7 @@ class SuggestUtils
     {
         $suggest = $this->getSuggest($response, 'societe_suggest');
         dump($suggest);
+
         return $suggest;
         if (!isset($suggest[0])) {
             return [];

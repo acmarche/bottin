@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Pdv;

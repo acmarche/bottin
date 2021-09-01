@@ -83,7 +83,7 @@ class AdresseController extends AbstractController
     /**
      * Finds and displays a Lieu entity.
      *
-     * @Route("/{id}", name="bottin_admin_adresse_show", methods={"GET","POST"})
+     * @Route("/{id}", name="bottin_admin_adresse_show", methods={"GET", "POST"})
      */
     public function show(Request $request, Adresse $adresse): Response
     {
@@ -96,6 +96,7 @@ class AdresseController extends AbstractController
             $this->adresseRepository->flush();
 
             $this->addFlash('success', 'La géolocalisation a bien été modifiée');
+
             return $this->redirectToRoute('bottin_admin_adresse_show', ['id' => $adresse->getId()]);
         }
 

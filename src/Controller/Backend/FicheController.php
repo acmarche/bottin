@@ -113,5 +113,4 @@ class FicheController extends AbstractController
     {
         return $this->redirectToRoute('bottin_front_home');
     }
-
 }

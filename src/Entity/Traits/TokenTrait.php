@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Token;
@@ -13,17 +12,11 @@ trait TokenTrait
      */
     private ?Token $token = null;
 
-    /**
-     * @return Token|null
-     */
     public function getToken(): ?Token
     {
         return $this->token;
     }
 
-    /**
-     * @param Token|null $token
-     */
     public function setToken(?Token $token): void
     {
         $this->token = $token;

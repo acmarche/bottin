@@ -56,7 +56,7 @@ class FeatureContext extends RawMinkContext
     public function iAmOnThePageShowEntry(string $name): void
     {
         $fiche = $this->ficheRepository->findOneBy(['societe' => $name]);
-        $path = '/fiche/show/' . $fiche->getId();
+        $path = '/fiche/show/'.$fiche->getId();
         $this->visitPath($path);
     }
 

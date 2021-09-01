@@ -1,8 +1,6 @@
 <?php
 
-
 namespace AcMarche\Bottin\Doctrine;
-
 
 use Doctrine\ORM\EntityManager;
 

@@ -64,8 +64,8 @@ class Hades
 
     public function getIdOffre(SimpleXMLElement $element): int
     {
-        if ($element->attributes() !== null && $element->attributes()->id !== null) {
-            return (int)$element->attributes()->id;
+        if (null !== $element->attributes() && null !== $element->attributes()->id) {
+            return (int) $element->attributes()->id;
         }
 
         return 0;

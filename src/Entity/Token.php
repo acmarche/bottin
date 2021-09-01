@@ -30,7 +30,7 @@ class Token implements TimestampableInterface
     protected ?Fiche $fiche = null;
 
     /**
-     * @ORM\Column(type="date",nullable=false)
+     * @ORM\Column(type="date", nullable=false)
      */
     protected DateTimeInterface $expireAt;
 

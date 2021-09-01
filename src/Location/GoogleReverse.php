@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use Symfony\Component\HttpClient\Exception\ClientException;
@@ -10,8 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * https://developers.google.com/maps/documentation/geocoding/start
- * Class GoogleReverse
- * @package AcMarche\Avaloir\Location
+ * Class GoogleReverse.
  */
 class GoogleReverse implements LocationReverseInterface
 {
@@ -30,7 +28,6 @@ class GoogleReverse implements LocationReverseInterface
     /**
      * @param $latitude
      * @param $longitude
-     * @return array
      */
     public function reverse($latitude, $longitude): array
     {
@@ -43,7 +40,7 @@ class GoogleReverse implements LocationReverseInterface
                         //'location_type' => 'ROOFTOP',
                         'result_type' => 'street_address',
                         'key' => $this->apiKeyGoogle,
-                        'latlng' => $latitude . ',' . $longitude,
+                        'latlng' => $latitude.','.$longitude,
                     ],
                 ]
             );

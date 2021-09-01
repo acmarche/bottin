@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -10,10 +9,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ContactType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
@@ -26,7 +21,5 @@ class ContactType extends AbstractType
                     'attr' => ['rows' => 5],
                 ]
             );
-
     }
-
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Hades;
 
 use AcMarche\Bottin\Hades\Entity\Hotel;

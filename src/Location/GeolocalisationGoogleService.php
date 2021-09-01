@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use AcMarche\Bottin\Entity\Fiche;
@@ -30,16 +29,13 @@ class GeolocalisationGoogleService
     }
 
     /**
-     * @param Fiche $fiche
-     *
-     *
      * @throws Exception
      */
     public function convertToCoordonate(Fiche $fiche, $withNum = true): array
     {
         $location = [];
 
-        $adresse = urlencode($this->getAdresseGeocode($fiche, $withNum) . ' BE');
+        $adresse = urlencode($this->getAdresseGeocode($fiche, $withNum).' BE');
 
         try {
             $request = $this->httpClient->request(
@@ -70,7 +66,7 @@ class GeolocalisationGoogleService
 
         $coordonates = json_decode($content, true);
 
-        if (is_array($coordonates)) {
+        if (\is_array($coordonates)) {
             if (isset($coordonates['error_message'])) {
                 throw new Exception($coordonates['error_message']);
             }
@@ -92,15 +88,15 @@ class GeolocalisationGoogleService
         return $location;
     }
 
-    private function getAdresseGeocode(Fiche  $fiche, bool $withNumero = true): ?string
+    private function getAdresseGeocode(Fiche $fiche, bool $withNumero = true): ?string
     {
         if ($fiche->getRue()) {
             $adresse = '';
             if ($fiche->getNumero() && $withNumero) {
-                $adresse = $fiche->getNumero() . ' ';
+                $adresse = $fiche->getNumero().' ';
             }
 
-            return $adresse . $fiche->getRue() . ' ' . $fiche->getCp() . ' ' . $fiche->getLocalite() . ' Belgium';
+            return $adresse.$fiche->getRue().' '.$fiche->getCp().' '.$fiche->getLocalite().' Belgium';
         } else {
             return 'Rue du Commerce Marche-en-Famenne Beligum';
         }

@@ -11,9 +11,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\ClassementRepository")
  * @ORM\Table(name="classements", uniqueConstraints={
- * @ORM\UniqueConstraint(name="classement_idx", columns={"fiche_id", "category_id"})})
+ *     @ORM\UniqueConstraint(name="classement_idx", columns={"fiche_id", "category_id"})})
  * @UniqueEntity(fields={"fiche", "category"}, message="Déjà dans ce classement")
- *  @ApiResource(
+ * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )

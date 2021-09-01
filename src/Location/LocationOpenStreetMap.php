@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use Symfony\Component\HttpClient\HttpClient;
@@ -22,8 +21,8 @@ class LocationOpenStreetMap implements LocationInterface
     }
 
     /**
-     * @param string $query
      * @return mixed
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -37,7 +36,7 @@ class LocationOpenStreetMap implements LocationInterface
             [
                 'query' => [
                     'format' => 'json',
-                    'q' => $query . ' Belgium',
+                    'q' => $query.' Belgium',
                     'addressdetails' => 1,
                 ],
             ]

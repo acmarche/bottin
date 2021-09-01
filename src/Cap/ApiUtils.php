@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Cap;
 
 use AcMarche\Bottin\Entity\Category;
@@ -48,7 +47,6 @@ class ApiUtils
 
     /**
      * @param Category[] $data
-     * @return array
      */
     public function prepareCategories(array $data): array
     {
@@ -98,15 +96,15 @@ class ApiUtils
     public function prepareFiche(Fiche $fiche): array
     {
         $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
-        $dataFiche['classements'] = $this->getClassementsForApi($fiche);//only eco !!
+        $dataFiche['classements'] = $this->getClassementsForApi($fiche); //only eco !!
         $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
         $dataFiche['images'] = $this->getImages($fiche);
         $urls = [];
         foreach ($dataFiche['images'] as $image) {
-            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
         $logo = null;
-        if (count($urls) > 0) {
+        if (\count($urls) > 0) {
             $logo = $urls[0];
         }
         $dataFiche['logo'] = $logo;
@@ -122,9 +120,9 @@ class ApiUtils
         $dataFiche['images'] = $this->getImages($fiche);
         $urls = [];
         foreach ($dataFiche['images'] as $image) {
-            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
-        $dataFiche['logo'] = count($urls > 0) > 0 ? $urls[0] : null;
+        $dataFiche['logo'] = \count($urls > 0) > 0 ? $urls[0] : null;
         $dataFiche['photos'] = $urls;
 
         return $dataFiche;
@@ -181,10 +179,6 @@ class ApiUtils
         return $data;
     }
 
-    /**
-     * @param array $data
-     * @return array
-     */
     public function prepareCategoriesForAndroid(array $data): array
     {
         $categories = [];

@@ -33,7 +33,6 @@ class TokenRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-
     public function isValid(Fiche $fiche, DateTimeInterface $date): ?Token
     {
         return $this->createQueryBuilder('token')

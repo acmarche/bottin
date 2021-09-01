@@ -1,13 +1,12 @@
 <?php
 
-
 namespace AcMarche\Bottin\Hades\Entity;
 
 class Hotel implements OffreInterface
 {
     public function getId(): int
     {
-        return (int)$this->hot_id[0];
+        return (int) $this->hot_id[0];
     }
 
     public function getTitre(): string
@@ -17,7 +16,7 @@ class Hotel implements OffreInterface
 
     public function getDescriptions(): array
     {
-        $comments1 = $this->hot_desc_com_fr . ' ' . $this->hot_remarque_fr;
+        $comments1 = $this->hot_desc_com_fr.' '.$this->hot_remarque_fr;
 
         return [$comments1, $this->getHoraire(), $this->hot_desc_fr];
     }

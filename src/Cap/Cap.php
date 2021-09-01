@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Cap;
 
 class Cap

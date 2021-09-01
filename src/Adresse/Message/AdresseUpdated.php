@@ -18,9 +18,6 @@ class AdresseUpdated
         return $this->adresseId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOldRue(): ?string
     {
         return $this->oldRue;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Situation;
@@ -11,7 +10,6 @@ trait SituationsTrait
 {
     /**
      * @ORM\ManyToMany(targetEntity="AcMarche\Bottin\Entity\Situation", inversedBy="fiches")
-     *
      */
     protected $situations;
 

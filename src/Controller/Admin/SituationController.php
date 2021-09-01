@@ -125,7 +125,7 @@ class SituationController extends AbstractController
      */
     public function delete(Request $request, Situation $situation): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $situation->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$situation->getId(), $request->request->get('_token'))) {
             $this->situationRepository->remove($situation);
             $this->situationRepository->flush();
             $this->addFlash('success', 'La situation a bien été supprimée');

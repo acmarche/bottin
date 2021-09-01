@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Hades\Entity;
 
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -25,7 +24,6 @@ class Description
     public string $typ;
     /**
      * @var Titre[]
-     *
      */
     public array $lib;
 

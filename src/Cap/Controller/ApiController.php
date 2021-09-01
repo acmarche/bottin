@@ -164,7 +164,7 @@ class ApiController extends AbstractController
      * Le detail de la fiche {slugname}.
      *
      * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_admin_api_fiche_by_slugname", methods={"GET"})
-     * @ParamConverter("fiche", options={"mapping": {"slugname": "slug"}})
+     * @ParamConverter("fiche", options={"mapping"={"slugname"="slug"}})
      *
      * @param Fiche $fiche
      */
@@ -186,7 +186,7 @@ class ApiController extends AbstractController
         $data = $request->request->all();
         $result = $this->demandeHandler->handle($data);
 
-        $this->logger->info('api update fiche result' . json_encode($result));
+        $this->logger->info('api update fiche result'.json_encode($result));
 
         return $this->json($result);
     }

@@ -35,7 +35,7 @@ class Cleaner
             '!',
             '{',
             '}',
-            chr(0),
+            \chr(0),
         ];
         $data = str_replace($special_chars, ' ', $data);
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Serializer;
 
 use AcMarche\Bottin\Entity\FicheImage;

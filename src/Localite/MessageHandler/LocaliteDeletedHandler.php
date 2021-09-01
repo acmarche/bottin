@@ -8,9 +8,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 final class LocaliteDeletedHandler implements MessageHandlerInterface
 {
     public function __invoke(LocaliteDeleted $localiteDeleted)
-    { $this->flashBag->add(
+    {
+        $this->flashBag->add(
             'success',
-            "La localité a bien été mise à jour"
+            'La localité a bien été mise à jour'
         );
     }
 }

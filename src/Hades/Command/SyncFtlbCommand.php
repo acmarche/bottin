@@ -57,7 +57,7 @@ class SyncFtlbCommand extends Command
     protected function importHotels(): void
     {
         $category = $this->categoryRepository->find(Hades::CATEGORY_HOTELS);
-        if ($category === null) {
+        if (null === $category) {
             return;
         }
 

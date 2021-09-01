@@ -67,7 +67,7 @@ class SearchController extends AbstractController
             [
                 'search_form' => $form->createView(),
                 'hits' => $hits,
-                'count'=>$count,
+                'count' => $count,
                 'localites' => $this->aggregationUtils->getAggregations($response, 'localites'),
                 'pmr' => $this->aggregationUtils->countPmr($response),
                 'midi' => $this->aggregationUtils->countMidi($response),

@@ -34,7 +34,6 @@ class DefaultController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/backend/default/index.html.twig',
             [
-
             ]
         );
     }
@@ -49,7 +48,6 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $data = $form->getData();
             try {
                 $this->mailer->sendContact($data['nom'], $data['email'], $data['message']);

@@ -58,7 +58,7 @@ class ExportPdfController extends AbstractController
 
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
-            'bottin_' . $fiche->getSlug() . '.pdf'
+            'bottin_'.$fiche->getSlug().'.pdf'
         );
     }
 
@@ -83,7 +83,7 @@ class ExportPdfController extends AbstractController
 
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
-            'bottin_' . $category->getSlug() . '.pdf'
+            'bottin_'.$category->getSlug().'.pdf'
         );
     }
 }

@@ -74,7 +74,8 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($password), $badges
+            new PasswordCredentials($password),
+            $badges
         );
     }
 

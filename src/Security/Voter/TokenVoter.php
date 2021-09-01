@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class TokenVoter extends Voter
 {
     private TokenUtils $tokenUtils;
-    const TOKEN_EDIT = 'TOKEN_EDIT';
+    public const TOKEN_EDIT = 'TOKEN_EDIT';
 
     public function __construct(
         TokenUtils $tokenUtils
@@ -22,7 +22,7 @@ class TokenVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::TOKEN_EDIT])
+        return \in_array($attribute, [self::TOKEN_EDIT])
             && $subject instanceof Token;
     }
 

@@ -128,7 +128,7 @@ class AjaxController extends AbstractController
 
         $html = '';
 
-        if (count($categories) > 0) {
+        if (\count($categories) > 0) {
             $html = $this->renderView(
                 '@AcMarcheBottin/admin/classement/_ajaxCategories.html.twig',
                 ['categories' => $categories, 'level' => $level]

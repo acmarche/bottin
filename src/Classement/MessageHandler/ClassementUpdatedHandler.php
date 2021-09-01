@@ -9,6 +9,5 @@ class ClassementUpdatedHandler implements MessageHandlerInterface
 {
     public function __invoke(ClassementUpdated $classementUpdated): void
     {
-
     }
 }

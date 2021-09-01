@@ -29,7 +29,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     normalizationContext={"groups"={"category:read"}},
  *     collectionOperations={"get"},
  *     itemOperations={"get"})
- * @ApiFilter(SearchFilter::class, properties={"name": "partial", "id": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"name"="partial", "id"="exact"})
  */
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface
 {
@@ -59,7 +59,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     protected iterable $classements;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $mobile = false;
 
@@ -85,7 +85,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
     public function getLabelHierarchical(): string
     {
-        return str_repeat('-', $this->getNodeLevel() - 1) . ' ' . $this->getName();
+        return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->getName();
     }
 
     public function getPath(): array
@@ -175,7 +175,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return $this;
     }
 
-    public function getParent(): ?\AcMarche\Bottin\Entity\Category
+    public function getParent(): ?self
     {
         return $this->parent;
     }

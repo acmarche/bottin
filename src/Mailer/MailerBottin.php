@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Mailer;
 
 use AcMarche\Bottin\Entity\Fiche;
@@ -22,7 +21,6 @@ class MailerBottin
     }
 
     /**
-     * @param Fiche $fiche
      * @throws TransportExceptionInterface
      * @throws Exception
      */
@@ -30,7 +28,7 @@ class MailerBottin
     {
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
 
-        if (0 == count($emails)) {
+        if (0 == \count($emails)) {
             throw new Exception('Aucun email n\'a été trouvé pour ce commerçant');
         }
 
@@ -47,7 +45,6 @@ class MailerBottin
     }
 
     /**
-     * @param Fiche $fiche
      * @throws TransportExceptionInterface
      * @throws Exception
      */

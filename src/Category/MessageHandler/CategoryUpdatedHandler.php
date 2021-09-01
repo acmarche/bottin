@@ -20,7 +20,7 @@ class CategoryUpdatedHandler implements MessageHandlerInterface
     {
         $this->flashBag->add(
             'success',
-            "La catégorie a bien été mise à jour"
+            'La catégorie a bien été mise à jour'
         );
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Mailer;
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;

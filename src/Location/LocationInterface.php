@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -11,8 +10,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 interface LocationInterface
 {
     /**
-     * @param string $query
      * @return mixed
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface

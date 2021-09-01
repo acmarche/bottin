@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Twig;
 
-use AcMarche\Bottin\Entity\Fiche;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 use Twig\Extension\AbstractExtension;
@@ -28,7 +27,7 @@ class BottinExtension extends AbstractExtension
 
     public function urlFiche($fiche): string
     {
-        if (is_array($fiche)) {
+        if (\is_array($fiche)) {
             $id = $fiche['id'];
             $slug = $fiche['slug'];
         } else {

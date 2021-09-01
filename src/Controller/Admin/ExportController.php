@@ -46,7 +46,6 @@ class ExportController extends AbstractController
             [
             ]
         );
-
     }
 
     /**
@@ -108,6 +107,5 @@ class ExportController extends AbstractController
         $this->addFlash('success', 'Sélection retirée');
 
         return $this->redirectToRoute('bottin_admin_export_select');
-
     }
 }

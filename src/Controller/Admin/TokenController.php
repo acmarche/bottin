@@ -8,7 +8,6 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Token\TokenUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -54,6 +53,4 @@ class TokenController extends AbstractController
 
         return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
     }
-
-
 }

@@ -90,7 +90,7 @@ class Searcher
             $this->boolQuery->addMust($matchStemmed);
         }
 
-        if (count($constraints) > 0) {
+        if (\count($constraints) > 0) {
             $this->addConstraints($constraints, $destinataire, $service);
         } else {
             if ($destinataire) {
@@ -148,7 +148,7 @@ class Searcher
         }
 
         if (null !== $destinataire) {
-            if (in_array($destinataire, $constraints['destinataires'])) {
+            if (\in_array($destinataire, $constraints['destinataires'])) {
                 $match = new MatchQuery('destinataires', $destinataire->getId());
                 $constraintQuery->addMust($match);
             } else {
@@ -158,7 +158,7 @@ class Searcher
         }
 
         if (null !== $service) {
-            if (in_array($service, $constraints['services'])) {
+            if (\in_array($service, $constraints['services'])) {
                 $match = new MatchQuery('services', $service->getId());
                 $constraintQuery->addShould($match);
             } else {

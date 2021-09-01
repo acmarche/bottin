@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Serializer;
 
 use AcMarche\Bottin\Entity\Category;
@@ -28,17 +27,17 @@ class CategorySerializer
 
     public function serializeCategory2(Category $category): array
     {
-        $parentId = $category->getParent() !== null ? $category->getParent()->getId() : 0;
+        $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
         $data['name'] = $category->getName();
         $data['description'] = $category->getDescription();
         $data['id'] = $category->getId();
-        $data['lvl'] = $category->getNodeLevel() - 1;//adaptation
+        $data['lvl'] = $category->getNodeLevel() - 1; //adaptation
         $data['lft'] = '';
         $data['rgt'] = '';
-        $data['root'] = preg_replace("#/#", "", $category->getRootMaterializedPath());
+        $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
         $data['slugname'] = $category->getSlug();
-        $data['logo'] = Bottin::url . $category->getLogo();
-        $data['logo_blanc'] = Bottin::url . $category->getLogoBlanc();
+        $data['logo'] = Bottin::url.$category->getLogo();
+        $data['logo_blanc'] = Bottin::url.$category->getLogoBlanc();
         $data['parent'] = $parentId;
 
         return $data;
@@ -46,17 +45,17 @@ class CategorySerializer
 
     public function serializePathCategoryForApi(Category $category): array
     {
-        $parentId = $category->getParent() !== null ? $category->getParent()->getId() : 0;
+        $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
         $data['parent_id'] = $parentId;
         $data['slugname'] = $category->getSlug();
         $data['slug'] = $category->getSlug();
         $data['name'] = $category->getName();
-        $data['lvl'] = $category->getNodeLevel() - 1;//adaptation
+        $data['lvl'] = $category->getNodeLevel() - 1; //adaptation
         $data['lft'] = '';
         $data['rgt'] = '';
-        $data['root'] = preg_replace("#/#", "", $category->getRootMaterializedPath());
+        $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
         $data['mobile'] = '';
         $data['logo'] = $category->getLogo();
         $data['description'] = $category->getDescription();

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Hades\Entity;
 
 interface OffreInterface

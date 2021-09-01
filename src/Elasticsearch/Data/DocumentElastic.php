@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Elasticsearch\Data;
 
 class DocumentElastic

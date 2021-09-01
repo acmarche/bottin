@@ -24,7 +24,6 @@ class AddFieldEtapeSubscriber implements EventSubscriberInterface
                 'etape',
                 HiddenType::class,
                 [
-
                 ]
             );
     }

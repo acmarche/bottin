@@ -29,20 +29,20 @@ class LocationUpdater
             //todo JSON_THROW_ON_ERROR 7.4
             $tab = json_decode($response, true);
 
-            if (is_array($tab) && 0 == count($tab)) {
-                throw new Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:' . $response);
+            if (\is_array($tab) && 0 == \count($tab)) {
+                throw new Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
             }
 
             if (false == $tab) {
-                throw new Exception('Decode json error:' . $response);
+                throw new Exception('Decode json error:'.$response);
             }
 
-            if (is_array($tab) && count($tab) > 0) {
+            if (\is_array($tab) && \count($tab) > 0) {
                 $this->setCoordinates($locationAble, $tab);
 
                 return true;
             } else {
-                throw new Exception('Convertion en latitude longitude error:' . $response);
+                throw new Exception('Convertion en latitude longitude error:'.$response);
             }
         } catch (ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
@@ -57,9 +57,9 @@ class LocationUpdater
 
     private function getAdresseString(LocationAbleInterface $locationAble): string
     {
-        return $locationAble->getNumero() . ' ' .
-            $locationAble->getRue() . ', ' .
-            $locationAble->getCp() . ' ' .
+        return $locationAble->getNumero().' '.
+            $locationAble->getRue().', '.
+            $locationAble->getCp().' '.
             $locationAble->getLocalite();
     }
 }

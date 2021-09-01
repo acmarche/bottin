@@ -21,5 +21,4 @@ class SituationRepository extends ServiceEntityRepository
     {
         parent::__construct($managerRegistry, Situation::class);
     }
-
 }

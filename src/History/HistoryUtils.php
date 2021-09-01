@@ -46,7 +46,7 @@ class HistoryUtils
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
         }
-        if (count($changes) > 0) {
+        if (\count($changes) > 0) {
             $this->historyRepository->flush();
         }
     }
@@ -84,7 +84,7 @@ class HistoryUtils
     {
         $username = $this->getUsername();
         $path = $this->pathUtils->getPath($category);
-        $classementPath = join(' > ', $path);
+        $classementPath = implode(' > ', $path);
         $this->createForFiche($fiche, $username, 'classement', $action, $classementPath);
         $this->historyRepository->flush();
     }

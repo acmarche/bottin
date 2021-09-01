@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Location;
 
 use AcMarche\Bottin\Entity\Adresse;

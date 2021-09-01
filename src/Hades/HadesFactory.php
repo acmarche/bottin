@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Hades;
 
 use AcMarche\Bottin\Entity\Category;
@@ -25,11 +24,11 @@ class HadesFactory
     {
         $fiche = $this->ficheRepository->findOneBy(['ftlb' => $offre->getId()]);
 
-        if ($fiche === null) {
+        if (null === $fiche) {
             $fiche = new Fiche();
             $fiche->setUser('ftlb');
             $fiche->setFtlb($offre->getId());
-            $fiche->setSociete($offre->getTitre());//bug slug
+            $fiche->setSociete($offre->getTitre()); //bug slug
             $this->ficheRepository->persist($fiche);
         }
 
@@ -40,7 +39,7 @@ class HadesFactory
 
     public function setClassement(Fiche $fiche, Category $category): void
     {
-        if (count($fiche->getClassements()) > 0) {
+        if (\count($fiche->getClassements()) > 0) {
             return;
         }
 
@@ -51,7 +50,7 @@ class HadesFactory
 
     public function setDescriptions(Fiche $fiche, array $descriptions): void
     {
-        if (count($descriptions) == 0) {
+        if (0 == \count($descriptions)) {
             return;
         }
 
@@ -242,15 +241,15 @@ class HadesFactory
                     break;
             }
 
-            if ($comment1 !== '') {
+            if ('' !== $comment1) {
                 $fiche->setComment1($comment1);
             }
 
-            if ($comment2 !== '') {
+            if ('' !== $comment2) {
                 $fiche->setComment1($comment2);
             }
 
-            if ($comment3 !== '') {
+            if ('' !== $comment3) {
                 $fiche->setComment1($comment3);
             }
         }

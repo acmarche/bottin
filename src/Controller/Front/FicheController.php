@@ -3,15 +3,10 @@
 namespace AcMarche\Bottin\Controller\Front;
 
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Service\FormUtils;
-use AcMarche\Bottin\Service\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

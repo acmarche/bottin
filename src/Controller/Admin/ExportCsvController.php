@@ -46,8 +46,6 @@ class ExportCsvController extends AbstractController
     /**
      * @Route("/fiches", name="bottin_admin_export_fiches_xls", methods={"GET"})
      *
-     * @return BinaryFileResponse
-     *
      * @throws Exception
      */
     public function fichesXls(): BinaryFileResponse

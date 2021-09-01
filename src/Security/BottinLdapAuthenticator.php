@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Security;
 
 use AcMarche\Bottin\Parameter\Option;
@@ -23,7 +22,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
- * Essayer de voir les events
+ * Essayer de voir les events.
+ *
  * @see UserCheckerListener::postCheckCredentials
  * @see UserProviderListener::checkPassport
  * @see CheckCredentialsListener
@@ -61,7 +61,7 @@ class BottinLdapAuthenticator extends AbstractLoginFormAuthenticator
         $badges =
             [
                 new CsrfTokenBadge('authenticate', $token),
-                new PasswordUpgradeBadge($password, $this->userRepository),//SelfValidatingPassport?
+                new PasswordUpgradeBadge($password, $this->userRepository), //SelfValidatingPassport?
             ];
 
         $query = "(&(|(sAMAccountName=*$email*))(objectClass=person))";
@@ -75,7 +75,8 @@ class BottinLdapAuthenticator extends AbstractLoginFormAuthenticator
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($password), $badges
+            new PasswordCredentials($password),
+            $badges
         );
     }
 

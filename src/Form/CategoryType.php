@@ -13,10 +13,6 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CategoryType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
@@ -62,9 +58,6 @@ class CategoryType extends AbstractType
         //->add('parent');
     }
 
-    /**
-     * @param OptionsResolver $optionsResolver
-     */
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(

@@ -3,8 +3,8 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
-use Doctrine\ORM\Mapping as ORM;
 use AcMarche\Bottin\Repository\LocaliteRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=LocaliteRepository::class)

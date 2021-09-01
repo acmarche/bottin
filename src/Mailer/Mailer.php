@@ -27,9 +27,6 @@ class Mailer
     }
 
     /**
-     * @param string $nom
-     * @param string $from
-     * @param string $message
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function sendContact(string $nom, string $from, string $message): void

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
@@ -10,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Situation
- * @package AcMarche\Bottin\Entity
+ * Class Situation.
+ *
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\SituationRepository")
  * @ORM\Table(name="situation")
  */
@@ -28,7 +27,7 @@ class Situation
     /**
      * @var Fiche[]
      * @ORM\ManyToMany(targetEntity="AcMarche\Bottin\Entity\Fiche", mappedBy="situations")
-     * @ORM\OrderBy({"societe": "ASC"})
+     * @ORM\OrderBy({"societe"="ASC"})
      */
     protected iterable $fiches;
 

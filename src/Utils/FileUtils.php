@@ -18,7 +18,7 @@ class FileUtils
     public function getFilePath(string $fileName): string
     {
         return $this->fileLocator->locate(
-            '@AcMarcheBottinBundle'.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'elastic'.DIRECTORY_SEPARATOR.$fileName
+            '@AcMarcheBottinBundle'.\DIRECTORY_SEPARATOR.'config'.\DIRECTORY_SEPARATOR.'elastic'.\DIRECTORY_SEPARATOR.$fileName
         );
     }
 

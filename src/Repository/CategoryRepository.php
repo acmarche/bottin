@@ -18,7 +18,8 @@ use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    use TreeTrait, OrmCrudTrait;
+    use TreeTrait;
+    use OrmCrudTrait;
 
     public function __construct(ManagerRegistry $managerRegistry)
     {

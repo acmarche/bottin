@@ -46,9 +46,9 @@ class Document implements TimestampableInterface
      * @Vich\UploadableField(mapping="bottin_fiche_document", fileNameProperty="fileName", size="fileSize")
      *
      * @Assert\File(
-     *     maxSize = "16384k",
-     *     mimeTypes = {"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage = "Uniquement des PDF"
+     *     maxSize="16384k",
+     *     mimeTypes={"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage="Uniquement des PDF"
      * )
      */
     private ?File $file = null;

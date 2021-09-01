@@ -29,7 +29,7 @@ class FicheImage
     protected ?Fiche $fiche = null;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $principale = false;
 

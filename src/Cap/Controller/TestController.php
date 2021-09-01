@@ -187,9 +187,7 @@ class TestController extends AbstractController
 
             return $this->json($content);
         } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
-
             return $this->json(['error' => $e->getMessage()]);
         }
-
     }
 }

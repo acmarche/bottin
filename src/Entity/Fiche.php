@@ -124,17 +124,17 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     protected ?string $latitude = null;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $centreville = false;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $midi = false;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $pmr = false;
 
@@ -164,7 +164,8 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     protected ?string $numero_tva = null;
 
     /**
-     * Pour cascade
+     * Pour cascade.
+     *
      * @ORM\OneToMany(targetEntity=History::class, mappedBy="fiche", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false))
      */
@@ -205,7 +206,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     public function image(): ?string
     {
-        if (count($this->images) > 0) {
+        if (\count($this->images) > 0) {
             return $this->images[0]->getImageName();
         }
 
@@ -214,7 +215,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     public function imageFile(): ?FicheImage
     {
-        if (count($this->images) > 0) {
+        if (\count($this->images) > 0) {
             return $this->images[0];
         }
 

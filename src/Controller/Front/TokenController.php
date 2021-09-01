@@ -25,7 +25,7 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/log/{uuid}",name="bottin_front_token_show")
+     * @Route("/log/{uuid}", name="bottin_front_token_show")
      */
     public function show(Request $request, Token $token): Response
     {

@@ -62,7 +62,7 @@ class CategoryService
     private function hasFiches(Category $category): void
     {
         $classements = $this->classementRepository->findBy(['category' => $category]);
-        if (0 == count($classements)) {
+        if (0 == \count($classements)) {
             $category->setPath($this->pathUtils->getPath($category));
             $this->data[] = $category;
         }
@@ -90,6 +90,7 @@ class CategoryService
 
     /**
      * @param array|Category[] $categories
+     *
      * @return array|Fiche[]
      */
     public function getFichesByCategoriesAndHerChildren(iterable $categories): array

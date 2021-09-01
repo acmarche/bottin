@@ -1,15 +1,11 @@
 <?php
 
-
 namespace AcMarche\Bottin\Utils;
 
 use AcMarche\Bottin\Entity\Fiche;
 
 class FicheUtils
 {
-    /**
-     * @param Fiche $fiche
-     */
     public function extractEmailsFromFiche(Fiche $fiche): array
     {
         $emails = [];
@@ -29,7 +25,6 @@ class FicheUtils
     }
 
     /**
-     * @param Fiche $fiche
      * @return string[]
      */
     public function getTagsForElastic(Fiche $fiche): array

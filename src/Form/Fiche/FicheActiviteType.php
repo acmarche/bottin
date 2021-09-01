@@ -47,8 +47,8 @@ class FicheActiviteType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => $localites,
-                    'choice_label' => fn($localite) => $localite->getNom(),
-                    'choice_value' => fn($localite) => $localite,
+                    'choice_label' => fn ($localite) => $localite->getNom(),
+                    'choice_value' => fn ($localite) => $localite,
                     'required' => false,
                 ]
             )

@@ -87,7 +87,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     /**
      * Fake pour location convert.
      */
-    public function getAdresse(): ?Adresse
+    public function getAdresse(): ?self
     {
         return null;
     }

@@ -79,7 +79,7 @@ class LocaliteController extends AbstractController
     /**
      * Finds and displays a Lieu entity.
      *
-     * @Route("/{id}", name="bottin_admin_localite_show", methods={"GET","POST"})
+     * @Route("/{id}", name="bottin_admin_localite_show", methods={"GET", "POST"})
      */
     public function show(Request $request, Localite $localite): Response
     {

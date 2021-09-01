@@ -10,10 +10,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MapType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $formBuilder
-     * @param array                $options
-     */
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
@@ -30,9 +26,6 @@ class MapType extends AbstractType
             ->add('longitude');
     }
 
-    /**
-     * @param OptionsResolver $optionsResolver
-     */
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(

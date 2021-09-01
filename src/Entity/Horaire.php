@@ -32,12 +32,12 @@ class Horaire
     protected ?string $media_path = null;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $is_open_at_lunch = false;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $is_rdv = false;
 
@@ -62,7 +62,7 @@ class Horaire
     protected ?DateTimeInterface $noon_end = null;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $is_closed = false;
 

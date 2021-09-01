@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
 use AcMarche\Bottin\Mailer\Mailer;
-use AcMarche\Bottin\Repository\FicheRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +29,7 @@ class PublipostageController extends AbstractController
     }
 
     /**
-     * @Route("/", name="bottin_admin_publipostage", methods={"GET","POST"})
+     * @Route("/", name="bottin_admin_publipostage", methods={"GET", "POST"})
      */
     public function index(Request $request): Response
     {

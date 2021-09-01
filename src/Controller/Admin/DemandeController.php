@@ -4,9 +4,9 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Form\DemandeType;
+use AcMarche\Bottin\Mailer\MailerBottin;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Mailer\MailerBottin;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -84,13 +84,13 @@ class DemandeController extends AbstractController
             }
 
             $metas = $request->request->get('metas');
-            if (0 == count($metas)) {
+            if (0 == \count($metas)) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
             }
             foreach ($metas as $champ => $value) {
-                $set = 'set' . ucfirst($champ);
+                $set = 'set'.ucfirst($champ);
                 $fiche->$set($value);
             }
 
@@ -106,9 +106,9 @@ class DemandeController extends AbstractController
                 $this->mailerBottin->sendMailConfirmDemande($fiche);
                 $this->addFlash('success', 'Un email de confirmation à bien été envoyé');
             } catch (TransportExceptionInterface $e) {
-                $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : ' . $e->getMessage());
+                $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
             } catch (Exception $e) {
-                $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : ' . $e->getMessage());
+                $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
             }
 
             return $this->redirectToRoute('bottin_admin_demande');
@@ -130,7 +130,7 @@ class DemandeController extends AbstractController
      */
     public function delete(Request $request, Demande $demande): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $demande->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {
             $this->demandeRepository->remove($demande);
             $this->demandeRepository->flush();
             $this->addFlash('success', 'Le demande a bien été supprimée');

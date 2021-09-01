@@ -9,8 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * https://nominatim.org/release-docs/develop/api/Overview/
- * Class OpenStreetMapReverse
- * @package AcMarche\Avaloir\Location
+ * Class OpenStreetMapReverse.
  */
 class OpenStreetMapReverse implements LocationReverseInterface
 {
@@ -28,12 +27,12 @@ class OpenStreetMapReverse implements LocationReverseInterface
     /**
      * @param $latitude
      * @param $longitude
-     * @return array
+     *
      * @throws Exception
      */
     public function reverse($latitude, $longitude): array
     {
-        sleep(1);//policy
+        sleep(1); //policy
         try {
             $request = $this->httpClient->request(
                 'GET',
@@ -98,7 +97,8 @@ class OpenStreetMapReverse implements LocationReverseInterface
 
         return null;
     }
-    /**
+
+    /*
      * {
      * "place_id":188259342,
      * "licence":"Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",

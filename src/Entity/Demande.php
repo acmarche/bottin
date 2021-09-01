@@ -19,21 +19,18 @@ class Demande implements TimestampableInterface
     use IdTrait;
 
     /**
-     * @var Fiche|null
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="demandes")
      * @ORM\JoinColumn(nullable=false))
      */
     protected ?Fiche $fiche = null;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $traiter_by = null;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean", options={"default": 0})
+     * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $traiter = false;
 

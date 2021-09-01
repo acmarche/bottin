@@ -63,7 +63,6 @@ class HoraireService
     }
 
     /**
-     * @param Fiche $fiche
      * @param Horaire[] $horaires
      */
     public function handleEdit(Fiche $fiche, iterable $horaires): void

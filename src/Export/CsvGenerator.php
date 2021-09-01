@@ -7,7 +7,6 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\SelectionRepository;
 use AcMarche\Bottin\Service\CategoryService;
-use AcMarche\Bottin\Utils\SortUtils;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Symfony\Component\Security\Core\Security;

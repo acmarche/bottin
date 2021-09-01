@@ -25,8 +25,8 @@ class DirectoryNamer implements DirectoryNamerInterface
     /**
      * Creates a directory name for the file being uploaded.
      *
-     * @param Classement $object          The object the upload is attached to
-     * @param PropertyMapping             $propertyMapping The mapping to use to manipulate the given object
+     * @param Classement      $object          The object the upload is attached to
+     * @param PropertyMapping $propertyMapping The mapping to use to manipulate the given object
      *
      * @return string The directory name
      */

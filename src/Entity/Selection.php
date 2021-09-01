@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Selection
 {
-   use IdTrait;
+    use IdTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class)

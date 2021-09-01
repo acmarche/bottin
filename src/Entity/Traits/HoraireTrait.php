@@ -1,6 +1,5 @@
 <?php
 
-
 namespace AcMarche\Bottin\Entity\Traits;
 
 use AcMarche\Bottin\Entity\Horaire;
@@ -12,7 +11,7 @@ trait HoraireTrait
     /**
      * @var Horaire[]|iterable|Collection
      * @ORM\OneToMany(targetEntity="Horaire", mappedBy="fiche", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"day": "ASC"})
+     * @ORM\OrderBy({"day"="ASC"})
      */
     protected iterable $horaires;
 
