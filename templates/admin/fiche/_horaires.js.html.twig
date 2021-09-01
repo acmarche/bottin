@@ -1,60 +1,58 @@
 <script type="text/javascript">
-       $(document).ready(function () {
 
-        $(".btnmidi").change(function () {
-            var datajf = jQuery(this).attr("data-jf") - 1;
-            $("#fiche_horaires_" + datajf + "_morning_end").toggle();
-            $("#fiche_horaires_" + datajf + "_noon_start").toggle();
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var midis = document.querySelectorAll('.btnmidi');
+        Array.prototype.forEach.call(midis, function (midi, i) {
+            midi.addEventListener('click', () => {
+                var datajf = midi.getAttribute("data-jf") - 1;
+                document.querySelector("#fiche_horaires_" + datajf + "_morning_end").classList.toggle('d-none');
+                document.querySelector("#fiche_horaires_" + datajf + "_noon_start").classList.toggle('d-none');
+            })
         });
 
-        $(".btnclosed").change(function () {
-            var datajf = jQuery(this).attr("data-jf") - 1;
-            if (!this.checked) {
-                $("#fiche_horaires_" + datajf + "_morning_start").show();
-                $("#fiche_horaires_" + datajf + "_morning_end").show();
-                $("#fiche_horaires_" + datajf + "_noon_start").show();
-                $("#fiche_horaires_" + datajf + "_noon_end").show();
-                $("#fiche_horaires_" + datajf + "_is_rdv").show();
-            } else {
-                $("#fiche_horaires_" + datajf + "_morning_start").toggle();
-                $("#fiche_horaires_" + datajf + "_morning_end").toggle();
-                $("#fiche_horaires_" + datajf + "_noon_start").toggle();
-                $("#fiche_horaires_" + datajf + "_noon_end").toggle();
-                $("#fiche_horaires_" + datajf + "_is_rdv").toggle();
-            }
+        var closes = document.querySelectorAll('.btnclosed');
+        Array.prototype.forEach.call(closes, function (close, i) {
+            close.addEventListener('click', () => {
+                var datajf = close.getAttribute("data-jf") - 1;
+                document.querySelector("#fiche_horaires_" + datajf + "_morning_start").classList.toggle('d-none');
+                document.querySelector("#fiche_horaires_" + datajf + "_morning_end").classList.toggle('d-none');
+                document.querySelector("#fiche_horaires_" + datajf + "_noon_start").classList.toggle('d-none');
+                document.querySelector("#fiche_horaires_" + datajf + "_noon_end").classList.toggle('d-none');
+                document.querySelector("#fiche_horaires_" + datajf + "_is_rdv").classList.toggle('d-none');
+            })
         });
 
-        $(".btnidem").click(function () {
+        var copies = document.querySelectorAll('.btnidem');
+        Array.prototype.forEach.call(copies, function (copyBtn, i) {
+            copyBtn.addEventListener('click', () => {
+                var idJour = copyBtn.getAttribute("data-jf") - 1;
+                console.log('hidden jour' + idJour);
+                var precedent = idJour - 1;
 
-            var idJour = jQuery(this).attr("data-jf") - 1;
-            var precedent = idJour - 1;
+                var morningStart = document.querySelector("#fiche_horaires_" + precedent + "_morning_start").value;
+                document.querySelector("#fiche_horaires_" + idJour + "_morning_start").value = morningStart;
 
-            var morningStart = $("#fiche_horaires_" + precedent + "_morning_start").val();
-            $("#fiche_horaires_" + idJour + "_morning_start").val(morningStart);
+                var morningEnd = document.querySelector("#fiche_horaires_" + precedent + "_morning_end").value;
 
-            var morningEnd = $("#fiche_horaires_" + precedent + "_morning_end").val();
+                document.querySelector("#fiche_horaires_" + idJour + "_morning_end").value = morningEnd;
 
-            $("#fiche_horaires_" + idJour + "_morning_end").val(morningEnd);
+                var noonStart = document.querySelector("#fiche_horaires_" + precedent + "_noon_start").value;
+                document.querySelector("#fiche_horaires_" + idJour + "_noon_start").value = noonStart;
 
-            var noonStart = $("#fiche_horaires_" + precedent + "_noon_start").val();
-            $("#fiche_horaires_" + idJour + "_noon_start").val(noonStart);
+                var noonEnd = document.querySelector("#fiche_horaires_" + precedent + "_noon_end").value;
+                document.querySelector("#fiche_horaires_" + idJour + "_noon_end").value = noonEnd;
 
-            var noonEnd = $("#fiche_horaires_" + precedent + "_noon_end").val();
-            $("#fiche_horaires_" + idJour + "_noon_end").val(noonEnd);
+                var closed = document.querySelector("#fiche_horaires_" + precedent + "_is_closed").checked;
+                console.log("close: " + closed);
+                document.querySelector("#fiche_horaires_" + idJour + "_is_closed").checked = closed;
 
-            var closed = $("#fiche_horaires_" + precedent + "_is_closed").prop('checked');
-            if (closed)
-                $("#fiche_horaires_" + idJour + "_is_closed").click();
+                var midi = document.querySelector("#fiche_horaires_" + precedent + "_is_open_at_lunch").checked;
+                document.querySelector("#fiche_horaires_" + idJour + "_is_open_at_lunch").checked = midi;
 
-            var midi = $("#fiche_horaires_" + precedent + "_is_open_at_lunch").prop('checked');
-            if (midi)
-                $("#fiche_horaires_" + idJour + "_is_open_at_lunch").click();
-
-            var rdv = $("#fiche_horaires_" + precedent + "_is_rdv").prop('checked');
-            if (rdv)
-                $("#fiche_horaires_" + idJour + "_is_rdv").click();
-
+                var rdv = document.querySelector("#fiche_horaires_" + precedent + "_is_rdv").checked;
+                document.querySelector("#fiche_horaires_" + idJour + "_is_rdv").checked = rdv;
+            })
         });
-
     });
 </script>

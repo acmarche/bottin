@@ -66,11 +66,7 @@
             Array.prototype.forEach.call(btns, function (btn, i) {
                 midi.addEventListener('click', () => {
                     var datajf = btn.getAttribute("data-jf");
-                    if (document.querySelectorAll("#meta-" + datajf).disabled) {
-                        document.querySelectorAll("#meta-" + datajf).disabled = false;
-                    } else {
-                        document.querySelectorAll("#meta-" + datajf).disabled = true;
-                    }
+                    document.querySelectorAll("#meta-" + datajf).disabled = !document.querySelectorAll("#meta-" + datajf).disabled;
                 })
             });
         });
