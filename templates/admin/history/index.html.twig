@@ -8,6 +8,7 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
+                    <th>Fiche</th>
                     <th>Par</th>
                     <th>Propriété</th>
                     <th>Ancienne valeur</th>
@@ -18,6 +19,11 @@
                 <tbody>
                 {% for history in histories %}
                     <tr>
+                        <td>
+                            <a href="{{ path('bottin_admin_fiche_show', {'id': history.fiche.id}) }}">
+                                {{ history.fiche }}
+                            </a>
+                        </td>
                         <td>{{ history.madeBy }}</td>
                         <td>{{ history.property }}</td>
                         <td>{{ history.oldValue }}</td>
