@@ -10,7 +10,7 @@ use Elastica\ResultSet;
  */
 class AggregationUtils
 {
-    public function getAggregations(ResultSet $response, string $name): ResultSet
+    public function getAggregations(ResultSet $response, string $name): array
     {
         $aggregations = $response->getAggregation($name);
         dump($aggregations);

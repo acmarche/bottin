@@ -55,6 +55,7 @@ class SearchController extends AbstractController
 
             try {
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
+                dump($response);
                 $hits = $response->getResults();
                 $count = $response->count();
                 $aggregations = $this->aggregationUtils->getAggregations($response, 'localites');
