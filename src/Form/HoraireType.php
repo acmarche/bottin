@@ -29,7 +29,7 @@ class HoraireType extends AbstractType
                         'class' => 'btnmidi',
                     ],
                     'label_attr' => [
-                        'class' => 'switch-custom',
+                        'class' => 'checkbox-switch',
                     ],
                 ]
             )
@@ -40,7 +40,7 @@ class HoraireType extends AbstractType
                     'required' => false,
                     'label' => ' ',
                     'label_attr' => [
-                        'class' => 'switch-custom',
+                        'class' => 'checkbox-switch',
                     ],
                 ]
             )
@@ -54,7 +54,7 @@ class HoraireType extends AbstractType
                         'class' => 'btnclosed',
                     ],
                     'label_attr' => [
-                        'class' => 'switch-custom',
+                        'class' => 'checkbox-switch',
                     ],
                 ]
             )
@@ -67,7 +67,8 @@ class HoraireType extends AbstractType
                     'widget' => 'single_text',
                     'label' => ' ',
                     'attr' => [
-                        'style' => 'width: 100px; float: left;',
+                        'style' => 'width: 100px;',
+                        'class' => 'float-end',
                     ],
                 ]
             )
@@ -80,7 +81,8 @@ class HoraireType extends AbstractType
                     'widget' => 'single_text',
                     'label' => ' ',
                     'attr' => [
-                        'style' => 'width: 100px; float: left;',
+                        'style' => 'width: 100px;',
+                        'class' => 'float-end',
                     ],
                 ]
             )
@@ -92,7 +94,8 @@ class HoraireType extends AbstractType
                     'required' => false,
                     'label' => ' ',
                     'attr' => [
-                        'style' => 'width: 100px; float: left;',
+                        'style' => 'width: 100px;',
+                        'class' => 'float-end',
                     ],
                 ]
             )
@@ -103,7 +106,8 @@ class HoraireType extends AbstractType
                     'required' => false,
                     'widget' => 'single_text',
                     'attr' => [
-                        'style' => 'width: 100px; float: left;',
+                        'style' => 'width: 100px;',
+                        'class' => 'float-end',
                     ],
                     'label' => ' ',
                 ]
