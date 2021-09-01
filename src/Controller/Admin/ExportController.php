@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Selection;
+use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\SelectCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\SelectionRepository;
@@ -25,25 +26,32 @@ class ExportController extends AbstractController
     private CategoryRepository $categoryRepository;
     private SelectionRepository $selectionRepository;
     private PathUtils $pathUtils;
+    private ExportUtils $exportUtils;
 
     public function __construct(
         CategoryRepository $categoryRepository,
         SelectionRepository $selectionRepository,
-        PathUtils $pathUtils
+        PathUtils $pathUtils,
+        ExportUtils $exportUtils
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->selectionRepository = $selectionRepository;
         $this->pathUtils = $pathUtils;
+        $this->exportUtils = $exportUtils;
     }
 
     /**
      * @Route("/", name="bottin_admin_export_index", methods={"GET"})
      */
-    public function index(Request $request): Response
+    public function index(): Response
     {
+        $user = $this->getUser();
+        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+
         return $this->render(
             '@AcMarcheBottin/admin/export/index.html.twig',
             [
+                'fiches' => $fiches,
             ]
         );
     }

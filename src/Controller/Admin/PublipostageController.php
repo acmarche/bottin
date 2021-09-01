@@ -34,14 +34,13 @@ class PublipostageController extends AbstractController
     public function index(Request $request): Response
     {
         $form = $this->createForm(MessageType::class, ['from' => $this->getParameter('bottin.email_from')]);
+        $user = $this->getUser();
+        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $user = $this->getUser();
-
-            $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
 
             foreach ($fiches as $fiche) {
                 $message = $data['message'];
@@ -59,6 +58,7 @@ class PublipostageController extends AbstractController
             '@AcMarcheBottin/admin/publipostage/index.html.twig',
             [
                 'form' => $form->createView(),
+                'fiches' => $fiches,
             ]
         );
     }

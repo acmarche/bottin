@@ -5,14 +5,15 @@
     <div class="card">
         <div class="card-header">
             <h3>Exportation</h3>
+            <span class="text-muted">({{ fiches|length }} fiches)</span>
         </div>
         <div class="card-body">
 
-            <p>
-                <a href="{{ path('bottin_admin_export_select') }}">Suivant votre sélection, exporter :</a>
-            </p>
+            <h5 class="text-success mx-3">
+                <a href="{{ path('bottin_admin_export_select') }}">Suivant votre sélection</a>
+            </h5>
 
-            <ul class="list-group">
+            <ul class="list-group mt-3">
                 <li class="list-group-item">
                     <a href="{{ path('bottin_admin_export_fiches_xls') }}" class="btn btn-primary" role="button">
                         <i class="fas fa-download"></i> Exporter les fiches</a>

@@ -35,7 +35,7 @@ class SearchController extends AbstractController
     public function ficher(Request $request, ?string $keyword): Response
     {
         $session = $request->getSession();
-        $args = $hits = $suggest = $response = [];
+        $args = $hits = $suggest = $aggregations = $pmr = $centreville = $midi = [];
         $count = 0;
 
         if ($session->has('fiche_search')) {
@@ -57,6 +57,11 @@ class SearchController extends AbstractController
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);
                 $hits = $response->getResults();
                 $count = $response->count();
+                $aggregations = $this->aggregationUtils->getAggregations($response, 'localites');
+                $pmr = $this->aggregationUtils->countPmr($response);
+                $midi = $this->aggregationUtils->countMidi($response);
+                $centreville = $this->aggregationUtils->countCentreVille($response);
+                $suggest = $this->suggestUtils->getOptions($response);
             } catch (BadRequest400Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
@@ -68,11 +73,11 @@ class SearchController extends AbstractController
                 'search_form' => $form->createView(),
                 'hits' => $hits,
                 'count' => $count,
-                'localites' => $this->aggregationUtils->getAggregations($response, 'localites'),
-                'pmr' => $this->aggregationUtils->countPmr($response),
-                'midi' => $this->aggregationUtils->countMidi($response),
-                'centre_ville' => $this->aggregationUtils->countCentreVille($response),
-                'suggests' => $this->suggestUtils->getOptions($response),
+                'localites' => $aggregations,
+                'pmr' => $pmr,
+                'midi' => $midi,
+                'centre_ville' => $centreville,
+                'suggests' => $suggest,
             ]
         );
     }
