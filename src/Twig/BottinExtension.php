@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Twig;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\TokenRepository;
+use Elastica\Result;
 use Elastica\ResultSet;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
@@ -48,9 +49,10 @@ class BottinExtension extends AbstractExtension
             $slug = $fiche['slug'];
         }
 
-        if ($fiche instanceof ResultSet) {
-            $id = $fiche->getId();
-            $slug = $fiche->getSlug();
+        if ($fiche instanceof Result) {
+            $source = $fiche->getSource();
+            $id = $source['id'];
+            $slug = $source['slug'];
         }
 
         if ($fiche instanceof Fiche) {
