@@ -6,38 +6,37 @@
             <h3>Rechercher {% if keyword %}"{{ keyword }}"{% endif %}</h3>
         </div>
         <div class="card-body">
-            {# { form(form) } #}
-
-            <div class="input-group"
-                    {{ stimulus_controller('search', {url: path('bottin_front_search_ajax')}) }}>
-                <input
-                        type="search"
-                        name="q"
-                        autocomplete="off"
-                        class="form-control"
-                        data-action="search#onSearchInput"/>
-                <div class="search-preview" data-search-target="result"></div>
+            {{ form_start(form, { 'attr': {'class': 'row gy-2 gx-1 mb-3 align-items-center'}}) }}
+            {{ form_errors(form) }}
+            <div class="col-auto">
+                {{ form_row(form.nom, {label_attr: {class: 'sr-only'}, attr:{'class': 'my-1 mr-sm-2', 'placeholder': 'Mot clef'} }) }}
             </div>
+            <div class="col-auto">
+                <button type="submit" name="send" class="btn btn-primary mb-3"><i class="fas fa-search"></i> Rechercher
+                </button>
+            </div>
+            {{ form_end(form) }}
 
             {% if count > 0 %}
 
                 <h4 class="text-success">{{ count }} trouvé(s)</h4>
 
-                {% for hit in hits %}
-                    {% set fiche = hit.data %}
-
-                    <li class="list-group-item">
-                        <a href="{{ bottin_url_fiche_show(fiche) }}">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    {% include '@AcMarcheBottin/front/fiche/_image.html.twig' %}
-                                    <span class="px-1">{{ fiche.societe }}</span>
+                <ul class="list-group">
+                    {% for hit in hits %}
+                        {% set fiche = hit.data %}
+                        <li class="list-group-item">
+                            <a href="{{ bottin_url_fiche_show(fiche) }}">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        {% include '@AcMarcheBottin/front/fiche/_image.html.twig' %}
+                                        <span class="px-1">{{ fiche.societe }}</span>
+                                    </div>
+                                    <em>{{ fiche.localite }}</em>
                                 </div>
-                                <em>{{ fiche.localite }}</em>
-                            </div>
-                        </a>
-                    </li>
-                {% endfor %}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
         </div>
     </div>
