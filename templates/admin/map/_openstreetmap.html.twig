@@ -1,5 +1,10 @@
 <div id='openmap' style='width: 90%; height: 600px;' class="border border-primary"></div>
-<div {{ stimulus_controller('map', { 'societe': fiche.societe, 'latitude': fiche.latitude, 'longitude': fiche.longitude, 'drop': drop ?? true}) }} >
+{% if fiche.societe is defined %}
+    {% set nom = fiche.societe %}
+{% else %}
+    {% set nom = '' %}
+{% endif %}
+<div {{ stimulus_controller('map', { 'societe': nom, 'latitude': fiche.latitude, 'longitude': fiche.longitude, 'drop': drop ?? true}) }} >
 
 </div>
 
