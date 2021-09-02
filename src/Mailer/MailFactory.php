@@ -71,7 +71,7 @@ class MailFactory
             ->from('adl@marche.be')
             ->to($emails[0])
             ->cc('adl@marche.be')
-            ->htmlTemplate('@AcMarcheBottin/mail/_mail.html.twig')
+            ->htmlTemplate('@AcMarcheBottin/mail/_confirm_demande.html.twig')
             ->context(['fiche' => $fiche]);
 
         return $templatedEmail;
