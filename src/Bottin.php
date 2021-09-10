@@ -33,4 +33,15 @@ class Bottin
     public const SOCIAL = 487;
     public const SPORT = 486;
 
+    public const EMAILS = [
+        self::ADMINISTRATION => 'cst@marche.be',
+        self::CITOYEN => 'cst@marche.be',
+        self::CULTURE => 'animation@marche.be',
+        self::ECONOMIE => 'adl@marche.be',
+        self::ENFANCE => 'epe@marche.be',
+        self::SANTE => 'sante@marche.be',
+        self::SOCIAL => 'pssp@marche.be',
+        self::SPORT => 'csl@marche.be',
+    ];
+
 }

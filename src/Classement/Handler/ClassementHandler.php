@@ -52,6 +52,15 @@ class ClassementHandler
         return $classement;
     }
 
+    /**
+     * @param Fiche $fiche
+     * @return Classement[]
+     */
+    public function getClassements(Fiche $fiche): array
+    {
+        return $this->classementRepository->getByFiche($fiche);
+    }
+
     public function getRoot(Classement $classement): int
     {
         foreach (Bottin::ROOTS as $root) {
@@ -60,6 +69,7 @@ class ClassementHandler
                 return $root;
             }
         }
+
         return 0;
     }
 }

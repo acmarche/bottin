@@ -2,21 +2,37 @@
 
 namespace AcMarche\Bottin\Mailer;
 
+use AcMarche\Bottin\Bottin;
+use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class MailFactory
 {
     private FicheUtils $ficheUtils;
+    private ClassementHandler $classementHandler;
+    private PdfFactory $pdfFactory;
 
-    public function __construct(FicheUtils $ficheUtils)
+    public function __construct(FicheUtils $ficheUtils, ClassementHandler $classementHandler, PdfFactory $pdfFactory)
     {
         $this->ficheUtils = $ficheUtils;
+        $this->classementHandler = $classementHandler;
+        $this->pdfFactory = $pdfFactory;
     }
 
-    public function mailMessageToFiche(string $from, string $subject, string $message, Fiche $fiche): TemplatedEmail
+    public function mailMessageToFiche(string $subject, string $message, Fiche $fiche): TemplatedEmail
     {
+        $classements = $this->classementHandler->getClassements($fiche);
+        $from = Bottin::EMAILS[Bottin::ECONOMIE];
+
+        if (count($classements) > 0) {
+            $fiche->root = $this->classementHandler->getRoot($classements[0]);
+            $from = Bottin::EMAILS[$fiche->root];
+        }
+
+        $from = 'adl@marche.be';
         $templatedEmail = (new TemplatedEmail())
             ->from($from)
             ->to('jf@marche.be')
@@ -31,6 +47,11 @@ class MailFactory
                     'subject' => $subject,
                 ]
             );
+
+        $html = $this->pdfFactory->fiche($fiche);
+        $invoicepdf = $this->pdfFactory->pdf->getOutputFromHtml($html);
+
+        $templatedEmail->attach($invoicepdf, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
 
         return $templatedEmail;
     }

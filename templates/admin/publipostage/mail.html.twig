@@ -17,7 +17,7 @@
 
             {% if noEmails|length > 0 %}
                 <div class="alert alert-danger">
-                    <p>Attention les fiches ci-dessous n'ont pas d'email</p>
+                    <p>Attention les {{ noEmails|length }} fiches ci-dessous n'ont pas d'email</p>
                     <ul class="list-group-item">
                         {% for fiche in noEmails %}
                             <li class="list-group-item">

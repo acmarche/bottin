@@ -76,7 +76,7 @@ class PublipostageController extends AbstractController
             foreach ($fiches as $fiche) {
                 $message = $data['message'];
                 $message = $this->exportUtils->replaceUrlToken($fiche, $message);
-                $email = $this->mailFactory->mailMessageToFiche($data['from'], $data['subject'], $message, $fiche);
+                $email = $this->mailFactory->mailMessageToFiche($data['subject'], $message, $fiche);
                 try {
                     $this->mailer->send($email);
                     $this->addFlash('success', 'Votre message a bien été envoyé');
@@ -85,15 +85,8 @@ class PublipostageController extends AbstractController
                 }
                 break;
             }
-            $email = $this->mailFactory->mailMessageToFiche($data['from'], $data['subject'], $data['message'], $fiche);
-            try {
-                $this->mailer->send($email);
-                $this->addFlash('success', 'Votre message a bien été envoyé');
-            } catch (TransportExceptionInterface $e) {
-                $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
-            }
 
-            return $this->redirectToRoute('bottin_admin_publipostage');
+            return $this->redirectToRoute('bottin_admin_publipostage_index');
         }
 
         $noEmails = [];
@@ -102,7 +95,6 @@ class PublipostageController extends AbstractController
                 $noEmails[] = $fiche;
             }
         }
-
 
         return $this->render(
             '@AcMarcheBottin/admin/publipostage/mail.html.twig',
@@ -123,7 +115,9 @@ class PublipostageController extends AbstractController
         $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
 
         $html = $this->pdfFactory->fichesPublipostage($fiches);
-return new Response($html);
+
+        return new Response($html);
+
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
 }
