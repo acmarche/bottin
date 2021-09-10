@@ -41,7 +41,7 @@ class AjaxController extends AbstractController
      */
     public function removeClassement(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
         if (null === $classement) {
@@ -74,7 +74,7 @@ class AjaxController extends AbstractController
      */
     public function setPrincipal(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
 
         if (null === $classementSelect) {
@@ -108,40 +108,24 @@ class AjaxController extends AbstractController
     }
 
     /**
-     * @Route("/getcategories", name="bottin_admin_ajax_get_categories", methods={"POST"})
+     * @Route("/getcategories", name="bottin_admin_ajax_get_categories", methods={"GET"})
      */
-    public function ajaxCategories(Request $request): JsonResponse
+    public function ajaxCategories(Request $request): Response
     {
-        $jsonResponse = new JsonResponse();
-        $parentId = (int) $request->get('parentId');
-        $level = (int) $request->get('level') + 1; // +1 pour div id ajax response
+        $keyword = $request->get('q', null);
 
-        $result = [];
-
-        if (0 === $parentId) {
-            $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
-
-            return $jsonResponse;
+        if (!$keyword) {
+            return new Response('Oups pas su obtenir les catégories');
         }
 
-        $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
+        $categories = $this->categoryRepository->search($keyword);
 
-        $html = '';
-
-        if (\count($categories) > 0) {
-            $html = $this->renderView(
-                '@AcMarcheBottin/admin/classement/_ajaxCategories.html.twig',
-                ['categories' => $categories, 'level' => $level]
-            );
-        }
-
-        $result['html'] = $html;
-        $result['catId'] = $parentId;
-        $result['level'] = $level;
-
-        $jsonResponse->setData($result);
-
-        return $jsonResponse;
+        return $this->render(
+            '@AcMarcheBottin/admin/classement/_ajaxCategories.html.twig',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
 
     /**
@@ -150,8 +134,8 @@ class AjaxController extends AbstractController
     public function ajaxCategoriesForExport(Request $request): Response
     {
         $jsonResponse = new JsonResponse();
-        $parentId = (int) $request->get('parentId');
-        $level = (int) $request->get('level');
+        $parentId = (int)$request->get('parentId');
+        $level = (int)$request->get('level');
         ++$level;
 
         if (!$parentId) {
@@ -194,7 +178,7 @@ class AjaxController extends AbstractController
      */
     public function fetchCategory(Request $request): Response
     {
-        $categoryId = (int) $request->get('id');
+        $categoryId = (int)$request->get('id');
         $category = $this->categoryRepository->find($categoryId);
 
         return new Response($category->getName());

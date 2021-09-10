@@ -1,8 +1,7 @@
-<div class="">
-    <select name="category" size="5" class="form-select my-1 mr-sm-2 category-root"
-            onchange="getCategories(this, {{ level }})">
-        {% for category in categories %}
-            <option value="{{ category.id }}">{{ category }}</option>
-        {% endfor %}
-    </select>
-</div>
+<ul class="list-group">
+    {% for category in categories %}
+        <li class="list-group-item" role="option" data-autocomplete-value="{{ category.id }}" style="cursor: pointer;">
+            {{ category.name }}
+        </li>
+    {% endfor %}
+</ul>
