@@ -8,6 +8,7 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
 
 class MailFactory
 {
@@ -22,7 +23,7 @@ class MailFactory
         $this->pdfFactory = $pdfFactory;
     }
 
-    public function mailMessageToFiche(string $subject, string $message, Fiche $fiche): TemplatedEmail
+    public function mailMessageToFiche(string $subject, string $body, Fiche $fiche): TemplatedEmail
     {
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
@@ -32,15 +33,19 @@ class MailFactory
             $from = Bottin::EMAILS[$fiche->root];
         }
 
+        $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
+        $email = count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
+
         $from = 'adl@marche.be';
         $templatedEmail = (new TemplatedEmail())
             ->from($from)
-            ->to('jf@marche.be')
+            ->to(new Address('jf@marche.be', $email))
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(
                 [
-                    'message' => $message,
+                    'body' => $body,
+                    'importance' => 'high',
                     'fiche' => $fiche,
                     'action_url' => '',
                     'exception' => null,

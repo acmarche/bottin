@@ -15,6 +15,16 @@
                 Insérez {urltoken} si vous voulez mettre l'url permettant de modifier sa fiche
             </div>
 
+
+            {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
+                Envoyer
+            </button>
+
+            {{ form_end(form) }}
+
             {% if noEmails|length > 0 %}
                 <div class="alert alert-danger">
                     <p>Attention les {{ noEmails|length }} fiches ci-dessous n'ont pas d'email</p>
@@ -27,15 +37,6 @@
                     </ul>
                 </div>
             {% endif %}
-
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
-                Envoyer
-            </button>
-
-            {{ form_end(form) }}
 
         </div>
         <div class="card-footer">

@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-body">
+        Bonjour {{ fiche.societe }}<br/>
+        <br/>
+        Vous êtres repris dans notre bottin de la commune de Marche-en-Famenne<br/>
+        Nous vous contactons afin de vérifier que vos données sont toujours bien à jour<br/>
+        <p>Retrouvez les informations vous concernant au verso</p>
+        <p>Nous vous donnons la possibilité de changer en ligne votre fiche</p>
+        {% if fiche.token %}
+            Rendez-vous sur la page :<br/>
+            <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
+                {{ absolute_url(path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid})) }}
+            </a>
+        {% endif %}
+        <br/><br/>
+        <div class="card-footer">
+            {% include '@AcMarcheBottin/admin/pdf/footer/_footer_'~ fiche.root ~'.html.twig' %}
+        </div>
+    </div>
+</div>
