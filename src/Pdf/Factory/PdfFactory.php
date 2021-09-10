@@ -93,6 +93,8 @@ class PdfFactory
 
     public function sendResponse(string $html, string $name): PdfResponse
     {
+        $this->pdf->setTimeout(3000);
+
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
             'bottin_'.$name.'.pdf'

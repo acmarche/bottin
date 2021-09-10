@@ -22,6 +22,7 @@ class Bottin
         self::SANTE,
         self::SOCIAL,
         self::SPORT,
+        self::TOURISME,
     ];
 
     public const ADMINISTRATION = 664;
@@ -32,6 +33,7 @@ class Bottin
     public const SANTE = 488;
     public const SOCIAL = 487;
     public const SPORT = 486;
+    public const TOURISME = 485;
 
     public const EMAILS = [
         self::ADMINISTRATION => 'cst@marche.be',
@@ -42,6 +44,7 @@ class Bottin
         self::SANTE => 'sante@marche.be',
         self::SOCIAL => 'pssp@marche.be',
         self::SPORT => 'csl@marche.be',
+        self::TOURISME => 'animation@marche.be',
     ];
 
 }

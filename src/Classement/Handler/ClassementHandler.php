@@ -70,6 +70,6 @@ class ClassementHandler
             }
         }
 
-        return 0;
+        throw new Exception('Root not found '.$classement);
     }
 }
