@@ -7,6 +7,7 @@ use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Utils\SortUtils;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
 
@@ -120,10 +121,11 @@ class CategoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * Manipulates the flat tree query builder before executing it.
-     * Override this method to customize the tree query.
+     * Manipulates the flat tree query builder before executing it. Override this method to customize the tree query
      */
-    protected function addFlatTreeConditions(): void
+    protected function addFlatTreeConditions(QueryBuilder $queryBuilder, array $extraParams): void
     {
+        $queryBuilder->addOrderBy('t.name');
     }
+
 }

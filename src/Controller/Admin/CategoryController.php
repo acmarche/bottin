@@ -12,6 +12,7 @@ use AcMarche\Bottin\Form\Search\SearchCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Service\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
+use AcMarche\Bottin\Utils\SortUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -86,6 +87,7 @@ class CategoryController extends AbstractController
             $categories = $this->categoryRepository->search($name, $categoryRoot);
         } else {
             $categories = $this->categoryRepository->getRootNodes();
+            $categories = SortUtils::sortCategories($categories);
         }
 
         foreach ($categories as $rootNode) {

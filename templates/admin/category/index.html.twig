@@ -4,17 +4,16 @@
 
     <div class="card">
         <div class="card-header">
-            <h3>Liste des catégories</h3>
+            <h3>Liste des catégories
+                {% if is_granted('ROLE_BOTTIN_ADMIN') %}
+                    <a href="{{ path('bottin_admin_category_new') }}" class="btn btn-sm btn-warning float-end"
+                       role="button">
+                        <i class="fas fa-plus"></i> Ajouter une catégorie</a>
+                {% endif %}
+            </h3>
         </div>
         <div class="card-body">
             {% include '@AcMarcheBottin/admin/search/_category.html.twig' %}
-
-            {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-                <div class="mb-4 float-end">
-                    <a href="{{ path('bottin_admin_category_new') }}" class="btn btn-sm btn-warning" role="button">
-                        <i class="fas fa-plus"></i> Ajouter une catégorie</a>
-                </div>
-            {% endif %}
 
             <table class='table table-bordered table-hover'>
                 <thead>
@@ -22,7 +21,6 @@
                     <th>Niveau 0</th>
                     <th>Niveau 1</th>
                     <th>Niveau 2</th>
-                    <th>Fiches</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,21 +29,20 @@
                         <td><a href="{{ path('bottin_admin_category_show',{'id':root.id}) }}">{{ root }}</a></td>
                         <td></td>
                         <td></td>
-                        <td></td>
                     </tr>
                     {% for child in root.childNodes %}
                         <tr>
                             <td></td>
                             <td><a href="{{ path('bottin_admin_category_show',{'id':child.id}) }}">{{ child }}</a></td>
                             <td></td>
-                            <td></td>
                         </tr>
                         {% for child2 in child.childNodes %}
                             <tr>
                                 <td></td>
                                 <td></td>
-                                <td><a href="{{ path('bottin_admin_category_show',{'id':child2.id}) }}">{{ child2 }}</a></td>
-                                <td></td>
+                                <td>
+                                    <a href="{{ path('bottin_admin_category_show',{'id':child2.id}) }}">{{ child2 }}</a>
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endfor %}
