@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Classement\Handler;
 
+use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -49,5 +50,16 @@ class ClassementHandler
         $this->classementRepository->insert($classement);
 
         return $classement;
+    }
+
+    public function getRoot(Classement $classement): int
+    {
+        foreach (Bottin::ROOTS as $root) {
+            $eco = $this->categoryRepository->find($root);
+            if ($classement->getCategory()->isIndirectChildNodeOf($eco)) {
+                return $root;
+            }
+        }
+        return 0;
     }
 }

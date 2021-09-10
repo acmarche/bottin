@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Pdf\Factory;
 
 use AcMarche\Bottin\Category\Repository\CategoryService;
+use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
@@ -18,19 +19,22 @@ class PdfFactory
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
     private Environment $environment;
+    private ClassementHandler $classementHandler;
 
     public function __construct(
         CategoryService $categoryService,
         Pdf $pdf,
         ClassementRepository $classementRepository,
         PathUtils $pathUtils,
-        Environment $environment
+        Environment $environment,
+        ClassementHandler $classementHandler
     ) {
         $this->pdf = $pdf;
         $this->categoryService = $categoryService;
         $this->classementRepository = $classementRepository;
         $this->pathUtils = $pathUtils;
         $this->environment = $environment;
+        $this->classementHandler = $classementHandler;
     }
 
     public function fiche(Fiche $fiche): string
@@ -50,10 +54,16 @@ class PdfFactory
         // return new Response($html);
     }
 
+    /**
+     * @param array|Fiche[] $fiches
+     */
     public function fichesPublipostage(array $fiches): string
     {
         foreach ($fiches as $fiche) {
             $classements = $this->classementRepository->getByFiche($fiche);
+            if (count($classements) > 0) {
+                $fiche->root = $this->classementHandler->getRoot($classements[0]);
+            }
             $classements = $this->pathUtils->setPathForClassements($classements);
             $fiche->classementsFull = $classements;
         }

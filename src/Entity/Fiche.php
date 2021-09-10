@@ -173,6 +173,8 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     public array $classementsFull;
 
+    public int $root = 511;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();

@@ -37,7 +37,7 @@ class ClassementRepository extends ServiceEntityRepository
             ->addSelect('f', 'cat')
             ->andWhere('c.fiche = :fiche')
             ->setParameter('fiche', $fiche)
-            ->orderBy('c.principal', 'DESC');
+            ->addOrderBy('c.principal','DESC');
 
         if ($onlyEco) {
             $queryBuilder->andWhere('cat.materializedPath LIKE :eco OR cat.materializedPath LIKE :sante')
