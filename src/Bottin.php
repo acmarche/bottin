@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin;
 
 /**
  * Created by PhpStorm.

@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Export;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\SelectionRepository;
-use AcMarche\Bottin\Service\CategoryService;
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Form\Backend\FicheActiviteType;

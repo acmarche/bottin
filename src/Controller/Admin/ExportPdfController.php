@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
-use AcMarche\Bottin\Service\CategoryService;
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;

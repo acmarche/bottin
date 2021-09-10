@@ -8,7 +8,7 @@ use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
-use AcMarche\Bottin\Service\FormUtils;
+use AcMarche\Bottin\Fiche\Form\Backend\FormUtils;
 use AcMarche\Bottin\Utils\PathUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Service\CategoryService;
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Demande\Handler;
 
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Entity\DemandeMeta;

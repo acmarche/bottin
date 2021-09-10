@@ -6,7 +6,7 @@
  * Time: 11:38.
  */
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Category\Repository;
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;

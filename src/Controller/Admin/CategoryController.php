@@ -10,7 +10,7 @@ use AcMarche\Bottin\Category\Form\CategoryMoveType;
 use AcMarche\Bottin\Category\Form\CategoryType;
 use AcMarche\Bottin\Form\Search\SearchCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
-use AcMarche\Bottin\Service\CategoryService;
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Serializer;
 
 use AcMarche\Bottin\Entity\Category;
-use AcMarche\Bottin\Service\Bottin;
+use AcMarche\Bottin\Bottin;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorySerializer
