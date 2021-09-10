@@ -1,4 +1,5 @@
-<h6>Classements</h6>
+<h4 class="text-success">Classements</h4>
+<hr/>
 {% if fiche.classementsFull | length > 0 %}
     <table class='table table-bordered table-hover'>
         {% for classement in fiche.classementsFull %}
@@ -6,19 +7,13 @@
             {% set paths =  category.path %}
             <tr>
                 <td>
-                    <nav aria-label="breadcrumb">
-                        <ol class='breadcrumb'>
-
-                            {% for path in paths %}{% if loop.last %}
-                                <li class="breadcrumb-item active" aria-current="page">{{ path }}</li>
-                            {% else %}
-                                <li class="breadcrumb-item" aria-current="page">
-                                    {{ path }}
-                                </li>
-                            {% endif %}
-                            {% endfor %}
-                        </ol>
-                    </nav>
+                    {% for path in paths %}
+                        {% if loop.last or loop.first %}
+                            {{ path }}
+                        {% else %}
+                            => {{ path }}
+                        {% endif %}
+                    {% endfor %}
                 </td>
             </tr>
         {% endfor %}

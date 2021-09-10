@@ -1,5 +1,12 @@
-{{ include('@AcMarcheBottin/front/fiche/_activite.html.twig') }}
-<h6>Contact</h6>
-{{ include('@AcMarcheBottin/admin/fiche/identite/_contact.html.twig') }}
+<div class="row">
+    <div class="col-6">
+        {{ include('@AcMarcheBottin/front/fiche/_activite.html.twig') }}
+    </div>
+    <div class="col-6 ms-3">
+        <h6 class="text-success">Contact</h6>
+        <hr>
+        {{ include('@AcMarcheBottin/admin/fiche/identite/_contact.html.twig') }}
+    </div>
+</div>
 {{ include('@AcMarcheBottin/admin/fiche/identite/_sociaux.html.twig') }}
 {{ include('@AcMarcheBottin/admin/pdf/fiche/_classement.html.twig') }}

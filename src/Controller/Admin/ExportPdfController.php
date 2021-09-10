@@ -8,6 +8,7 @@ use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,9 +29,11 @@ class ExportPdfController extends AbstractController
     /**
      * @Route("/fiche/{id}", name="bottin_admin_export_fiche_pdf", methods={"GET"})
      */
-    public function fichePdf(Fiche $fiche): PdfResponse
+    public function fichePdf(Fiche $fiche): Response
     {
         $html = $this->pdfFactory->fiche($fiche);
+
+     //   return new Response($html);
 
         return $this->pdfFactory->sendResponse($html, $fiche->getSlug());
     }
