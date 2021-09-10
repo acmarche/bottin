@@ -31,16 +31,25 @@ class TokenController extends AbstractController
     }
 
     /**
-     * @Route("/generate/all", name="bottin_admin_token_generate_for_all")
+     * @Route("/generate/all", name="bottin_admin_token_generate_for_all", methods={"GET", "POST"})
      */
     public function generateAll(): Response
     {
+        $form = $this->createFormBuilder()->getForm();
+
         $fiches = $this->ficheRepository->findAllWithJoins();
-        $this->tokenUtils->generateForAll();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->tokenUtils->generateForAll();
+        }
 
         return $this->render(
             '@AcMarcheBottin/admin/default/uuid.html.twig',
-            ['fiches' => $fiches]
+            [
+                'fiches' => $fiches,
+                'form' => $form->createView(),
+            ]
         );
     }
 

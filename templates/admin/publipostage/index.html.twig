@@ -11,20 +11,15 @@
             <p>
                 <a href="{{ path('bottin_admin_export_select') }}">Suivant votre sélection</a>
             </p>
-            <div class="alert alert-info">
-                Publipostage par email avec un lien pour mettre à jour sa fiche sans authentification
-                <br />
-                Insérez {urltoken} si vous voulez mettre l'url permettant de modifier sa fiche
-            </div>
 
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="far fa-save" aria-hidden="true"></i>
-                Envoyer
-            </button>
-
-            {{ form_end(form) }}
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_publipostage_mail') }}">Envoie par mail</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_publipostage_paper') }}">Envoie papier</a>
+                </li>
+            </ul>
 
         </div>
     </div>

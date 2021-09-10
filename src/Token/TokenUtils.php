@@ -39,6 +39,7 @@ class TokenUtils
             $this->tokenRepository->persist($token);
         }
         $token->setUuid($token->generateUuid());
+        $token->setPassword($this->generatePassword());
         $date = new DateTime();
         $date->modify('+30days');
         $token->setExpireAt($date);
@@ -52,5 +53,21 @@ class TokenUtils
         $today = new \DateTime();
 
         return $token->getCreatedAt()->format('Y-m-d') > $today->format('Y-m-d');
+    }
+
+    public function generatePassword(int $length = 6): string
+    {
+        $keyspace = '123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $pieces = [];
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $pieces [] = $keyspace[random_int(0, $max)];
+        }
+        $password = implode('', $pieces);
+        if ($this->tokenRepository->findOneBy(['password' => $password])) {
+            $this->generatePassword();
+        }
+
+        return $password;
     }
 }

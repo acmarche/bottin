@@ -14,11 +14,7 @@
             <h3>{{ fiche }}</h3>
         </div>
         <div class="card-body">
-            {{ include('@AcMarcheBottin/admin/fiche/identite/_activite.html.twig') }}
-            <h4>Contact</h4>
-            {{ include('@AcMarcheBottin/admin/fiche/identite/_contact.html.twig') }}
-            {{ include('@AcMarcheBottin/admin/fiche/identite/_sociaux.html.twig') }}
-            {{ include('@AcMarcheBottin/admin/pdf/fiche/_classement.html.twig') }}
+            {% include '@AcMarcheBottin/admin/pdf/fiche/_content.html.twig' %}
         </div>
     </div>
     <div class="page-breaker"></div>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="{{ absolute_url(asset('bundles/acmarchebottin/css/pdf.css')) }}" rel="stylesheet">
+    <link href="{{ bootcdn }}" rel="stylesheet">
+    <title>Publipostage</title>
+</head>
+<body>
+<div class="container">
+
+    {% for fiche in fiches %}
+
+       {% include '@AcMarcheBottin/admin/pdf/_lettre.html.twig' %}
+
+        <div class="page-breaker"></div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5>{{ fiche }}</h5>
+            </div>
+            <div class="card-body">
+                {% include '@AcMarcheBottin/admin/pdf/fiche/_content.html.twig' %}
+            </div>
+        </div>
+        <div class="page-breaker"></div>
+    {% endfor %}
+</div>
+</body>
+</html>

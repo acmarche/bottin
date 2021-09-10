@@ -34,6 +34,11 @@ class Token implements TimestampableInterface
      */
     protected DateTimeInterface $expireAt;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
+     */
+    protected ?string $password = null;
+
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
@@ -48,6 +53,23 @@ class Token implements TimestampableInterface
     public function setExpireAt(DateTimeInterface $expireAt): self
     {
         $this->expireAt = $expireAt;
+
+        return $this;
+    }
+
+    public function generatePassword()
+    {
+
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }

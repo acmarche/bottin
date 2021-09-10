@@ -5,6 +5,8 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
 use AcMarche\Bottin\Mailer\MailFactory;
+use AcMarche\Bottin\Pdf\Factory\PdfFactory;
+use AcMarche\Bottin\Utils\FicheUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +26,43 @@ class PublipostageController extends AbstractController
     private MailerInterface $mailer;
     private ExportUtils $exportUtils;
     private MailFactory $mailFactory;
+    private FicheUtils $ficheUtils;
+    private PdfFactory $pdfFactory;
 
-    public function __construct(MailerInterface $mailer, MailFactory $mailFactory, ExportUtils $exportUtils)
-    {
+    public function __construct(
+        MailerInterface $mailer,
+        MailFactory $mailFactory,
+        ExportUtils $exportUtils,
+        FicheUtils $ficheUtils,
+        PdfFactory $pdfFactory
+    ) {
         $this->mailer = $mailer;
         $this->exportUtils = $exportUtils;
         $this->mailFactory = $mailFactory;
+        $this->ficheUtils = $ficheUtils;
+        $this->pdfFactory = $pdfFactory;
     }
 
     /**
-     * @Route("/", name="bottin_admin_publipostage", methods={"GET", "POST"})
+     * @Route("/", name="bottin_admin_publipostage_index", methods={"GET"})
      */
-    public function index(Request $request): Response
+    public function index(): Response
+    {
+        $user = $this->getUser();
+        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+
+        return $this->render(
+            '@AcMarcheBottin/admin/publipostage/index.html.twig',
+            [
+                'fiches' => $fiches,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/mail", name="bottin_admin_publipostage_mail", methods={"GET", "POST"})
+     */
+    public function byMail(Request $request): Response
     {
         $form = $this->createForm(MessageType::class, ['from' => $this->getParameter('bottin.email_from')]);
         $user = $this->getUser();
@@ -69,12 +96,34 @@ class PublipostageController extends AbstractController
             return $this->redirectToRoute('bottin_admin_publipostage');
         }
 
+        $noEmails = [];
+        foreach ($fiches as $fiche) {
+            if (0 == \count($this->ficheUtils->extractEmailsFromFiche($fiche))) {
+                $noEmails[] = $fiche;
+            }
+        }
+
+
         return $this->render(
-            '@AcMarcheBottin/admin/publipostage/index.html.twig',
+            '@AcMarcheBottin/admin/publipostage/mail.html.twig',
             [
                 'form' => $form->createView(),
                 'fiches' => $fiches,
+                'noEmails' => $noEmails,
             ]
         );
+    }
+
+    /**
+     * @Route("/paper", name="bottin_admin_publipostage_paper", methods={"GET", "POST"})
+     */
+    public function byPaper(): Response
+    {
+        $user = $this->getUser();
+        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+
+        $html = $this->pdfFactory->fichesPublipostage($fiches);
+return new Response($html);
+        return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
 }

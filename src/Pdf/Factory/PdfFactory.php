@@ -13,7 +13,7 @@ use Twig\Environment;
 
 class PdfFactory
 {
-    private Pdf $pdf;
+    public Pdf $pdf;
     private CategoryService $categoryService;
     private ClassementRepository $classementRepository;
     private PathUtils $pathUtils;
@@ -33,12 +33,13 @@ class PdfFactory
         $this->environment = $environment;
     }
 
-    public function fiche(Fiche $fiche): PdfResponse
+    public function fiche(Fiche $fiche): string
     {
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
+        $fiche->classementsFull = $classements;
 
-        $html = $this->environment->render(
+        return $this->environment->render(
             '@AcMarcheBottin/admin/pdf/fiche.html.twig',
             [
                 'fiche' => $fiche,
@@ -47,18 +48,29 @@ class PdfFactory
         );
 
         // return new Response($html);
+    }
 
-        return new PdfResponse(
-            $this->pdf->getOutputFromHtml($html),
-            'bottin_'.$fiche->getSlug().'.pdf'
+    public function fichesPublipostage(array $fiches): string
+    {
+        foreach ($fiches as $fiche) {
+            $classements = $this->classementRepository->getByFiche($fiche);
+            $classements = $this->pathUtils->setPathForClassements($classements);
+            $fiche->classementsFull = $classements;
+        }
+
+        return $this->environment->render(
+            '@AcMarcheBottin/admin/pdf/fiches_publipostage.html.twig',
+            [
+                'fiches' => $fiches,
+            ]
         );
     }
 
-    public function fichesByCategory(Category $category): PdfResponse
+    public function fichesByCategory(Category $category): string
     {
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
 
-        $html = $this->environment->render(
+        return $this->environment->render(
             '@AcMarcheBottin/admin/pdf/category.html.twig',
             [
                 'category' => $category,
@@ -67,12 +79,13 @@ class PdfFactory
         );
 
         //return new Response($html);
+    }
 
-        $this->pdf->setOption('footer-right', '[page]/[toPage]');
-
+    public function sendResponse(string $html, string $name): PdfResponse
+    {
         return new PdfResponse(
             $this->pdf->getOutputFromHtml($html),
-            'bottin_'.$category->getSlug().'.pdf'
+            'bottin_'.$name.'.pdf'
         );
     }
 }

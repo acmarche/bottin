@@ -30,7 +30,9 @@ class ExportPdfController extends AbstractController
      */
     public function fichePdf(Fiche $fiche): PdfResponse
     {
-        return $this->pdfFactory->fiche($fiche);
+        $html = $this->pdfFactory->fiche($fiche);
+
+        return $this->pdfFactory->sendResponse($html, $fiche->getSlug());
     }
 
     /**
@@ -38,6 +40,9 @@ class ExportPdfController extends AbstractController
      */
     public function fichesPdf(Category $category): PdfResponse
     {
-        return $this->pdfFactory->fichesByCategory($category);
+        $html = $this->pdfFactory->fichesByCategory($category);
+        $this->pdfFactory->pdf->setOption('footer-right', '[page]/[toPage]');
+
+        return $this->pdfFactory->sendResponse($html, $category->getSlug());
     }
 }

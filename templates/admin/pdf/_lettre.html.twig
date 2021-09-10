@@ -1,0 +1,28 @@
+<table class="table">
+    <tr>
+        <td>
+            Agence de Développement Local (ADL)<br/>
+            Hôtel de Ville<br/>
+            Boulevard du Midi, 22<br/>
+            6900 Marche-en-Famenne<br/>
+            Tél : 084 32 70 78<br/>
+            Courriel : adl@marche.be<br/>
+        </td>
+        <td>
+            {{ fiche.societe }} <br/>
+            {{ fiche.nom }} {{ fiche.prenom }} <br/>
+            {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
+        </td>
+    </tr>
+</table>
+<div class="card">
+    <div class="card-body">
+        Bonjour {{ fiche.societe }}<br/>
+        <br/>
+        Vous êtres repris sur notre site<br/>
+        Blabla<br/>
+        <p>Retrouvez les informations vous concernant au verso</p>
+
+        <strong>Votre mot de passe: {{ fiche.token.password }}</strong>
+    </div>
+</div>
