@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Category\Form;
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Repository\CategoryRepository;

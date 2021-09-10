@@ -3,8 +3,8 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\User;
-use AcMarche\Bottin\Form\Security\UtilisateurEditType;
-use AcMarche\Bottin\Form\Security\UtilisateurType;
+use AcMarche\Bottin\User\Form\UtilisateurEditType;
+use AcMarche\Bottin\User\Form\UtilisateurType;
 use AcMarche\Bottin\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

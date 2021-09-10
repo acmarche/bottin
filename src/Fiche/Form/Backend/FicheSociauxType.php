@@ -1,52 +1,37 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Fiche\Form\Backend;
 
-use AcMarche\Bottin\Entity\Adresse;
+use AcMarche\Bottin\Entity\Fiche;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdresseType extends AbstractType
+class FicheSociauxType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'nom',
-                TextType::class,
-                [
-                    'required' => false,
-                    'help' => 'Hdv, Place aux foires, Place x',
-                ]
-            )
-            ->add(
-                'rue',
-                TextType::class,
-                [
-                    'required' => true,
-                ]
-            )
-            ->add(
-                'numero',
+                'facebook',
                 TextType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'cp',
+                'twitter',
                 TextType::class,
                 [
-                    'required' => true,
+                    'required' => false,
                 ]
             )
             ->add(
-                'localite',
+                'instagram',
                 TextType::class,
                 [
-                    'required' => true,
+                    'required' => false,
                 ]
             );
     }
@@ -55,7 +40,7 @@ class AdresseType extends AbstractType
     {
         $optionsResolver->setDefaults(
             [
-                'data_class' => Adresse::class,
+                'data_class' => Fiche::class,
             ]
         );
     }

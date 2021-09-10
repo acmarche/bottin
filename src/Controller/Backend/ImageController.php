@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Entity\Token;
-use AcMarche\Bottin\Form\FicheImageType;
+use AcMarche\Bottin\Fiche\Form\FicheImageType;
 use AcMarche\Bottin\Repository\ImageRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use Exception;

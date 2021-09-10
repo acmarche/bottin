@@ -3,8 +3,8 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\User;
-use AcMarche\Bottin\Form\Security\UtilisateurEditType;
-use AcMarche\Bottin\Form\Security\UtilisateurPasswordType;
+use AcMarche\Bottin\User\Form\UtilisateurEditType;
+use AcMarche\Bottin\User\Form\UtilisateurPasswordType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

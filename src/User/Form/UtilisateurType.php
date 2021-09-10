@@ -1,30 +1,40 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\User\Form;
 
-use AcMarche\Bottin\Location\LocationAbleInterface;
+use AcMarche\Bottin\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LocalisationType extends AbstractType
+class UtilisateurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'latitude',
+                'nom',
                 TextType::class,
                 [
-                    'attr' => ['placeholder' => 'latitude'],
+                    'required' => true,
                 ]
             )
             ->add(
-                'longitude',
+                'prenom',
                 TextType::class,
                 [
-                    'attr' => ['placeholder' => 'longitude'],
+                    'required' => true,
+                ]
+            )
+            ->add('email', EmailType::class)
+            ->add('username', TextType::class)
+            ->add(
+                'plainPassword',
+                TextType::class,
+                [
+                    'label' => 'Mot de passe',
                 ]
             );
     }
@@ -32,7 +42,9 @@ class LocalisationType extends AbstractType
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(
-            ['data_class' => LocationAbleInterface::class]
+            [
+                'data_class' => User::class,
+            ]
         );
     }
 }

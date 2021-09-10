@@ -1,11 +1,12 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Fiche\Form;
 
 use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Entity\Situation;
+use AcMarche\Bottin\Horaire\Form\HoraireType;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use AcMarche\Bottin\Repository\PdvRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

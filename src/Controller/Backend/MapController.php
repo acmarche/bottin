@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Backend;
 
 use AcMarche\Bottin\Entity\Token;
-use AcMarche\Bottin\Form\LocalisationType;
+use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

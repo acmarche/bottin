@@ -1,15 +1,14 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Security;
+namespace AcMarche\Bottin\Adresse\Form;
 
-use AcMarche\Bottin\Entity\User;
+use AcMarche\Bottin\Entity\Adresse;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UtilisateurType extends AbstractType
+class AdresseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
@@ -18,23 +17,36 @@ class UtilisateurType extends AbstractType
                 'nom',
                 TextType::class,
                 [
-                    'required' => true,
+                    'required' => false,
+                    'help' => 'Hdv, Place aux foires, Place x',
                 ]
             )
             ->add(
-                'prenom',
+                'rue',
                 TextType::class,
                 [
                     'required' => true,
                 ]
             )
-            ->add('email', EmailType::class)
-            ->add('username', TextType::class)
             ->add(
-                'plainPassword',
+                'numero',
                 TextType::class,
                 [
-                    'label' => 'Mot de passe',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'cp',
+                TextType::class,
+                [
+                    'required' => true,
+                ]
+            )
+            ->add(
+                'localite',
+                TextType::class,
+                [
+                    'required' => true,
                 ]
             );
     }
@@ -43,7 +55,7 @@ class UtilisateurType extends AbstractType
     {
         $optionsResolver->setDefaults(
             [
-                'data_class' => User::class,
+                'data_class' => Adresse::class,
             ]
         );
     }

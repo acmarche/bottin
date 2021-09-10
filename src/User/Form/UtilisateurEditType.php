@@ -1,8 +1,9 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Security;
+namespace AcMarche\Bottin\User\Form;
 
 use AcMarche\Bottin\Entity\User;
+use AcMarche\Bottin\User\Form\UtilisateurType;
 use AcMarche\Bottin\Service\Bottin;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

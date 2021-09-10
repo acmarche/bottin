@@ -1,17 +1,16 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Document\Form;
 
-use AcMarche\Bottin\Entity\Category;
+use AcMarche\Bottin\Entity\Document;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class CategoryType extends AbstractType
+class DocumentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
@@ -28,41 +27,22 @@ class CategoryType extends AbstractType
                 TextareaType::class,
                 [
                     'required' => false,
-                    'attr' => ['rows' => 5],
                 ]
             )
             ->add(
-                'mobile',
-                CheckboxType::class,
+                'file',
+                FileType::class,
                 [
-                    'label' => 'Visible sur la version mobile ?',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'logoFile',
-                VichImageType::class,
-                [
-                    'required' => false,
-                    'label' => 'Logo',
-                ]
-            )
-            ->add(
-                'logoBlancFile',
-                VichImageType::class,
-                [
-                    'required' => false,
-                    'label' => 'Logo blanc',
+                    'label' => 'Fichier',
                 ]
             );
-        //->add('parent');
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(
             [
-                'data_class' => Category::class,
+                'data_class' => Document::class,
             ]
         );
     }

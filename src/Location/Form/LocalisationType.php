@@ -1,23 +1,30 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Location\Form;
 
-use AcMarche\Bottin\Entity\Localite;
+use AcMarche\Bottin\Location\LocationAbleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class LocaliteType extends AbstractType
+class LocalisationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'nom',
+                'latitude',
                 TextType::class,
                 [
-                    'required' => true,
+                    'attr' => ['placeholder' => 'latitude'],
+                ]
+            )
+            ->add(
+                'longitude',
+                TextType::class,
+                [
+                    'attr' => ['placeholder' => 'longitude'],
                 ]
             );
     }
@@ -25,9 +32,7 @@ class LocaliteType extends AbstractType
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults(
-            [
-                'data_class' => Localite::class,
-            ]
+            ['data_class' => LocationAbleInterface::class]
         );
     }
 }

@@ -1,37 +1,24 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Fiche;
+namespace AcMarche\Bottin\Fiche\Form;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Horaire\Form\HoraireType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FicheSociauxType extends AbstractType
+class FicheHoraireType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'facebook',
-                TextType::class,
+                'horaires',
+                CollectionType::class,
                 [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'twitter',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'instagram',
-                TextType::class,
-                [
-                    'required' => false,
+                    'entry_type' => HoraireType::class,
                 ]
             );
     }

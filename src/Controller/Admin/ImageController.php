@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
-use AcMarche\Bottin\Form\FicheImageType;
+use AcMarche\Bottin\Fiche\Form\FicheImageType;
 use AcMarche\Bottin\Repository\ImageRepository;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

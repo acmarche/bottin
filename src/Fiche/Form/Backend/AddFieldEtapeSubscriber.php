@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Fiche;
+namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

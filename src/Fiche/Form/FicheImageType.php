@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Fiche\Form;
 
 use AcMarche\Bottin\Entity\FicheImage;
 use Symfony\Component\Form\AbstractType;

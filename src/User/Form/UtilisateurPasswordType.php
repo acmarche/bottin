@@ -1,23 +1,23 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\User\Form;
 
-use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FicheHoraireType extends AbstractType
+class UtilisateurPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'horaires',
-                CollectionType::class,
+                'plainPassword',
+                TextType::class,
                 [
-                    'entry_type' => HoraireType::class,
+                    'label' => 'Mot de passe',
                 ]
             );
     }
@@ -26,7 +26,7 @@ class FicheHoraireType extends AbstractType
     {
         $optionsResolver->setDefaults(
             [
-                'data_class' => Fiche::class,
+                'data_class' => User::class,
             ]
         );
     }

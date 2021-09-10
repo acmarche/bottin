@@ -6,7 +6,7 @@
  * Time: 11:27.
  */
 
-namespace AcMarche\Bottin\Service;
+namespace AcMarche\Bottin\Horaire\Handler;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Horaire;

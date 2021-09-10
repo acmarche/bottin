@@ -1,112 +1,112 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Fiche;
+namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Fiche\Form\Backend\AddFieldEtapeSubscriber;
+use AcMarche\Bottin\Repository\LocaliteRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FicheContactType extends AbstractType
+class FicheActiviteType extends AbstractType
 {
+    private LocaliteRepository $localiteRepository;
+
+    public function __construct(LocaliteRepository $localiteRepository)
+    {
+        $this->localiteRepository = $localiteRepository;
+    }
+
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
+        $localites = $this->localiteRepository->findAllOrderyByNom();
+
         $formBuilder
+            ->add('societe', TextType::class)
             ->add(
-                'fonction',
+                'rue',
                 TextType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'civilite',
+                'numero',
                 TextType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'nom',
-                TextType::class,
+                'localite',
+                ChoiceType::class,
                 [
+                    'choices' => $localites,
+                    'choice_label' => fn ($localite) => $localite->getNom(),
+                    'choice_value' => fn ($localite) => $localite,
                     'required' => false,
                 ]
             )
             ->add(
-                'prenom',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'contact_rue',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'contact_num',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'contact_cp',
-                IntegerType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'contact_localite',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'contact_telephone',
+                'telephone',
                 TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'contact_telephone_autre',
+                'telephone_autre',
                 TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'contact_fax',
+                'fax',
                 TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'contact_gsm',
+                'gsm',
                 TelType::class,
                 [
                     'required' => false,
                 ]
             )
             ->add(
-                'contact_email',
+                'website',
+                UrlType::class,
+                [
+                    'required' => false,
+                    'label' => 'Site internet',
+                    'help' => 'Ex: https://www.monsite.be',
+                ]
+            )
+            ->add(
+                'email',
                 EmailType::class,
                 [
                     'required' => false,
                 ]
+            )
+            ->add(
+                'numeroTva',
+                TextType::class,
+                [
+                    'required' => false,
+                    'label' => 'Numéro de Tva',
+                ]
             );
+
+        $formBuilder->addEventSubscriber(new AddFieldEtapeSubscriber());
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

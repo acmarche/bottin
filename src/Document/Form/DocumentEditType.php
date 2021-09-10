@@ -1,7 +1,8 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Document\Form;
 
+use AcMarche\Bottin\Document\Form\DocumentType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 

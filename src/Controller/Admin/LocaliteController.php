@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Localite;
-use AcMarche\Bottin\Form\LocaliteType;
+use AcMarche\Bottin\Localite\Form\LocaliteType;
 use AcMarche\Bottin\Localite\Message\LocaliteCreated;
 use AcMarche\Bottin\Localite\Message\LocaliteDeleted;
 use AcMarche\Bottin\Localite\Message\LocaliteUpdated;

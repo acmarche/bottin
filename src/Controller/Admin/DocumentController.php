@@ -4,8 +4,8 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Document;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Form\DocumentEditType;
-use AcMarche\Bottin\Form\DocumentType;
+use AcMarche\Bottin\Document\Form\DocumentEditType;
+use AcMarche\Bottin\Document\Form\DocumentType;
 use AcMarche\Bottin\Repository\DocumentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

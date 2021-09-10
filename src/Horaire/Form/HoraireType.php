@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Form;
+namespace AcMarche\Bottin\Horaire\Form;
 
 use AcMarche\Bottin\Entity\Horaire;
 use Symfony\Component\Form\AbstractType;

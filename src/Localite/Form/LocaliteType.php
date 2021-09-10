@@ -1,23 +1,23 @@
 <?php
 
-namespace AcMarche\Bottin\Form\Security;
+namespace AcMarche\Bottin\Localite\Form;
 
-use AcMarche\Bottin\Entity\User;
+use AcMarche\Bottin\Entity\Localite;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UtilisateurPasswordType extends AbstractType
+class LocaliteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
             ->add(
-                'plainPassword',
+                'nom',
                 TextType::class,
                 [
-                    'label' => 'Mot de passe',
+                    'required' => true,
                 ]
             );
     }
@@ -26,7 +26,7 @@ class UtilisateurPasswordType extends AbstractType
     {
         $optionsResolver->setDefaults(
             [
-                'data_class' => User::class,
+                'data_class' => Localite::class,
             ]
         );
     }
