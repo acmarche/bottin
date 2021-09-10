@@ -12,7 +12,7 @@
             {{ form_errors(form) }}
             <button type="submit" name="send" class="btn btn-primary">Générer</button>
             {{ form_end(form) }}
-
+<br /><br />
             {% for fiche in fiches %}
                 {% if fiche.token %}
                     <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">

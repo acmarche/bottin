@@ -23,6 +23,11 @@
         Blabla<br/>
         <p>Retrouvez les informations vous concernant au verso</p>
 
-        <strong>Votre mot de passe: {{ fiche.token.password }}</strong>
+        {% if fiche.token %}
+            Rendez-vous sur la page : <a href="{{ url('bottin_backend_password') }}">{{ url('bottin_backend_password') }}</a>
+            <br />et encodez le mot de passe suivant : <br />
+            <strong>Votre mot de passe: {{ fiche.token.password }}</strong>
+
+        {% endif %}<br/><br/>
     </div>
 </div>

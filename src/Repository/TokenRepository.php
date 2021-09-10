@@ -52,4 +52,13 @@ class TokenRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findOneByPassword(string $password): ?Token
+    {
+         return $this->createQueryBuilder('token')
+            ->andWhere('token.password = :val')
+            ->setParameter('val', $password)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
