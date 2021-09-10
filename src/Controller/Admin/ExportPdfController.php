@@ -4,11 +4,8 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Repository\ClassementRepository;
-use AcMarche\Bottin\Category\Repository\CategoryService;
-use AcMarche\Bottin\Utils\PathUtils;
+use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,21 +18,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ExportPdfController extends AbstractController
 {
-    private Pdf $pdf;
-    private CategoryService $categoryService;
-    private ClassementRepository $classementRepository;
-    private PathUtils $pathUtils;
+    private PdfFactory $pdfFactory;
 
-    public function __construct(
-        CategoryService $categoryService,
-        Pdf $pdf,
-        ClassementRepository $classementRepository,
-        PathUtils $pathUtils
-    ) {
-        $this->pdf = $pdf;
-        $this->categoryService = $categoryService;
-        $this->classementRepository = $classementRepository;
-        $this->pathUtils = $pathUtils;
+    public function __construct(PdfFactory $pdfFactory)
+    {
+        $this->pdfFactory = $pdfFactory;
     }
 
     /**
@@ -43,23 +30,7 @@ class ExportPdfController extends AbstractController
      */
     public function fichePdf(Fiche $fiche): PdfResponse
     {
-        $classements = $this->classementRepository->getByFiche($fiche);
-        $classements = $this->pathUtils->setPathForClassements($classements);
-
-        $html = $this->renderView(
-            '@AcMarcheBottin/admin/pdf/fiche.html.twig',
-            [
-                'fiche' => $fiche,
-                'classements' => $classements,
-            ]
-        );
-
-        // return new Response($html);
-
-        return new PdfResponse(
-            $this->pdf->getOutputFromHtml($html),
-            'bottin_'.$fiche->getSlug().'.pdf'
-        );
+        return $this->pdfFactory->fiche($fiche);
     }
 
     /**
@@ -67,23 +38,6 @@ class ExportPdfController extends AbstractController
      */
     public function fichesPdf(Category $category): PdfResponse
     {
-        $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
-
-        $html = $this->renderView(
-            '@AcMarcheBottin/admin/pdf/category.html.twig',
-            [
-                'category' => $category,
-                'fiches' => $fiches,
-            ]
-        );
-
-        //return new Response($html);
-
-        $this->pdf->setOption('footer-right', '[page]/[toPage]');
-
-        return new PdfResponse(
-            $this->pdf->getOutputFromHtml($html),
-            'bottin_'.$category->getSlug().'.pdf'
-        );
+        return $this->pdfFactory->fichesByCategory($category);
     }
 }
