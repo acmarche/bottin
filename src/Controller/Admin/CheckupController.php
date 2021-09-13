@@ -53,9 +53,6 @@ class CheckupController extends AbstractController
 
         foreach ($fiches as $fiche) {
             $classements = $fiche->getClassements();
-            if (1 == $classements->count()) {
-                $classements[0]->setPrincipal(true);
-            }
             $principaux = array_filter($classements->toArray(), function ($classement) {
                 if ($classement->getPrincipal()) {
                     return true;
@@ -67,8 +64,6 @@ class CheckupController extends AbstractController
                 $data[] = $fiche;
             }
         }
-
-        $this->classementRepository->flush();
 
         return $this->render(
             '@AcMarcheBottin/admin/checkup/principal.html.twig',
