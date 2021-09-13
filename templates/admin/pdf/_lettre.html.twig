@@ -1,22 +1,20 @@
-<table class="table">
-    <tr>
-        <td>
-            Agence de Développement Local (ADL)<br/>
-            Hôtel de Ville<br/>
-            Boulevard du Midi, 22<br/>
-            6900 Marche-en-Famenne<br/>
-            Tél : 084 32 70 78<br/>
-            Courriel : adl@marche.be<br/>
-        </td>
-        <td>
-            {{ fiche.societe }} <br/>
-            {{ fiche.nom }} {{ fiche.prenom }} <br/>
-            {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
-        </td>
-    </tr>
-</table>
-<div class="card">
-    <div class="card-body">
+<div class="d-flex row justify-content-between align-items-center mb-5">
+    <div class="col">
+        Agence de Développement Local (ADL)<br/>
+        Hôtel de Ville<br/>
+        Boulevard du Midi, 22<br/>
+        6900 Marche-en-Famenne<br/>
+        Tél : 084 32 70 78<br/>
+        Courriel : adl@marche.be<br/>
+    </div>
+    <div class="col text-end">
+        {{ fiche.societe }} <br/>
+        {{ fiche.nom }} {{ fiche.prenom }} <br/>
+        {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
+    </div>
+</div>
+<div class="card mt-5">
+    <div class="card-body" style="height: 1030px;">
         Bonjour {{ fiche.societe }}<br/>
         <br/>
         Vous êtres repris dans notre bottin de la commune de Marche-en-Famenne<br/>
@@ -32,8 +30,8 @@
 
         {% endif %}
         <br/><br/>
-        <div class="card-footer">
-            {% include '@AcMarcheBottin/admin/pdf/footer/_footer_'~ fiche.root ~'.html.twig' %}
-        </div>
+    </div>
+    <div class="card-footer">
+        {% include '@AcMarcheBottin/admin/pdf/footer/_footer_'~ fiche.root ~'.html.twig' %}
     </div>
 </div>
