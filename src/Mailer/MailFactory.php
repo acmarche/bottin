@@ -36,10 +36,9 @@ class MailFactory
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
         $email = count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
 
-        $from = 'adl@marche.be';
         $templatedEmail = (new TemplatedEmail())
-            ->from($from)
-            ->to(new Address('jf@marche.be', $email))
+            ->from(new Address('adl@marche.be', $from))
+            ->to(new Address('jf@marche.be', $email), new Address('adl@marche.be', $email))
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(

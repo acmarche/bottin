@@ -73,6 +73,7 @@ class PublipostageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
+            $i = 0;
             foreach ($fiches as $fiche) {
                 $message = $data['message'];
                 $message = $this->exportUtils->replaceUrlToken($fiche, $message);
@@ -83,7 +84,10 @@ class PublipostageController extends AbstractController
                 } catch (TransportExceptionInterface $e) {
                     $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
                 }
-                break;
+                if (5 == $i) {
+                    break;
+                }
+                ++$i;
             }
 
             return $this->redirectToRoute('bottin_admin_publipostage_index');
@@ -116,7 +120,7 @@ class PublipostageController extends AbstractController
 
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
-         //  return new Response($html);
+        //  return new Response($html);
 
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
