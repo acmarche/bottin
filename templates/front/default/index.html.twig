@@ -18,7 +18,7 @@
                                 <ul class="list-group list-group-flush">
                                     {% for child in category.childNodes %}
                                         <li class="list-group-item">
-                                            <a href="{{ path('bottin_front_category_show', {'slug': category.slug}) }}">
+                                            <a href="{{ path('bottin_front_category_show', {'slug': child.slug}) }}">
                                                 {{ child.name }}
                                             </a>
                                         </li>
