@@ -1,0 +1,2365 @@
+{
+  "enterpriseNumber": "0404.345.092",
+  "status": "AC",
+  "juridicalSituation": "000",
+  "typeOfEnterprise": 2,
+  "juridicalForm": 14,
+  "startDate": "1952-09-30T00:00:00.000Z",
+  "activities": [
+    {
+      "activityGroup": "RSZ001",
+      "naceVersion": "2008",
+      "naceCode": "47521",
+      "classification": "MAIN",
+      "activityGroupDescription": {
+        "FR": "Activités ONSS",
+        "NL": "RSZ-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité principale",
+        "NL": "Hoofdactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+        "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2008",
+      "naceCode": "47521",
+      "classification": "MAIN",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité principale",
+        "NL": "Hoofdactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+        "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2008",
+      "naceCode": "47530",
+      "classification": "SECO",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité secondaire",
+        "NL": "Nevenactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail de tapis, de moquettes et de revêtements de murs et de sols en magasin spécialisé",
+        "NL": "Detailhandel in tapijten en andere vloerbedekking en wandbekleding in  gespecialiseerde winkels"
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2008",
+      "naceCode": "47789",
+      "classification": "SECO",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité secondaire",
+        "NL": "Nevenactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Autre commerce de détail de biens neufs en magasin spécialisé n.c.a.",
+        "NL": "Overige detailhandel in nieuwe artikelen in gespecialiseerde winkels, n.e.g."
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2003",
+      "naceCode": "52462",
+      "classification": "MAIN",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité principale",
+        "NL": "Hoofdactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+        "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2003",
+      "naceCode": "52486",
+      "classification": "SECO",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité secondaire",
+        "NL": "Nevenactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail spécialisé de papiers peints, de revêtements de murs et de sols",
+        "NL": "Gespecialiseerde detailhandel in behang, vloerbedekking, vloerkleden en tapijt"
+      }
+    },
+    {
+      "activityGroup": "BTW001",
+      "naceVersion": "2003",
+      "naceCode": "52498",
+      "classification": "SECO",
+      "activityGroupDescription": {
+        "FR": "Activités TVA",
+        "NL": "BTW-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité secondaire",
+        "NL": "Nevenactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Autres commerces de détail spécialisés de produits non alimentaires n.d.a.",
+        "NL": "Overige gespecialiseerde detailhandel in artikelen, andere dan voedingsmiddelen, n.e.g."
+      }
+    },
+    {
+      "activityGroup": "RSZ001",
+      "naceVersion": "2003",
+      "naceCode": "52462",
+      "classification": "MAIN",
+      "activityGroupDescription": {
+        "FR": "Activités ONSS",
+        "NL": "RSZ-activiteiten"
+      },
+      "classificationDescription": {
+        "FR": "Activité principale",
+        "NL": "Hoofdactiviteit"
+      },
+      "naceCodeDescription": {
+        "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+        "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+      }
+    }
+  ],
+  "establishments": [
+    {
+      "establishmentNumber": "2.002.949.040",
+      "startDate": "2002-05-27T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6760",
+          "municipalityNL": "Virton",
+          "municipalityFR": "Virton",
+          "streetNL": "Rue de Montmédy",
+          "streetFR": "Rue de Montmédy",
+          "houseNumber": "10",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5244206",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail d'appareils et articles de ménage ou d'économie domestique n.d.a.",
+            "NL": "de kleinhandel in huishoudelijke artikelen, n.e.g."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5246",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, de peintures et verre",
+            "NL": "Detailhandel in ijzerwaren, verf en glas"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5246201",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail de quincaillerie, peintures et matériaux de construction (y compris les bricocenters) avec une surface de vente de plus de 400 m2",
+            "NL": "de kleinhandel in ijzerwaren, verf en bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsopp. > 400 M2"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5248304",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail spécialisé portant sur une large gamme d'articles de jardinage et de produits horticoles (centres de jardinage)",
+            "NL": "de kleinhandel in een uitgebreid gamma van tuinbouwproducten en tuinbouwbenodigdheden voor particulier gebruik, in gespecialiseerde tuincentra"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4752111",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures et matériaux de construction (y compris les bricocenters) avec une surface de vente de plus de 400 m2",
+            "NL": "Kleinhandel in ijzerwaren, verf en bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsopp. > 400 M2"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759903",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail d'appareils et articles de ménage ou d'économie domestique n.d.a.",
+            "NL": "Kleinhandel in huishoudelijke artikelen, n.e.g."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776104",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé portant sur une large gamme d'articles de jardinage et de produits horticoles (centres de jardinage)",
+            "NL": "Kleinhandel in een uitgebreid gamma van tuinbouwproducten en tuinbouwbenodigdheden voor particulier gebruik, in gespecialiseerde tuincentra"
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.002.949.139",
+      "startDate": "1952-10-01T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6900",
+          "municipalityNL": "Marche-en-Famenne",
+          "municipalityFR": "Marche-en-Famenne",
+          "streetNL": "Marche, Avenue de France",
+          "streetFR": "Marche, Avenue de France",
+          "houseNumber": "51",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153104",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "de groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "de groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5161001",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros de machines-outils",
+            "NL": "de groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5166001",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "commerce de gros de machines, matériels et tracteurs agricoles",
+            "NL": "de groothandel in machines, tractoren, werktuigen en toebehoren voor de landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5244205",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "de gespecialiseerde kleinhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5248302",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "de kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.002.949.238",
+      "startDate": "2002-05-30T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6940",
+          "municipalityNL": "Durbuy",
+          "municipalityFR": "Durbuy",
+          "streetNL": "Route de Marche",
+          "streetFR": "Route de Marche",
+          "houseNumber": "41 A",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5246201",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail de quincaillerie, peintures et matériaux de construction (y compris les bricocenters) avec une surface de vente de plus de 400 m2",
+            "NL": "de kleinhandel in ijzerwaren, verf en bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsopp. > 400 M2"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4752111",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures et matériaux de construction (y compris les bricocenters) avec une surface de vente de plus de 400 m2",
+            "NL": "Kleinhandel in ijzerwaren, verf en bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsopp. > 400 M2"
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.002.949.337",
+      "startDate": "2001-02-20T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "4970",
+          "municipalityNL": "Stavelot",
+          "municipalityFR": "Stavelot",
+          "streetNL": "Route de Malmedy",
+          "streetFR": "Route de Malmedy",
+          "houseNumber": "18 A",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "de groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5244202",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail d'appareils ménagers non électriques, de coutellerie, de vaisselle, de verrerie, de porcelaine et de poteries",
+            "NL": "de kleinhandel in niet-elektrische huishoudapparaten, messenmakerswerk, vaatwerk, aardewerk, porselein en glaswerk"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "52450",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail d'appareils électroménagers, de radio et de télévision",
+            "NL": "Detailhandel in elektrische huishoudapparaten en in audio- en videoapparatuur"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "52461",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente jusqu'à 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte van minder dan 400 m2"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47540",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail d'appareils électroménagers en magasin spécialisé",
+            "NL": "Detailhandel in elektrische huishoudapparaten in gespecialiseerde winkels"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759301",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail d'appareils ménagers non électriques, de coutellerie, de vaisselle, de verrerie, de porcelaine et de poteries",
+            "NL": "Detailhandel in niet-elektrische huishoudapparaten, messenmakerswerk, vaatwerk, aardewerk, porselein en glaswerk"
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.080.882.701",
+      "startDate": "2002-08-06T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6953",
+          "municipalityNL": "Nassogne",
+          "municipalityFR": "Nassogne",
+          "streetNL": "Rue des Alliés,Forrières",
+          "streetFR": "Rue des Alliés,Forrières",
+          "houseNumber": "145",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "4542201",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le montage de menuiseries extérieurs et intérieurs métallique: portes, fenêtres, dormants de portes et fenêtres, escaliers, placards, cuisines équipées, équipements pour magasins, etc.",
+            "NL": "de montage van buiten- en binnenschrijnwerk in metaal : deuren, vensters, kozijnen, trappen, muurkasten, inbouwkeukens, winkelinrichtingen, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52461",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente jusqu'à 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte van minder dan 400 m2"
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.146.088.871",
+      "startDate": "2005-04-04T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "4651",
+          "municipalityNL": "Herve",
+          "municipalityFR": "Herve",
+          "streetNL": "Rue de Herve,Battice",
+          "streetFR": "Rue de Herve,Battice",
+          "houseNumber": "112A",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153104",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "de groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "de groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "51810",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "51880",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines, matériels et tracteurs agricoles",
+            "NL": "Groothandel in machines, tractoren, werktuigen en toebehoren voor de landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5244205",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "de gespecialiseerde kleinhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5248302",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "de kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.149.164.266",
+      "startDate": "2005-10-01T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6840",
+          "municipalityNL": "Neufchâteau",
+          "municipalityFR": "Neufchâteau",
+          "streetNL": "Chaussée de Recogne,NEU",
+          "streetFR": "Chaussée de Recogne,NEU",
+          "houseNumber": "28",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153104",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "de groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5153204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "de groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "51810",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "51880",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines, matériels et tracteurs agricoles",
+            "NL": "Groothandel in machines, tractoren, werktuigen en toebehoren voor de landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5244205",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "de gespecialiseerde kleinhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "52462",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de quincaillerie, peintures, matériaux de construction et verre (y compris les bricocenters) avec une surface de vente de plus de 400 m2.",
+            "NL": "Detailhandel in ijzerwaren, verf, bouwmaterialen en glas (inclusief doe-het-zelfzaken) met een verkoopsoppervlakte vanaf 400 m2."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2003",
+          "naceCode": "5248302",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "le commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "de kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.171.950.754",
+      "startDate": "2008-07-01T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "6870",
+          "municipalityNL": "Saint-Hubert",
+          "municipalityFR": "Saint-Hubert",
+          "streetNL": "Avenue des Chasseurs-Ardennais",
+          "streetFR": "Avenue des Chasseurs-Ardennais",
+          "houseNumber": "1",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.181.405.977",
+      "startDate": "2009-10-06T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "4460",
+          "municipalityNL": "Grâce-Hollogne",
+          "municipalityFR": "Grâce-Hollogne",
+          "streetNL": "Rue des Ateliers Smulders",
+          "streetFR": "Rue des Ateliers Smulders",
+          "houseNumber": "7",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46610",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de matériel agricole",
+            "NL": "Groothandel in machines, werktuigen en toebehoren voor de  landbouw"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "46620",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de machines-outils",
+            "NL": "Groothandel in gereedschapswerktuigen"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        }
+      ]
+    },
+    {
+      "establishmentNumber": "2.226.641.433",
+      "startDate": "2014-04-01T00:00:00.000Z",
+      "addresses": [
+        {
+          "typeOfAddress": "BAET",
+          "zipcode": "4860",
+          "municipalityNL": "Pepinster",
+          "municipalityFR": "Pepinster",
+          "streetNL": "Rue Hubert Halet",
+          "streetFR": "Rue Hubert Halet",
+          "houseNumber": "1",
+          "typeOfAddressDescription": {
+            "FR": "Unité d'établissement",
+            "NL": "Vestigingseenheid"
+          }
+        }
+      ],
+      "contacts": [],
+      "denominations": [
+        {
+          "language": 1,
+          "typeOfDenomination": "003",
+          "denomination": "DEMA",
+          "languageDescription": {
+            "FR": "français",
+            "NL": "Frans"
+          },
+          "typeOfDenominationDescription": {
+            "FR": "Dénomination commerciale",
+            "NL": "Commerciële naam"
+          }
+        }
+      ],
+      "activities": [
+        {
+          "activityGroup": "RSZ001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités ONSS",
+            "NL": "RSZ-activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673204",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros de menuiseries et fermetures de bâtiment en bois",
+            "NL": "Groothandel in schrijn- en timmerwerk van hout voor de bouwnijverheid"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4673601",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de gros d'appareils sanitaires: baignoires, lavabos, cuvettes d'aisance, etc.",
+            "NL": "Groothandel in sanitair : baden, wasbakken, toiletten, enz."
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "47521",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de matériaux de construction en magasin spécialisé, assortiment général",
+            "NL": "Bouwmarkten en andere doe-het-zelfzaken in bouwmaterialen, algemeen assortiment"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4759902",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail spécialisé en cadeaux portant sur l'équipement du foyer",
+            "NL": "Gespecialiseerde detailhandel in geschenken m.b.t. de woninginrichting"
+          }
+        },
+        {
+          "activityGroup": "OLK001",
+          "naceVersion": "2008",
+          "naceCode": "4776102",
+          "classification": "MAIN",
+          "activityGroupDescription": {
+            "FR": "Activités",
+            "NL": "Activiteiten"
+          },
+          "classificationDescription": {
+            "FR": "Activité principale",
+            "NL": "Hoofdactiviteit"
+          },
+          "naceCodeDescription": {
+            "FR": "Commerce de détail de graines, d'engrais, de produits phytosanitaires, etc.",
+            "NL": "Kleinhandel in zaden, kunstmeststoffen, sproeistoffen, enz."
+          }
+        }
+      ]
+    }
+  ],
+  "denominations": [
+    {
+      "language": 1,
+      "typeOfDenomination": "001",
+      "denomination": "Dema",
+      "languageDescription": {
+        "FR": "français",
+        "NL": "Frans"
+      },
+      "typeOfDenominationDescription": {
+        "FR": "Dénomination sociale",
+        "NL": "Maatschappelijke naam"
+      }
+    }
+  ],
+  "contacts": [],
+  "addresses": [
+    {
+      "typeOfAddress": "REGO",
+      "zipcode": "6900",
+      "municipalityNL": "Marche-en-Famenne",
+      "municipalityFR": "Marche-en-Famenne",
+      "streetNL": "Marche, Avenue de France",
+      "streetFR": "Marche, Avenue de France",
+      "houseNumber": "51",
+      "typeOfAddressDescription": {
+        "FR": "Siège social",
+        "NL": "Maatschappelijke zetel"
+      }
+    }
+  ],
+  "statusDescription": {
+    "FR": "Actif",
+    "NL": "Actief"
+  },
+  "juridicalSituationDescription": {
+    "DE": "gewöhnlicher Zustand",
+    "FR": "Situation normale",
+    "NL": "Normale toestand"
+  },
+  "typeOfEnterpriseDescription": {
+    "FR": "Personne morale",
+    "NL": "Rechtspersoon"
+  },
+  "juridicalFormDescription": {
+    "DE": "Aktiengesellschaft",
+    "FR": "Société anonyme",
+    "NL": "Naamloze vennootschap"
+  }
+}

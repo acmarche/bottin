@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
+use AcMarche\Bottin\Cbe\Repository\ApiCbeRepository;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\TokenRepository;
 use AcMarche\Bottin\Token\Form\TokenPasswordType;
@@ -15,13 +16,19 @@ class DefaultController extends AbstractController
 {
     private CategoryRepository $categoryRepository;
     private TokenRepository $tokenRepository;
+    /**
+     * @var \AcMarche\Bottin\Cbe\Repository\ApiCbeRepository
+     */
+    private ApiCbeRepository $apiRepository;
 
     public function __construct(
         CategoryRepository $categoryRepository,
-        TokenRepository $tokenRepository
+        TokenRepository $tokenRepository,
+        ApiCbeRepository $apiRepository
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->tokenRepository = $tokenRepository;
+        $this->apiRepository = $apiRepository;
     }
 
     /**
@@ -29,6 +36,13 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
+        try {
+         //   $content = $this->apiRepository->getByNumber('0404.345.092');
+         //   dump($content);
+        } catch (\Exception$exception) {
+            dump($exception);
+        }
+
         $categories = $this->categoryRepository->getRootNodes();
         $categories = SortUtils::sortCategories($categories);
         foreach ($categories as $rootNode) {
