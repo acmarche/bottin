@@ -173,12 +173,16 @@ class FicheController extends AbstractController
             $horaires = $data->getHoraires();
             $this->horaireService->handleEdit($fiche, $horaires);
 
-            $this->historyUtils->diffFiche($fiche);
-            $this->ficheRepository->flush();
+            try {
+                $this->historyUtils->diffFiche($fiche);
+                $this->ficheRepository->flush();
+                $this->addFlash('success', 'La fiche a bien été modifiée');
+            } catch (Exception $exception) {
+                $this->addFlash('danger', 'Erreur pour l\'enregistrement dans l\' historique');
+                $this->ficheRepository->flush();
+            }
 
             $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
-
-            $this->addFlash('success', 'La fiche a bien été modifiée');
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
