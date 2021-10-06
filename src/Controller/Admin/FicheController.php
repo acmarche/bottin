@@ -3,16 +3,16 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Fiche\Form\FicheType;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
-use AcMarche\Bottin\Fiche\Form\FicheType;
 use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\History\HistoryUtils;
+use AcMarche\Bottin\Horaire\Handler\HoraireService;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
-use AcMarche\Bottin\Horaire\Handler\HoraireService;
 use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Exception;
@@ -175,12 +175,12 @@ class FicheController extends AbstractController
 
             try {
                 $this->historyUtils->diffFiche($fiche);
-                $this->ficheRepository->flush();
-                $this->addFlash('success', 'La fiche a bien été modifiée');
             } catch (Exception $exception) {
                 $this->addFlash('danger', 'Erreur pour l\'enregistrement dans l\' historique');
-                $this->ficheRepository->flush();
             }
+
+            $this->ficheRepository->flush();
+                $this->addFlash('success', 'La fiche a bien été modifiée');
 
             $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
 
