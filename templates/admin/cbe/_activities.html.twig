@@ -1,0 +1,37 @@
+<h4 class="text-success">Activités</h4>
+{% for activity in activities %}
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Groupe</th>
+            <td>
+                {{ activity.activityGroup }}
+                {% if activity.activityGroupDescription|length > 0 %}
+                    <span class="text-muted">{{ activity.activityGroupDescription.FR }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Version</th>
+            <td>{{ activity.naceVersion }}</td>
+        </tr>
+        <tr>
+            <th>Code</th>
+            <td>
+                {{ activity.naceCode }}
+                {% if activity.naceCodeDescription|length > 0 %}
+                    <span class="text-muted">{{ activity.naceCodeDescription.FR }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Classification</th>
+            <td>
+                {{ activity.classification }}
+                {% if activity.classificationDescription|length > 0 %}
+                    <span class="text-muted">{{ activity.classificationDescription.FR }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endfor %}

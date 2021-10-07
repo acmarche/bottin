@@ -1,0 +1,23 @@
+<h4 class="text-success">Etablissements</h4>
+{% for establishment in entreprise.establishments %}
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Numéro</th>
+            <td>{{ establishment.establishmentNumber }}</td>
+        </tr>
+        <tr>
+            <th>Début d'activité</th>
+            <td>{{ establishment.startDate }}</td>
+        </tr>
+    </table>
+
+    {% include '@AcMarcheBottin/admin/cbe/_activities.html.twig' with {'activities':establishment.activities} %}
+
+    {% include '@AcMarcheBottin/admin/cbe/_contacts.html.twig' with {'contacts':establishment.contacts} %}
+
+    {% include '@AcMarcheBottin/admin/cbe/_addresses.html.twig' with {'addresses':establishment.addresses} %}
+
+    {% include '@AcMarcheBottin/admin/cbe/_denominations.html.twig' with {'denominations':establishment.denominations} %}
+
+{% endfor %}

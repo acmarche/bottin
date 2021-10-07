@@ -1,0 +1,11 @@
+<h4 class="text-success">Adresses</h4>
+{% for address in addresses %}
+    {% if address.typeOfAddressDescription|length > 0 %}
+        <strong>{{ address.typeOfAddressDescription.FR }} :</strong><br/>
+    {% endif %}
+    {{ address.typeOfAddress }}<br/>
+    {{ address.zipcode }}
+    {{ address.municipalityFR }}<br/>
+    {{ address.streetFR }}
+    {{ address.houseNumber }}<br/>
+{% endfor %}

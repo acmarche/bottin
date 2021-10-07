@@ -36,13 +36,6 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        try {
-         //   $content = $this->apiRepository->getByNumber('0404.345.092');
-         //   dump($content);
-        } catch (\Exception$exception) {
-            dump($exception);
-        }
-
         $categories = $this->categoryRepository->getRootNodes();
         $categories = SortUtils::sortCategories($categories);
         foreach ($categories as $rootNode) {

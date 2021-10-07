@@ -1,0 +1,27 @@
+<h4 class="text-success">Dénominations</h4>
+{% for denomination in denominations %}
+    <table class="table table-bordered">
+        <tr>
+            <th>Nom</th>
+            <td>{{ denomination.denomination }}</td>
+        </tr>
+        <tr>
+            <th>Langue</th>
+            <td>
+                {{ denomination.language }}
+                {% if denomination.languageDescription|length > 0 %}
+                    <span class="text-muted">{{ denomination.languageDescription.FR }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>
+                {{ denomination.typeOfDenomination }}
+                {% if denomination.typeOfDenominationDescription|length > 0 %}
+                    <span class="text-muted">{{ denomination.typeOfDenominationDescription.FR }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endfor %}

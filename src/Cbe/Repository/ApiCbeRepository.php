@@ -12,8 +12,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ApiCbeRepository
 {
-    use ConnectionTrait;
-
     private HttpClientInterface $httpClient;
     private string $clientId;
     private string $secretKey;
@@ -33,8 +31,9 @@ class ApiCbeRepository
     /**
      * @throws \Exception
      */
-    public function getByNumber(string $number): ?string
+    public function getByNumber(string $number): string
     {
+        return file_get_contents(__DIR__.'/../sample.json');
         $this->connect();
 
         try {
@@ -52,35 +51,8 @@ class ApiCbeRepository
                 ]
             );
 
-            return $request->getContent();
-
-        } catch (TransportExceptionInterface $e) {
-            dump($e->getMessage());
-            throw new \Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function requestPost(string $number): ?string
-    {
-        try {
-            $request = $this->httpClient->request(
-                'POST',
-                $this->url.'/byCBE',
-                [
-                    'json' => [
-                        'clientId' => $this->clientId,
-                        'secretKey' => $this->secretKey,
-                        'data' => [
-                            'cbe' => $number,
-                        ],
-                    ],
-                ]
-            );
-
             return $this->getContent($request);
+
         } catch (TransportExceptionInterface $e) {
             throw new \Exception($e->getMessage());
         }

@@ -7,8 +7,8 @@ class Entreprise
     public string $enterpriseNumber;
     public string $status;
     public string $juridicalSituation;
-    public string $typeOfEnterprise;
-    public string $juridicalForm;
+    public int $typeOfEnterprise;
+    public int $juridicalForm;
     public string $startDate;
     /**
      * @var array|Activity[]

@@ -26,6 +26,11 @@
                 <i class="fas fa-map-marker-alt"></i> Géolocalisation</a></div>
 
         <div class="col-auto">
+            <a href="{{ path('bottin_admin_fiche_cbe', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button"><i class="far fa-ban"></i> Cbe</a>
+        </div>
+
+        <div class="col-auto">
             <a href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}" class="btn btn-primary"
                role="button">
                 <i class="fas fa-history"></i> Historique</a>
