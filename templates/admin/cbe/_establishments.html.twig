@@ -1,23 +1,45 @@
 <h4 class="text-success">Etablissements</h4>
-{% for establishment in entreprise.establishments %}
+<div class="accordion" id="accordionExample">
 
-    <table class="table table-bordered">
-        <tr>
-            <th>Numéro</th>
-            <td>{{ establishment.establishmentNumber }}</td>
-        </tr>
-        <tr>
-            <th>Début d'activité</th>
-            <td>{{ establishment.startDate }}</td>
-        </tr>
-    </table>
+    {% for establishment in entreprise.establishments %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ loop.index }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ loop.index }}"
+                        aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                    {% if establishment.addresses|length > 0 %}
+                        {{ establishment.addresses.0.municipalityFR }}
+                    {% else %}
+                        Ville non spécifiée
+                    {% endif %}
+                </button>
+            </h2>
+            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse"
+                 aria-labelledby="heading{{ loop.index }}"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Numéro</th>
+                            <td>{{ establishment.establishmentNumber }}</td>
+                        </tr>
+                        <tr>
+                            <th>Début d'activité</th>
+                            <td>{{ establishment.startDate }}</td>
+                        </tr>
+                    </table>
 
-    {% include '@AcMarcheBottin/admin/cbe/_activities.html.twig' with {'activities':establishment.activities} %}
+                    {% include '@AcMarcheBottin/admin/cbe/_activities.html.twig' with {'activities':establishment.activities} %}
 
-    {% include '@AcMarcheBottin/admin/cbe/_contacts.html.twig' with {'contacts':establishment.contacts} %}
+                    {% include '@AcMarcheBottin/admin/cbe/_contacts.html.twig' with {'contacts':establishment.contacts} %}
 
-    {% include '@AcMarcheBottin/admin/cbe/_addresses.html.twig' with {'addresses':establishment.addresses} %}
+                    {% include '@AcMarcheBottin/admin/cbe/_addresses.html.twig' with {'addresses':establishment.addresses} %}
 
-    {% include '@AcMarcheBottin/admin/cbe/_denominations.html.twig' with {'denominations':establishment.denominations} %}
+                    {% include '@AcMarcheBottin/admin/cbe/_denominations.html.twig' with {'denominations':establishment.denominations} %}
+                </div>
+            </div>
+        </div>
 
-{% endfor %}
+    {% endfor %}
+
+</div>

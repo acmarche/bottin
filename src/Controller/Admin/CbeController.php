@@ -29,6 +29,13 @@ class CbeController extends AbstractController
     {
         $number = $fiche->getNumeroTva();
         $number = '0404.345.092';
+
+        if (!$number) {
+            $this->addFlash('warning', 'Veuillez remplir le numéro de TVA');
+
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+        }
+
         $entreprise = $this->cbeRepository->findByNumber($number);
 
         return $this->render(
@@ -39,5 +46,4 @@ class CbeController extends AbstractController
             ]
         );
     }
-
 }
