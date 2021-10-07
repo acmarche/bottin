@@ -30,14 +30,13 @@ class ApiCbeRepository
 
     /**
      * @throws \Exception
+     * @throws TransportExceptionInterface
      */
     public function getByNumber(string $number): string
     {
-        return file_get_contents(__DIR__.'/../sample.json');
         $this->connect();
 
-        try {
-            $request = $this->httpClient->request(
+        $request = $this->httpClient->request(
                 'POST',
                 $this->url.'/byCBE',
                 [
@@ -51,25 +50,28 @@ class ApiCbeRepository
                 ]
             );
 
-            return $this->getContent($request);
-
-        } catch (TransportExceptionInterface $e) {
-            throw new \Exception($e->getMessage());
-        }
+        return $this->getContent($request, $number);
     }
 
     /**
      * @throws TransportExceptionInterface
+     * @throws \Exception
      */
-    public function getContent(ResponseInterface $request): ?string
+    public function getContent(ResponseInterface $request, string $number): string
     {
         $statusCode = $request->getStatusCode();
+        if (404 === $statusCode) {
+            throw new \Exception("Aucune entreprise trouvée avec le numéro '.$number.'");
+        }
+
+        if (400 === $statusCode) {
+            throw new \Exception('Your quota limit is reached');
+        }
 
         try {
             return $request->getContent();
         } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
             throw new \Exception($e->getMessage());
         }
-
     }
 }
