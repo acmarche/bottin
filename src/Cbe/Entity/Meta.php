@@ -1,0 +1,28 @@
+<?php
+
+namespace AcMarche\Bottin\Cbe\Entity;
+
+use AcMarche\Bottin\Cbe\Repository\MetaRepository;
+use AcMarche\Bottin\Entity\Traits\IdTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * @ORM\Entity(repositoryClass=MetaRepository::class)
+ * @ORM\Table(name="bce_meta", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="meta_idx", columns={"variable"})})
+ * @UniqueEntity(fields={"Variable"}, message="Déjà dans ce classement")
+ */
+class Meta
+{
+    use IdTrait;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=false, unique=true)
+     */
+    public string $Variable;
+    /**
+     * @ORM\Column(type="string", length=150, nullable=false)
+     */
+    public string $Value;
+}

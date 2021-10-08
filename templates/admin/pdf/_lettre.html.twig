@@ -15,26 +15,35 @@
 </div>
 <div class="card mt-5">
     <div class="card-body" style="height: 1030px;">
-        Bonjour {{ fiche.societe }}<br/>
-        <br/>
-        Vous êtes actuellement répertorié sur l'annuaire de la ville de Marche-en-Famenne<br/>
-        Afin de vous référencer correctement, nous avons décidé de procéder à une mise à jour de l'ensemble des données
-        des commerces et entreprises.
+        Bonjour {{ fiche.societe }},
         <br/><br/>
-        Vous trouverez ci-joint les informations reprises actuellement au sujet de votre activité.
+        Vous êtes actuellement répertorié dans l'annuaire économique de la Ville de Marche-en-Famenne(www.marche.be), et, par
+        conséquent, sur le site de Cap sur Marche(cap.marche.be).
         <br/><br/>
-        Nous vous contactons afin de vérifier que vos données sont toujours bien à jour<br/>
-        <p>Retrouvez les informations vous concernant au verso</p>
-        <p>Nous vous donnons la possibilité de changer en ligne votre fiche</p>
-        <p>Voici la procédure</p>
+        Afin de vous référencer correctement, l'Agence de Développement Local procède à une mise à jour de l'ensemble
+        des données des commerces et entreprises.
+        <br/><br/>
+        Vous trouverez dans la fiche ci-jointe les informations reprises actuellement au sujet de votre activité.
+        <br/><br/>
+        Ces informations ne sont plus correctes, obsolètes ou incomplètes?<br/> Nous vous donnons la possibilité
+        d'opérer vos
+        changements directement en ligne en modifiant vous-même votre fiche.
+        <br/><br/>
+        Rendez-vous sur la page :
+        <br/><br/>
         {% if fiche.token %}
             Rendez-vous sur la page : <a
                 href="{{ url('bottin_backend_password') }}">{{ url('bottin_backend_password') }}</a>
             <br/> <br/>et encodez le mot de passe :
             <strong> {{ fiche.token.password }}</strong>
-
         {% endif %}
         <br/><br/>
+        Vous préférez nous renvoyer vos informations par mail pas de problème ! Contactez-nous via l'adresse
+        adl@marche.be
+        <br/><br/>
+        Pour rappel, ces coordonnées de contact ne seront en aucune façon communiquées à des tiers.
+        <br/><br/>
+        Bien à vous,
     </div>
     <div class="card-footer">
         {% include '@AcMarcheBottin/admin/pdf/footer/_footer_'~ fiche.root ~'.html.twig' %}

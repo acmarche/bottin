@@ -1,21 +1,39 @@
 <div class="card">
     <div class="card-body">
-        Bonjour {{ fiche.societe }}<br/>
-        <br/>
-        Vous êtes actuellement répertorié sur l'annuaire de la ville de Marche-en-Famenne<br/>
-        Afin de vous référencer correctement, nous avons décidé de procéder à une mise à jour de l'ensemble des données
-        des commerces et entreprises.
+        Bonjour {{ fiche.societe }},
         <br/><br/>
-        Vous trouverez ci-joint les informations reprises actuellement au sujet de votre activité.
+        Vous êtes actuellement répertorié dans l'annuaire économique de la <a href="https://www.marche.be">Ville de
+            Marche-en-Famenne</a>, et, par
+        conséquent, sur le site de <a href="https://cap.marche.be/">Cap sur Marche</a>.
         <br/><br/>
-        Rendez-vous sur la page :
+        Afin de vous référencer correctement,
+        <a href="https://www.marche.be/administration?p=72">
+            l'Agence de Développement Local</a>
+        procède à une mise à jour de l'ensemble
+        des données des commerces et entreprises.
+        <br/><br/>
+        Vous trouverez dans la fiche ci-jointe les informations reprises actuellement au sujet de votre activité.
+        <br/><br/>
+        Ces informations ne sont plus correctes, obsolètes ou incomplètes?<br/> Nous vous donnons la possibilité
+        d'opérer vos
+        changements directement en ligne en modifiant vous-même votre fiche.
+        <br/><br/>
         {% if fiche.token %}
+            Rendez-vous sur la page :
             <br/><br/>
             <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
                 {{ absolute_url(path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid})) }}
             </a>
         {% endif %}
         <br/><br/>
+        Vous préférez nous renvoyer vos informations par mail pas de problème ! Contactez-nous via l'adresse
+        adl@marche.be
+        <br/><br/>
+        <a href="https://www.marche.be/administration/rgpd/bottin-rgpd-1502/">
+            Pour rappel, ces coordonnées de contact ne seront en aucune façon communiquées à des tiers.
+        </a>
+        <br/><br/>
+        Bien à vous,
         <div class="card-footer">
             {% include '@AcMarcheBottin/admin/pdf/footer/_footer_'~ fiche.root ~'.html.twig' %}
         </div>
