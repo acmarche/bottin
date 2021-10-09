@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\DependencyInjection;
 
+use AcMarche\Bottin\Cbe\Import\ImportHandlerInterface;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,6 +23,9 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
     {
         $this->loader->load('services.php');
         //$this->loader->load('routes/routes.php');
+         $containerBuilder->registerForAutoconfiguration(ImportHandlerInterface::class)
+            ->addTag('bottin.import')
+        ;
     }
 
     /**

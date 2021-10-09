@@ -14,7 +14,7 @@ class ImportHandler
     public function run(string $fileName)
     {
         foreach ($this->handlers as $handler) {
-            $handler->handle([]);
+           // $handler->handle([]);
             dump($fileName);
         }
     }

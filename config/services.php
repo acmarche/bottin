@@ -60,6 +60,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
 
+    /**
+     * va pas ici alors mis dans AcMarcheBottinExtension
+     */
     $services->instanceof(ImportHandlerInterface::class)
         ->tag('bottin.import');
 
