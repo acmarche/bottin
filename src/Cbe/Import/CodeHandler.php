@@ -14,6 +14,11 @@ class CodeHandler implements ImportHandlerInterface
         $this->codeRepository = $codeRepository;
     }
 
+    public static function getDefaultIndexName(): string
+    {
+        return 'handler_code';
+    }
+
     /**
      * @param array|Code[] $codes
      */

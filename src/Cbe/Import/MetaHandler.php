@@ -14,6 +14,11 @@ class MetaHandler implements ImportHandlerInterface
         $this->metaRepository = $metaRepository;
     }
 
+  public static function getDefaultIndexName(): string
+    {
+        return 'handler_hand';
+    }
+
     /**
      * @param Meta[] $metas
      */
