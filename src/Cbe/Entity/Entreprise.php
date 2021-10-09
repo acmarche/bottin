@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Cbe\Entity;
 
 class Entreprise
-{
+{   //"EnterpriseNumber","Status","JuridicalSituation","TypeOfEnterprise","JuridicalForm","StartDate"
     public string $enterpriseNumber;
     public string $status;
     public string $juridicalSituation;

@@ -1,5 +1,7 @@
 <?php
 
+use AcMarche\Bottin\Cbe\Import\ImportHandler;
+use AcMarche\Bottin\Cbe\Import\ImportHandlerInterface;
 use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
@@ -8,9 +10,10 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\LdapInterface;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -56,6 +59,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args(['%es_config%']);
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
+
+    $services->instanceof(ImportHandlerInterface::class)
+        ->tag('bottin.import');
+
+    $services->set(ImportHandler::class)
+        ->arg('$handlers', tagged_iterator('bottin.import'));
 
     if (interface_exists(LdapInterface::class)) {
         $services

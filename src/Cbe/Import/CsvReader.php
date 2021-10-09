@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Cbe\Import;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CsvReader
@@ -23,9 +24,10 @@ class CsvReader
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$fileName.'.csv';
         dump($file);
+
         $class = 'AcMarche\Bottin\Cbe\Entity\\'.ucfirst($fileName).'[]';
         $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
-            // AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => false,
+             AbstractNormalizer::CALLBACKS => false,
         ]);
 
         return $objects;

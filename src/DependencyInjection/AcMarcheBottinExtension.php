@@ -47,6 +47,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
                     break;
                 case 'framework':
                     $this->loadConfig('security');
+                    $this->loadConfig('framework');
 
                     break;
                 case 'vich_uploader':

@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Cbe\Repository;
 use AcMarche\Bottin\Cbe\Entity\Code;
 use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,19 +22,14 @@ class CodeRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Code::class);
     }
 
-    public function queryBuilderForSelect(): QueryBuilder
-    {
-        return $this->createQueryBuilder('adresse')->orderBy('adresse.nom');
-    }
-
     public function checkExist(string $code, string $language, string $category): ?Code
     {
         return $this->createQueryBuilder('code')
-            ->andWhere('code.Code = :code')
+            ->andWhere('code.code = :code')
             ->setParameter('code', $code)
-            ->andWhere('code.Language = :language')
+            ->andWhere('code.language = :language')
             ->setParameter('language', $language)
-            ->andWhere('code.Category = :category')
+            ->andWhere('code.category = :category')
             ->setParameter('category', $category)
             ->getQuery()
             ->getOneOrNullResult();

@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=MetaRepository::class)
  * @ORM\Table(name="bce_meta", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="meta_idx", columns={"variable"})})
- * @UniqueEntity(fields={"Variable"}, message="Déjà dans ce classement")
+ * @UniqueEntity(fields={"variable"}, message="Déjà dans ce classement")
  */
 class Meta
 {
@@ -20,9 +20,9 @@ class Meta
     /**
      * @ORM\Column(type="string", length=150, nullable=false, unique=true)
      */
-    public string $Variable;
+    public string $variable;
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
      */
-    public string $Value;
+    public string $value;
 }

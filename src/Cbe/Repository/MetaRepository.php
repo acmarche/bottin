@@ -25,7 +25,7 @@ class MetaRepository extends ServiceEntityRepository
     public function findByVariable(string $variable): ?Meta
     {
         return $this->createQueryBuilder('meta')
-            ->andWhere('meta.Variable = :variable')
+            ->andWhere('meta.variable = :variable')
             ->setParameter('variable', $variable)
             ->getQuery()
             ->getOneOrNullResult();

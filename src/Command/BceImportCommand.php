@@ -17,8 +17,11 @@ class BceImportCommand extends Command
     private CsvReader $csvReader;
     private ImportHandler $importHandler;
 
-    public function __construct(CsvReader $csvReader, ImportHandler $importHandler, string $name = null)
-    {
+    public function __construct(
+        CsvReader $csvReader,
+        ImportHandler $importHandler,
+        string $name = null
+    ) {
         parent::__construct($name);
         $this->csvReader = $csvReader;
         $this->importHandler = $importHandler;
@@ -36,8 +39,9 @@ class BceImportCommand extends Command
         $fileName = $input->getArgument('fileName');
 
         $data = $this->csvReader->readFile($fileName);
-        //$this->importHandler->handleCodes($data);
-        $this->importHandler->handleMeta($data);
+        $this->importHandler->run($fileName);
+        //    $this->importHandler->handleCodes($data);
+        //  $this->importHandler->handleMeta($data);
 
         return Command::SUCCESS;
     }
