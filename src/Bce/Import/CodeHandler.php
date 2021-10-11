@@ -4,9 +4,12 @@ namespace AcMarche\Bottin\Bce\Import;
 
 use AcMarche\Bottin\Bce\Entity\Code;
 use AcMarche\Bottin\Bce\Repository\CodeRepository;
+use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
 class CodeHandler implements ImportHandlerInterface
 {
+    use SymfonyStyleFactory;
+
     private CodeRepository $codeRepository;
 
     public function __construct(CodeRepository $codeRepository)
@@ -29,6 +32,7 @@ class CodeHandler implements ImportHandlerInterface
                 $code = $data;
                 $this->codeRepository->persist($code);
             }
+            $this->writeLn($data->code);
         }
         $this->codeRepository->flush();
     }

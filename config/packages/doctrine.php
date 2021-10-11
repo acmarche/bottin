@@ -15,12 +15,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                         'prefix' => 'AcMarche\Bottin',
                         'alias' => 'AcMarche\Bottin',
                     ],
-                    'AcMarche\Bottin\Cbe' => [
+                    'AcMarche\Bottin\Bce' => [
                         'is_bundle' => false,
                         'type' => 'annotation',
-                        'dir' => '%kernel.project_dir%/src/AcMarche/Bottin/src/Cbe/Entity',
-                        'prefix' => 'AcMarche\Bottin\Cbe',
-                        'alias' => 'AcMarche\Bottin\Cbe',
+                        'dir' => '%kernel.project_dir%/src/AcMarche/Bottin/src/Bce/Entity',
+                        'prefix' => 'AcMarche\Bottin\Bce',
+                        'alias' => 'AcMarche\Bottin\Bce',
                     ],
                 ],
             ],

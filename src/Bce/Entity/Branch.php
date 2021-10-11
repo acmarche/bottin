@@ -22,9 +22,9 @@ class Branch
     public int $idx;
 
     /**
-     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
-    public int $id;
+    public string $id;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=false)

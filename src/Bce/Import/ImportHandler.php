@@ -21,7 +21,7 @@ class ImportHandler
     /**
      * @throws \Exception
      */
-    public function loadInterfaceByKey(string $key): ImportHandlerInterface
+    public function loadHandlerByKey(string $key): ImportHandlerInterface
     {
         if ($this->serviceLocator->get($key)) {
             return $this->serviceLocator->get($key);

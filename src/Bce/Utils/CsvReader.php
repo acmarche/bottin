@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Bce\Import;
+namespace AcMarche\Bottin\Bce\Utils;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -26,13 +26,14 @@ class CsvReader
     {
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$fileName.'.csv';
+        dump($file);
         if (!is_readable($file)) {
             throw new \Exception('File not found '.$file);
         }
 
-        $class = 'AcMarche\Bottin\Cbe\Entity\\'.ucfirst($fileName).'[]';
+        $class = 'AcMarche\Bottin\Bce\Entity\\'.ucfirst($fileName).'[]';
         $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
-             AbstractNormalizer::CALLBACKS => false,
+
         ]);
 
         return $objects;

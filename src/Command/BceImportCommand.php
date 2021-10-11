@@ -3,8 +3,8 @@
 namespace AcMarche\Bottin\Command;
 
 use AcMarche\Bottin\Bce\Bce;
-use AcMarche\Bottin\Bce\Import\CsvReader;
 use AcMarche\Bottin\Bce\Import\ImportHandler;
+use AcMarche\Bottin\Bce\Utils\CsvReader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +53,8 @@ class BceImportCommand extends Command
         }
 
         try {
-            $handler = $this->importHandler->loadInterfaceByKey($fileName);
+            $handler = $this->importHandler->loadHandlerByKey($fileName);
+            dump($handler);
             $handler->handle($data);
 
             return Command::SUCCESS;

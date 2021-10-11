@@ -4,9 +4,12 @@ namespace AcMarche\Bottin\Bce\Import;
 
 use AcMarche\Bottin\Bce\Entity\Meta;
 use AcMarche\Bottin\Bce\Repository\MetaRepository;
+use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
 class MetaHandler implements ImportHandlerInterface
 {
+    use SymfonyStyleFactory;
+
     private MetaRepository $metaRepository;
 
     public function __construct(MetaRepository $metaRepository)
@@ -29,6 +32,7 @@ class MetaHandler implements ImportHandlerInterface
                 $meta = $data;
                 $this->metaRepository->persist($meta);
             }
+            $this->writeLn($data->variable);
         }
         $this->metaRepository->flush();
     }

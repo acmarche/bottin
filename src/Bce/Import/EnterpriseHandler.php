@@ -4,14 +4,17 @@ namespace AcMarche\Bottin\Bce\Import;
 
 use AcMarche\Bottin\Bce\Entity\Enterprise;
 use AcMarche\Bottin\Bce\Repository\EnterpriseRepository;
+use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
 class EnterpriseHandler implements ImportHandlerInterface
 {
-    private EnterpriseRepository $entrepriseRepository;
+    use SymfonyStyleFactory;
 
-    public function __construct(EnterpriseRepository $entrepriseRepository)
+    private EnterpriseRepository $enterpriseRepository;
+
+    public function __construct(EnterpriseRepository $enterpriseRepository)
     {
-        $this->entrepriseRepository = $entrepriseRepository;
+        $this->enterpriseRepository = $enterpriseRepository;
     }
 
     public static function getDefaultIndexName(): string
@@ -24,12 +27,14 @@ class EnterpriseHandler implements ImportHandlerInterface
      */
     public function handle(array $entreprises)
     {
+        dump(123);
         foreach ($entreprises as $data) {
-            if (!$this->entrepriseRepository->checkExist($data->entreprise, $data->language, $data->category)) {
-                $entreprise = $data;
-                $this->entrepriseRepository->persist($entreprise);
+            if (!$this->enterpriseRepository->checkExist($data->enterpriseNumber)) {
+                $enterprise = $data;
+                $this->enterpriseRepository->persist($enterprise);
             }
+            $this->writeLn($data->enterpriseNumber);
         }
-        $this->entrepriseRepository->flush();
+        $this->enterpriseRepository->flush();
     }
 }

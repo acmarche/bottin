@@ -4,9 +4,12 @@ namespace AcMarche\Bottin\Bce\Import;
 
 use AcMarche\Bottin\Bce\Entity\Denomination;
 use AcMarche\Bottin\Bce\Repository\DenominationRepository;
+use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
 class DenominationHandler implements ImportHandlerInterface
 {
+    use SymfonyStyleFactory;
+
     private DenominationRepository $denominationRepository;
 
     public function __construct(DenominationRepository $denominationRepository)
@@ -25,10 +28,11 @@ class DenominationHandler implements ImportHandlerInterface
     public function handle(array $denominations)
     {
         foreach ($denominations as $data) {
-            if (!$this->denominationRepository->checkExist($data->denomination, $data->language, $data->category)) {
+            if (!$this->denominationRepository->checkExist($data->entityNumber, $data->typeOfDenomination)) {
                 $denomination = $data;
                 $this->denominationRepository->persist($denomination);
             }
+            $this->writeLn($data->denomination);
         }
         $this->denominationRepository->flush();
     }
