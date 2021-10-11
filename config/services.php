@@ -14,6 +14,7 @@ use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\LdapInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -67,7 +68,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('bottin.import');
 
     $services->set(ImportHandler::class)
-        ->arg('$handlers', tagged_iterator('bottin.import'));
+        ->args([
+            '$handlers' => tagged_iterator('bottin.import'),
+            '$serviceLocator' => tagged_locator('bottin.import', 'key', 'getDefaultIndexName'),
+        ]);
+
 
     if (interface_exists(LdapInterface::class)) {
         $services

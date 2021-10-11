@@ -38,11 +38,25 @@ class BceImportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
 
-        $data = $this->csvReader->readFile($fileName);
-        $this->importHandler->run($fileName);
-        //    $this->importHandler->handleCodes($data);
-        //  $this->importHandler->handleMeta($data);
+        try {
+            $data = $this->csvReader->readFile($fileName);
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
 
-        return Command::SUCCESS;
+            return Command::FAILURE;
+        }
+
+        try {
+            $handler = $this->importHandler->loadInterfaceByKey($fileName);
+            $handler->handle($data);
+
+            return Command::SUCCESS;
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+
+            return Command::FAILURE;
+        }
+
+
     }
 }

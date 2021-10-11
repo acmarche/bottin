@@ -16,7 +16,7 @@ class MetaHandler implements ImportHandlerInterface
 
   public static function getDefaultIndexName(): string
     {
-        return 'handler_hand';
+        return 'hand';
     }
 
     /**
@@ -24,13 +24,12 @@ class MetaHandler implements ImportHandlerInterface
      */
     public function handle(array $metas)
     {
-        dump('meta');
         foreach ($metas as $data) {
             if (!$this->metaRepository->findByVariable($data->variable)) {
                 $meta = $data;
                 $this->metaRepository->persist($meta);
             }
         }
-        //   $this->metaRepository->flush();
+        $this->metaRepository->flush();
     }
 }

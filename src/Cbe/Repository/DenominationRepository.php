@@ -1,0 +1,38 @@
+<?php
+
+namespace AcMarche\Bottin\Cbe\Repository;
+
+use AcMarche\Bottin\Cbe\Entity\Denomination;
+use AcMarche\Bottin\Doctrine\OrmCrudTrait;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
+/**
+ * @method Denomination|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Denomination|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Denomination[]    findAll()
+ * @method Denomination[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class DenominationRepository extends ServiceEntityRepository
+{
+    use OrmCrudTrait;
+
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        parent::__construct($managerRegistry, Denomination::class);
+    }
+
+    public function checkExist(string $denomination, string $language, string $category): ?Denomination
+    {
+        return $this->createQueryBuilder('denomination')
+            ->andWhere('denomination.denomination = :denomination')
+            ->setParameter('denomination', $denomination)
+            ->andWhere('denomination.language = :language')
+            ->setParameter('language', $language)
+            ->andWhere('denomination.category = :category')
+            ->setParameter('category', $category)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+}

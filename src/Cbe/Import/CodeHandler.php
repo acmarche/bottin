@@ -16,7 +16,7 @@ class CodeHandler implements ImportHandlerInterface
 
     public static function getDefaultIndexName(): string
     {
-        return 'handler_code';
+        return 'code';
     }
 
     /**
@@ -24,13 +24,12 @@ class CodeHandler implements ImportHandlerInterface
      */
     public function handle(array $codes)
     {
-        dump('code');
         foreach ($codes as $data) {
             if (!$this->codeRepository->checkExist($data->code, $data->language, $data->category)) {
                 $code = $data;
                 $this->codeRepository->persist($code);
             }
         }
-        //    $this->codeRepository->flush();
+        $this->codeRepository->flush();
     }
 }

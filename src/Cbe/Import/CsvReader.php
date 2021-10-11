@@ -19,11 +19,16 @@ class CsvReader
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function readFile(string $fileName): array
     {
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$fileName.'.csv';
-        dump($file);
+        if (!is_readable($file)) {
+            throw new \Exception('File not found '.$file);
+        }
 
         $class = 'AcMarche\Bottin\Cbe\Entity\\'.ucfirst($fileName).'[]';
         $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
