@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Cbe\Cache\CbeCache;
-use AcMarche\Bottin\Cbe\Repository\CbeRepository;
+use AcMarche\Bottin\Bce\Cache\CbeCache;
+use AcMarche\Bottin\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

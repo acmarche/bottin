@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use AcMarche\Bottin\Cbe\Repository\ApiCbeRepository;
+use AcMarche\Bottin\Bce\Repository\ApiCbeRepository;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\TokenRepository;
 use AcMarche\Bottin\Token\Form\TokenPasswordType;
@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
     private CategoryRepository $categoryRepository;
     private TokenRepository $tokenRepository;
     /**
-     * @var \AcMarche\Bottin\Cbe\Repository\ApiCbeRepository
+     * @var \AcMarche\Bottin\Bce\Repository\ApiCbeRepository
      */
     private ApiCbeRepository $apiRepository;
 

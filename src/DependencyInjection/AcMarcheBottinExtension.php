@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\DependencyInjection;
 
-use AcMarche\Bottin\Cbe\Import\ImportHandlerInterface;
+use AcMarche\Bottin\Bce\Import\ImportHandlerInterface;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

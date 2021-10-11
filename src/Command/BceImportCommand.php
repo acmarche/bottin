@@ -2,8 +2,9 @@
 
 namespace AcMarche\Bottin\Command;
 
-use AcMarche\Bottin\Cbe\Import\CsvReader;
-use AcMarche\Bottin\Cbe\Import\ImportHandler;
+use AcMarche\Bottin\Bce\Bce;
+use AcMarche\Bottin\Bce\Import\CsvReader;
+use AcMarche\Bottin\Bce\Import\ImportHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BceImportCommand extends Command
 {
     protected static $defaultName = 'bottin:bce-import';
-    protected static $defaultDescription = 'Add a short description for your command';
+    protected static $defaultDescription = 'Import bce csv files';
     private CsvReader $csvReader;
     private ImportHandler $importHandler;
 
@@ -37,6 +38,11 @@ class BceImportCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
+        if (!in_array($fileName, Bce::$files)) {
+            $io->warning('Missing file name. Possible values: '.join(' ', Bce::$files));
+
+            return Command::FAILURE;
+        }
 
         try {
             $data = $this->csvReader->readFile($fileName);
@@ -56,7 +62,6 @@ class BceImportCommand extends Command
 
             return Command::FAILURE;
         }
-
 
     }
 }

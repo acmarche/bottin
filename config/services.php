@@ -1,7 +1,7 @@
 <?php
 
-use AcMarche\Bottin\Cbe\Import\ImportHandler;
-use AcMarche\Bottin\Cbe\Import\ImportHandlerInterface;
+use AcMarche\Bottin\Bce\Import\ImportHandler;
+use AcMarche\Bottin\Bce\Import\ImportHandlerInterface;
 use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
