@@ -2,16 +2,16 @@
 
 namespace AcMarche\Bottin\Cbe\Entity;
 
+use AcMarche\Bottin\Cbe\Repository\ContactRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use AcMarche\Bottin\Cbe\Repository\CodeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=CodeRepository::class)
+ * @ORM\Entity(repositoryClass=ContactRepository::class)
  * @ORM\Table(name="bce_contact", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_idx", columns={"code", "language", "category"})})
- * @UniqueEntity(fields={"code", "language", "category"}, message="Déjà dans ce classement")
+ *     @ORM\UniqueConstraint(name="contact_idx", columns={"entity_number", "entity_contact", "contact_type"})})
+ * @UniqueEntity(fields={"entityNumber", "entityContact", "contactType"}, message="Déjà dans ce classement")
  */
 class Contact
 {

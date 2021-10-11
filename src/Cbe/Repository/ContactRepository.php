@@ -22,17 +22,16 @@ class ContactRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Contact::class);
     }
 
-    public function checkExist(string $contact, string $language, string $category): ?Contact
+    public function checkExist(string $entityContact, string $entityNumber, string $contactType): ?Contact
     {
         return $this->createQueryBuilder('contact')
-            ->andWhere('contact.contact = :contact')
-            ->setParameter('contact', $contact)
-            ->andWhere('contact.language = :language')
-            ->setParameter('language', $language)
-            ->andWhere('contact.category = :category')
-            ->setParameter('category', $category)
+            ->andWhere('contact.entityContact = :entityContact')
+            ->setParameter('entityContact', $entityContact)
+            ->andWhere('contact.entityNumber = :entityNumber')
+            ->setParameter('entityNumber', $entityNumber)
+            ->andWhere('contact.contactType = :contactType')
+            ->setParameter('contactType', $contactType)
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

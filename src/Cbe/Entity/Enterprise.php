@@ -2,25 +2,23 @@
 
 namespace AcMarche\Bottin\Cbe\Entity;
 
+use AcMarche\Bottin\Cbe\Repository\EnterpriseRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use AcMarche\Bottin\Cbe\Repository\CodeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=CodeRepository::class)
+ * @ORM\Entity(repositoryClass=EnterpriseRepository::class)
  * @ORM\Table(name="bce_entreprise", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_idx", columns={"code", "language", "category"})})
- * @UniqueEntity(fields={"code", "language", "category"}, message="Déjà dans ce classement")
+ *     @ORM\UniqueConstraint(name="enterprise_idx", columns={"enterprise_number"})})
+ * @UniqueEntity(fields={"enterpriseNumber"}, message="Déjà dans ce classement")
  */
-class Entreprise
+class Enterprise
 {
     use IdTrait;
 
-    //"EnterpriseNumber","Status","JuridicalSituation","TypeOfEnterprise","JuridicalForm","StartDate"
-
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
      */
     public string $enterpriseNumber;
     /**
@@ -28,19 +26,19 @@ class Entreprise
      */
     public string $status;
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="smallint", length=5, nullable=false)
      */
-    public string $juridicalSituation;
+    public int $juridicalSituation;
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="smallint", length=5, nullable=false)
      */
     public int $typeOfEnterprise;
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="smallint", length=5, nullable=false)
      */
     public int $juridicalForm;
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=20, nullable=false)
      */
     public string $startDate;
     /**
@@ -48,7 +46,7 @@ class Entreprise
      */
     public array $activities;
     /**
-     * @var array|Establishments[]
+     * @var array|Establishment[]
      */
     public array $establishments;
     /**

@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=AddresseRepository::class)
  * @ORM\Table(name="bce_addresse", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="code_idx", columns={"entityNumber", "zipcode"})})
+ *     @ORM\UniqueConstraint(name="code_idx", columns={"entity_number", "zipcode"})})
  * @UniqueEntity(fields={"entityNumber", "zipcode"}, message="Déjà dans ce classement")
  */
 class Addresse
@@ -34,7 +34,7 @@ class Addresse
      */
     public ?string $countryFR = null;
     /**
-     * @ORM\Column(type="int", length=6, nullable=false)
+     * @ORM\Column(type="integer", length=6, nullable=false)
      */
     public int $zipcode;
     /**

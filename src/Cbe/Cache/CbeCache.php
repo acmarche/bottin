@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Cbe\Cache;
 
-use AcMarche\Bottin\Cbe\Entity\Entreprise;
+use AcMarche\Bottin\Cbe\Entity\Enterprise;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -20,7 +20,7 @@ class CbeCache
         $this->serializer = $serializer;
     }
 
-    public function getCacheData(string $number): ?Entreprise
+    public function getCacheData(string $number): ?Enterprise
     {
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$number.'.json';
@@ -30,7 +30,7 @@ class CbeCache
 
             return $this->serializer->deserialize(
                 $cbeJson,
-                Entreprise::class,
+                Enterprise::class,
                 'json'
             );
         }

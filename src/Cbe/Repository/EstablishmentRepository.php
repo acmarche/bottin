@@ -22,15 +22,11 @@ class EstablishmentRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Establishment::class);
     }
 
-    public function checkExist(string $establishment, string $language, string $category): ?Establishment
+    public function checkExist(string $establishmentNumber): ?Establishment
     {
         return $this->createQueryBuilder('establishment')
-            ->andWhere('establishment.establishment = :establishment')
-            ->setParameter('establishment', $establishment)
-            ->andWhere('establishment.language = :language')
-            ->setParameter('language', $language)
-            ->andWhere('establishment.category = :category')
-            ->setParameter('category', $category)
+            ->andWhere('establishment.establishmentNumber = :establishmentNumber')
+            ->setParameter('establishmentNumber', $establishmentNumber)
             ->getQuery()
             ->getOneOrNullResult();
     }

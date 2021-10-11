@@ -22,15 +22,11 @@ class BranchRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Branch::class);
     }
 
-    public function checkExist(string $branch, string $language, string $category): ?Branch
+    public function checkExist(string $id): ?Branch
     {
         return $this->createQueryBuilder('branch')
-            ->andWhere('branch.branch = :branch')
-            ->setParameter('branch', $branch)
-            ->andWhere('branch.language = :language')
-            ->setParameter('language', $language)
-            ->andWhere('branch.category = :category')
-            ->setParameter('category', $category)
+            ->andWhere('branch.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
     }

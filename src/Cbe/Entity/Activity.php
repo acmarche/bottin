@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=ActivityRepository::class)
  * @ORM\Table(name="bce_activity", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="activity_idx", columns={"naceCode", "entityNumber"})})
+ *     @ORM\UniqueConstraint(name="activity_idx", columns={"nace_code", "entity_number"})})
  * @UniqueEntity(fields={"naceCode", "entityNumber"}, message="Déjà dans ce classement")
  */
 class Activity

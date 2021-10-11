@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Cbe\Repository;
 
 use AcMarche\Bottin\Cbe\Cache\CbeCache;
-use AcMarche\Bottin\Cbe\Entity\Entreprise;
+use AcMarche\Bottin\Cbe\Entity\Enterprise;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -24,7 +24,7 @@ class CbeRepository
      * @throws TransportExceptionInterface
      * @throws \Exception
      */
-    public function findByNumber(string $number): ?Entreprise
+    public function findByNumber(string $number): ?Enterprise
     {
         try {
             $cbeJson = $this->apiCbeRepository->getByNumber($number);
@@ -32,7 +32,7 @@ class CbeRepository
 
             $entreprise = $this->serializer->deserialize(
                 $cbeJson,
-                Entreprise::class,
+                Enterprise::class,
                 'json'
             );
         } catch (\Exception $exception) {

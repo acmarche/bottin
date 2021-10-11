@@ -2,14 +2,14 @@
 
 namespace AcMarche\Bottin\Cbe\Import;
 
-use AcMarche\Bottin\Cbe\Entity\Entreprise;
-use AcMarche\Bottin\Cbe\Repository\EntrepriseRepository;
+use AcMarche\Bottin\Cbe\Entity\Enterprise;
+use AcMarche\Bottin\Cbe\Repository\EnterpriseRepository;
 
 class EntrepriseHandler implements ImportHandlerInterface
 {
-    private EntrepriseRepository $entrepriseRepository;
+    private EnterpriseRepository $entrepriseRepository;
 
-    public function __construct(EntrepriseRepository $entrepriseRepository)
+    public function __construct(EnterpriseRepository $entrepriseRepository)
     {
         $this->entrepriseRepository = $entrepriseRepository;
     }
@@ -20,7 +20,7 @@ class EntrepriseHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Entreprise[] $entreprises
+     * @param array|Enterprise[] $entreprises
      */
     public function handle(array $entreprises)
     {
