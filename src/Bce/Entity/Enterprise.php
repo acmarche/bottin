@@ -58,7 +58,7 @@ class Enterprise
      */
     public array $contacts;
     /**
-     * @var array|Addresse[]
+     * @var array|Address[]
      */
     public array $addresses;
     /**

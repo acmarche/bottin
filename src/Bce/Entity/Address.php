@@ -2,18 +2,18 @@
 
 namespace AcMarche\Bottin\Bce\Entity;
 
-use AcMarche\Bottin\Bce\Repository\AddresseRepository;
+use AcMarche\Bottin\Bce\Repository\AddressRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=AddresseRepository::class)
- * @ORM\Table(name="bce_addresse", uniqueConstraints={
+ * @ORM\Entity(repositoryClass=AddressRepository::class)
+ * @ORM\Table(name="bce_address", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="code_idx", columns={"entity_number", "zipcode"})})
  * @UniqueEntity(fields={"entityNumber", "zipcode"}, message="Déjà dans ce classement")
  */
-class Addresse
+class Address
 {
     use IdTrait;
 

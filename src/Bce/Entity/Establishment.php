@@ -30,7 +30,7 @@ class Establishment
      */
     public string $startDate;
     /**
-     * @var array|Addresse[]
+     * @var array|Address[]
      */
     public array $addresses;
     /**
