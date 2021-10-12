@@ -32,10 +32,10 @@ class MetaHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
-        if (!$meta = $this->metaRepository->findByVariable($data->variable)) {
-            $this->metaRepository->persist($data);
-        } else {
+        if ($meta = $this->metaRepository->findByVariable($data->variable)) {
             $meta->value = $data->value;
+        } else {
+            $this->metaRepository->persist($data);
         }
     }
 

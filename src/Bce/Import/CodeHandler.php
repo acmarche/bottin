@@ -4,40 +4,57 @@ namespace AcMarche\Bottin\Bce\Import;
 
 use AcMarche\Bottin\Bce\Entity\Code;
 use AcMarche\Bottin\Bce\Repository\CodeRepository;
-use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
+use AcMarche\Bottin\Bce\Utils\CsvReader;
 
-class CodeHandler
+class CodeHandler implements ImportHandlerInterface
 {
-    use SymfonyStyleFactory;
-
     private CodeRepository $codeRepository;
+    private CsvReader $csvReader;
 
-    public function __construct(CodeRepository $codeRepository)
+    public function __construct(CodeRepository $codeRepository, CsvReader $csvReader)
     {
         $this->codeRepository = $codeRepository;
+        $this->csvReader = $csvReader;
+    }
+
+    /**
+     * @return Code[]
+     *
+     * @throws \Exception
+     */
+    public function readFile(string $fileName): iterable
+    {
+        return $this->csvReader->readFileAndConvertToClass($fileName);
+    }
+
+    /**
+     * @param Code $data
+     */
+    public function handle($data)
+    {
+        if ($code = $this->codeRepository->checkExist($data->code, $data->language, $data->category)) {
+            $code->description = $data->description;
+        } else {
+            $this->codeRepository->persist($data);
+        }
+    }
+
+    /**
+     * @param Code $data
+     * @return string
+     */
+    public function writeLn($data): string
+    {
+        return $data->code;
+    }
+
+    public function flush(): void
+    {
+        $this->codeRepository->flush();
     }
 
     public static function getDefaultIndexName(): string
     {
         return 'code';
-    }
-
-    /**
-     * @param iterable|Code[] $codes
-     */
-    public function handle(iterable $codes):?object
-    {
-        foreach ($codes as $data) {
-            if (!$this->codeRepository->checkExist($data->code, $data->language, $data->category)) {
-                $code = $data;
-                $this->codeRepository->persist($code);
-            }
-            $this->writeLn($data->code);
-        }
-        $this->codeRepository->flush();
-    }
-    public function flush(): void
-    {
-        // TODO: Implement flush() method.
     }
 }

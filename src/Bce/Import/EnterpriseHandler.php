@@ -47,9 +47,9 @@ class EnterpriseHandler implements ImportHandlerInterface
     public function updateEnterprise(Enterprise $enterprise, array $data): ?Enterprise
     {
         $enterprise->status = $data[1];
-        $enterprise->juridicalSituation = (int)$data[2];
-        $enterprise->typeOfEnterprise = (int)$data[3];
-        $enterprise->juridicalForm = (int)$data[4];
+        $enterprise->juridicalSituation = (int) $data[2];
+        $enterprise->typeOfEnterprise = (int) $data[3];
+        $enterprise->juridicalForm = (int) $data[4];
         $enterprise->startDate = $data[5];
 
         return $enterprise;
@@ -57,7 +57,6 @@ class EnterpriseHandler implements ImportHandlerInterface
 
     /**
      * @param array $data
-     * @return string
      */
     public function writeLn($data): string
     {
