@@ -44,4 +44,8 @@ class Activity
     public array $classificationDescription = [];
     public array $naceCodeDescription = [];
 
+    public function __toString()
+    {
+        return $this->entityNumber;
+    }
 }

@@ -34,4 +34,9 @@ class Branch
      * @ORM\Column(type="string", length=50, nullable=false, unique=true)
      */
     public string $enterpriseNumber;
+
+    public function __toString()
+    {
+        return $this->id;
+    }
 }

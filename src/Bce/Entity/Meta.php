@@ -25,4 +25,9 @@ class Meta
      * @ORM\Column(type="string", length=150, nullable=false)
      */
     public string $value;
+
+    public function __toString()
+    {
+        return $this->variable;
+    }
 }

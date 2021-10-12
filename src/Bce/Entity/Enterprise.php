@@ -68,4 +68,9 @@ class Enterprise
     public array $juridicalSituationDescription;
     public array $typeOfEnterpriseDescription;
     public array $juridicalFormDescription;
+
+    public function __toString()
+    {
+        return $this->enterpriseNumber;
+    }
 }

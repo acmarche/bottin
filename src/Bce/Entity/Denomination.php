@@ -33,4 +33,9 @@ class Denomination
      * @ORM\Column(type="string", length=150, nullable=false)
      */
     public string $denomination;
+
+    public function __toString()
+    {
+        return $this->denomination;
+    }
 }

@@ -38,6 +38,7 @@ class ImportHandler
             try {
                 foreach ($handler->readFile($fileName) as $data) {
                     $handler->handle($data);
+                    dump($data);
                     if (10 === $i) {
                         break;
                     }

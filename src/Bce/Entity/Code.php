@@ -33,4 +33,9 @@ class Code
      * @ORM\Column(type="string", length=250, nullable=false)
      */
     public string $description;
+
+    public function __toString()
+    {
+        return $this->code;
+    }
 }

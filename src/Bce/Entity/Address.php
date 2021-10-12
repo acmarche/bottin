@@ -73,4 +73,9 @@ class Address
      * @var array fr => nl =>
      */
     public array $typeOfAddressDescription;
+
+    public function __toString()
+    {
+        return $this->entityNumber;
+    }
 }

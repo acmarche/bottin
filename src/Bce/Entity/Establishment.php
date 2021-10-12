@@ -45,4 +45,9 @@ class Establishment
      * @var array|Denomination[]
      */
     public array $denominations;
+
+    public function __toString()
+    {
+        return $this->establishmentNumber;
+    }
 }
