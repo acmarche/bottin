@@ -22,7 +22,7 @@ class ContactHandler implements ImportHandlerInterface
      */
     public function readFile(string $fileName): iterable
     {
-        return $this->csvReader->readFileAndConvertToClass($fileName);
+        return $this->csvReader->readCSVGenerator($fileName);
     }
 
     /**
@@ -30,35 +30,42 @@ class ContactHandler implements ImportHandlerInterface
      */
     public function writeLn($data): string
     {
-        return $data->entityNumber;
+        return $data[0];
     }
 
     /**
-     * @param Contact $data
+     * @param array $data
      */
     public function handle($data)
     {
-        if ($contact = $this->contactRepository->checkExist(
-            $data->entityContact,
-            $data->entityNumber,
-            $data->contactType
+        if (!$this->contactRepository->checkExist(
+            $data[1],
+            $data[0],
+            $data[2]
         )) {
-            $contact->value = $data->value;
-        } else {
-            $contact = $data;
-            $this->contactRepository->persist($contact);
+            $contact = new Contact();
+            $contact->entityContact = $data[1];
+            $contact->entityNumber = $data[0];
+            $contact->contactType = $data[2];
         }
+        $this->updateContact($contact, $data);
+    }
+
+    /**
+     * "EntityNumber","EntityContact","ContactType","Value".
+     */
+    private function updateContact(Contact $contact, array $data)
+    {
+        $contact->value = $data[3];
     }
 
     public function flush(): void
     {
         $this->contactRepository->flush();
-
     }
 
     public static function getDefaultIndexName(): string
     {
         return 'contact';
     }
-
 }

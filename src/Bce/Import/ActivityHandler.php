@@ -18,28 +18,35 @@ class ActivityHandler implements ImportHandlerInterface
     }
 
     /**
-     * @return Activity[]
-     *
      * @throws \Exception
      */
     public function readFile(string $fileName): iterable
     {
-        return $this->csvReader->readFileAndConvertToClass($fileName);
+        return $this->csvReader->readCSVGenerator($fileName);
     }
 
     /**
-     * @param Activity $data
+     * @param array $data
      */
     public function handle($data)
     {
-        if ($activity = $this->activityRepository->checkExist($data->naceCode, $data->entityNumber)) {
-            $activity->activityGroup = $data->activityGroup;
-            $activity->classification = $data->classification;
-            $activity->naceVersion = $data->naceVersion;
-        } else {
-            $activity = $data;
+        if (!$this->activityRepository->checkExist($data[3], $data[0])) {
+            $activity = new Activity();
+            $activity->entityNumber = $data[0];
+            $activity->naceCode = $data[3];
             $this->activityRepository->persist($activity);
         }
+        $this->updateActivity($activity, $data);
+    }
+
+    /**
+     * "EntityNumber","ActivityGroup","NaceVersion","NaceCode","Classification".
+     */
+    private function updateActivity(Activity $activity, array $data)
+    {
+        $activity->activityGroup = $data[1];
+        $activity->classification = $data[4];
+        $activity->naceVersion = $data[2];
     }
 
     /**
@@ -47,7 +54,7 @@ class ActivityHandler implements ImportHandlerInterface
      */
     public function writeLn($data): string
     {
-        return $data->entityNumber;
+        return $data[0];
     }
 
     public function flush(): void
