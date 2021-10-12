@@ -11,8 +11,10 @@ class EstablishmentHandler implements ImportHandlerInterface
     private EstablishmentRepository $establishmentRepository;
     private CsvReader $csvReader;
 
-    public function __construct(EstablishmentRepository $establishmentRepository, CsvReader $csvReader)
-    {
+    public function __construct(
+        EstablishmentRepository $establishmentRepository,
+        CsvReader $csvReader
+    ) {
         $this->establishmentRepository = $establishmentRepository;
         $this->csvReader = $csvReader;
     }
@@ -22,30 +24,34 @@ class EstablishmentHandler implements ImportHandlerInterface
      */
     public function readFile(string $fileName): iterable
     {
-        return $this->csvReader->readFileAndConvertToClass($fileName);
+        return $this->csvReader->readCSVGenerator($fileName);
     }
 
     /**
-     * @param iterable|Establishment $data
+     * @param array $data
      */
     public function handle($data)
     {
-        if ($establishment = $this->establishmentRepository->checkExist($data->establishmentNumber)) {
-            $establishment->enterpriseNumber = $data->enterpriseNumber;
-            $establishment->startDate = $data->startDate;
-
-        } else {
-            $establishment = $data;
+        if (!$this->establishmentRepository->checkExist($data[0])) {
+            $establishment = new Establishment();
+            $establishment->enterpriseNumber = $data[0];
             $this->establishmentRepository->persist($establishment);
         }
+        $this->updateEstablishment($establishment, $data);
+    }
+
+    private function updateEstablishment(Establishment $establishment, array $data)
+    {
+        $establishment->startDate = $data[1];
+        $establishment->enterpriseNumber = $data[2];
     }
 
     /**
-     * @param Establishment $data
+     * @param array $data
      */
     public function writeLn($data): string
     {
-        return $data->establishmentNumber;
+        return $data[0];
     }
 
     public function flush(): void

@@ -22,21 +22,33 @@ class DenominationHandler implements ImportHandlerInterface
      */
     public function readFile(string $fileName): iterable
     {
-        return $this->csvReader->readFileAndConvertToClass($fileName);
+        return $this->csvReader->readCSVGenerator($fileName);
     }
 
     /**
-     * @param Denomination $data
+     * @param array $data
      */
     public function handle($data)
     {
-        if ($denomination = $this->denominationRepository->checkExist($data->entityNumber, $data->typeOfDenomination)) {
-            $denomination->denomination = $data->denomination;
-            $denomination->language = $data->language;
-        } else {
-            $denomination = $data;
+        if ($data[0] === 'EntityNumber') {
+            return;
+        }
+        if (!$this->denominationRepository->checkExist($data[0], $data[2])) {
+            $denomination = new Denomination();
+            $denomination->entityNumber = $data[0];
+            $denomination->typeOfDenomination = $data[2];
             $this->denominationRepository->persist($denomination);
         }
+        $this->updateDenomination($denomination, $data);
+    }
+
+    /**
+     * "EntityNumber","Language","TypeOfDenomination","Denomination".
+     */
+    private function updateDenomination(Denomination $denomination, array $data)
+    {
+        $denomination->language = $data[1];
+        $denomination->denomination = $data[3];
     }
 
     /**
@@ -44,13 +56,12 @@ class DenominationHandler implements ImportHandlerInterface
      */
     public function writeLn($data): string
     {
-        return $data->entityNumber;
+        return $data[0];
     }
 
     public function flush(): void
     {
         $this->denominationRepository->flush();
-
     }
 
     public static function getDefaultIndexName(): string

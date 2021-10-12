@@ -32,6 +32,10 @@ class EnterpriseHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
+        if ('EnterpriseNumber' === $data[0]) {
+            return;
+        }
+
         if (!$enterprise = $this->enterpriseRepository->checkExist($data[0])) {
             $enterprise = new Enterprise();
             $enterprise->enterpriseNumber = $data[0];

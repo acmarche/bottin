@@ -22,13 +22,13 @@ class Establishment
      */
     public string $establishmentNumber;
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
-     */
-    public string $enterpriseNumber;
-    /**
      * @ORM\Column(type="string", length=10, nullable=false)
      */
     public string $startDate;
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
+    public string $enterpriseNumber;
     /**
      * @var array|Address[]
      */
