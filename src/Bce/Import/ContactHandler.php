@@ -23,9 +23,9 @@ class ContactHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Contact[] $contacts
+     * @param iterable|Contact[] $contacts
      */
-    public function handle(array $contacts)
+    public function handle(iterable $contacts)
     {
         foreach ($contacts as $data) {
             if (!$this->contactRepository->checkExist($data->entityContact, $data->entityNumber, $data->contactType)) {

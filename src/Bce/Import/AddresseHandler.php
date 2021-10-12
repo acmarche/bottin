@@ -23,9 +23,9 @@ class AddresseHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Addresse[] $addresses
+     * @param iterable|Addresse[] $addresses
      */
-    public function handle(array $addresses)
+    public function handle(iterable $addresses)
     {
         foreach ($addresses as $data) {
             if (!$this->addresseRepository->checkExist($data->entityNumber, $data->zipcode)) {

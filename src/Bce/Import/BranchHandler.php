@@ -23,9 +23,9 @@ class BranchHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Branch[] $branchs
+     * @param iterable|Branch[] $branchs
      */
-    public function handle(array $branchs)
+    public function handle(iterable $branchs)
     {
         foreach ($branchs as $data) {
             if (!$this->branchRepository->checkExist($data->id)) {

@@ -23,9 +23,9 @@ class ActivityHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Activity[] $activitys
+     * @param iterable|Activity[] $activitys
      */
-    public function handle(array $activitys)
+    public function handle(iterable $activitys)
     {
         foreach ($activitys as $data) {
             if (!$this->activityRepository->checkExist($data->naceCode, $data->entityNumber)) {

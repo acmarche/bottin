@@ -23,9 +23,9 @@ class DenominationHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Denomination[] $denominations
+     * @param iterable|Denomination[] $denominations
      */
-    public function handle(array $denominations)
+    public function handle(iterable $denominations)
     {
         foreach ($denominations as $data) {
             if (!$this->denominationRepository->checkExist($data->entityNumber, $data->typeOfDenomination)) {

@@ -23,17 +23,17 @@ class EnterpriseHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Enterprise[] $entreprises
+     * @param iterable|Enterprise[] $enterprises
      */
-    public function handle(array $entreprises)
+    public function handle(iterable $enterprises)
     {
-        foreach ($entreprises as $data) {
+        foreach ($enterprises as $data) {
             if (!$this->enterpriseRepository->checkExist($data->enterpriseNumber)) {
                 $enterprise = $data;
                 $this->enterpriseRepository->persist($enterprise);
             }
             $this->writeLn($data->enterpriseNumber);
         }
-        $this->enterpriseRepository->flush();
+      //  $this->enterpriseRepository->flush();
     }
 }

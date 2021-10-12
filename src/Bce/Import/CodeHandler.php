@@ -23,9 +23,9 @@ class CodeHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Code[] $codes
+     * @param iterable|Code[] $codes
      */
-    public function handle(array $codes)
+    public function handle(iterable $codes)
     {
         foreach ($codes as $data) {
             if (!$this->codeRepository->checkExist($data->code, $data->language, $data->category)) {

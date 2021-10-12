@@ -25,7 +25,7 @@ class MetaHandler implements ImportHandlerInterface
     /**
      * @param Meta[] $metas
      */
-    public function handle(array $metas)
+    public function handle(iterable $metas)
     {
         foreach ($metas as $data) {
             if (!$this->metaRepository->findByVariable($data->variable)) {

@@ -23,9 +23,9 @@ class EstablishmentHandler implements ImportHandlerInterface
     }
 
     /**
-     * @param array|Establishment[] $establishments
+     * @param iterable|Establishment[] $establishments
      */
-    public function handle(array $establishments)
+    public function handle(iterable $establishments)
     {
         foreach ($establishments as $data) {
             if (!$this->establishmentRepository->checkExist($data->establishmentNumber)) {
