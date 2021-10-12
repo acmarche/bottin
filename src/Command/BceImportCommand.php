@@ -54,7 +54,6 @@ class BceImportCommand extends Command
 
         try {
             $handler = $this->importHandler->loadHandlerByKey($fileName);
-            dump($handler);
             $handler->handle($data);
 
             return Command::SUCCESS;

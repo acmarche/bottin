@@ -27,7 +27,6 @@ class EnterpriseHandler implements ImportHandlerInterface
      */
     public function handle(array $entreprises)
     {
-        dump(123);
         foreach ($entreprises as $data) {
             if (!$this->enterpriseRepository->checkExist($data->enterpriseNumber)) {
                 $enterprise = $data;

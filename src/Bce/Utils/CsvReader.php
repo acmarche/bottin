@@ -26,15 +26,20 @@ class CsvReader
     {
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$fileName.'.csv';
-        dump($file);
+
         if (!is_readable($file)) {
             throw new \Exception('File not found '.$file);
         }
 
+        $objects = [];
         $class = 'AcMarche\Bottin\Bce\Entity\\'.ucfirst($fileName).'[]';
-        $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
+        try {
+            $objects = $this->serializer->deserialize(file_get_contents($file), $class, 'csv', [
 
-        ]);
+            ]);
+        } catch (\Exception$exception) {
+            dump($exception->getMessage());
+        }
 
         return $objects;
     }
