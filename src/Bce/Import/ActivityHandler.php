@@ -30,6 +30,9 @@ class ActivityHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
+        if ('EntityNumber' === $data[0]) {
+            return;
+        }
         if (!$this->activityRepository->checkExist($data[3], $data[0])) {
             $activity = new Activity();
             $activity->entityNumber = $data[0];

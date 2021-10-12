@@ -29,12 +29,24 @@ class ImportHandler
         throw new \Exception('No handler found for '.$key);
     }
 
-    public function run(string $fileName)
+    public function importAll()
     {
         foreach ($this->handlers as $handler) {
-            // $handler->handle([]);
-            dump($handler::getDefaultIndexName());
+            $fileName = $handler::getDefaultIndexName();
             dump($fileName);
+            $i = 0;
+            try {
+                foreach ($handler->readFile($fileName) as $data) {
+                    $handler->handle($data);
+                    if (10 === $i) {
+                        break;
+                    }
+                    ++$i;
+                }
+                //  $handler->flush();
+            } catch (\Exception $e) {
+                throw new \Exception($e->getMessage());
+            }
         }
     }
 }

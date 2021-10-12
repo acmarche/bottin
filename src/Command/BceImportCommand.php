@@ -41,6 +41,12 @@ class BceImportCommand extends Command
             return Command::FAILURE;
         }
 
+        if ($fileName === 'all') {
+            $this->importHandler->importAll();
+
+            return Command::SUCCESS;
+        }
+
         try {
             $handler = $this->importHandler->loadHandlerByKey($fileName);
         } catch (\Exception $e) {
