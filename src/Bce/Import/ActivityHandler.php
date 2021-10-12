@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Activity;
 use AcMarche\Bottin\Bce\Repository\ActivityRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class ActivityHandler implements ImportHandlerInterface
+class ActivityHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class ActivityHandler implements ImportHandlerInterface
     /**
      * @param iterable|Activity[] $activitys
      */
-    public function handle(iterable $activitys)
+    public function handle(iterable $activitys):?object
     {
         foreach ($activitys as $data) {
             if (!$this->activityRepository->checkExist($data->naceCode, $data->entityNumber)) {
@@ -35,5 +35,9 @@ class ActivityHandler implements ImportHandlerInterface
             $this->writeLn($data->entityNumber);
         }
         $this->activityRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }

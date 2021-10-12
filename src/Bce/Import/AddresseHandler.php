@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Addresse;
 use AcMarche\Bottin\Bce\Repository\AddresseRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class AddresseHandler implements ImportHandlerInterface
+class AddresseHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class AddresseHandler implements ImportHandlerInterface
     /**
      * @param iterable|Addresse[] $addresses
      */
-    public function handle(iterable $addresses)
+    public function handle(iterable $addresses):?object
     {
         foreach ($addresses as $data) {
             if (!$this->addresseRepository->checkExist($data->entityNumber, $data->zipcode)) {
@@ -35,5 +35,9 @@ class AddresseHandler implements ImportHandlerInterface
             $this->writeLn($data->entityNumber);
         }
         $this->addresseRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }

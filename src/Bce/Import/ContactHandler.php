@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Contact;
 use AcMarche\Bottin\Bce\Repository\ContactRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class ContactHandler implements ImportHandlerInterface
+class ContactHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class ContactHandler implements ImportHandlerInterface
     /**
      * @param iterable|Contact[] $contacts
      */
-    public function handle(iterable $contacts)
+    public function handle(iterable $contacts):?object
     {
         foreach ($contacts as $data) {
             if (!$this->contactRepository->checkExist($data->entityContact, $data->entityNumber, $data->contactType)) {
@@ -35,5 +35,9 @@ class ContactHandler implements ImportHandlerInterface
             $this->writeLn($data->entityNumber);
         }
         $this->contactRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }

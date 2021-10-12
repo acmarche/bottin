@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Establishment;
 use AcMarche\Bottin\Bce\Repository\EstablishmentRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class EstablishmentHandler implements ImportHandlerInterface
+class EstablishmentHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class EstablishmentHandler implements ImportHandlerInterface
     /**
      * @param iterable|Establishment[] $establishments
      */
-    public function handle(iterable $establishments)
+    public function handle(iterable $establishments):?object
     {
         foreach ($establishments as $data) {
             if (!$this->establishmentRepository->checkExist($data->establishmentNumber)) {
@@ -35,5 +35,9 @@ class EstablishmentHandler implements ImportHandlerInterface
             $this->writeLn($data->establishmentNumber);
         }
         $this->establishmentRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }

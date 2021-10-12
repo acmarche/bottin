@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Branch;
 use AcMarche\Bottin\Bce\Repository\BranchRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class BranchHandler implements ImportHandlerInterface
+class BranchHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class BranchHandler implements ImportHandlerInterface
     /**
      * @param iterable|Branch[] $branchs
      */
-    public function handle(iterable $branchs)
+    public function handle(iterable $branchs):?object
     {
         foreach ($branchs as $data) {
             if (!$this->branchRepository->checkExist($data->id)) {
@@ -35,5 +35,9 @@ class BranchHandler implements ImportHandlerInterface
             $this->writeLn($data->id);
         }
         $this->branchRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }

@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Command;
 
 use AcMarche\Bottin\Bce\Bce;
 use AcMarche\Bottin\Bce\Import\ImportHandler;
-use AcMarche\Bottin\Bce\Utils\CsvReader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,16 +14,13 @@ class BceImportCommand extends Command
 {
     protected static $defaultName = 'bottin:bce-import';
     protected static $defaultDescription = 'Import bce csv files';
-    private CsvReader $csvReader;
     private ImportHandler $importHandler;
 
     public function __construct(
-        CsvReader $csvReader,
         ImportHandler $importHandler,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->csvReader = $csvReader;
         $this->importHandler = $importHandler;
     }
 
@@ -38,6 +34,7 @@ class BceImportCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
+
         if (!in_array($fileName, Bce::$files)) {
             $io->warning('Missing file name. Possible values: '.join(' ', Bce::$files));
 
@@ -45,7 +42,7 @@ class BceImportCommand extends Command
         }
 
         try {
-            $data = $this->csvReader->readFile($fileName);
+            $handler = $this->importHandler->loadHandlerByKey($fileName);
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
@@ -53,15 +50,15 @@ class BceImportCommand extends Command
         }
 
         try {
-            $handler = $this->importHandler->loadHandlerByKey($fileName);
-            $handler->handle($data);
-
-            return Command::SUCCESS;
+            foreach ($handler->readFile($fileName) as $data) {
+                $io->writeLn($handler->writeLn($data));
+                $handler->handle($data);
+            }
+            $handler->flush();
         } catch (\Exception $e) {
             $io->error($e->getMessage());
-
-            return Command::FAILURE;
         }
 
+        return Command::SUCCESS;
     }
 }

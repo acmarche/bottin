@@ -6,7 +6,7 @@ use AcMarche\Bottin\Bce\Entity\Denomination;
 use AcMarche\Bottin\Bce\Repository\DenominationRepository;
 use AcMarche\Bottin\Bce\Utils\SymfonyStyleFactory;
 
-class DenominationHandler implements ImportHandlerInterface
+class DenominationHandler
 {
     use SymfonyStyleFactory;
 
@@ -25,7 +25,7 @@ class DenominationHandler implements ImportHandlerInterface
     /**
      * @param iterable|Denomination[] $denominations
      */
-    public function handle(iterable $denominations)
+    public function handle(iterable $denominations):?object
     {
         foreach ($denominations as $data) {
             if (!$this->denominationRepository->checkExist($data->entityNumber, $data->typeOfDenomination)) {
@@ -35,5 +35,9 @@ class DenominationHandler implements ImportHandlerInterface
             $this->writeLn($data->denomination);
         }
         $this->denominationRepository->flush();
+    }
+    public function flush(): void
+    {
+        // TODO: Implement flush() method.
     }
 }
