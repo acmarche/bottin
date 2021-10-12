@@ -50,7 +50,6 @@ class CsvReader
     {
         $varDirectory = $this->parameterBag->get('kernel.project_dir').'/var/cbe';
         $file = $varDirectory.'/'.$fileName.'.csv';
-        dump($file);
 
         if (!is_readable($file)) {
             throw new \Exception('File not found '.$file);
