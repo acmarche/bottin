@@ -57,11 +57,11 @@
                     </tr>
                 </table>
 
-                {% include '@AcMarcheBottin/admin/cbe/_denominations.html.twig' with {'denominations':entreprise.denominations} %}
-                {% include '@AcMarcheBottin/admin/cbe/_contacts.html.twig' with {'contacts':entreprise.contacts} %}
-                {% include '@AcMarcheBottin/admin/cbe/_addresses.html.twig' with {'addresses':entreprise.addresses} %}
-                {% include '@AcMarcheBottin/admin/cbe/_activities.html.twig' with {'activities':entreprise.activities} %}
-                {% include '@AcMarcheBottin/admin/cbe/_establishments.html.twig' %}
+                {% include '@AcMarcheBottin/admin/bce/_denominations.html.twig' with {'denominations':entreprise.denominations} %}
+                {% include '@AcMarcheBottin/admin/bce/_contacts.html.twig' with {'contacts':entreprise.contacts} %}
+                {% include '@AcMarcheBottin/admin/bce/_addresses.html.twig' with {'addresses':entreprise.addresses} %}
+                {% include '@AcMarcheBottin/admin/bce/_activities.html.twig' with {'activities':entreprise.activities} %}
+                {% include '@AcMarcheBottin/admin/bce/_establishments.html.twig' %}
             {% else %}
                 <div class="alert alert-danger">
                     Aucune entreprise trouvée avec le numéro <strong>{{ number }}</strong><br><br>

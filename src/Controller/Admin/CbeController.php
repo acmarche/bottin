@@ -12,27 +12,26 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
- * @Route("/admin/cbe")
+ * @Route("/admin/bce")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 class CbeController extends AbstractController
 {
-    private CbeRepository $cbeRepository;
-    private CbeCache $cbeCache;
+    private CbeRepository $bceRepository;
+    private CbeCache $bceCache;
 
-    public function __construct(CbeRepository $cbeRepository, CbeCache $cbeCache)
+    public function __construct(CbeRepository $bceRepository, CbeCache $bceCache)
     {
-        $this->cbeRepository = $cbeRepository;
-        $this->cbeCache = $cbeCache;
+        $this->bceRepository = $bceRepository;
+        $this->bceCache = $bceCache;
     }
 
     /**
-     * @Route("/{id}", name="bottin_admin_fiche_cbe", methods={"GET"})
+     * @Route("/{id}", name="bottin_admin_fiche_bce", methods={"GET"})
      */
     public function show(Fiche $fiche): Response
     {
         $number = $fiche->getNumeroTva();
-        $number = '0404.345.092';
 
         if (!$number) {
             $this->addFlash('warning', 'Veuillez remplir le numéro de TVA');
@@ -40,11 +39,11 @@ class CbeController extends AbstractController
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
-        $entreprise = $this->cbeCache->getCacheData($number);
+        $entreprise = $this->bceCache->getCacheData($number);
 
         if (!$entreprise) {
             try {
-                $entreprise = $this->cbeRepository->findByNumber($number);
+                $entreprise = $this->bceRepository->findByNumber($number);
             } catch (TransportExceptionInterface | \Exception $e) {
                 $this->addFlash('warning', 'Erreur survenue: '.$e->getMessage());
 
@@ -53,7 +52,7 @@ class CbeController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/admin/cbe/show.html.twig',
+            '@AcMarcheBottin/admin/bce/show.html.twig',
             [
                 'fiche' => $fiche,
                 'entreprise' => $entreprise,
