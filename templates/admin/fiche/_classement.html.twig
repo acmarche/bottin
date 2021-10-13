@@ -10,7 +10,11 @@
                 {% endif %}
                 {% for path in paths %}
                     {% if loop.last %}
-                        <li class="breadcrumb-item active" aria-current="page">{{ path }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <a href="{{ path('bottin_admin_category_show', {'id': path.id}) }}">
+                            {{ path }}
+                            </a>
+                        </li>
                     {% else %}
                         <li class="breadcrumb-item" aria-current="page">
                             {{ path }}

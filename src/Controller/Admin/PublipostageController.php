@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
 use AcMarche\Bottin\Mailer\MailFactory;
@@ -111,16 +112,20 @@ class PublipostageController extends AbstractController
     }
 
     /**
-     * @Route("/paper", name="bottin_admin_publipostage_paper", methods={"GET", "POST"})
+     * @Route("/paper/{id}", name="bottin_admin_publipostage_paper", methods={"GET", "POST"})
      */
-    public function byPaper(): Response
+    public function byPaper(Fiche $fiche = null): Response
     {
-        $user = $this->getUser();
-        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+        if ($fiche) {
+            $fiches = [$fiche];
+        } else {
+            $user = $this->getUser();
+            $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+        }
 
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
-        //  return new Response($html);
+          return new Response($html);
 
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }

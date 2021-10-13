@@ -1,53 +1,64 @@
+<div class="row">
+    <div class="col-6">
+        <table class='table table-bordered table-hover'>
+            <tr>
+                <th><i class="fas fa-map-marked-alt"></i> Adresse</th>
+                <td>
+                    {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
+                </td>
+            <tr>
+                <th><i class="fas fa-globe-europe"></i> Site web</th>
+                <td>
+                    <a href="{{ fiche.website }}">{{ fiche.website }}</a>
+                </td>
+            </tr>
+            <tr>
+                <th><i class="far fa-envelope"></i> Email</th>
+                <td>
+                    {{ fiche.email }}
+                </td>
+            </tr>
+            <tr>
+                <th><i class="fas fa-phone-alt"></i> Téléphone</th>
+                <td>
+                    {{ fiche.telephone }}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-6">
+        <table class='table table-bordered table-hover'>
+            <tr>
+                <th><i class="fas fa-phone-alt"></i> Autre téléphone</th>
+                <td>
+                    {{ fiche.telephoneautre }}
+                </td>
+            </tr>
+            <tr>
+                <th><i class="fas fa-fax"></i> Fax</th>
+                <td>{{ fiche.fax }}</td>
+            </tr>
+            <tr>
+                <th><i class="fas fa-mobile-alt"></i> Gsm</th>
+                <td>
+                    {{ fiche.gsm }}
+                </td>
+            </tr>
+            <tr>
+                <th><i class="fas fa-barcode"></i> Numéro de tva</th>
+                <td>
+                    {{ fiche.numeroTva }}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <table class='table table-bordered table-hover'>
     <tr>
-        <th><i class="fas fa-map-marked-alt"></i> Adresse</th>
-        <td>
-            {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
-        </td>
-    <tr>
-        <th><i class="fas fa-globe-europe"></i> Site web</th>
-        <td>
-            <a href="{{ fiche.website }}">{{ fiche.website }}</a>
-        </td>
-    </tr>
-    <tr>
-        <th><i class="far fa-envelope"></i> Email</th>
-        <td>
-            {{ fiche.email }}
-        </td>
-    </tr>
-    <tr>
-        <th><i class="fas fa-phone-alt"></i> Téléphone</th>
-        <td>
-            {{ fiche.telephone }}
-        </td>
-    </tr>
-    <tr>
-        <th><i class="fas fa-phone-alt"></i> Autre téléphone</th>
-        <td>
-            {{ fiche.telephoneautre }}
-        </td>
-    </tr>
-    <tr>
-        <th><i class="fas fa-fax"></i> Fax</th>
-        <td>{{ fiche.fax }}</td>
-    </tr>
-    <tr>
-        <th><i class="fas fa-mobile-alt"></i> Gsm</th>
-        <td>
-            {{ fiche.gsm }}
-        </td>
-    </tr>
-    <tr>
-        <th><i class="fas fa-barcode"></i> Numéro de tva</th>
-        <td>
-            {{ fiche.numeroTva }}
-        </td>
-    </tr>
-    <tr>
         <th>
-            <i class="fas fa-pencil-alt"></i> Url d'édition<br />
-        <span class="text-muted">L'utilisateur peut modifier <br />sa fiche</span>
+            <i class="fas fa-pencil-alt"></i> Url d'édition<br/>
+            <span class="text-muted">L'utilisateur peut modifier <br/>sa fiche</span>
         </th>
         <td>
             {% if fiche.token %}
@@ -64,5 +75,4 @@
             </p>
         </td>
     </tr>
-
 </table>

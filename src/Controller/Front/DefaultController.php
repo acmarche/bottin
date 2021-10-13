@@ -52,7 +52,7 @@ class DefaultController extends AbstractController
 
 
     /**
-     * @Route("/lolo", name="bottin_backend_password", methods={"GET","POST"})
+     * @Route("/updateFiche", name="bottin_backend_password", methods={"GET","POST"})
      */
     public function tokenPassword(Request $request): Response
     {

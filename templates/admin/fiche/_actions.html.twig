@@ -8,7 +8,7 @@
         <div class="col-auto">
             <a href="{{ path('bottin_admin_classement_new', { 'id': fiche.id }) }}" class="btn btn-primary"
                role="button">
-                <i class="fas fa-th-list"></i> Ses classements</a>
+                <i class="fas fa-th-list"></i> Classements</a>
         </div>
 
         <div class="col-auto">
@@ -28,6 +28,10 @@
         <div class="col-auto">
             <a href="{{ path('bottin_admin_fiche_bce', { 'id': fiche.id }) }}" class="btn btn-primary"
                role="button"><i class="fas fa-university"></i> Bce</a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ path('bottin_admin_publipostage_paper', { 'id': fiche.id }) }}" class="btn btn-primary"
+               role="button"><i class="fas fa-paperclip"></i> Paper</a>
         </div>
 
         <div class="col-auto">

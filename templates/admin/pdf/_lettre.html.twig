@@ -15,26 +15,25 @@
 </div>
 <div class="card mt-5">
     <div class="card-body" style="height: 1030px;">
-        Bonjour {{ fiche.societe }},
+        Bonjour{% if fiche.nom %} {{ fiche.nom }} {{ fiche.prenom }} {% endif %},
         <br/><br/>
-        Vous êtes actuellement répertorié dans l'annuaire économique de la Ville de Marche-en-Famenne(www.marche.be), et, par
-        conséquent, sur le site de Cap sur Marche(cap.marche.be).
+        Votre fiche <strong>{{ fiche.societe }}</strong> est actuellement répertoriée dans l'annuaire économique
+        de la Ville de Marche-en-Famenne (www.marche.be),
+      <br/>  et, sur le site de Cap sur Marche (cap.marche.be) pour les commerces et entreprises.
         <br/><br/>
         Afin de vous référencer correctement, l'Agence de Développement Local procède à une mise à jour de l'ensemble
         des données des commerces et entreprises.
         <br/><br/>
-        Vous trouverez dans la fiche ci-jointe les informations reprises actuellement au sujet de votre activité.
+        Vous trouverez <strong>au verso</strong> les informations reprises actuellement au sujet de votre activité.
         <br/><br/>
         Ces informations ne sont plus correctes, obsolètes ou incomplètes?<br/> Nous vous donnons la possibilité
         d'opérer vos
         changements directement en ligne en modifiant vous-même votre fiche.
         <br/><br/>
-        Rendez-vous sur la page :
-        <br/><br/>
         {% if fiche.token %}
-            Rendez-vous sur la page : <a
-                href="{{ url('bottin_backend_password') }}">{{ url('bottin_backend_password') }}</a>
-            <br/> <br/>et encodez le mot de passe :
+            Rendez-vous sur la page : {{ url('bottin_front_home') }}<br/>
+            Cliquez sur "Mettre à jour" <br/>
+            et encodez le mot de passe :
             <strong> {{ fiche.token.password }}</strong>
         {% endif %}
         <br/><br/>
