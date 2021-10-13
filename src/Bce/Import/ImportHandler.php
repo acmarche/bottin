@@ -29,6 +29,9 @@ class ImportHandler
         throw new \Exception('No handler found for '.$key);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function importAll()
     {
         foreach ($this->handlers as $handler) {
@@ -39,12 +42,13 @@ class ImportHandler
                 foreach ($handler->readFile($fileName) as $data) {
                     $handler->handle($data);
                     dump($data);
-                    if (10 === $i) {
+                    if (100 === $i) {
                         break;
                     }
                     ++$i;
                 }
                 $handler->flush();
+                dump('Memory'.xdebug_memory_usage());
             } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }

@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=ActivityRepository::class)
  * @ORM\Table(name="bce_activity", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="activity_idx", columns={"entity_number","nace_code", "activity_group" })})
- * @UniqueEntity(fields={"naceCode", "entityNumber", "activityGroup"}, message="Déjà dans ce classement")
+ * @UniqueEntity(fields={"naceCode", "entityNumber", "activityGroup"})
  */
 class Activity
 {

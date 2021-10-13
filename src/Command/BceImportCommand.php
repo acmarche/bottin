@@ -41,8 +41,12 @@ class BceImportCommand extends Command
             return Command::FAILURE;
         }
 
-        if ($fileName === 'all') {
-            $this->importHandler->importAll();
+        if ('all' === $fileName) {
+            try {
+                $this->importHandler->importAll();
+            } catch (\Exception $e) {
+                $io->error($e->getMessage());
+            }
 
             return Command::SUCCESS;
         }
@@ -59,7 +63,8 @@ class BceImportCommand extends Command
             foreach ($handler->readFile($fileName) as $data) {
                 $io->writeLn($handler->writeLn($data));
                 $handler->handle($data);
-                $io->writeln("Memory".xdebug_memory_usage());
+                $io->writeln('Memory'.xdebug_memory_usage());
+                $handler->flush();
             }
             $handler->flush();
         } catch (\Exception $e) {

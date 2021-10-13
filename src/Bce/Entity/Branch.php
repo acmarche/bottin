@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=BranchRepository::class)
  * @ORM\Table(name="bce_branch", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="branch_idx", columns={"id"})})
- * @UniqueEntity(fields={"id"}, message="Déjà dans ce classement")
+ * @UniqueEntity(fields={"id"})
  */
 class Branch
 {

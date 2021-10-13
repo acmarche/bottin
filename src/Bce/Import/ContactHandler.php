@@ -50,6 +50,7 @@ class ContactHandler implements ImportHandlerInterface
             $contact->entityContact = $data[1];
             $contact->entityNumber = $data[0];
             $contact->contactType = $data[2];
+            $this->contactRepository->persist($contact);
         }
         $this->updateContact($contact, $data);
     }
