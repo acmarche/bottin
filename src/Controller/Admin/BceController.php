@@ -15,7 +15,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
  * @Route("/admin/bce")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
-class CbeController extends AbstractController
+class BceController extends AbstractController
 {
     private CbeRepository $bceRepository;
     private CbeCache $bceCache;
