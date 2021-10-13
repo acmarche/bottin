@@ -61,13 +61,18 @@ class PublipostageController extends AbstractController
     }
 
     /**
-     * @Route("/mail", name="bottin_admin_publipostage_mail", methods={"GET", "POST"})
+     * @Route("/mail", name="bottin_admin_publipostage_mail_all", methods={"GET", "POST"})
+     * @Route("/mail/{id}", name="bottin_admin_publipostage_mail_fiche", methods={"GET", "POST"})
      */
-    public function byMail(Request $request): Response
+    public function byMail(Request $request, Fiche $fiche = null): Response
     {
         $form = $this->createForm(MessageType::class, ['from' => $this->getParameter('bottin.email_from')]);
         $user = $this->getUser();
-        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+        if ($fiche) {
+            $fiches = [$fiche];
+        } else {
+            $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
+        }
 
         $form->handleRequest($request);
 
@@ -112,7 +117,8 @@ class PublipostageController extends AbstractController
     }
 
     /**
-     * @Route("/paper/{id}", name="bottin_admin_publipostage_paper", methods={"GET", "POST"})
+     * @Route("/paper", name="bottin_admin_publipostage_paper_all", methods={"GET", "POST"})
+     * @Route("/paper/{id}", name="bottin_admin_publipostage_paper_fiche", methods={"GET", "POST"})
      */
     public function byPaper(Fiche $fiche = null): Response
     {
@@ -125,7 +131,7 @@ class PublipostageController extends AbstractController
 
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
-          return new Response($html);
+        //return new Response($html);
 
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }

@@ -23,34 +23,47 @@
 
         <div class="col-auto">
             <a href="{{ path('bottin_admin_map_edit', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-                <i class="fas fa-map-marker-alt"></i> Géolocalisation</a></div>
-
-        <div class="col-auto">
-            <a href="{{ path('bottin_admin_fiche_bce', { 'id': fiche.id }) }}" class="btn btn-primary"
-               role="button"><i class="fas fa-university"></i> Bce</a>
+                <i class="fas fa-map-marker-alt"></i> Géolocalisation</a>
         </div>
         <div class="col-auto">
-            <a href="{{ path('bottin_admin_publipostage_paper', { 'id': fiche.id }) }}" class="btn btn-primary"
-               role="button"><i class="fas fa-paperclip"></i> Paper</a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary"><i class="fas fa-bacteria"></i> Actions</button>
+                <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item" href="{{ path('bottin_admin_fiche_bce', { 'id': fiche.id }) }}">Bce</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}">Historique
+                            des changements</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('bottin_admin_export_fiche_pdf', { 'id': fiche.id }) }}">Pdf</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                           href="{{ path('bottin_admin_publipostage_paper_fiche', { 'id': fiche.id }) }}">Publipostage
+                            papier</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                           href="{{ path('bottin_admin_publipostage_mail_fiche', { 'id': fiche.id }) }}">Publipostage
+                            mail</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-        <div class="col-auto">
-            <a href="{{ path('bottin_admin_history_fiche', { 'id': fiche.id }) }}" class="btn btn-primary"
-               role="button">
-                <i class="fas fa-history"></i> Historique</a>
-        </div>
-
-        <div class="col-auto">
-            <a href="{{ path('bottin_admin_export_fiche_pdf', { 'id': fiche.id }) }}" class="btn btn-primary"
-               role="button">
-                <i class="far fa-file-pdf"></i> Pdf</a>
-        </div>
-
         <div class="col-auto">
             <a href="{{ path('bottin_admin_fiche_index') }}" class="btn btn-primary" role="button">
                 <i class="fas fa-list"></i> Retour à la liste</a>
         </div>
-
         <div class="col-auto">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="fas fa-trash"></i> Supprimer la fiche
