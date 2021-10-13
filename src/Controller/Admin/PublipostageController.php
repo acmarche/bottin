@@ -66,14 +66,20 @@ class PublipostageController extends AbstractController
      */
     public function byMail(Request $request, Fiche $fiche = null): Response
     {
-        $form = $this->createForm(MessageType::class, ['from' => $this->getParameter('bottin.email_from')]);
         $user = $this->getUser();
+        $to = null;
         if ($fiche) {
             $fiches = [$fiche];
+            $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
+            $to = count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
         } else {
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
 
+        $form = $this->createForm(MessageType::class, [
+            'from' => $this->getParameter('bottin.email_from'),
+            'to' => $to,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,8 +88,9 @@ class PublipostageController extends AbstractController
             $i = 0;
             foreach ($fiches as $fiche) {
                 $message = $data['message'];
+                $to = $data['to'];
                 $message = $this->exportUtils->replaceUrlToken($fiche, $message);
-                $email = $this->mailFactory->mailMessageToFiche($data['subject'], $message, $fiche);
+                $email = $this->mailFactory->mailMessageToFiche($to, $data['subject'], $message, $fiche);
                 try {
                     $this->mailer->send($email);
                     $this->addFlash('success', 'Votre message a bien été envoyé');

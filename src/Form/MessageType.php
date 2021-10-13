@@ -21,6 +21,13 @@ class MessageType extends AbstractType
                 ]
             )
             ->add(
+                'to',
+                TextType::class,
+                [
+                    'required' => true,
+                ]
+            )
+            ->add(
                 'subject',
                 TextType::class,
                 [

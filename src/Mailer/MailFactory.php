@@ -23,7 +23,7 @@ class MailFactory
         $this->pdfFactory = $pdfFactory;
     }
 
-    public function mailMessageToFiche(string $subject, string $body, Fiche $fiche): TemplatedEmail
+    public function mailMessageToFiche(?string $to, string $subject, string $body, Fiche $fiche): TemplatedEmail
     {
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
@@ -38,7 +38,8 @@ class MailFactory
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
-            ->to(new Address('jf@marche.be', $email), new Address('adl@marche.be', $email))
+            // ->to(new Address('jf@marche.be', $email), new Address('adl@marche.be', $email))
+            ->to(new Address($to, $email))
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(
