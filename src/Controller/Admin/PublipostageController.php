@@ -114,7 +114,7 @@ class PublipostageController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/admin/publipostage/mail.html.twig',
+            '@AcMarcheBottin/admin/publipostage/by_mail.html.twig',
             [
                 'form' => $form->createView(),
                 'fiches' => $fiches,
