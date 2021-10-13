@@ -32,14 +32,20 @@ class EstablishmentHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
-        if (!$this->establishmentRepository->checkExist($data[0])) {
+        if ('EstablishmentNumber' === $data[0]) {
+            return;
+        }
+        if (!$establishment = $this->establishmentRepository->checkExist($data[0])) {
             $establishment = new Establishment();
-            $establishment->enterpriseNumber = $data[0];
+            $establishment->establishmentNumber = $data[0];
             $this->establishmentRepository->persist($establishment);
         }
         $this->updateEstablishment($establishment, $data);
     }
 
+    /**
+     * "EstablishmentNumber","StartDate","EnterpriseNumber".
+     */
     private function updateEstablishment(Establishment $establishment, array $data)
     {
         $establishment->startDate = $data[1];

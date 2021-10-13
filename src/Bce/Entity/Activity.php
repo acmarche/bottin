@@ -10,8 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=ActivityRepository::class)
  * @ORM\Table(name="bce_activity", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="activity_idx", columns={"nace_code", "entity_number"})})
- * @UniqueEntity(fields={"naceCode", "entityNumber"}, message="Déjà dans ce classement")
+ *     @ORM\UniqueConstraint(name="activity_idx", columns={"entity_number","nace_code", "activity_group" })})
+ * @UniqueEntity(fields={"naceCode", "entityNumber", "activityGroup"}, message="Déjà dans ce classement")
  */
 class Activity
 {
@@ -22,15 +22,15 @@ class Activity
      */
     public string $entityNumber;
     /**
-     * @ORM\Column(type="smallint", length=10, nullable=false)
+     * @ORM\Column(type="string", length=10, nullable=false)
      */
-    public int $activityGroup;
+    public string $activityGroup;
     /**
      * @ORM\Column(type="smallint", length=5, nullable=false)
      */
     public int $naceVersion;
     /**
-     * @ORM\Column(type="smallint", length=10, nullable=false)
+     * @ORM\Column(type="integer", length=20, nullable=false)
      */
     public int $naceCode;
     /**

@@ -33,9 +33,10 @@ class ActivityHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$this->activityRepository->checkExist($data[3], $data[0])) {
+        if (!$activity = $this->activityRepository->checkExist($data[3], $data[0], $data[1])) {
             $activity = new Activity();
             $activity->entityNumber = $data[0];
+            $activity->activityGroup = $data[1];
             $activity->naceCode = $data[3];
             $this->activityRepository->persist($activity);
         }
@@ -47,7 +48,6 @@ class ActivityHandler implements ImportHandlerInterface
      */
     private function updateActivity(Activity $activity, array $data)
     {
-        $activity->activityGroup = $data[1];
         $activity->classification = $data[4];
         $activity->naceVersion = $data[2];
     }

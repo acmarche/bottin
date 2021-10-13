@@ -22,13 +22,15 @@ class ActivityRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Activity::class);
     }
 
-    public function checkExist(int $naceCode, string $entityNumber): ?Activity
+    public function checkExist(int $naceCode, string $entityNumber, string $activityGroup): ?Activity
     {
         return $this->createQueryBuilder('activity')
             ->andWhere('activity.naceCode = :naceCode')
             ->setParameter('naceCode', $naceCode)
             ->andWhere('activity.entityNumber = :entityNumber')
             ->setParameter('entityNumber', $entityNumber)
+            ->andWhere('activity.activityGroup = :activityGroup')
+            ->setParameter('activityGroup', $activityGroup)
             ->getQuery()
             ->getOneOrNullResult();
     }

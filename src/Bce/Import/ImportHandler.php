@@ -44,7 +44,7 @@ class ImportHandler
                     }
                     ++$i;
                 }
-                //  $handler->flush();
+                $handler->flush();
             } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }

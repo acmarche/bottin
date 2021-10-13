@@ -38,7 +38,10 @@ class ContactHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
-        if (!$this->contactRepository->checkExist(
+        if ('EntityNumber' === $data[0]) {
+            return;
+        }
+        if (!$contact = $this->contactRepository->checkExist(
             $data[1],
             $data[0],
             $data[2]

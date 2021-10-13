@@ -30,10 +30,10 @@ class DenominationHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
-        if ($data[0] === 'EntityNumber') {
+        if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$this->denominationRepository->checkExist($data[0], $data[2])) {
+        if (!$denomination = $this->denominationRepository->checkExist($data[0], $data[2])) {
             $denomination = new Denomination();
             $denomination->entityNumber = $data[0];
             $denomination->typeOfDenomination = $data[2];

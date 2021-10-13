@@ -17,6 +17,9 @@ class BranchHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function readFile(string $fileName): iterable
     {
         return $this->csvReader->readFileAndConvertToClass($fileName);
@@ -27,9 +30,11 @@ class BranchHandler implements ImportHandlerInterface
      */
     public function handle($data)
     {
-        if (!$this->branchRepository->checkExist($data->id)) {
-            $branch = $data;
-            $this->branchRepository->persist($branch);
+        if ($branch = $this->branchRepository->checkExist($data->id)) {
+            $branch->startDate = $data->startDate;
+            $branch->enterpriseNumber = $data->enterpriseNumber;
+        } else {
+            $this->branchRepository->persist($data);
         }
     }
 
