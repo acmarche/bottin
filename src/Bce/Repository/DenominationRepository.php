@@ -22,13 +22,15 @@ class DenominationRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, Denomination::class);
     }
 
-    public function checkExist(string $entityNumber, int $typeOfDenomination): ?Denomination
+    public function checkExist(string $entityNumber, int $language, int $typeOfDenomination): ?Denomination
     {
         return $this->createQueryBuilder('denomination')
             ->andWhere('denomination.entityNumber = :entityNumber')
             ->setParameter('entityNumber', $entityNumber)
             ->andWhere('denomination.typeOfDenomination = :typeOfDenomination')
             ->setParameter('typeOfDenomination', $typeOfDenomination)
+            ->andWhere('denomination.language = :language')
+            ->setParameter('language', $language)
             ->getQuery()
             ->getOneOrNullResult();
     }

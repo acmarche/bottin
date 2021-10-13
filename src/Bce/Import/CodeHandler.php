@@ -17,6 +17,10 @@ class CodeHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    public function start(): void
+    {
+    }
+
     /**
      * @return Code[]
      *

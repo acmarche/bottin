@@ -5,13 +5,12 @@ namespace AcMarche\Bottin\Bce\Entity;
 use AcMarche\Bottin\Bce\Repository\ContactRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
- * @ORM\Table(name="bce_contact", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="contact_idx", columns={"entity_number", "entity_contact", "contact_type"})})
- * @UniqueEntity(fields={"entityNumber", "entityContact", "contactType"})
+ * ORM\Table(name="bce_contact", uniqueConstraints={
+ *     ORM\UniqueConstraint(name="contact_idx", columns={"entity_number", "entity_contact", "contact_type"})})
+ * UniqueEntity(fields={"entityNumber", "entityContact", "contactType"})
  */
 class Contact
 {

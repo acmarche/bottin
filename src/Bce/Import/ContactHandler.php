@@ -17,6 +17,11 @@ class ContactHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    public function start(): void
+    {
+        $this->contactRepository->reset();
+    }
+
     /**
      * @throws \Exception
      */
@@ -41,26 +46,20 @@ class ContactHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$contact = $this->contactRepository->checkExist(
-            $data[1],
-            $data[0],
-            $data[2]
-        )) {
-            $contact = new Contact();
-            $contact->entityContact = $data[1];
-            $contact->entityNumber = $data[0];
-            $contact->contactType = $data[2];
-            $this->contactRepository->persist($contact);
-        }
-        $this->updateContact($contact, $data);
+        $this->updateContact($data);
     }
 
     /**
      * "EntityNumber","EntityContact","ContactType","Value".
      */
-    private function updateContact(Contact $contact, array $data)
+    private function updateContact(array $data)
     {
+        $contact = new Contact();
+        $contact->entityContact = $data[1];
+        $contact->entityNumber = $data[0];
+        $contact->contactType = $data[2];
         $contact->value = $data[3];
+        $this->contactRepository->persist($contact);
     }
 
     public function flush(): void

@@ -17,6 +17,10 @@ class DenominationHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    public function start(): void
+    {
+    }
+
     /**
      * @throws \Exception
      */
@@ -33,9 +37,10 @@ class DenominationHandler implements ImportHandlerInterface
         if ('EntityNumber' === $data[0]) {
             return;
         }
-        if (!$denomination = $this->denominationRepository->checkExist($data[0], $data[2])) {
+        if (!$denomination = $this->denominationRepository->checkExist($data[0], $data[1], $data[2])) {
             $denomination = new Denomination();
             $denomination->entityNumber = $data[0];
+            $denomination->language = $data[1];
             $denomination->typeOfDenomination = $data[2];
             $this->denominationRepository->persist($denomination);
         }
@@ -47,7 +52,6 @@ class DenominationHandler implements ImportHandlerInterface
      */
     private function updateDenomination(Denomination $denomination, array $data)
     {
-        $denomination->language = $data[1];
         $denomination->denomination = $data[3];
     }
 

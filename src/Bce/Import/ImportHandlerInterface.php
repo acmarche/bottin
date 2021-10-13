@@ -13,4 +13,6 @@ interface ImportHandlerInterface
     public function flush(): void;
 
     public function writeLn($data): string;
+
+    public function start(): void;
 }

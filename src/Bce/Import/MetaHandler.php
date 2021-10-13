@@ -17,6 +17,10 @@ class MetaHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    public function start(): void
+    {
+    }
+
     /**
      * @return Meta[]
      *

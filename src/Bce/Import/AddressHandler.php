@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Bce\Import;
 use AcMarche\Bottin\Bce\Entity\Address;
 use AcMarche\Bottin\Bce\Repository\AddressRepository;
 use AcMarche\Bottin\Bce\Utils\CsvReader;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class AddressHandler implements ImportHandlerInterface
 {
@@ -14,12 +13,14 @@ class AddressHandler implements ImportHandlerInterface
 
     public function __construct(
         AddressRepository $addressRepository,
-        CsvReader $csvReader,
-        SerializerInterface $serializer
+        CsvReader $csvReader
     ) {
         $this->addressRepository = $addressRepository;
         $this->csvReader = $csvReader;
-        $this->serializer = $serializer;
+    }
+
+    public function start(): void
+    {
     }
 
     /**

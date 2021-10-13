@@ -10,8 +10,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=DenominationRepository::class)
  * @ORM\Table(name="bce_denomination", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="denomination_idx", columns={"entity_number", "type_of_denomination"})})
- * @UniqueEntity(fields={"entityNumber", "typeOfDenomination"})
+ *     @ORM\UniqueConstraint(name="denomination_idx", columns={"entity_number", "language", "type_of_denomination"})})
+ * @UniqueEntity(fields={"entityNumber", "language", "typeOfDenomination"})
  */
 class Denomination
 {

@@ -17,6 +17,10 @@ class BranchHandler implements ImportHandlerInterface
         $this->csvReader = $csvReader;
     }
 
+    public function start(): void
+    {
+    }
+
     /**
      * @throws \Exception
      */

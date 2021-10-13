@@ -60,6 +60,7 @@ class BceImportCommand extends Command
         }
 
         try {
+            $handler->start();
             foreach ($handler->readFile($fileName) as $data) {
                 $io->writeLn($handler->writeLn($data));
                 $handler->handle($data);
