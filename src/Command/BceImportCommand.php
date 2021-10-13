@@ -64,8 +64,8 @@ class BceImportCommand extends Command
             foreach ($handler->readFile($fileName) as $data) {
                 $io->writeLn($handler->writeLn($data));
                 $handler->handle($data);
-                $io->writeln('Memory'.xdebug_memory_usage());
                 $handler->flush();
+                $io->writeln('Memory'.memory_get_usage());
             }
             $handler->flush();
         } catch (\Exception $e) {
