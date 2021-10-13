@@ -43,15 +43,16 @@ class ImportHandler
                     $handler->handle($data);
                     dump($data);
                     if (1000 === $i) {
-                       //break;
+                        //break;
                     }
                     ++$i;
                 }
                 $handler->flush();
-                dump('Memory'.xdebug_memory_usage());
+                dump('Memory: '.memory_get_usage());
             } catch (\Exception $e) {
                 throw new \Exception($e->getMessage());
             }
         }
+        dump('END');
     }
 }
