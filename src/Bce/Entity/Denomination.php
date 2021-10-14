@@ -30,7 +30,7 @@ class Denomination
      */
     public int $typeOfDenomination;
     /**
-     * @ORM\Column(type="string", length=150, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     public string $denomination;
 
