@@ -2,10 +2,9 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Document\Form\DocumentType;
 use AcMarche\Bottin\Entity\Document;
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Document\Form\DocumentEditType;
-use AcMarche\Bottin\Document\Form\DocumentType;
 use AcMarche\Bottin\Repository\DocumentRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,7 +82,7 @@ class DocumentController extends AbstractController
      */
     public function edit(Document $document, Request $request): Response
     {
-        $editForm = $this->createForm(DocumentEditType::class, $document);
+        $editForm = $this->createForm(DocumentType::class, $document);
 
         $editForm->handleRequest($request);
 
