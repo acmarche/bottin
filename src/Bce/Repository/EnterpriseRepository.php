@@ -30,5 +30,4 @@ class EnterpriseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

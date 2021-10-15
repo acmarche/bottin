@@ -59,7 +59,6 @@ class Token implements TimestampableInterface
 
     public function generatePassword()
     {
-
     }
 
     public function getPassword(): ?string

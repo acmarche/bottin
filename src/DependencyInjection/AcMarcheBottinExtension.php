@@ -23,7 +23,7 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
     {
         $this->loader->load('services.php');
         //$this->loader->load('routes/routes.php');
-         $containerBuilder->registerForAutoconfiguration(ImportHandlerInterface::class)
+        $containerBuilder->registerForAutoconfiguration(ImportHandlerInterface::class)
             ->addTag('bottin.import')
         ;
     }

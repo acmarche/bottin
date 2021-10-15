@@ -46,7 +46,7 @@ class TokenRepository extends ServiceEntityRepository
 
     public function findOneByUuid(string $tokenParam): ?Token
     {
-         return $this->createQueryBuilder('token')
+        return $this->createQueryBuilder('token')
             ->andWhere('token.uuid = :val')
             ->setParameter('val', $tokenParam)
             ->getQuery()
@@ -55,7 +55,7 @@ class TokenRepository extends ServiceEntityRepository
 
     public function findOneByPassword(string $password): ?Token
     {
-         return $this->createQueryBuilder('token')
+        return $this->createQueryBuilder('token')
             ->andWhere('token.password = :val')
             ->setParameter('val', $password)
             ->getQuery()

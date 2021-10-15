@@ -32,5 +32,4 @@ class AddressRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

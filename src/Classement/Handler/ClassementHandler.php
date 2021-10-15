@@ -53,7 +53,6 @@ class ClassementHandler
     }
 
     /**
-     * @param Fiche $fiche
      * @return Classement[]
      */
     public function getClassements(Fiche $fiche): array

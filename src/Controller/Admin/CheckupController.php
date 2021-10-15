@@ -60,7 +60,7 @@ class CheckupController extends AbstractController
 
                 return false;
             });
-            if (0 == count($principaux)) {
+            if (0 == \count($principaux)) {
                 $data[] = $fiche;
             }
         }

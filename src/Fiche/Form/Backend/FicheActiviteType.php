@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Fiche\Form\Backend\AddFieldEtapeSubscriber;
 use AcMarche\Bottin\Repository\LocaliteRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

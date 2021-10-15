@@ -46,5 +46,4 @@ class Bottin
         self::SPORT => 'csl@marche.be',
         self::TOURISME => 'animation@marche.be',
     ];
-
 }

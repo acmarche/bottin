@@ -34,5 +34,4 @@ class DenominationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

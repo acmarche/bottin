@@ -2,9 +2,9 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Repository\CategoryRepository;
-use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

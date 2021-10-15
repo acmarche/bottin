@@ -49,7 +49,7 @@ class ExportUtils
         foreach ($selections as $selection) {
             $categories[] = $selection->getCategory();
         }
-        if (count($categories) > 0) {
+        if (\count($categories) > 0) {
             $fiches = $this->categoryService->getFichesByCategoriesAndHerChildren($categories);
         } else {
             $fiches = $this->ficheRepository->findAllWithJoins();

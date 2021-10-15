@@ -2,15 +2,15 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Category\Form\CategoryMoveType;
+use AcMarche\Bottin\Category\Form\CategoryType;
 use AcMarche\Bottin\Category\Message\CategoryCreated;
 use AcMarche\Bottin\Category\Message\CategoryDeleted;
 use AcMarche\Bottin\Category\Message\CategoryUpdated;
+use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Entity\Category;
-use AcMarche\Bottin\Category\Form\CategoryMoveType;
-use AcMarche\Bottin\Category\Form\CategoryType;
 use AcMarche\Bottin\Form\Search\SearchCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
-use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

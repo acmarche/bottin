@@ -16,9 +16,7 @@ class DefaultController extends AbstractController
 {
     private CategoryRepository $categoryRepository;
     private TokenRepository $tokenRepository;
-    /**
-     * @var \AcMarche\Bottin\Bce\Repository\ApiCbeRepository
-     */
+
     private ApiCbeRepository $apiRepository;
 
     public function __construct(
@@ -50,9 +48,8 @@ class DefaultController extends AbstractController
         );
     }
 
-
     /**
-     * @Route("/updateFiche", name="bottin_backend_password", methods={"GET","POST"})
+     * @Route("/updateFiche", name="bottin_backend_password", methods={"GET", "POST"})
      */
     public function tokenPassword(Request $request): Response
     {

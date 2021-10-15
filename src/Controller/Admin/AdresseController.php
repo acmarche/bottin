@@ -2,11 +2,11 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Adresse\Form\AdresseType;
 use AcMarche\Bottin\Adresse\Message\AdresseCreated;
 use AcMarche\Bottin\Adresse\Message\AdresseDeleted;
 use AcMarche\Bottin\Adresse\Message\AdresseUpdated;
 use AcMarche\Bottin\Entity\Adresse;
-use AcMarche\Bottin\Adresse\Form\AdresseType;
 use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

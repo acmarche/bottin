@@ -30,5 +30,4 @@ class EstablishmentRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

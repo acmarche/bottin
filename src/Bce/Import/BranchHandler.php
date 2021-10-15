@@ -44,7 +44,6 @@ class BranchHandler implements ImportHandlerInterface
 
     /**
      * @param Branch $data
-     * @return string
      */
     public function writeLn($data): string
     {
@@ -60,5 +59,4 @@ class BranchHandler implements ImportHandlerInterface
     {
         return 'branch';
     }
-
 }

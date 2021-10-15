@@ -4,14 +4,14 @@ namespace AcMarche\Bottin\Cap\Controller;
 
 use AcMarche\Bottin\Cap\ApiUtils;
 use AcMarche\Bottin\Cap\Cap;
+use AcMarche\Bottin\Category\Repository\CategoryService;
+use AcMarche\Bottin\Demande\Handler\DemandeHandler;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
-use AcMarche\Bottin\Category\Repository\CategoryService;
-use AcMarche\Bottin\Demande\Handler\DemandeHandler;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

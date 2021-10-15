@@ -71,7 +71,7 @@ class PublipostageController extends AbstractController
         if ($fiche) {
             $fiches = [$fiche];
             $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-            $to = count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
+            $to = \count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
         } else {
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }

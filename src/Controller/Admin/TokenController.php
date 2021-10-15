@@ -41,7 +41,6 @@ class TokenController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->tokenUtils->generateForAll();
             $this->addFlash('success', 'Tokens générés');
 

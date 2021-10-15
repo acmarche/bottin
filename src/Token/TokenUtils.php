@@ -61,7 +61,7 @@ class TokenUtils
         $pieces = [];
         $max = mb_strlen($keyspace, '8bit') - 1;
         for ($i = 0; $i < $length; ++$i) {
-            $pieces [] = $keyspace[random_int(0, $max)];
+            $pieces[] = $keyspace[random_int(0, $max)];
         }
         $password = implode('', $pieces);
         if ($this->tokenRepository->findOneBy(['password' => $password])) {

@@ -37,5 +37,4 @@ class Contact
     {
         return $this->value;
     }
-
 }

@@ -28,13 +28,13 @@ class MailFactory
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
 
-        if (count($classements) > 0) {
+        if (\count($classements) > 0) {
             $fiche->root = $this->classementHandler->getRoot($classements[0]);
             $from = Bottin::EMAILS[$fiche->root];
         }
 
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-        $email = count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
+        $email = \count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
@@ -115,5 +115,4 @@ class MailFactory
 
         return $templatedEmail;
     }
-
 }

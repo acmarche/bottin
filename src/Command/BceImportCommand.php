@@ -35,8 +35,8 @@ class BceImportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $fileName = $input->getArgument('fileName');
 
-        if (!in_array($fileName, Bce::$files)) {
-            $io->warning('Missing file name. Possible values: '.join(' ', Bce::$files));
+        if (!\in_array($fileName, Bce::$files)) {
+            $io->warning('Missing file name. Possible values: '.implode(' ', Bce::$files));
 
             return Command::FAILURE;
         }

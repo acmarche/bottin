@@ -34,5 +34,4 @@ class CodeRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

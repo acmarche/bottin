@@ -37,9 +37,9 @@ class ApiCbeRepository
         $this->connect();
 
         $request = $this->httpClient->request(
-                'POST',
-                $this->url.'/byCBE',
-                [
+            'POST',
+            $this->url.'/byCBE',
+            [
                     'json' => [
                         'clientId' => $this->clientId,
                         'secretKey' => $this->secretKey,
@@ -48,7 +48,7 @@ class ApiCbeRepository
                         ],
                     ],
                 ]
-            );
+        );
 
         return $this->getContent($request, $number);
     }

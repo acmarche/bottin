@@ -42,8 +42,6 @@ class CsvReader
     }
 
     /**
-     * @param string $fileName
-     * @return iterable
      * @throws \Exception
      */
     public function readCSVGenerator(string $fileName): iterable

@@ -61,7 +61,7 @@ class PdfFactory
     {
         foreach ($fiches as $fiche) {
             $classements = $this->classementRepository->getByFiche($fiche);
-            if (count($classements) > 0) {
+            if (\count($classements) > 0) {
                 $fiche->root = $this->classementHandler->getRoot($classements[0]);
             }
             $classements = $this->pathUtils->setPathForClassements($classements);

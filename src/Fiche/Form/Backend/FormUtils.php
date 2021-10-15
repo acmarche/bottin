@@ -3,10 +3,6 @@
 namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Fiche\Form\Backend\FicheActiviteType;
-use AcMarche\Bottin\Fiche\Form\Backend\FicheComplementType;
-use AcMarche\Bottin\Fiche\Form\Backend\FicheContactType;
-use AcMarche\Bottin\Fiche\Form\Backend\FicheSociauxType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 

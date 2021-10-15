@@ -2,9 +2,9 @@
 
 namespace AcMarche\Bottin\Bce\Entity;
 
+use AcMarche\Bottin\Bce\Repository\DenominationRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
-use AcMarche\Bottin\Bce\Repository\DenominationRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**

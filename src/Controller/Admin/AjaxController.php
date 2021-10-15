@@ -41,7 +41,7 @@ class AjaxController extends AbstractController
      */
     public function removeClassement(Request $request): Response
     {
-        $classementId = (int)$request->get('classementId');
+        $classementId = (int) $request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
         if (null === $classement) {
@@ -74,7 +74,7 @@ class AjaxController extends AbstractController
      */
     public function setPrincipal(Request $request): Response
     {
-        $classementId = (int)$request->get('classementId');
+        $classementId = (int) $request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
 
         if (null === $classementSelect) {
@@ -134,8 +134,8 @@ class AjaxController extends AbstractController
     public function ajaxCategoriesForExport(Request $request): Response
     {
         $jsonResponse = new JsonResponse();
-        $parentId = (int)$request->get('parentId');
-        $level = (int)$request->get('level');
+        $parentId = (int) $request->get('parentId');
+        $level = (int) $request->get('level');
         ++$level;
 
         if (!$parentId) {
@@ -178,7 +178,7 @@ class AjaxController extends AbstractController
      */
     public function fetchCategory(Request $request): Response
     {
-        $categoryId = (int)$request->get('id');
+        $categoryId = (int) $request->get('id');
         $category = $this->categoryRepository->find($categoryId);
 
         return new Response($category->getName());

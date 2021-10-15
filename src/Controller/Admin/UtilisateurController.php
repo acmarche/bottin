@@ -3,9 +3,9 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\User;
+use AcMarche\Bottin\Repository\UserRepository;
 use AcMarche\Bottin\User\Form\UtilisateurEditType;
 use AcMarche\Bottin\User\Form\UtilisateurType;
-use AcMarche\Bottin\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

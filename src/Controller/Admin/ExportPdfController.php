@@ -33,7 +33,7 @@ class ExportPdfController extends AbstractController
     {
         $html = $this->pdfFactory->fiche($fiche);
 
-     //   return new Response($html);
+        //   return new Response($html);
 
         return $this->pdfFactory->sendResponse($html, $fiche->getSlug());
     }

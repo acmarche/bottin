@@ -30,5 +30,4 @@ class BranchRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 }

@@ -45,7 +45,6 @@ class CodeHandler implements ImportHandlerInterface
 
     /**
      * @param Code $data
-     * @return string
      */
     public function writeLn($data): string
     {

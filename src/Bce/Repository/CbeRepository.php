@@ -41,5 +41,4 @@ class CbeRepository
 
         return $entreprise;
     }
-
 }

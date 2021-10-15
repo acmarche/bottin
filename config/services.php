@@ -10,11 +10,11 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
-use Symfony\Component\Ldap\LdapInterface;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
+use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
+use Symfony\Component\Ldap\LdapInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -61,7 +61,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
 
-    /**
+    /*
      * va pas ici alors mis dans AcMarcheBottinExtension
      */
     $services->instanceof(ImportHandlerInterface::class)
@@ -72,7 +72,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '$handlers' => tagged_iterator('bottin.import'),
             '$serviceLocator' => tagged_locator('bottin.import', 'key', 'getDefaultIndexName'),
         ]);
-
 
     if (interface_exists(LdapInterface::class)) {
         $services
