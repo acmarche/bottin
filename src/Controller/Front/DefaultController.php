@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use AcMarche\Bottin\Bce\Repository\ApiCbeRepository;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\TokenRepository;
 use AcMarche\Bottin\Token\Form\TokenPasswordType;
@@ -17,16 +16,12 @@ class DefaultController extends AbstractController
     private CategoryRepository $categoryRepository;
     private TokenRepository $tokenRepository;
 
-    private ApiCbeRepository $apiRepository;
-
     public function __construct(
         CategoryRepository $categoryRepository,
-        TokenRepository $tokenRepository,
-        ApiCbeRepository $apiRepository
+        TokenRepository $tokenRepository
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->tokenRepository = $tokenRepository;
-        $this->apiRepository = $apiRepository;
     }
 
     /**
