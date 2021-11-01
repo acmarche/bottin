@@ -6,6 +6,9 @@ use AcMarche\Bottin\Entity\Fiche;
 
 class FicheUtils
 {
+    /**
+     * @return array<int, string> $items
+     */
     public function extractEmailsFromFiche(Fiche $fiche): array
     {
         $emails = [];
