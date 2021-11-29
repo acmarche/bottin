@@ -26,7 +26,7 @@ class HistoryRepository extends ServiceEntityRepository
     /**
      * @return History[] Returns an array of History objects
      */
-    public function findByFiche(Fiche $fiche)
+    public function findByFiche(Fiche $fiche): array
     {
         return $this->createQueryBuilder('h')
             ->leftJoin('h.fiche', 'fiche', 'WITH')
@@ -42,7 +42,7 @@ class HistoryRepository extends ServiceEntityRepository
     /**
      * @return History[] Returns an array of History objects
      */
-    public function findOrdered()
+    public function findOrdered(): array
     {
         return $this->createQueryBuilder('h')
             ->leftJoin('h.fiche', 'fiche', 'WITH')

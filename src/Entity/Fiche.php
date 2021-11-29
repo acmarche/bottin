@@ -226,7 +226,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return null;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->societe;
     }

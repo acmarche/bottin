@@ -98,7 +98,7 @@ class FicheImage
         return $this->images;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->imageName;
     }

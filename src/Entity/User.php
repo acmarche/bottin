@@ -54,7 +54,7 @@ class User implements UserInterface
         return $this->getUsername();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getUsername();
     }
@@ -128,14 +128,6 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -176,5 +168,10 @@ class User implements UserInterface
         $this->prenom = $prenom;
 
         return $this;
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
     }
 }

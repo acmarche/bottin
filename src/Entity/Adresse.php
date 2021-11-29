@@ -69,7 +69,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         $this->fiches = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->nom;
     }

@@ -46,7 +46,7 @@ class Classement
         $this->category = $category;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getCategory()->getName();
     }

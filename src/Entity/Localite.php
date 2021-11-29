@@ -18,7 +18,7 @@ class Localite
      */
     private ?string $nom = null;
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->nom;
     }
