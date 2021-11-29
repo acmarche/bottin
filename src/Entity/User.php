@@ -4,12 +4,13 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements UserInterface,PasswordAuthenticatedUserInterface
 {
     use IdTrait;
 
