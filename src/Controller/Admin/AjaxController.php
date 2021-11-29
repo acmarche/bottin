@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
@@ -44,7 +45,7 @@ class AjaxController extends AbstractController
         $classementId = (int) $request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
 
-        if (null === $classement) {
+        if (!$classement instanceof Classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
 
@@ -77,7 +78,7 @@ class AjaxController extends AbstractController
         $classementId = (int) $request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
 
-        if (null === $classementSelect) {
+        if (!$classementSelect instanceof Classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
         } else {
@@ -138,7 +139,7 @@ class AjaxController extends AbstractController
         $level = (int) $request->get('level');
         ++$level;
 
-        if (!$parentId) {
+        if ($parentId === 0) {
             $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
 
             return $jsonResponse;

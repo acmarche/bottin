@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Form\DemandeType;
 use AcMarche\Bottin\Mailer\MailFactory;
@@ -72,7 +73,7 @@ class DemandeController extends AbstractController
     {
         $fiche = $this->ficheRepository->find($demande->getFiche());
 
-        if (null === $fiche) {
+        if (!$fiche instanceof Fiche) {
             return $this->createNotFoundException('Fiche non trouvée');
         }
 
@@ -88,7 +89,7 @@ class DemandeController extends AbstractController
             }
 
             $metas = $request->request->get('metas');
-            if (0 == \count($metas)) {
+            if (0 == ($metas === null ? 0 : \count($metas))) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);

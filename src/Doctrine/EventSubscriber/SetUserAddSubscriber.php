@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Doctrine\EventSubscriber;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
@@ -46,7 +47,7 @@ final class SetUserAddSubscriber implements EventSubscriber
 
         $user = $this->security->getUser();
 
-        if (null === $user) {
+        if (!$user instanceof UserInterface) {
             throw new Exception('You must be login');
         }
 

@@ -210,7 +210,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     public function image(): ?string
     {
-        if (\count($this->images) > 0) {
+        if ((is_countable($this->images) ? \count($this->images) : 0) > 0) {
             return $this->images[0]->getImageName();
         }
 
@@ -219,7 +219,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     public function imageFile(): ?FicheImage
     {
-        if (\count($this->images) > 0) {
+        if ((is_countable($this->images) ? \count($this->images) : 0) > 0) {
             return $this->images[0];
         }
 

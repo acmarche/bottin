@@ -33,7 +33,7 @@ class HistoryUtils
         $this->pathUtils = $pathUtils;
     }
 
-    public function diffFiche(Fiche $fiche)
+    public function diffFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
 
@@ -46,7 +46,7 @@ class HistoryUtils
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
         }
-        if (\count($changes) > 0) {
+        if ($changes !== []) {
             $this->historyRepository->flush();
         }
     }
@@ -54,15 +54,14 @@ class HistoryUtils
     private function ficheToArray(Fiche $fiche): array
     {
         $data = $this->serializer->serialize($fiche, 'json', ['groups' => 'group1']);
-        $data = json_decode($data, true);
 
-        return $data;
+        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
     }
 
     private function getUsername(): ?string
     {
         $username = null;
-        if ($user = $this->security->getUser()) {
+        if (($user = $this->security->getUser()) !== null) {
             $username = $user->getUserIdentifier();
         }
 
@@ -75,12 +74,12 @@ class HistoryUtils
         ?string $property,
         ?string $oldValue,
         ?string $newValue
-    ) {
+    ): void {
         $history = new History($fiche, $made_by, $property, $oldValue, $newValue);
         $this->historyRepository->persist($history);
     }
 
-    public function diffClassement(Fiche $fiche, Category $category, string $action)
+    public function diffClassement(Fiche $fiche, Category $category, string $action): void
     {
         $username = $this->getUsername();
         $path = $this->pathUtils->getPath($category);
@@ -89,7 +88,7 @@ class HistoryUtils
         $this->historyRepository->flush();
     }
 
-    public function newFiche(Fiche $fiche)
+    public function newFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
         $this->createForFiche($fiche, $username, 'new', '', '');

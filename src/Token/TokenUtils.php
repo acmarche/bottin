@@ -64,7 +64,7 @@ class TokenUtils
             $pieces[] = $keyspace[random_int(0, $max)];
         }
         $password = implode('', $pieces);
-        if ($this->tokenRepository->findOneBy(['password' => $password])) {
+        if ($this->tokenRepository->findOneBy(['password' => $password]) !== null) {
             $this->generatePassword();
         }
 

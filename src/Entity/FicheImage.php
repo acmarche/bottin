@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use DateTimeImmutable;
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use DateTime;
@@ -55,8 +56,9 @@ class FicheImage
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
+     * @var DateTime|DateTimeImmutable
      */
-    protected DateTime $updatedAt;
+    protected \DateTimeInterface $updatedAt;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -146,7 +148,10 @@ class FicheImage
         return $this;
     }
 
-    public function getUpdatedAt(): DateTime
+    /**
+     * @return DateTime|DateTimeImmutable
+     */
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }

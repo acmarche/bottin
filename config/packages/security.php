@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\Ldap\Ldap;
 use AcMarche\Bottin\Entity\User;
 use AcMarche\Bottin\Security\BottinAuthenticator;
 use AcMarche\Bottin\Security\BottinLdapAuthenticator;
@@ -39,7 +40,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     if (interface_exists(LdapInterface::class)) {
         $authenticators[] = BottinLdapAuthenticator::class;
         $main['form_login_ldap'] = [
-            'service' => 'Symfony\Component\Ldap\Ldap',
+            'service' => Ldap::class,
             'check_path' => 'app_login',
         ];
     }

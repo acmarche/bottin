@@ -104,7 +104,7 @@ class ApiUtils
             $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
         $logo = null;
-        if (\count($urls) > 0) {
+        if ($urls !== []) {
             $logo = $urls[0];
         }
         $dataFiche['logo'] = $logo;
@@ -122,7 +122,7 @@ class ApiUtils
         foreach ($dataFiche['images'] as $image) {
             $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
-        $dataFiche['logo'] = \count($urls > 0) > 0 ? $urls[0] : null;
+        $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
         $dataFiche['photos'] = $urls;
 
         return $dataFiche;

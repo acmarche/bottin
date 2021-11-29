@@ -2,15 +2,16 @@
 
 namespace AcMarche\Bottin\Search;
 
+use Elastica\ResultSet;
 interface SearchEngineInterface
 {
     /**
-     * @return iterable|\Elastica\ResultSet
+     * @return iterable|ResultSet
      */
     public function doSearch(string $keyword, ?string $localite = null): iterable;
 
     /**
-     * @return iterable|\Elastica\ResultSet
+     * @return iterable|ResultSet
      */
     public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable;
 

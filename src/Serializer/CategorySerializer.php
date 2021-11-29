@@ -17,7 +17,7 @@ class CategorySerializer
 
     public function serializeCategory(Category $category): array
     {
-        $std = json_decode($this->serializer->serialize($category, 'json', ['groups' => 'group1']), true);
+        $std = json_decode($this->serializer->serialize($category, 'json', ['groups' => 'group1']), true, 512, JSON_THROW_ON_ERROR);
 
         $std['updated_at'] = $category->getUpdatedAt()->format('Y-m-d');
         $std['created_at'] = $category->getCreatedAt()->format('Y-m-d');
@@ -27,6 +27,7 @@ class CategorySerializer
 
     public function serializeCategory2(Category $category): array
     {
+        $data = [];
         $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
         $data['name'] = $category->getName();
         $data['description'] = $category->getDescription();

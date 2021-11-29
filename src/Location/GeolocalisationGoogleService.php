@@ -54,17 +54,11 @@ class GeolocalisationGoogleService
 
         try {
             $content = $request->getContent();
-        } catch (ClientExceptionInterface $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
-        } catch (RedirectionExceptionInterface $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
-        } catch (ServerExceptionInterface $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
-        } catch (TransportExceptionInterface $exception) {
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $exception) {
             throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
-        $coordonates = json_decode($content, true);
+        $coordonates = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         if (\is_array($coordonates)) {
             if (isset($coordonates['error_message'])) {

@@ -49,25 +49,22 @@ class ExportUtils
         foreach ($selections as $selection) {
             $categories[] = $selection->getCategory();
         }
-        if (\count($categories) > 0) {
+        if ($categories !== []) {
             $fiches = $this->categoryService->getFichesByCategoriesAndHerChildren($categories);
         } else {
             $fiches = $this->ficheRepository->findAllWithJoins();
         }
-        $fiches = SortUtils::sortFiche($fiches);
 
-        return $fiches;
+        return SortUtils::sortFiche($fiches);
     }
 
-    public function replaceUrlToken(Fiche $fiche, string $message): string
+    public function replaceUrlToken(Fiche $fiche, string $message): ?string
     {
         $url = '';
-        if ($token = $fiche->getToken()) {
+        if (($token = $fiche->getToken()) !== null) {
             $url = $this->generateUrlToken($token);
         }
 
-        $body = preg_replace('#{urltoken}#', $url, $message);
-
-        return $body;
+        return preg_replace('#{urltoken}#', $url, $message);
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
+use AcMarche\Bottin\Elasticsearch\ElasticServer;
+use Elasticsearch\ClientBuilder;
+use Elasticsearch\Client;
+use Symfony\Component\Ldap\Ldap;
 use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
@@ -33,7 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure()
         ->private()
-        ->bind('$elasticIndexName', AcMarche\Bottin\Elasticsearch\ElasticServer::INDEX_NAME);
+        ->bind('$elasticIndexName', ElasticServer::INDEX_NAME);
 
     $services->load('AcMarche\Bottin\\', __DIR__.'/../src/*')
         ->exclude([__DIR__.'/../src/{Entity,Tests}']);
@@ -49,9 +53,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->alias(LoaderInterface::class, 'fidry_alice_data_fixtures.loader.doctrine');
-    $services->set(Elasticsearch\ClientBuilder::class);
+    $services->set(ClientBuilder::class);
 
-    $services->set(Elasticsearch\Client::class)
+    $services->set(Client::class)
         ->factory('@Elasticsearch\ClientBuilder::fromConfig')
         ->args(['%es_config%']);
 
@@ -59,7 +63,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     if (interface_exists(LdapInterface::class)) {
         $services
-            ->set(Symfony\Component\Ldap\Ldap::class)
+            ->set(Ldap::class)
             ->args(['@Symfony\Component\Ldap\Adapter\ExtLdap\Adapter'])
             ->tag('ldap');
         $services->set(Adapter::class)->args(
@@ -77,7 +81,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         );
 
         $services->set(LdapBottin::class)
-            ->arg('$adapter', service('Symfony\Component\Ldap\Adapter\ExtLdap\Adapter'))
+            ->arg('$adapter', service(Adapter::class))
             ->tag('ldap'); //necessary for new LdapBadge(LdapMercredi::class)
     }
 };

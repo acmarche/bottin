@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Hades\Command;
 
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Hades\Hades;
 use AcMarche\Bottin\Hades\HadesImport;
 use AcMarche\Bottin\Hades\HadesRepository;
@@ -57,7 +58,7 @@ class SyncFtlbCommand extends Command
     protected function importHotels(): void
     {
         $category = $this->categoryRepository->find(Hades::CATEGORY_HOTELS);
-        if (null === $category) {
+        if (!$category instanceof Category) {
             return;
         }
 

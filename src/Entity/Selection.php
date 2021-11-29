@@ -29,7 +29,7 @@ class Selection
         $this->user = $user;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory(): Category
     {
         return $this->category;
     }
@@ -41,7 +41,7 @@ class Selection
         return $this;
     }
 
-    public function getUser(): ?string
+    public function getUser(): string
     {
         return $this->user;
     }

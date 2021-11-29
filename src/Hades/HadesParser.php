@@ -149,7 +149,7 @@ class HadesParser
         $horaires = [];
         $i = 0;
         $elements = (array) $element->horaires;
-        if (0 === \count($horaires)) {
+        if ([] === $horaires) {
             return [];
         }
 

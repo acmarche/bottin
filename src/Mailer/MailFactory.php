@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Mailer;
 
+use Exception;
 use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
@@ -28,13 +29,13 @@ class MailFactory
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
 
-        if (\count($classements) > 0) {
+        if ($classements !== []) {
             $fiche->root = $this->classementHandler->getRoot($classements[0]);
             $from = Bottin::EMAILS[$fiche->root];
         }
 
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-        $email = \count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
+        $email = $emails !== [] ? $emails[0] : 'webmaster@marche.be';
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
@@ -61,9 +62,9 @@ class MailFactory
         return $templatedEmail;
     }
 
-    public function mailContact(string $nom, string $from, string $message): TemplatedEmail
+    public function mailContact(string $nom, string $from, string $message): self
     {
-        $templatedEmail = (new TemplatedEmail())
+        return (new TemplatedEmail())
             ->subject('Contact depuis bottin marche')
             ->from($from)
             ->to('jf@marche.be')
@@ -79,8 +80,6 @@ class MailFactory
                     'subject' => 'Contact depuis bottin marche',
                 ]
             );
-
-        return $templatedEmail;
     }
 
     public function mailConfirmDemande(Fiche $fiche): TemplatedEmail
@@ -88,7 +87,7 @@ class MailFactory
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
 
         if (0 == \count($emails)) {
-            throw new \Exception('Aucun email n\'a été trouvé pour ce commerçant');
+            throw new Exception('Aucun email n\'a été trouvé pour ce commerçant');
         }
 
         $templatedEmail = new TemplatedEmail();

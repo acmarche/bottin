@@ -121,17 +121,17 @@ class ImageController extends AbstractController
     public function delete(Request $request): RedirectResponse
     {
         $imageId = (int) $request->request->get('imageid');
-        if (!$imageId) {
+        if ($imageId === 0) {
             $this->addFlash('danger', 'Image non trouvée');
 
-            return $this->redirect($this->generateUrl('bottin_front_home'));
+            return $this->redirectToRoute('bottin_front_home');
         }
 
         $ficheImage = $this->imageRepository->find($imageId);
-        if (!$ficheImage) {
+        if ($ficheImage === null) {
             $this->addFlash('danger', 'Image non trouvée');
 
-            return $this->redirect($this->generateUrl('bottin_front_home'));
+            return $this->redirectToRoute('bottin_front_home');
         }
 
         $fiche = $ficheImage->getFiche();
@@ -144,6 +144,6 @@ class ImageController extends AbstractController
             $this->addFlash('success', "L'image a bien été supprimée");
         }
 
-        return $this->redirect($this->generateUrl('bottin_backend_image_edit', ['uuid' => $token->getUuid()]));
+        return $this->redirectToRoute('bottin_backend_image_edit', ['uuid' => $token->getUuid()]);
     }
 }

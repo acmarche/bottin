@@ -19,7 +19,7 @@ class SortUtils
             function ($a, $b) {
                 $ad = $a->getSociete();
                 $bd = $b->getSociete();
-                if ($ad == $bd) {
+                if ($ad === $bd) {
                     return 0;
                 }
 

@@ -35,6 +35,7 @@ class StreetView
 
     public function getPhoto($latitude, $longitude)
     {
+        $request = null;
         $query = [
             'key' => $this->key,
             'location' => "$latitude, $longitude",
@@ -60,13 +61,7 @@ class StreetView
 
         try {
             return $request->getContent();
-        } catch (ClientExceptionInterface $e) {
-            return $this->createError($e->getMessage());
-        } catch (RedirectionExceptionInterface $e) {
-            return $this->createError($e->getMessage());
-        } catch (ServerExceptionInterface $e) {
-            return $this->createError($e->getMessage());
-        } catch (TransportExceptionInterface $e) {
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
             return $this->createError($e->getMessage());
         }
     }

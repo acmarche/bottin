@@ -7,6 +7,7 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class LocaliteDeletedHandler implements MessageHandlerInterface
 {
+    public $flashBag;
     public function __invoke(LocaliteDeleted $localiteDeleted)
     {
         $this->flashBag->add(

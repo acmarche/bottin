@@ -57,7 +57,7 @@ class ElasticIndexer
         $data['type'] = 'fiche';
         $data['classements'] = $this->classementElastic->getClassementsForApi($fiche);
         $data['cap'] = false;
-        if (\count($data['classements']) > 0) {
+        if ((is_countable($data['classements']) ? \count($data['classements']) : 0) > 0) {
             $data['cap'] = true;
         }
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
@@ -89,6 +89,7 @@ class ElasticIndexer
 
     private function createDocumentElastic(Fiche $fiche): DocumentElastic
     {
+        $courrier = null;
         $document = new DocumentElastic();
         $document->id = (string) $fiche->getId();
         $document->numero = $fiche->getNumero();

@@ -26,7 +26,7 @@ class LdapBottin implements LdapInterface
     /**
      * {@inheritdoc}
      */
-    public function bind(string $dn = null, string $password = null)
+    public function bind(string $dn = null, string $password = null): void
     {
         $this->adapter->getConnection()->bind($dn, $password);
     }

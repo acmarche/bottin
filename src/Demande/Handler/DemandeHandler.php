@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Demande\Handler;
 
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Entity\DemandeMeta;
 use AcMarche\Bottin\Mailer\MailFactory;
@@ -41,7 +42,7 @@ class DemandeHandler
         }
 
         $fiche = $this->ficheRepository->find($idFiche);
-        if (null === $fiche) {
+        if (!$fiche instanceof Fiche) {
             return ['error' => 404];
         }
 

@@ -20,7 +20,7 @@ class ElasticServerCommand extends Command
         $this->elasticServer = $elasticServer;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Raz l\'index');

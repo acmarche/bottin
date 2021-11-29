@@ -50,7 +50,7 @@ class OpenStreetMapReverse implements LocationReverseInterface
                 ]
             );
 
-            $this->result = json_decode($request->getContent(), true);
+            $this->result = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
             return $this->result;
         } catch (ClientException $e) {

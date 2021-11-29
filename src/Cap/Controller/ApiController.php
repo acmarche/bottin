@@ -133,7 +133,7 @@ class ApiController extends AbstractController
     public function ficheById(int $id): JsonResponse
     {
         $fiche = $this->ficheRepository->find($id);
-        if (null === $fiche) {
+        if (!$fiche instanceof Fiche) {
             return $this->json(['error' => 'Fiche not found']);
         }
 
@@ -149,7 +149,7 @@ class ApiController extends AbstractController
      */
     public function ficheByIds(Request $request): JsonResponse
     {
-        $ids = json_decode($request->request->get('ids'), true);
+        $ids = json_decode($request->request->get('ids'), true, 512, JSON_THROW_ON_ERROR);
 
         $fiches = $this->ficheRepository->findByIds($ids);
         $data = [];
@@ -171,7 +171,7 @@ class ApiController extends AbstractController
     public function ficheBySlug(string $slugname): JsonResponse
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
-        if (null === $fiche) {
+        if (!$fiche instanceof Fiche) {
             return $this->json(['error' => 'Fiche not found']);
         }
 
@@ -186,7 +186,7 @@ class ApiController extends AbstractController
         $data = $request->request->all();
         $result = $this->demandeHandler->handle($data);
 
-        $this->logger->info('api update fiche result'.json_encode($result));
+        $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
 
         return $this->json($result);
     }

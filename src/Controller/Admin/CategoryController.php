@@ -55,7 +55,7 @@ class CategoryController extends AbstractController
         $categoryRoot = null;
 
         if ($session->has('category_search')) {
-            $args = json_decode($session->get('category_search'), true);
+            $args = json_decode($session->get('category_search'), true, 512, JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(
@@ -78,7 +78,7 @@ class CategoryController extends AbstractController
                 $args['parent'] = $root;
             }
 
-            $session->set('category_search', json_encode($args));
+            $session->set('category_search', json_encode($args, JSON_THROW_ON_ERROR));
 
             if ($root) {
                 $categoryRoot = $this->categoryRepository->find($root);
@@ -243,12 +243,10 @@ class CategoryController extends AbstractController
 
             $this->addFlash('success', 'La catégorie a bien été supprimée');
             if (null !== $parent) {
-                return $this->redirect(
-                    $this->generateUrl('bottin_admin_category_show', ['id' => $parent->getId()])
-                );
+                return $this->redirectToRoute('bottin_admin_category_show', ['id' => $parent->getId()]);
             }
         }
 
-        return $this->redirect($this->generateUrl('bottin_admin_category'));
+        return $this->redirectToRoute('bottin_admin_category');
     }
 }

@@ -33,7 +33,7 @@ class BottinExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('bottin_url_fiche_show', [$this, 'urlFiche']),
+            new TwigFunction('bottin_url_fiche_show', fn($fiche): string => $this->urlFiche($fiche)),
         ];
     }
 

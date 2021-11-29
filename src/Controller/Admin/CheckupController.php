@@ -53,13 +53,7 @@ class CheckupController extends AbstractController
 
         foreach ($fiches as $fiche) {
             $classements = $fiche->getClassements();
-            $principaux = array_filter($classements->toArray(), function ($classement) {
-                if ($classement->getPrincipal()) {
-                    return true;
-                }
-
-                return false;
-            });
+            $principaux = array_filter($classements->toArray(), fn($classement) => (bool) $classement->getPrincipal());
             if (0 == \count($principaux)) {
                 $data[] = $fiche;
             }

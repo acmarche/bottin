@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use Exception;
 use AcMarche\Bce\Cache\CbeCache;
 use AcMarche\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
@@ -41,10 +42,10 @@ class BceController extends AbstractController
 
         $entreprise = $this->bceCache->getCacheData($number);
 
-        if (!$entreprise) {
+        if ($entreprise === null) {
             try {
                 $entreprise = $this->bceRepository->findByNumber($number);
-            } catch (TransportExceptionInterface | \Exception $e) {
+            } catch (TransportExceptionInterface | Exception $e) {
                 $this->addFlash('warning', 'Erreur survenue: '.$e->getMessage());
 
                 return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);

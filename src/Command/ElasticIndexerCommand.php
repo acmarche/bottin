@@ -19,7 +19,7 @@ class ElasticIndexerCommand extends Command
     private FicheRepository $ficheRepository;
     private CategoryRepository $categoryRepository;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Mise à jour des données');

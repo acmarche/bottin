@@ -20,7 +20,7 @@ class FicheSerializer
 
     public function serializeFicheForElastic(Fiche $fiche): array
     {
-        $data = json_decode($this->serializeBaseFiche($fiche), true);
+        $data = json_decode($this->serializeBaseFiche($fiche), true, 512, JSON_THROW_ON_ERROR);
         $data['url_cap'] = CapService::generateUrlCap($fiche);
         $data['image'] = $this->firstImage($fiche);
         $data['slugname'] = $fiche->getSlug(); //@deprecated
@@ -44,7 +44,7 @@ class FicheSerializer
 
     public function serializeFiche(Fiche $fiche): array
     {
-        $data = json_decode($this->serializeBaseFiche($fiche), true);
+        $data = json_decode($this->serializeBaseFiche($fiche), true, 512, JSON_THROW_ON_ERROR);
         $data['updated_at'] = $fiche->getUpdatedAt()->format('Y-m-d');
         $data['created_at'] = $fiche->getCreatedAt()->format('Y-m-d');
         $data['slugname'] = $fiche->getSlug(); //@deprecated
@@ -59,7 +59,8 @@ class FicheSerializer
 
     public function serialize(Fiche $fiche)
     {
-        $data = json_decode($this->serializeBaseFiche($fiche), true);
+        $std = [];
+        $data = json_decode($this->serializeBaseFiche($fiche), true, 512, JSON_THROW_ON_ERROR);
         if ($fiche->getLatitude() && $fiche->getLongitude()) {
             $std['location'] = ['lat' => $fiche->getLatitude(), 'lon' => $fiche->getLongitude()];
         }

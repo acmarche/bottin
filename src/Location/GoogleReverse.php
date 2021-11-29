@@ -45,12 +45,10 @@ class GoogleReverse implements LocationReverseInterface
                 ]
             );
 
-            $this->result = json_decode($request->getContent(), true);
+            $this->result = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
             return $this->result;
-        } catch (ClientException $e) {
-            return ['error' => true, 'message' => $e->getMessage()];
-        } catch (TransportExceptionInterface $e) {
+        } catch (ClientException|TransportExceptionInterface $e) {
             return ['error' => true, 'message' => $e->getMessage()];
         }
     }

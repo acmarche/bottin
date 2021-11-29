@@ -57,7 +57,7 @@ class Token implements TimestampableInterface
         return $this;
     }
 
-    public function generatePassword()
+    public function generatePassword(): void
     {
     }
 

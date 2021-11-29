@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Classement\Handler;
 
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
@@ -32,7 +33,7 @@ class ClassementHandler
 
         $category = $this->categoryRepository->find($categoryId);
 
-        if (null === $category) {
+        if (!$category instanceof Category) {
             throw new Exception('La catégorie n\'a pas été trouvée.');
         }
 

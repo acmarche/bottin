@@ -73,7 +73,7 @@ class FicheController extends AbstractController
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
         $fiche = $token->getFiche();
-        if ($etape) {
+        if ($etape !== 0) {
             $fiche->setEtape($etape);
         }
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();

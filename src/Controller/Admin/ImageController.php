@@ -120,6 +120,6 @@ class ImageController extends AbstractController
             $this->addFlash('success', "L'image a bien été supprimée");
         }
 
-        return $this->redirect($this->generateUrl('bottin_admin_fiche_show', ['id' => $fiche->getId()]));
+        return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
     }
 }

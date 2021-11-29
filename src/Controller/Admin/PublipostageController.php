@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
@@ -68,10 +69,10 @@ class PublipostageController extends AbstractController
     {
         $user = $this->getUser();
         $to = null;
-        if ($fiche) {
+        if ($fiche !== null) {
             $fiches = [$fiche];
             $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-            $to = \count($emails) > 0 ? $emails[0] : 'webmaster@marche.be';
+            $to = $emails !== [] ? $emails[0] : 'webmaster@marche.be';
         } else {
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
@@ -127,9 +128,9 @@ class PublipostageController extends AbstractController
      * @Route("/paper", name="bottin_admin_publipostage_paper_all", methods={"GET", "POST"})
      * @Route("/paper/{id}", name="bottin_admin_publipostage_paper_fiche", methods={"GET", "POST"})
      */
-    public function byPaper(Fiche $fiche = null): Response
+    public function byPaper(Fiche $fiche = null): PdfResponse
     {
-        if ($fiche) {
+        if ($fiche !== null) {
             $fiches = [$fiche];
         } else {
             $user = $this->getUser();

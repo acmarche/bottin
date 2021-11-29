@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
  */
 class XxContext
 {
-    private $currentUser;
+    private ?\App\Entity\Security\User $currentUser = null;
     private EntityManagerInterface $entityManager;
 
     /**
@@ -113,7 +113,7 @@ class XxContext
         foreach ($tableNode as $row) {
             $product = new Product();
             $product->setName($row['name']);
-            $product->setPrice(rand(10, 1_000));
+            $product->setPrice(random_int(10, 1_000));
             $product->setDescription('lorem');
 
             if (isset($row['is published']) && 'yes' === $row['is published']) {
@@ -226,7 +226,7 @@ class XxContext
         for ($i = 0; $i < $count; ++$i) {
             $product = new Product();
             $product->setName('Product '.$i);
-            $product->setPrice(rand(10, 1_000));
+            $product->setPrice(random_int(10, 1_000));
             $product->setDescription('lorem');
 
             if (null !== $user) {

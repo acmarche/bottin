@@ -22,7 +22,7 @@ class TokenVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return \in_array($attribute, [self::TOKEN_EDIT])
+        return self::TOKEN_EDIT == $attribute
             && $subject instanceof Token;
     }
 
@@ -31,13 +31,10 @@ class TokenVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        if (!$subject->getFiche()) {
-            return false;
-        }
-        if ($this->tokenUtils->isExpired($subject)) {
+        if (null === $subject->getFiche()) {
             return false;
         }
 
-        return true;
+        return !$this->tokenUtils->isExpired($subject);
     }
 }

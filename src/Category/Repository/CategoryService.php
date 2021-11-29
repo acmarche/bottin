@@ -100,9 +100,7 @@ class CategoryService
             $fiches[] = $this->getFichesByCategoryAndHerChildren($category);
         }
 
-        $fiches = array_merge(...$fiches);
-
-        return $fiches;
+        return array_merge(...$fiches);
     }
 
     /**

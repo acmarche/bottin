@@ -115,7 +115,7 @@ class HadesFactory
         }
 
         $contactPrincipal = $contacts['ap'];
-        $contactSecondaire = isset($contacts['contact']) ? $contacts['contact'] : null;
+        $contactSecondaire = $contacts['contact'] ?? null;
 
         $fiche->setCivilite($contactPrincipal['civilite']);
         $fiche->setNom($contactPrincipal['noms']);

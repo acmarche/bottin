@@ -47,7 +47,7 @@ class Searcher
         return $search->search($query, $options);
     }
 
-    private function createQuery(iterable $args, array $constraints): BoolQuery
+    private function createQuery(iterable $args, array $constraints): ?BoolQuery
     {
         $expediteur = $args['expediteur'] ?? null;
         $numero = $args['numero'] ?? null;
@@ -90,7 +90,7 @@ class Searcher
             $this->boolQuery->addMust($matchStemmed);
         }
 
-        if (\count($constraints) > 0) {
+        if ($constraints !== []) {
             $this->addConstraints($constraints, $destinataire, $service);
         } else {
             if ($destinataire) {

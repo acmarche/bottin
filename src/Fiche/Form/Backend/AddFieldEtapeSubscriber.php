@@ -14,7 +14,7 @@ class AddFieldEtapeSubscriber implements EventSubscriberInterface
         return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
-    public function preSetData(FormEvent $event)
+    public function preSetData(FormEvent $event): void
     {
         $fiche = $event->getData();
         $form = $event->getForm();

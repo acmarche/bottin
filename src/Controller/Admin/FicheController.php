@@ -65,7 +65,7 @@ class FicheController extends AbstractController
         $args = $fiches = [];
 
         if ($session->has('fiche_search')) {
-            $args = json_decode($session->get('fiche_search'), true);
+            $args = json_decode($session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
@@ -74,7 +74,7 @@ class FicheController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
-            $session->set('fiche_search', json_encode($args));
+            $session->set('fiche_search', json_encode($args, JSON_THROW_ON_ERROR));
 
             try {
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
