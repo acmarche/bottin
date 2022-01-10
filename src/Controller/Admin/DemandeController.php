@@ -22,10 +22,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Demande controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/demande')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class DemandeController extends AbstractController
 {
     public function __construct(private DemandeRepository $demandeRepository, private FicheRepository $ficheRepository, private MailFactory $mailFactory, private MailerInterface $mailer, private PropertyUtil $propertyUtil)

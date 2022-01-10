@@ -27,10 +27,8 @@ class ImageController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/new/{uuid}', name: 'bottin_backend_image_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function new(Token $token): Response
     {
         $fiche = $token->getFiche();
@@ -53,10 +51,8 @@ class ImageController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/upload/{uuid}', name: 'bottin_backend_image_upload')]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function upload(Request $request, Token $token): Response
     {
         $fiche = $token->getFiche();
@@ -83,10 +79,8 @@ class ImageController extends AbstractController
         return $this->render('@AcMarcheBottin/admin/upload/_response_ok.html.twig');
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/{id}', name: 'bottin_backend_image_show', methods: ['GET'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function show(FicheImage $ficheImage): Response
     {
         $fiche = $ficheImage->getFiche();

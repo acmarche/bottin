@@ -26,10 +26,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Fiche controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/fiche')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class FicheController extends AbstractController
 {
     public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FicheRepository $ficheRepository, private HoraireService $horaireService, private SearchEngineInterface $searchEngine, private HistoryUtils $historyUtils, private MessageBusInterface $messageBus)

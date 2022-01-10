@@ -12,10 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-/**
- * @IsGranted("ROLE_BOTTIN_ADMIN")
- */
 #[Route(path: '/admin/bce')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class BceController extends AbstractController
 {
     public function __construct(private CbeRepository $bceRepository, private CbeCache $bceCache)

@@ -19,10 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Lieu controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/adresse')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class AdresseController extends AbstractController
 {
     public function __construct(private AdresseRepository $adresseRepository, private MessageBusInterface $messageBus)

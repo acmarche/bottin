@@ -21,10 +21,8 @@ class MapController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/{uuid}/edit', name: 'bottin_backend_map_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();

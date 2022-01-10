@@ -28,10 +28,8 @@ class FicheController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/{uuid}', name: 'bottin_backend_fiche_show', methods: ['GET'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function show(Token $token): Response
     {
         if (!$this->isGranted(TokenVoter::TOKEN_EDIT, $token)) {
@@ -53,10 +51,8 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/{uuid}/edit/{etape}', name: 'bottin_backend_fiche_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
         $fiche = $token->getFiche();
@@ -90,10 +86,8 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/{id}', name: 'bottin_backend_fiche_delete', methods: ['POST'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         return $this->redirectToRoute('bottin_front_home');

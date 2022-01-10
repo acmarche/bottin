@@ -10,10 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Secteur controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/secteur')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class SecteurController extends AbstractController
 {
     public function __construct(private FicheRepository $ficheRepository)

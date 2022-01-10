@@ -13,10 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Map controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/map')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class MapController extends AbstractController
 {
     public function __construct(private FicheRepository $ficheRepository)

@@ -15,10 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Document controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/document')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class DocumentController extends AbstractController
 {
     public function __construct(private DocumentRepository $documentRepository)

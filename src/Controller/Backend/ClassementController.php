@@ -28,10 +28,8 @@ class ClassementController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/edit/{uuid}', name: 'bottin_backend_classement_edit', methods: ['GET', 'POST'])]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();

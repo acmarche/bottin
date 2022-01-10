@@ -19,10 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Publipostage controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/publipostage')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class PublipostageController extends AbstractController
 {
     public function __construct(private MailerInterface $mailer, private MailFactory $mailFactory, private ExportUtils $exportUtils, private FicheUtils $ficheUtils, private PdfFactory $pdfFactory)

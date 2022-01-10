@@ -13,10 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Export controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/export/pdf')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class ExportPdfController extends AbstractController
 {
     public function __construct(private PdfFactory $pdfFactory)

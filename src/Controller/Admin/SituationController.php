@@ -14,10 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Situation controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/situation')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class SituationController extends AbstractController
 {
     public function __construct(private SituationRepository $situationRepository)

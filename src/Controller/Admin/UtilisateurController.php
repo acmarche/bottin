@@ -15,10 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @IsGranted("ROLE_BOTTIN_ADMIN")
- */
 #[Route(path: '/admin/utilisateur')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class UtilisateurController extends AbstractController
 {
     public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $userPasswordHasher, private ManagerRegistry $managerRegistry)

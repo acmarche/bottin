@@ -11,10 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DefaultController.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/history')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class HistoryController extends AbstractController
 {
     public function __construct(private HistoryRepository $historyRepository)

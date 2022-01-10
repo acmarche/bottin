@@ -18,10 +18,9 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
  * Image controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/image')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class ImageController extends AbstractController
 {
     public function __construct(private ImageRepository $imageRepository, private UploadHandler $uploadHandler)

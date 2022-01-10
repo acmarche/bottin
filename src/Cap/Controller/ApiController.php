@@ -126,11 +126,11 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     * @ParamConverter("fiche", options={"mapping"={"slugname"="slug"}})
      *
      * @param Fiche $fiche
      */
     #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
+    #[ParamConverter(data: 'fiche', options: ['mapping' => ['slugname' => 'slug']])]
     public function ficheBySlug(string $slugname): JsonResponse
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);

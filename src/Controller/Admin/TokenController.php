@@ -14,10 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TokenController.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/token')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class TokenController extends AbstractController
 {
     public function __construct(private TokenUtils $tokenUtils, private FicheRepository $ficheRepository)

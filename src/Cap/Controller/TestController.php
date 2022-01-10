@@ -15,10 +15,8 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-/**
- * @IsGranted("ROLE_BOTTIN_ADMIN")
- */
 #[Route(path: '/test')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class TestController extends AbstractController
 {
     private HttpClientInterface $httpClient;

@@ -13,10 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Export controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/export/csv')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class ExportCsvController extends AbstractController
 {
     public function __construct(private CsvGenerator $csvGenerator)

@@ -14,10 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Pdv controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/pdv')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class PdvController extends AbstractController
 {
     public function __construct(private PdvRepository $pdvRepository)

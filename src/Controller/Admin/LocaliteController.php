@@ -18,10 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Lieu controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/localite')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class LocaliteController extends AbstractController
 {
     public function __construct(private LocaliteRepository $localiteRepository, private MessageBusInterface $messageBus)

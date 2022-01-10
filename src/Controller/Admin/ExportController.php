@@ -18,10 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Export controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/export')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class ExportController extends AbstractController
 {
     public function __construct(private CategoryRepository $categoryRepository, private SelectionRepository $selectionRepository, private PathUtils $pathUtils, private ExportUtils $exportUtils)

@@ -33,10 +33,8 @@ class DefaultController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("TOKEN_EDIT", subject="token")
-     */
     #[Route(path: '/contact/{uuid}', name: 'bottin_backend_contact')]
+    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
     public function contact(Request $request, Token $token): Response
     {
         $form = $this->createForm(ContactType::class);

@@ -19,10 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Classement controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/classement')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class ClassementController extends AbstractController
 {
     public function __construct(private ClassementRepository $classementRepository, private ClassementHandler $classementHandler, private CategoryRepository $categoryRepository, private PathUtils $pathUtils, private MessageBusInterface $messageBus)

@@ -10,7 +10,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'mappings' => [
                     'AcMarche\Bottin' => [
                         'is_bundle' => false,
-                        'type' => 'annotation',
+                        'type' => 'attribute',
                         'dir' => '%kernel.project_dir%/src/AcMarche/Bottin/src/Entity',
                         'prefix' => 'AcMarche\Bottin',
                         'alias' => 'AcMarche\Bottin',

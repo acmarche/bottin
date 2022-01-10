@@ -23,10 +23,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Category controller.
- *
- * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
 #[Route(path: '/admin/category')]
+#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class CategoryController extends AbstractController
 {
     public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private PathUtils $pathUtils, private MessageBusInterface $messageBus)

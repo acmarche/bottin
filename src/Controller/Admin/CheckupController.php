@@ -16,10 +16,8 @@ class CheckupController extends AbstractController
     {
     }
 
-    /**
-     * @IsGranted("ROLE_BOTTIN_ADMIN")
-     */
     #[Route(path: '/admin/empty', name: 'bottin_admin_categories_empty')]
+    #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
     public function empty(): Response
     {
         $categories = $this->categoryService->getEmpyCategories();
@@ -32,10 +30,8 @@ class CheckupController extends AbstractController
         );
     }
 
-    /**
-     * @IsGranted("ROLE_BOTTIN_ADMIN")
-     */
     #[Route(path: '/admin/secteur/principal', name: 'bottin_admin_secteur_principal')]
+    #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
     public function principal(): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
