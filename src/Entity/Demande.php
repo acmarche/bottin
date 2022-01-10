@@ -10,79 +10,62 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Stringable;
 
-/**
- * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\DemandeRepository")
- * @ORM\Table(name="demande")
- */
+#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\DemandeRepository')]
+#[ORM\Table(name: 'demande')]
 class Demande implements TimestampableInterface, Stringable
 {
     use TimestampableTrait;
     use IdTrait;
-    /**
-     * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="demandes")
-     * @ORM\JoinColumn(nullable=false))
-     */
+    #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'demandes')]
+    #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $traiter_by = null;
-    /**
-     * @ORM\Column(type="boolean", options={"default"=0})
-     */
+    #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $traiter = false;
     /**
      * @var DemandeMeta[]|ArrayCollection|iterable
-     * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\DemandeMeta", mappedBy="demande", cascade={"persist", "remove"})
      */
+    #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\DemandeMeta', mappedBy: 'demande', cascade: ['persist', 'remove'])]
     protected iterable $metas;
-
     public function __construct()
     {
         $this->metas = new ArrayCollection();
     }
-
     public function __toString(): string
     {
         return $this->getFiche()->getSociete();
     }
-
     public function getTraiterBy(): ?string
     {
         return $this->traiter_by;
     }
-
     public function setTraiterBy(?string $traiter_by): self
     {
         $this->traiter_by = $traiter_by;
 
         return $this;
     }
-
     public function getTraiter(): bool
     {
         return $this->traiter;
     }
-
     public function setTraiter(bool $traiter): self
     {
         $this->traiter = $traiter;
 
         return $this;
     }
-
     public function getFiche(): ?Fiche
     {
         return $this->fiche;
     }
-
     public function setFiche(?Fiche $fiche): self
     {
         $this->fiche = $fiche;
 
         return $this;
     }
-
     /**
      * @return Collection|DemandeMeta[]
      */
@@ -90,7 +73,6 @@ class Demande implements TimestampableInterface, Stringable
     {
         return $this->metas;
     }
-
     public function addMeta(DemandeMeta $meta): self
     {
         if (!$this->metas->contains($meta)) {
@@ -100,7 +82,6 @@ class Demande implements TimestampableInterface, Stringable
 
         return $this;
     }
-
     public function removeMeta(DemandeMeta $meta): self
     {
         if ($this->metas->contains($meta)) {

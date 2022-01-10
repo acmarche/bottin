@@ -10,9 +10,9 @@ trait HoraireTrait
 {
     /**
      * @var Horaire[]|iterable|Collection
-     * @ORM\OneToMany(targetEntity="Horaire", mappedBy="fiche", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"day"="ASC"})
      */
+    #[ORM\OneToMany(targetEntity: 'Horaire', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(value: ['day' => 'ASC'])]
     protected iterable $horaires;
 
     /**

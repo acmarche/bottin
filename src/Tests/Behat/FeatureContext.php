@@ -7,11 +7,8 @@ use Behat\MinkExtension\Context\RawMinkContext;
 
 class FeatureContext extends RawMinkContext
 {
-    private FicheRepository $ficheRepository;
-
-    public function __construct(FicheRepository $ficheRepository)
+    public function __construct(private FicheRepository $ficheRepository)
     {
-        $this->ficheRepository = $ficheRepository;
     }
 
     /**
@@ -60,10 +57,7 @@ class FeatureContext extends RawMinkContext
         $this->visitPath($path);
     }
 
-    /**
-     * @return mixed[]|string
-     */
-    protected function fixStepArgument($argument)
+    protected function fixStepArgument($argument): array|string
     {
         return str_replace('\\"', '"', $argument);
     }

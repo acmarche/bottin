@@ -7,9 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait TokenTrait
 {
-    /**
-     * @ORM\OneToOne(targetEntity="AcMarche\Bottin\Entity\Token", mappedBy="fiche", cascade={"remove"})
-     */
+    #[ORM\OneToOne(targetEntity: 'AcMarche\Bottin\Entity\Token', mappedBy: 'fiche', cascade: ['remove'])]
     private ?Token $token = null;
 
     public function getToken(): ?Token

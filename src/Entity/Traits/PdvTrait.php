@@ -7,10 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait PdvTrait
 {
-    /**
-     * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Pdv", inversedBy="fiches")
-     * @ORM\JoinColumn(nullable=true)
-     */
+    #[ORM\ManyToOne(targetEntity: 'AcMarche\Bottin\Entity\Pdv', inversedBy: 'fiches')]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?Pdv $pdv = null;
 
     public function getPdv(): ?Pdv

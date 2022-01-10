@@ -6,28 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait InformationTrait
 {
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * Activite principale
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $comment1 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * Specialites
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $comment2 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * Prix, parking, rampe
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $comment3 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * Note interne
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $note = null;
 
     public function getComment1(): ?string

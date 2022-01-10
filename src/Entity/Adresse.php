@@ -15,69 +15,48 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Stringable;
 
-/**
- * @ORM\Entity(repositoryClass=AdresseRepository::class)
- */
+#[ORM\Entity(repositoryClass: AdresseRepository::class)]
 class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
 {
     use IdTrait;
     use SluggableTrait;
     use TimestampableTrait;
     use LocationTrait;
-    /**
-     * @ORM\Column(type="string", length=150, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 150, nullable: false)]
     private ?string $nom = null;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $rue = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $numero = null;
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
+    #[ORM\Column(type: 'integer', nullable: false)]
     protected ?int $cp = null;
-    /**
-     * @ORM\Column(type="string", nullable=false)
-     */
+    #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $localite = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $longitude = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $latitude = null;
     /**
      * @var Fiche[]
-     * @ORM\OneToMany(targetEntity=Fiche::class, mappedBy="adresse")
      */
+    #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'adresse')]
     protected iterable $fiches;
-
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
     }
-
     public function __toString(): string
     {
         return $this->nom;
     }
-
     public function getSluggableFields(): array
     {
         return ['nom'];
     }
-
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
     }
-
     /**
      * Fake pour location convert.
      */
@@ -85,19 +64,16 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     {
         return null;
     }
-
     public function getNom(): ?string
     {
         return $this->nom;
     }
-
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
         return $this;
     }
-
     /**
      * @return Collection|Fiche[]
      */
@@ -105,7 +81,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     {
         return $this->fiches;
     }
-
     public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
@@ -115,7 +90,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
-
     public function removeFiche(Fiche $fiche): self
     {
         if ($this->fiches->contains($fiche)) {
@@ -128,7 +102,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
-
     public function addFich(Fiche $fich): self
     {
         if (!$this->fiches->contains($fich)) {
@@ -138,7 +111,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
-
     public function removeFich(Fiche $fich): self
     {
         // set the owning side to null (unless already changed)

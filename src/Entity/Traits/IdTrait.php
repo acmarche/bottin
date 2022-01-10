@@ -7,12 +7,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 trait IdTrait
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
     #[Groups(groups: ['category:read'])]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = 0;
 
     public function getId(): int

@@ -16,9 +16,7 @@ trait LogoTrait
      */
     protected ?File $logoFile = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $logo = null;
 
     public function setLogoFile(File $file = null)
@@ -45,9 +43,7 @@ trait LogoTrait
      * @Vich\UploadableField(mapping="bottin_category_logo", fileNameProperty="logo_blanc")
      */
     protected ?File $logoBlancFile = null;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $logo_blanc = null;
 
     public function setLogoBlancFile(File $file = null)

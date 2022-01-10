@@ -10,8 +10,8 @@ trait ClassementTrait
 {
     /**
      * @var Classement[]|iterable|Collection
-     * @ORM\OneToMany(targetEntity=Classement::class, mappedBy="fiche", cascade={"persist", "remove"})
      */
+    #[ORM\OneToMany(targetEntity: Classement::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     protected iterable $classements;
 
     /**

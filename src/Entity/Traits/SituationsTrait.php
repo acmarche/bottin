@@ -8,9 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait SituationsTrait
 {
-    /**
-     * @ORM\ManyToMany(targetEntity="AcMarche\Bottin\Entity\Situation", inversedBy="fiches")
-     */
+    #[ORM\ManyToMany(targetEntity: 'AcMarche\Bottin\Entity\Situation', inversedBy: 'fiches')]
     protected $situations;
 
     /**

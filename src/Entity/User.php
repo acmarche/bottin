@@ -8,40 +8,23 @@ use Stringable;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\UserRepository")
- */
+#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\UserRepository')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, Stringable
 {
     use IdTrait;
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username = null;
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email = null;
-    /**
-     * @ORM\Column(type="string", length=180, nullable=false)
-     */
+    #[ORM\Column(type: 'string', length: 180, nullable: false)]
     private ?string $nom = null;
-    /**
-     * @ORM\Column(type="string", length=180, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 180, nullable: true)]
     private ?string $prenom = null;
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
+    #[ORM\Column(type: 'string')]
     private string $password;
-    /**
-     * Plain password. Used for model validation. Must not be persisted.
-     */
     protected ?string $plainPassword = null;
 
     public function getUserIdentifier(): string

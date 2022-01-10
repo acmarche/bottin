@@ -12,10 +12,9 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
 /**
  * Class Token.
- *
- * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\TokenRepository")
- * @ORM\Table(name="token")
  */
+#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\TokenRepository')]
+#[ORM\Table(name: 'token')]
 class Token implements TimestampableInterface
 {
     use IdTrait;
@@ -23,23 +22,15 @@ class Token implements TimestampableInterface
     use UuidTrait;
     use TimestampableTrait;
 
-    /**
-     * @ORM\OneToOne(targetEntity="AcMarche\Bottin\Entity\Fiche", inversedBy="token")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: 'AcMarche\Bottin\Entity\Fiche', inversedBy: 'token')]
+    #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
-
-    /**
-     * @ORM\Column(type="date", nullable=false)
-     */
+    #[ORM\Column(type: 'date', nullable: false)]
     protected DateTimeInterface $expireAt;
-
-    /**
-     * @ORM\Column(type="string", length=50, nullable=false, unique=true)
-     */
+    #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     protected ?string $password = null;
 
-    public function __construct( ?Fiche $fiche)
+    public function __construct(?Fiche $fiche)
     {
         $this->fiche = $fiche;
         $this->uuid = $this->generateUuid();

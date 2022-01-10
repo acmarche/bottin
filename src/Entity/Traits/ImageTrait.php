@@ -10,8 +10,8 @@ trait ImageTrait
 {
     /**
      * @var FicheImage[]|iterable|Collection
-     * @ORM\OneToMany(targetEntity="FicheImage", mappedBy="fiche", cascade={"persist", "remove"})
      */
+    #[ORM\OneToMany(targetEntity: 'FicheImage', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     protected iterable $images;
 
     /**

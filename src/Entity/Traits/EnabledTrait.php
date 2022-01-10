@@ -6,9 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait EnabledTrait
 {
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: 'boolean')]
     protected bool $enabled = true;
 
     public function isEnabled(): bool

@@ -10,33 +10,27 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\ClassementRepository")
- * @ORM\Table(name="classements", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="classement_idx", columns={"fiche_id", "category_id"})})
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )
  */
 #[UniqueEntity(fields: ['fiche', 'category'], message: 'Déjà dans ce classement')]
+#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\ClassementRepository')]
+#[ORM\Table(name: 'classements')]
+#[ORM\UniqueConstraint(name: 'classement_idx', columns: ['fiche_id', 'category_id'])]
 class Classement implements Stringable
 {
     use IdTrait;
-    /**
-     * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="classements")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Fiche $fiche;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="classements")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Category $category;
-    /**
-     * @ORM\Column(type="boolean")
-     */
     #[Groups(groups: ['read', 'write'])]
+    #[ORM\Column(type: 'boolean')]
     protected bool $principal = false;
 
     public function __construct( ?Fiche $fiche,  ?Category $category)
