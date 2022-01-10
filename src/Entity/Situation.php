@@ -26,24 +26,29 @@ class Situation implements Stringable
     #[ORM\ManyToMany(targetEntity: 'AcMarche\Bottin\Entity\Fiche', mappedBy: 'situations')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
     protected iterable $fiches;
+
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->name;
     }
+
     public function getName(): string
     {
         return $this->name;
     }
+
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
+
     /**
      * @return Collection|Fiche[]
      */
@@ -51,6 +56,7 @@ class Situation implements Stringable
     {
         return $this->fiches;
     }
+
     public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
@@ -60,6 +66,7 @@ class Situation implements Stringable
 
         return $this;
     }
+
     public function removeFiche(Fiche $fiche): self
     {
         if ($this->fiches->contains($fiche)) {
@@ -69,6 +76,7 @@ class Situation implements Stringable
 
         return $this;
     }
+
     public function addFich(Fiche $fich): self
     {
         if (!$this->fiches->contains($fich)) {
@@ -78,6 +86,7 @@ class Situation implements Stringable
 
         return $this;
     }
+
     public function removeFich(Fiche $fich): self
     {
         if ($this->fiches->contains($fich)) {

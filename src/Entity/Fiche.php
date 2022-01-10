@@ -107,6 +107,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     protected ?iterable $histories;
     public array $classementsFull;
     public int $root = 511;
+
     public function __construct()
     {
         $this->classements = new ArrayCollection();
@@ -117,24 +118,29 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         $this->situations = new ArrayCollection();
         $this->histories = new ArrayCollection();
     }
+
     public function getCategoryId(): ?int
     {
         return $this->categoryId;
     }
+
     public function setCategoryId($categoryId): self
     {
         $this->categoryId = $categoryId;
 
         return $this;
     }
+
     public function getSluggableFields(): array
     {
         return ['societe'];
     }
+
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
     }
+
     public function image(): ?string
     {
         if ((is_countable($this->images) ? \count($this->images) : 0) > 0) {
@@ -143,6 +149,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
         return null;
     }
+
     public function imageFile(): ?FicheImage
     {
         if ((is_countable($this->images) ? \count($this->images) : 0) > 0) {
@@ -151,144 +158,173 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
         return null;
     }
+
     public function __toString(): string
     {
         return $this->societe;
     }
+
     public function getSociete(): ?string
     {
         return $this->societe;
     }
+
     public function setSociete(string $societe): self
     {
         $this->societe = $societe;
 
         return $this;
     }
+
     public function getTelephone(): ?string
     {
         return $this->telephone;
     }
+
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
 
         return $this;
     }
+
     public function getTelephoneAutre(): ?string
     {
         return $this->telephone_autre;
     }
+
     public function setTelephoneAutre(?string $telephone_autre): self
     {
         $this->telephone_autre = $telephone_autre;
 
         return $this;
     }
+
     public function getFax(): ?string
     {
         return $this->fax;
     }
+
     public function setFax(?string $fax): self
     {
         $this->fax = $fax;
 
         return $this;
     }
+
     public function getGsm(): ?string
     {
         return $this->gsm;
     }
+
     public function setGsm(?string $gsm): self
     {
         $this->gsm = $gsm;
 
         return $this;
     }
+
     public function getWebsite(): ?string
     {
         return $this->website;
     }
+
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
 
         return $this;
     }
+
     public function getEmail(): ?string
     {
         return $this->email;
     }
+
     public function setEmail(?string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
+
     public function getCentreville(): bool
     {
         return $this->centreville;
     }
+
     public function setCentreville(bool $centreville): self
     {
         $this->centreville = $centreville;
 
         return $this;
     }
+
     public function getMidi(): bool
     {
         return $this->midi;
     }
+
     public function setMidi(bool $midi): self
     {
         $this->midi = $midi;
 
         return $this;
     }
+
     public function getPmr(): bool
     {
         return $this->pmr;
     }
+
     public function setPmr(bool $pmr): self
     {
         $this->pmr = $pmr;
 
         return $this;
     }
+
     public function getFtlb(): ?int
     {
         return $this->ftlb;
     }
+
     public function setFtlb(?int $ftlb): self
     {
         $this->ftlb = $ftlb;
 
         return $this;
     }
+
     public function getUser(): ?string
     {
         return $this->user;
     }
+
     public function setUser(?string $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
     public function getAdresse(): ?Adresse
     {
         return $this->adresse;
     }
+
     public function setAdresse(?Adresse $adresse): self
     {
         $this->adresse = $adresse;
 
         return $this;
     }
+
     public function getNumeroTva(): ?string
     {
         return $this->numero_tva;
     }
+
     public function setNumeroTva(?string $numero_tva): self
     {
         $this->numero_tva = $numero_tva;

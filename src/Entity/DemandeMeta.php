@@ -20,36 +20,43 @@ class DemandeMeta
     protected ?string $champ;
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $value;
+
     public function __construct(Demande $demande, string $champ, ?string $value)
     {
         $this->demande = $demande;
         $this->champ = $champ;
         $this->value = $value;
     }
+
     public function getChamp(): ?string
     {
         return $this->champ;
     }
+
     public function setChamp(string $champ): self
     {
         $this->champ = $champ;
 
         return $this;
     }
+
     public function getValue(): ?string
     {
         return $this->value;
     }
+
     public function setValue(?string $value): self
     {
         $this->value = $value;
 
         return $this;
     }
+
     public function getDemande(): Demande
     {
         return $this->demande;
     }
+
     public function setDemande(Demande $demande): self
     {
         $this->demande = $demande;

@@ -42,6 +42,7 @@ class Document implements TimestampableInterface, Stringable
     private ?string $fileName = null;
     #[ORM\Column(type: 'integer')]
     private ?int $fileSize = null;
+
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
      * of 'UploadedFile' is injected into this setter to trigger the update. If this
@@ -59,56 +60,68 @@ class Document implements TimestampableInterface, Stringable
             $this->updatedAt = new DateTimeImmutable();
         }
     }
+
     public function getFile(): ?File
     {
         return $this->file;
     }
+
     public function setFile(?File $file): void
     {
         $this->file = $file;
     }
+
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
     }
+
     public function __toString(): string
     {
         return $this->name;
     }
+
     public function getName(): string
     {
         return $this->name;
     }
+
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
+
     public function getDescription(): ?string
     {
         return $this->description;
     }
+
     public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
+
     public function getFileName(): ?string
     {
         return $this->fileName;
     }
+
     public function setFileName(?string $fileName): self
     {
         $this->fileName = $fileName;
 
         return $this;
     }
+
     public function getFileSize(): ?int
     {
         return $this->fileSize;
     }
+
     public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;

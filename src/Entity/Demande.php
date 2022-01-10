@@ -28,44 +28,53 @@ class Demande implements TimestampableInterface, Stringable
      */
     #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\DemandeMeta', mappedBy: 'demande', cascade: ['persist', 'remove'])]
     protected iterable $metas;
+
     public function __construct()
     {
         $this->metas = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->getFiche()->getSociete();
     }
+
     public function getTraiterBy(): ?string
     {
         return $this->traiter_by;
     }
+
     public function setTraiterBy(?string $traiter_by): self
     {
         $this->traiter_by = $traiter_by;
 
         return $this;
     }
+
     public function getTraiter(): bool
     {
         return $this->traiter;
     }
+
     public function setTraiter(bool $traiter): self
     {
         $this->traiter = $traiter;
 
         return $this;
     }
+
     public function getFiche(): ?Fiche
     {
         return $this->fiche;
     }
+
     public function setFiche(?Fiche $fiche): self
     {
         $this->fiche = $fiche;
 
         return $this;
     }
+
     /**
      * @return Collection|DemandeMeta[]
      */
@@ -73,6 +82,7 @@ class Demande implements TimestampableInterface, Stringable
     {
         return $this->metas;
     }
+
     public function addMeta(DemandeMeta $meta): self
     {
         if (!$this->metas->contains($meta)) {
@@ -82,6 +92,7 @@ class Demande implements TimestampableInterface, Stringable
 
         return $this;
     }
+
     public function removeMeta(DemandeMeta $meta): self
     {
         if ($this->metas->contains($meta)) {

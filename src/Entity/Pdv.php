@@ -23,24 +23,29 @@ class Pdv implements Stringable
     #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\Fiche', mappedBy: 'pdv')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
     protected iterable $fiches;
+
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->getIntitule();
     }
+
     public function getIntitule(): ?string
     {
         return $this->intitule;
     }
+
     public function setIntitule(string $intitule): self
     {
         $this->intitule = $intitule;
 
         return $this;
     }
+
     /**
      * @return Collection|Fiche[]
      */
@@ -48,6 +53,7 @@ class Pdv implements Stringable
     {
         return $this->fiches;
     }
+
     public function addFich(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
@@ -57,6 +63,7 @@ class Pdv implements Stringable
 
         return $this;
     }
+
     public function removeFich(Fiche $fich): self
     {
         if ($this->fiches->contains($fich)) {

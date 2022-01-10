@@ -59,98 +59,118 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
      */
     protected array $path;
     private ArrayCollection $children;
+
     public function __construct()
     {
         $this->logo = null;
         $this->children = new ArrayCollection();
         $this->classements = new ArrayCollection();
     }
+
     public function getLabelHierarchical(): string
     {
         return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->getName();
     }
+
     public function getPath(): array
     {
         return $this->path;
     }
+
     public function setPath(array $path): self
     {
         $this->path = $path;
 
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->name;
     }
+
     public function getSluggableFields(): array
     {
         return ['name'];
     }
+
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
     }
+
     public function getName(): ?string
     {
         return $this->name;
     }
+
     public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
+
     public function getMobile(): bool
     {
         return $this->mobile;
     }
+
     public function setMobile(bool $mobile): self
     {
         $this->mobile = $mobile;
 
         return $this;
     }
+
     public function getDescription(): ?string
     {
         return $this->description;
     }
+
     public function setDescription(?string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
+
     public function getLogo(): ?string
     {
         return $this->logo;
     }
+
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
 
         return $this;
     }
+
     public function getLogoBlanc(): ?string
     {
         return $this->logo_blanc;
     }
+
     public function setLogoBlanc(?string $logo_blanc): self
     {
         $this->logo_blanc = $logo_blanc;
 
         return $this;
     }
+
     public function getParent(): ?self
     {
         return $this->parent;
     }
+
     public function setParent(?self $parent): self
     {
         $this->parent = $parent;
 
         return $this;
     }
+
     /**
      * @return Collection|Classement[]
      */
@@ -158,6 +178,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     {
         return $this->classements;
     }
+
     public function addClassement(Classement $classement): self
     {
         if (!$this->classements->contains($classement)) {
@@ -167,6 +188,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
         return $this;
     }
+
     public function removeClassement(Classement $classement): self
     {
         if ($this->classements->contains($classement)) {

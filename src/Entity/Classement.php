@@ -33,7 +33,7 @@ class Classement implements Stringable
     #[ORM\Column(type: 'boolean')]
     protected bool $principal = false;
 
-    public function __construct( ?Fiche $fiche,  ?Category $category)
+    public function __construct(?Fiche $fiche, ?Category $category)
     {
         $this->fiche = $fiche;
         $this->category = $category;

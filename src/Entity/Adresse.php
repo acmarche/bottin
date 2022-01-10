@@ -41,22 +41,27 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
      */
     #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'adresse')]
     protected iterable $fiches;
+
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
     }
+
     public function __toString(): string
     {
         return $this->nom;
     }
+
     public function getSluggableFields(): array
     {
         return ['nom'];
     }
+
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
     }
+
     /**
      * Fake pour location convert.
      */
@@ -64,16 +69,19 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     {
         return null;
     }
+
     public function getNom(): ?string
     {
         return $this->nom;
     }
+
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
         return $this;
     }
+
     /**
      * @return Collection|Fiche[]
      */
@@ -81,6 +89,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     {
         return $this->fiches;
     }
+
     public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
@@ -90,6 +99,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
+
     public function removeFiche(Fiche $fiche): self
     {
         if ($this->fiches->contains($fiche)) {
@@ -102,6 +112,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
+
     public function addFich(Fiche $fich): self
     {
         if (!$this->fiches->contains($fich)) {
@@ -111,6 +122,7 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
 
         return $this;
     }
+
     public function removeFich(Fiche $fich): self
     {
         // set the owning side to null (unless already changed)

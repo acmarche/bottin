@@ -126,7 +126,6 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     *
      * @param Fiche $fiche
      */
     #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
