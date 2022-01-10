@@ -11,21 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Secteur controller.
  *
- * @Route("/admin/secteur")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/secteur')]
 class SecteurController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-
-    public function __construct(FicheRepository $ficheRepository)
+    public function __construct(private FicheRepository $ficheRepository)
     {
-        $this->ficheRepository = $ficheRepository;
     }
 
-    /**
-     * @Route("/{anchor}", name="bottin_admin_index")
-     */
+    #[Route(path: '/{anchor}', name: 'bottin_admin_index')]
     public function index($anchor = null): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();

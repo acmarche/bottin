@@ -27,6 +27,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="fiche")
  * ApiResource
  */
-class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface
+class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
 {
     use IdTrait;
     use LocationTrait;
@@ -56,113 +57,91 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     use EcommerceTrait;
     use TokenTrait;
     use EtapeTrait;
-
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank
      */
+    #[Assert\NotBlank]
     protected ?string $societe = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $rue = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $numero = null;
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected ?int $cp = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $localite = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $telephone = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $telephone_autre = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $fax = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $gsm = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $website = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $email = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $longitude = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $latitude = null;
-
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $centreville = false;
-
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $midi = false;
-
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $pmr = false;
-
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
     protected ?int $ftlb = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $user = null;
-
     /**
      * Utiliser lors de l'ajout d'un classement.
      */
     protected ?int $categoryId = null;
-
     /**
      * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="fiches")
      */
     protected ?Adresse $adresse = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $numero_tva = null;
-
     /**
      * Pour cascade.
      *
@@ -170,9 +149,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
      * @ORM\JoinColumn(nullable=false))
      */
     protected ?iterable $histories;
-
     public array $classementsFull;
-
     public int $root = 511;
 
     public function __construct()

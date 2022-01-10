@@ -15,11 +15,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -39,18 +37,8 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
 
     public const LOGIN_ROUTE = 'app_login';
 
-    private UrlGeneratorInterface $urlGenerator;
-    private UserRepository $userRepository;
-    private ParameterBagInterface $parameterBag;
-
-    public function __construct(
-        UrlGeneratorInterface $urlGenerator,
-        UserRepository $userRepository,
-        ParameterBagInterface $parameterBag
-    ) {
-        $this->urlGenerator = $urlGenerator;
-        $this->userRepository = $userRepository;
-        $this->parameterBag = $parameterBag;
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private UserRepository $userRepository, private ParameterBagInterface $parameterBag)
+    {
     }
 
     public function supports(Request $request): bool
@@ -58,7 +46,7 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
         return $request->isMethod('POST') && $this->getLoginUrl($request) === $request->getPathInfo();
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('username', '');
         $password = $request->request->get('password', '');
@@ -69,7 +57,6 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
         $badges =
             [
                 new CsrfTokenBadge('authenticate', $token),
-                new PasswordUpgradeBadge($password, $this->userRepository),
             ];
 
         return new Passport(

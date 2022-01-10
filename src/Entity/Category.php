@@ -17,6 +17,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
+use Stringable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -31,7 +32,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     itemOperations={"get"})
  * @ApiFilter(SearchFilter::class, properties={"name"="partial", "id"="exact"})
  */
-class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface
+class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, Stringable
 {
     use LogoTrait;
     use TreeNodeTrait;
@@ -39,41 +40,34 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     use TimestampableTrait;
     use EnfantTrait;
     use IdTrait;
-
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank
-     * @Groups({"category:read"})
      */
+    #[Assert\NotBlank]
+    #[Groups(groups: ['category:read'])]
     protected ?string $name = null;
-
     /**
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private ?Category $parent = null;
-
     /**
      * @ORM\OneToMany(targetEntity="Classement", mappedBy="category", cascade={"remove"})
      */
     protected iterable $classements;
-
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $mobile = false;
-
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups("category:read")
      */
+    #[Groups(groups: 'category:read')]
     protected ?string $description = null;
-
     /**
      * Utiliser pour afficher le classement.
      */
     protected array $path;
-
     private ArrayCollection $children;
 
     public function __construct()

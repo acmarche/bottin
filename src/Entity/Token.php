@@ -39,7 +39,7 @@ class Token implements TimestampableInterface
      */
     protected ?string $password = null;
 
-    public function __construct(Fiche $fiche)
+    public function __construct( ?Fiche $fiche)
     {
         $this->fiche = $fiche;
         $this->uuid = $this->generateUuid();

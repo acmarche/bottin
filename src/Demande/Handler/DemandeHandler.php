@@ -2,9 +2,9 @@
 
 namespace AcMarche\Bottin\Demande\Handler;
 
-use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Demande;
 use AcMarche\Bottin\Entity\DemandeMeta;
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use AcMarche\Bottin\Repository\DemandeRepository;
@@ -14,24 +14,8 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class DemandeHandler
 {
-    private FicheRepository $ficheRepository;
-    private DemandeRepository $demandeRepository;
-    private DemandeMetaRepository $demandeMetaRepository;
-    private MailFactory $mailFactory;
-    private MailerInterface $mailer;
-
-    public function __construct(
-        FicheRepository $ficheRepository,
-        DemandeRepository $demandeRepository,
-        DemandeMetaRepository $demandeMetaRepository,
-        MailFactory $mailFactory,
-        MailerInterface $mailer
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->demandeRepository = $demandeRepository;
-        $this->demandeMetaRepository = $demandeMetaRepository;
-        $this->mailFactory = $mailFactory;
-        $this->mailer = $mailer;
+    public function __construct(private FicheRepository $ficheRepository, private DemandeRepository $demandeRepository, private DemandeMetaRepository $demandeMetaRepository, private MailFactory $mailFactory, private MailerInterface $mailer)
+    {
     }
 
     public function handle(array $data): array

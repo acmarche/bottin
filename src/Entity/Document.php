@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,47 +18,36 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\DocumentRepository")
  * @Vich\Uploadable
  */
-class Document implements TimestampableInterface
+class Document implements TimestampableInterface, Stringable
 {
     use TimestampableTrait;
     use FicheFieldTrait;
     use IdTrait;
-
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank
      */
+    #[Assert\NotBlank]
     protected string $name;
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected ?string $description = null;
-
     /**
      * @ORM\ManyToOne(targetEntity="AcMarche\Bottin\Entity\Fiche", inversedBy="documents")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
      */
     protected ?Fiche $fiche = null;
-
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      *
      * @Vich\UploadableField(mapping="bottin_fiche_document", fileNameProperty="fileName", size="fileSize")
-     *
-     * @Assert\File(
-     *     maxSize="16384k",
-     *     mimeTypes={"application/pdf", "application/x-pdf"},
-     *     mimeTypesMessage="Uniquement des PDF"
-     * )
      */
+    #[Assert\File(maxSize: '16384k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'Uniquement des PDF')]
     private ?File $file = null;
-
     /**
      * @ORM\Column(type="string")
      */
     private ?string $fileName = null;
-
     /**
      * @ORM\Column(type="integer")
      */
@@ -69,8 +59,6 @@ class Document implements TimestampableInterface
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
-     *
-     * @param File|UploadedFile|null $file
      */
     public function setDocFile(?File $file = null): void
     {

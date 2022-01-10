@@ -8,11 +8,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UserProcessor implements ProcessorInterface
 {
-    private UserPasswordHasherInterface $userPasswordEncoder;
-
-    public function __construct(UserPasswordHasherInterface $userPasswordEncoder)
+    public function __construct(private UserPasswordHasherInterface $userPasswordEncoder)
     {
-        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     public function preProcess(string $fixtureId, $user): void

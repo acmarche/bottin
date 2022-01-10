@@ -13,21 +13,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ExportUtils
 {
-    private RouterInterface $router;
-    private SelectionRepository $selectionRepository;
-    private CategoryService $categoryService;
-    private FicheRepository $ficheRepository;
-
-    public function __construct(
-        RouterInterface $router,
-        SelectionRepository $selectionRepository,
-        CategoryService $categoryService,
-        FicheRepository $ficheRepository
-    ) {
-        $this->router = $router;
-        $this->selectionRepository = $selectionRepository;
-        $this->categoryService = $categoryService;
-        $this->ficheRepository = $ficheRepository;
+    public function __construct(private RouterInterface $router, private SelectionRepository $selectionRepository, private CategoryService $categoryService, private FicheRepository $ficheRepository)
+    {
     }
 
     public function generateUrlToken(Token $token): string
@@ -49,7 +36,7 @@ class ExportUtils
         foreach ($selections as $selection) {
             $categories[] = $selection->getCategory();
         }
-        if ($categories !== []) {
+        if ([] !== $categories) {
             $fiches = $this->categoryService->getFichesByCategoriesAndHerChildren($categories);
         } else {
             $fiches = $this->ficheRepository->findAllWithJoins();

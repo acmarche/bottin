@@ -17,17 +17,13 @@ final class LoadfixturesCommand extends Command
      * @var string
      */
     protected static $defaultName = 'bottin:load-fixtures';
-    private EntityManagerInterface $entityManager;
-    private FixtureLoader $fixtureLoader;
 
     public function __construct(
-        FixtureLoader $fixtureLoader,
-        EntityManagerInterface $entityManager,
+        private FixtureLoader $fixtureLoader,
+        private EntityManagerInterface $entityManager,
         ?string $name = null
     ) {
         parent::__construct($name);
-        $this->entityManager = $entityManager;
-        $this->fixtureLoader = $fixtureLoader;
     }
 
     protected function configure(): void

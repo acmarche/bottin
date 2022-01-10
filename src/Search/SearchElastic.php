@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Search;
 
-use Elastica\ResultSet;
 use AcMarche\Bottin\Elasticsearch\ElasticClientTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use Elastica\Aggregation\Terms as AggregationTerms;
@@ -11,6 +10,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\GeoDistance;
 use Elastica\Query\MatchQuery;
 use Elastica\Query\MultiMatch;
+use Elastica\ResultSet;
 use Elastica\Search;
 use Elastica\Suggest;
 use Elastica\Suggest\Term as SuggestTerm;
@@ -80,7 +80,7 @@ class SearchElastic implements SearchEngineInterface
     /**
      * @return iterable|ResultSet
      */
-    public function doSearchForCap(string $keyword): array
+    public function doSearchForCap(string $keyword): array|callable
     {
         $boolQuery = $this->createQueryForFiche($keyword);
 

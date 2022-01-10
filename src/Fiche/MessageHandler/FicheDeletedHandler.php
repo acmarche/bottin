@@ -9,15 +9,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class FicheDeletedHandler implements MessageHandlerInterface
 {
-    private FicheRepository $ficheRepository;
-    private ElasticIndexer $elasticIndexer;
-
-    public function __construct(
-        FicheRepository $ficheRepository,
-        ElasticIndexer $elasticIndexer
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->elasticIndexer = $elasticIndexer;
+    public function __construct(private FicheRepository $ficheRepository, private ElasticIndexer $elasticIndexer)
+    {
     }
 
     public function __invoke(FicheDeleted $ficheDeleted): void

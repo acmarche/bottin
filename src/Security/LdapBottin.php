@@ -16,11 +16,8 @@ use Symfony\Component\Ldap\LdapInterface;
  */
 class LdapBottin implements LdapInterface
 {
-    private AdapterInterface $adapter;
-
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(private AdapterInterface $adapter)
     {
-        $this->adapter = $adapter;
     }
 
     /**
@@ -60,8 +57,6 @@ class LdapBottin implements LdapInterface
      *
      * @param string $adapter The adapter name
      * @param array  $config  The adapter's configuration
-     *
-     * @return static
      */
     public static function create(string $adapter, array $config = []): self
     {

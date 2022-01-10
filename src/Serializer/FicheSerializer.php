@@ -9,13 +9,8 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class FicheSerializer
 {
-    private SerializerInterface $serializer;
-    private UploaderHelper $uploaderHelper;
-
-    public function __construct(SerializerInterface $serializer, UploaderHelper $uploaderHelper)
+    public function __construct(private SerializerInterface $serializer, private UploaderHelper $uploaderHelper)
     {
-        $this->serializer = $serializer;
-        $this->uploaderHelper = $uploaderHelper;
     }
 
     public function serializeFicheForElastic(Fiche $fiche): array

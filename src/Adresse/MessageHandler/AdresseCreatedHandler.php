@@ -7,23 +7,17 @@ use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 
 class AdresseCreatedHandler implements MessageSubscriberInterface
 {
-    private AdresseRepository $adresseRepository;
     private FlashBagInterface $flashBag;
-    private LocationUpdater $locationUpdater;
 
-    public function __construct(
-        AdresseRepository $adresseRepository,
-        LocationUpdater $locationUpdater,
-        FlashBagInterface $flashBag
-    ) {
-        $this->adresseRepository = $adresseRepository;
-        $this->flashBag = $flashBag;
-        $this->locationUpdater = $locationUpdater;
+    public function __construct(private AdresseRepository $adresseRepository, private LocationUpdater $locationUpdater, private RequestStack $requestStack)
+    {
+        $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 
     public function __invoke(AdresseCreated $adresseCreated): void

@@ -90,7 +90,7 @@ class Searcher
             $this->boolQuery->addMust($matchStemmed);
         }
 
-        if ($constraints !== []) {
+        if ([] !== $constraints) {
             $this->addConstraints($constraints, $destinataire, $service);
         } else {
             if ($destinataire) {

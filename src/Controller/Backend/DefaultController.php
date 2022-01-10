@@ -15,23 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DefaultController.
- *
- * @Route("/backend")
  */
+#[Route(path: '/backend')]
 class DefaultController extends AbstractController
 {
-    private MailerInterface $mailer;
-    private MailFactory $mailFactory;
-
-    public function __construct(MailerInterface $mailer, MailFactory $mailFactory)
+    public function __construct(private MailerInterface $mailer, private MailFactory $mailFactory)
     {
-        $this->mailer = $mailer;
-        $this->mailFactory = $mailFactory;
     }
 
-    /**
-     * @Route("/", name="bottin_backend_home")
-     */
+    #[Route(path: '/', name: 'bottin_backend_home')]
     public function index(): Response
     {
         return $this->render(
@@ -42,14 +34,13 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/contact/{uuid}", name="bottin_backend_contact")
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/contact/{uuid}', name: 'bottin_backend_contact')]
     public function contact(Request $request, Token $token): Response
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $email = $this->mailFactory->mailContact($data['nom'], $data['email'], $data['message']);

@@ -15,11 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheActiviteType extends AbstractType
 {
-    private LocaliteRepository $localiteRepository;
-
-    public function __construct(LocaliteRepository $localiteRepository)
+    public function __construct(private LocaliteRepository $localiteRepository)
     {
-        $this->localiteRepository = $localiteRepository;
     }
 
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void

@@ -14,30 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Category controller.
- *
- * @Route("/category")
  */
+#[Route(path: '/category')]
 class CategoryController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    private CategoryService $categoryService;
-    private PathUtils $pathUtils;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        CategoryService $categoryService,
-        PathUtils $pathUtils
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->categoryService = $categoryService;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private PathUtils $pathUtils)
+    {
     }
 
     /**
      * Lists all Category entities.
-     *
-     * @Route("/", name="bottin_front_category_index", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_front_category_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $categories = $this->categoryRepository->getRootNodes();
@@ -56,9 +44,8 @@ class CategoryController extends AbstractController
 
     /**
      * Finds and displays a Category entity.
-     *
-     * @Route("/{slug}", name="bottin_front_category_show", methods={"GET"})
      */
+    #[Route(path: '/{slug}', name: 'bottin_front_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
         $paths = $this->pathUtils->getPath($category);
@@ -66,11 +53,12 @@ class CategoryController extends AbstractController
          * get all fiches of this category and there children.
          */
         $fiches = $this->categoryService->getFichesByCategoryIdWithOutChildrend($category);
-
-        $category->getMaterializedPath(); //1/2
-        $category->getRealMaterializedPath(); //1/2/3
-        $category->getRootMaterializedPath(); //1
-
+        $category->getMaterializedPath();
+        //1/2
+        $category->getRealMaterializedPath();
+        //1/2/3
+        $category->getRootMaterializedPath();
+        //1
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         return $this->render(

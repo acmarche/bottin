@@ -17,7 +17,6 @@ use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 class XxContext
 {
     private ?\App\Entity\Security\User $currentUser = null;
-    private EntityManagerInterface $entityManager;
 
     /**
      * Initializes context.
@@ -26,9 +25,8 @@ class XxContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**

@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Hades;
 use AcMarche\Bottin\Hades\Entity\Hotel;
 use AcMarche\Bottin\Hades\Entity\Hotel2;
 use Exception;
-use SimpleXMLElement;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -14,21 +13,17 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class HadesRepository
 {
     private HttpClientInterface $httpClient;
-    private string $baseUrl;
-    private SerializerInterface $serializer;
 
     /**
      * Hades constructor.
      */
-    public function __construct(string $url, string $user, string $password, SerializerInterface $serializer)
+    public function __construct(private string $baseUrl, string $user, string $password, private SerializerInterface $serializer)
     {
         $this->httpClient = HttpClient::create(
             [
                 'auth_basic' => [$user, $password],
             ]
         );
-        $this->baseUrl = $url;
-        $this->serializer = $serializer;
     }
 
     public function getOffres(string $categorie): string
@@ -53,7 +48,7 @@ class HadesRepository
         }
     }
 
-    public function loadXml(string $xml): SimpleXMLElement
+    public function loadXml(string $xml): array|bool|\SimpleXMLElement
     {
         $data = simplexml_load_string($xml);
 

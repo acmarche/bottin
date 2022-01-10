@@ -13,24 +13,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class HistoryUtils
 {
-    private SerializerInterface $serializer;
-    private FicheRepository $ficheRepository;
-    private Security $security;
-    private HistoryRepository $historyRepository;
-    private PathUtils $pathUtils;
-
-    public function __construct(
-        SerializerInterface $serializer,
-        FicheRepository $ficheRepository,
-        Security $security,
-        HistoryRepository $historyRepository,
-        PathUtils $pathUtils
-    ) {
-        $this->serializer = $serializer;
-        $this->ficheRepository = $ficheRepository;
-        $this->security = $security;
-        $this->historyRepository = $historyRepository;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private SerializerInterface $serializer, private FicheRepository $ficheRepository, private Security $security, private HistoryRepository $historyRepository, private PathUtils $pathUtils)
+    {
     }
 
     public function diffFiche(Fiche $fiche): void
@@ -46,7 +30,7 @@ class HistoryUtils
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
         }
-        if ($changes !== []) {
+        if ([] !== $changes) {
             $this->historyRepository->flush();
         }
     }

@@ -4,13 +4,8 @@ namespace AcMarche\Bottin\Classement\Message;
 
 class ClassementUpdated
 {
-    private int $ficheId;
-    private int $classementId;
-
-    public function __construct(int $ficheId, int $classementId)
+    public function __construct(private int $ficheId, private int $classementId)
     {
-        $this->ficheId = $ficheId;
-        $this->classementId = $classementId;
     }
 
     public function getFicheId(): int

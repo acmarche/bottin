@@ -13,27 +13,8 @@ use Symfony\Component\Security\Core\Security;
 
 class CsvGenerator
 {
-    private CategoryRepository $categoryRepository;
-    private CategoryService $categoryService;
-    private FicheRepository $ficheRepository;
-    private SelectionRepository $selectionRepository;
-    private Security $security;
-    private ExportUtils $exportUtils;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        CategoryService $categoryService,
-        FicheRepository $ficheRepository,
-        SelectionRepository $selectionRepository,
-        Security $security,
-        ExportUtils $exportUtils
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->categoryService = $categoryService;
-        $this->ficheRepository = $ficheRepository;
-        $this->selectionRepository = $selectionRepository;
-        $this->security = $security;
-        $this->exportUtils = $exportUtils;
+    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private FicheRepository $ficheRepository, private SelectionRepository $selectionRepository, private Security $security, private ExportUtils $exportUtils)
+    {
     }
 
     public function categoryXSLObject(): Spreadsheet

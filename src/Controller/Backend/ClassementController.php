@@ -15,55 +15,39 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Classement controller.
- *
- * @Route("/backend/classement")
  */
+#[Route(path: '/backend/classement')]
 class ClassementController extends AbstractController
 {
-    private ClassementRepository $classementRepository;
-    private CategoryRepository $categoryRepository;
-    private PathUtils $pathUtils;
-    private ClassementHandler $classementHandler;
-
-    public function __construct(
-        ClassementRepository $classementRepository,
-        ClassementHandler $classementHandler,
-        CategoryRepository $categoryRepository,
-        PathUtils $pathUtils
-    ) {
-        $this->classementRepository = $classementRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->pathUtils = $pathUtils;
-        $this->classementHandler = $classementHandler;
+    public function __construct(private ClassementRepository $classementRepository, private ClassementHandler $classementHandler, private CategoryRepository $categoryRepository, private PathUtils $pathUtils, private MessageBusInterface $messageBus)
+    {
     }
 
     /**
-     * @Route("/edit/{uuid}", name="bottin_backend_classement_edit", methods={"GET", "POST"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/edit/{uuid}', name: 'bottin_backend_classement_edit', methods: ['GET', 'POST'])]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();
         $form = $this->createForm(ClassementSimpleType::class);
-
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
         $roots = $this->categoryRepository->getRootNodes();
         $roots = SortUtils::sortCategories($roots);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $categoryId = (int) $data['categorySelected'];
 
             try {
                 $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
-                $this->dispatchMessage(new ClassementCreated($fiche->getId(), $classement->getId()));
+                $this->messageBus->dispatch(new ClassementCreated($fiche->getId(), $classement->getId()));
             } catch (Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
             }

@@ -10,18 +10,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 final class FixtureLoader
 {
-    private LoaderInterface $loader;
-    private ParameterBagInterface $parameterBag;
-    private CategoryRepository $categoryRepository;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        LoaderInterface $loader,
-        ParameterBagInterface $parameterBag
-    ) {
-        $this->loader = $loader;
-        $this->parameterBag = $parameterBag;
-        $this->categoryRepository = $categoryRepository;
+    public function __construct(private CategoryRepository $categoryRepository, private LoaderInterface $loader, private ParameterBagInterface $parameterBag)
+    {
     }
 
     public function getPath(): string

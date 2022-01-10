@@ -11,22 +11,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class TokenController.
- *
- * @Route("/token")
  */
+#[Route(path: '/token')]
 class TokenController extends AbstractController
 {
-    private TokenUtils $tokenUtils;
-
-    public function __construct(
-        TokenUtils $tokenUtils
-    ) {
-        $this->tokenUtils = $tokenUtils;
+    public function __construct(private TokenUtils $tokenUtils)
+    {
     }
 
-    /**
-     * @Route("/log/{uuid}", name="bottin_front_token_show")
-     */
+    #[Route(path: '/log/{uuid}', name: 'bottin_front_token_show')]
     public function show(Request $request, Token $token): Response
     {
         if ($this->tokenUtils->isExpired($token)) {
@@ -34,7 +27,6 @@ class TokenController extends AbstractController
 
             return $this->redirectToRoute('bottin_front_home');
         }
-
         $fiche = $token->getFiche();
 
         return $this->render(

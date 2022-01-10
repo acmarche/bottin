@@ -16,31 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Document controller.
  *
- * @Route("/admin/document")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/document')]
 class DocumentController extends AbstractController
 {
-    private DocumentRepository $documentRepository;
-
-    public function __construct(DocumentRepository $documentRepository)
+    public function __construct(private DocumentRepository $documentRepository)
     {
-        $this->documentRepository = $documentRepository;
     }
 
     /**
      * Displays a form to create a new Document entity.
-     *
-     * @Route("/new/{id}", name="bottin_admin_document_new", methods={"GET", "POST"})
      */
+    #[Route(path: '/new/{id}', name: 'bottin_admin_document_new', methods: ['GET', 'POST'])]
     public function new(Request $request, Fiche $fiche): Response
     {
         $document = new Document($fiche);
-
         $form = $this->createForm(DocumentType::class, $document);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->documentRepository->persist($document);
             $this->documentRepository->flush();
@@ -61,9 +54,8 @@ class DocumentController extends AbstractController
 
     /**
      * Finds and displays a Document entity.
-     *
-     * @Route("/{id}", name="bottin_admin_document_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_document_show', methods: ['GET'])]
     public function show(Document $document): Response
     {
         return $this->render(
@@ -77,15 +69,12 @@ class DocumentController extends AbstractController
 
     /**
      * Displays a form to edit an existing Document entity.
-     *
-     * @Route("/{id}/edit", name="bottin_admin_document_edit", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_document_edit', methods: ['GET', 'POST'])]
     public function edit(Document $document, Request $request): Response
     {
         $editForm = $this->createForm(DocumentType::class, $document);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->documentRepository->flush();
             $this->addFlash('success', 'Le document a bien été modifié');
@@ -102,9 +91,7 @@ class DocumentController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_document_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_document_delete', methods: ['POST'])]
     public function delete(Request $request, Document $document): RedirectResponse
     {
         $fiche = $document->getFiche();

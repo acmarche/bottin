@@ -10,15 +10,8 @@ use DateTime;
 
 class TokenUtils
 {
-    private FicheRepository $ficheRepository;
-    private TokenRepository $tokenRepository;
-
-    public function __construct(
-        FicheRepository $ficheRepository,
-        TokenRepository $tokenRepository
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->tokenRepository = $tokenRepository;
+    public function __construct(private FicheRepository $ficheRepository, private TokenRepository $tokenRepository)
+    {
     }
 
     public function generateForAll(): void
@@ -64,7 +57,7 @@ class TokenUtils
             $pieces[] = $keyspace[random_int(0, $max)];
         }
         $password = implode('', $pieces);
-        if ($this->tokenRepository->findOneBy(['password' => $password]) !== null) {
+        if (null !== $this->tokenRepository->findOneBy(['password' => $password])) {
             $this->generatePassword();
         }
 

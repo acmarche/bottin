@@ -18,46 +18,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Category controller.
  *
- * @Route("/admin/category")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/category')]
 class CategoryController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    private CategoryService $categoryService;
-    private PathUtils $pathUtils;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        CategoryService $categoryService,
-        PathUtils $pathUtils
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->categoryService = $categoryService;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private PathUtils $pathUtils, private MessageBusInterface $messageBus)
+    {
     }
 
     /**
      * Lists all Category entities.
-     *
-     * @Route("/", name="bottin_admin_category", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_admin_category', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $session = $request->getSession();
-
         $args = $data = [];
         $categoryRoot = null;
-
         if ($session->has('category_search')) {
             $args = json_decode($session->get('category_search'), true, 512, JSON_THROW_ON_ERROR);
         }
-
         $form = $this->createForm(
             SearchCategoryType::class,
             $args,
@@ -65,9 +52,7 @@ class CategoryController extends AbstractController
                 'method' => 'GET',
             ]
         );
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
             $name = $args['name'];
@@ -89,7 +74,6 @@ class CategoryController extends AbstractController
             $categories = $this->categoryRepository->getRootNodes();
             $categories = SortUtils::sortCategories($categories);
         }
-
         foreach ($categories as $rootNode) {
             $data[] = $this->categoryRepository->getTree($rootNode->getRealMaterializedPath());
         }
@@ -105,22 +89,17 @@ class CategoryController extends AbstractController
 
     /**
      * Displays a form to create a new Category entity.
-     *
-     * @Route("/new", name="bottin_admin_category_new")
-     * @Route("/new/{id}", name="bottin_admin_category_new_children", methods={"GET", "POST"})
      */
+    #[Route(path: '/new', name: 'bottin_admin_category_new')]
+    #[Route(path: '/new/{id}', name: 'bottin_admin_category_new_children', methods: ['GET', 'POST'])]
     public function new(Request $request, Category $parent = null): Response
     {
         $category = new Category();
-
         if (null !== $parent) {
             $category->setParent($parent);
         }
-
         $form = $this->createForm(CategoryType::class, $category);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryRepository->persist($category);
             $this->categoryRepository->flush();
@@ -130,7 +109,7 @@ class CategoryController extends AbstractController
                 $this->categoryRepository->flush();
             }
 
-            $this->dispatchMessage(new CategoryCreated($category->getId()));
+            $this->messageBus->dispatch(new CategoryCreated($category->getId()));
 
             return $this->redirectToRoute('bottin_admin_category_show', ['id' => $category->getId()]);
         }
@@ -146,9 +125,8 @@ class CategoryController extends AbstractController
 
     /**
      * Finds and displays a Category entity.
-     *
-     * @Route("/{id}", name="bottin_admin_category_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
         $paths = $this->pathUtils->getPath($category);
@@ -156,11 +134,12 @@ class CategoryController extends AbstractController
          * get all fiches of this category and there children.
          */
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
-
-        $category->getMaterializedPath(); //1/2
-        $category->getRealMaterializedPath(); //1/2/3
-        $category->getRootMaterializedPath(); //1
-
+        $category->getMaterializedPath();
+        //1/2
+        $category->getRealMaterializedPath();
+        //1/2/3
+        $category->getRootMaterializedPath();
+        //1
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         return $this->render(
@@ -175,19 +154,16 @@ class CategoryController extends AbstractController
 
     /**
      * Displays a form to edit an existing Category entity.
-     *
-     * @Route("/{id}/edit", name="bottin_admin_category_edit", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_category_edit', methods: ['GET', 'POST'])]
     public function edit(Category $category, Request $request): Response
     {
         $editForm = $this->createForm(CategoryType::class, $category);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->categoryRepository->flush();
 
-            $this->dispatchMessage(new CategoryUpdated($category->getId()));
+            $this->messageBus->dispatch(new CategoryUpdated($category->getId()));
 
             return $this->redirectToRoute('bottin_admin_category_show', ['id' => $category->getId()]);
         }
@@ -203,15 +179,12 @@ class CategoryController extends AbstractController
 
     /**
      * Displays a form to edit an existing Category entity.
-     *
-     * @Route("/{id}/move", name="bottin_admin_category_move", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/move', name: 'bottin_admin_category_move', methods: ['GET', 'POST'])]
     public function move(Category $category, Request $request): Response
     {
         $editForm = $this->createForm(CategoryMoveType::class, $category);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $category->setChildNodeOf($category->getParent());
 
@@ -230,13 +203,11 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_category_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_category_delete', methods: ['POST'])]
     public function delete(Request $request, Category $category): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
-            $this->dispatchMessage(new CategoryDeleted($category->getId()));
+            $this->messageBus->dispatch(new CategoryDeleted($category->getId()));
             $parent = $category->getParent();
             $this->categoryRepository->remove($category);
             $this->categoryRepository->flush();

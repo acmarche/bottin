@@ -2,23 +2,18 @@
 
 namespace AcMarche\Bottin\Doctrine\EventSubscriber;
 
-use Symfony\Component\Security\Core\User\UserInterface;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Exception;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class SetUserAddSubscriber implements EventSubscriber
 {
-    private Security $security;
-    private PropertyUtil $propertyUtil;
-
-    public function __construct(Security $security, PropertyUtil $propertyUtil)
+    public function __construct(private Security $security, private PropertyUtil $propertyUtil)
     {
-        $this->security = $security;
-        $this->propertyUtil = $propertyUtil;
     }
 
     public function getSubscribedEvents(): array

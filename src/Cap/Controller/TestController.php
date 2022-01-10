@@ -2,11 +2,11 @@
 
 namespace AcMarche\Bottin\Cap\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -16,15 +16,14 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * @Route("/test")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/test')]
 class TestController extends AbstractController
 {
     private HttpClientInterface $httpClient;
-    private CategoryRepository $categoryRepository;
 
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(private CategoryRepository $categoryRepository)
     {
         $httpClient = HttpClient::create(
             [
@@ -33,20 +32,15 @@ class TestController extends AbstractController
             ]
         );
         $this->httpClient = $httpClient;
-        $this->categoryRepository = $categoryRepository;
     }
 
-    /**
-     * @Route("/", name="bottin_admin_api_test_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'bottin_admin_api_test_index', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('@AcMarcheBottin/admin/test/index.html.twig');
     }
 
-    /**
-     * @Route("/fiches", name="bottin_admin_api_test_fiches", methods={"GET"})
-     */
+    #[Route(path: '/fiches', name: 'bottin_admin_api_test_fiches', methods: ['GET'])]
     public function fiches(): Response
     {
         $url = $this->generateUrl('bottin_admin_api_fiches_commerces', [], false);
@@ -56,9 +50,7 @@ class TestController extends AbstractController
         return $this->render('@AcMarcheBottin/admin/test/fiches.html.twig', ['fiches' => $fiches, 'url' => $url]);
     }
 
-    /**
-     * @Route("/commerces", name="bottin_admin_api_test_commerces", methods={"GET"})
-     */
+    #[Route(path: '/commerces', name: 'bottin_admin_api_test_commerces', methods: ['GET'])]
     public function commerces(): Response
     {
         $url = $this->generateUrl('bottin_admin_api_commerces', [], false);
@@ -71,9 +63,7 @@ class TestController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/fiches/rubrique/{id}", name="bottin_admin_api_test_fiche_by_category", methods={"GET"})
-     */
+    #[Route(path: '/fiches/rubrique/{id}', name: 'bottin_admin_api_test_fiche_by_category', methods: ['GET'])]
     public function ficheByCategory($id): Response
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_category', ['id' => $id], false);
@@ -87,9 +77,7 @@ class TestController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/fiche/{id}", name="bottin_admin_api_test_fiche_id", methods={"GET"})
-     */
+    #[Route(path: '/fiche/{id}', name: 'bottin_admin_api_test_fiche_id', methods: ['GET'])]
     public function ficheId($id): Response
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_id', ['id' => $id], false);
@@ -99,14 +87,11 @@ class TestController extends AbstractController
         return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
 
-    /**
-     * @Route("/fichebyids", name="bottin_admin_api_test_fiche_ids", methods={"GET"})
-     */
+    #[Route(path: '/fichebyids', name: 'bottin_admin_api_test_fiche_ids', methods: ['GET'])]
     public function ficheIds(): Response
     {
         $ids = json_encode([393, 522, 55]);
         $fields = ['ids' => $ids];
-
         $url = $this->generateUrl('bottin_admin_api_fiche_by_ids', [], false);
         try {
             $request = $this->httpClient->request(
@@ -130,9 +115,7 @@ class TestController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/fiche/slug/{slug}", name="bottin_admin_api_test_fiche_slug", methods={"GET"})
-     */
+    #[Route(path: '/fiche/slug/{slug}', name: 'bottin_admin_api_test_fiche_slug', methods: ['GET'])]
     public function ficheSlug($slug): Response
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_slugname', ['slugname' => $slug], false);
@@ -142,13 +125,10 @@ class TestController extends AbstractController
         return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
 
-    /**
-     * @Route("/updatefiche", name="bottin_admin_api_test_update_fiche", methods={"GET"})
-     */
+    #[Route(path: '/updatefiche', name: 'bottin_admin_api_test_update_fiche', methods: ['GET'])]
     public function updatefiche(): Response
     {
         $fields = ['id' => 393, 'fax' => '084 12 34 56', 'gsm' => '0476 12 34 56'];
-
         $url = $this->generateUrl('bottin_admin_api_update_fiche', [], false);
         $request = $this->httpClient->request(
             'POST',
@@ -162,15 +142,11 @@ class TestController extends AbstractController
         return $this->render('@AcMarcheBottin/admin/test/update_fiche.html.twig', ['result' => $content]);
     }
 
-    /**
-     * @Route("/bottin/test/search/{keyword}", name="bottin_admin_api_test_search", methods={"GET"})
-     */
+    #[Route(path: '/bottin/test/search/{keyword}', name: 'bottin_admin_api_test_search', methods: ['GET'])]
     public function testSearch(string $keyword = 'axa'): JsonResponse
     {
         $data = ['keyword' => $keyword];
-
         $url = $this->generateUrl('bottin_admin_api_search', [], false);
-
         try {
             $request = $this->httpClient->request(
                 'POST',
@@ -182,7 +158,6 @@ class TestController extends AbstractController
         } catch (TransportExceptionInterface $e) {
             return $this->json(['error' => $e->getMessage()]);
         }
-
         try {
             $content = $request->getContent();
 

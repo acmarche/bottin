@@ -13,19 +13,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GeolocalisationGoogleService
 {
-    /**
-     * @var string
-     */
-    private $clefGoogle;
+    private string $clefGoogle;
 
     private string $urlGoogle = 'https://maps.googleapis.com/maps/api/geocode/json';
 
-    private HttpClientInterface $httpClient;
-
-    public function __construct(HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
+    public function __construct(private HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
     {
         $this->clefGoogle = $parameterBag->get('bottin.api_key_geocode');
-        $this->httpClient = $httpClient;
     }
 
     /**

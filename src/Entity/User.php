@@ -4,60 +4,54 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\UserRepository")
  */
-class User implements UserInterface,PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Stringable
 {
     use IdTrait;
-
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private ?string $username = null;
-
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private ?string $email = null;
-
     /**
      * @ORM\Column(type="string", length=180, nullable=false)
      */
     private ?string $nom = null;
-
     /**
      * @ORM\Column(type="string", length=180, nullable=true)
      */
     private ?string $prenom = null;
-
     /**
      * @ORM\Column(type="json")
      */
     private array $roles = [];
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
     private string $password;
-
     /**
      * Plain password. Used for model validation. Must not be persisted.
      */
     protected ?string $plainPassword = null;
 
-    public function getUserIdentifier(): ?string
+    public function getUserIdentifier(): string
     {
         return $this->getUsername();
     }
 
     public function __toString(): string
     {
-        return $this->getUsername();
+        return $this->getUserIdentifier();
     }
 
     public function addRole(string $role): void

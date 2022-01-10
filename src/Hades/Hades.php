@@ -15,11 +15,8 @@ class Hades
     public const COMMUNE = 263;
     public const CATEGORY_HOTELS = 649;
 
-    private HadesRepository $hadesRepository;
-
-    public function __construct(HadesRepository $hadesRepository)
+    public function __construct(private HadesRepository $hadesRepository)
     {
-        $this->hadesRepository = $hadesRepository;
     }
 
     public function getProperties(): void

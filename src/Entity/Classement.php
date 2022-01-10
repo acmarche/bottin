@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Entity;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -12,16 +13,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\ClassementRepository")
  * @ORM\Table(name="classements", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="classement_idx", columns={"fiche_id", "category_id"})})
- * @UniqueEntity(fields={"fiche", "category"}, message="Déjà dans ce classement")
  * @ApiResource(
  *     normalizationContext={"groups"={"read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )
  */
-class Classement
+#[UniqueEntity(fields: ['fiche', 'category'], message: 'Déjà dans ce classement')]
+class Classement implements Stringable
 {
     use IdTrait;
-
     /**
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="classements")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
@@ -33,14 +33,13 @@ class Classement
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected ?Category $category;
-
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"read", "write"})
      */
+    #[Groups(groups: ['read', 'write'])]
     protected bool $principal = false;
 
-    public function __construct(Fiche $fiche, Category $category)
+    public function __construct( ?Fiche $fiche,  ?Category $category)
     {
         $this->fiche = $fiche;
         $this->category = $category;

@@ -21,57 +21,34 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Fiche controller.
  *
- * @Route("/admin/fiche")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/fiche')]
 class FicheController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-    private HoraireService $horaireService;
-    private ClassementRepository $classementRepository;
-    private PathUtils $pathUtils;
-    private SearchEngineInterface $searchEngine;
-    private HistoryUtils $historyUtils;
-
-    public function __construct(
-        PathUtils $pathUtils,
-        ClassementRepository $classementRepository,
-        FicheRepository $ficheRepository,
-        HoraireService $horaireService,
-        SearchEngineInterface $searchEngine,
-        HistoryUtils $historyUtils
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->horaireService = $horaireService;
-        $this->classementRepository = $classementRepository;
-        $this->pathUtils = $pathUtils;
-        $this->searchEngine = $searchEngine;
-        $this->historyUtils = $historyUtils;
+    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FicheRepository $ficheRepository, private HoraireService $horaireService, private SearchEngineInterface $searchEngine, private HistoryUtils $historyUtils, private MessageBusInterface $messageBus)
+    {
     }
 
     /**
      * Lists all Fiche entities.
-     *
-     * @Route("/", name="bottin_admin_fiche_index", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_admin_fiche_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $session = $request->getSession();
         $args = $fiches = [];
-
         if ($session->has('fiche_search')) {
             $args = json_decode($session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
         }
-
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
             $session->set('fiche_search', json_encode($args, JSON_THROW_ON_ERROR));
@@ -96,24 +73,20 @@ class FicheController extends AbstractController
     /**
      * Displays a form to create a new Fiche fiche.
      *
-     * @Route("/new", name="bottin_admin_fiche_new", methods={"GET", "POST"})
-     *
      * @throws Exception
      */
+    #[Route(path: '/new', name: 'bottin_admin_fiche_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $fiche = new Fiche();
         $fiche->setCp($this->getParameter('bottin.cp_default'));
-
         $form = $this->createForm(FicheType::class, $fiche);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ficheRepository->insert($fiche);
 
             $this->historyUtils->newFiche($fiche);
-            $this->dispatchMessage(new FicheCreated($fiche->getId()));
+            $this->messageBus->dispatch(new FicheCreated($fiche->getId()));
 
             $this->addFlash('success', 'La fiche a bien été crée');
 
@@ -131,9 +104,8 @@ class FicheController extends AbstractController
 
     /**
      * Finds and displays a Fiche fiche.
-     *
-     * @Route("/{id}", name="bottin_admin_fiche_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_fiche_show', methods: ['GET'])]
     public function show(Fiche $fiche): Response
     {
         $classements = $this->classementRepository->getByFiche($fiche);
@@ -150,9 +122,8 @@ class FicheController extends AbstractController
 
     /**
      * Displays a form to edit an existing Fiche fiche.
-     *
-     * @Route("/{id}/edit", name="bottin_admin_fiche_edit", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_fiche_edit', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {
         if ($fiche->getFtlb()) {
@@ -160,14 +131,10 @@ class FicheController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
-
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
-
         $editForm = $this->createForm(FicheType::class, $fiche);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $data = $editForm->getData();
             $horaires = $data->getHoraires();
@@ -175,14 +142,14 @@ class FicheController extends AbstractController
 
             try {
                 $this->historyUtils->diffFiche($fiche);
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 $this->addFlash('danger', 'Erreur pour l\'enregistrement dans l\' historique');
             }
 
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La fiche a bien été modifiée');
 
-            $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
+            $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
@@ -196,13 +163,11 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_fiche_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_fiche_delete', methods: ['POST'])]
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
-            $this->dispatchMessage(new FicheDeleted($fiche->getId()));
+            $this->messageBus->dispatch(new FicheDeleted($fiche->getId()));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();
 

@@ -12,12 +12,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticServerCommand extends Command
 {
     protected static $defaultName = 'bottin:server';
-    private ElasticServer $elasticServer;
 
-    public function __construct(string $name = null, ElasticServer $elasticServer)
+    public function __construct(private ElasticServer $elasticServer, string $name = null)
     {
         parent::__construct($name);
-        $this->elasticServer = $elasticServer;
     }
 
     protected function configure(): void

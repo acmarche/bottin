@@ -11,6 +11,7 @@ use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,31 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Export controller.
  *
- * @Route("/admin/export")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/export')]
 class ExportController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    private SelectionRepository $selectionRepository;
-    private PathUtils $pathUtils;
-    private ExportUtils $exportUtils;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        SelectionRepository $selectionRepository,
-        PathUtils $pathUtils,
-        ExportUtils $exportUtils
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->selectionRepository = $selectionRepository;
-        $this->pathUtils = $pathUtils;
-        $this->exportUtils = $exportUtils;
+    public function __construct(private CategoryRepository $categoryRepository, private SelectionRepository $selectionRepository, private PathUtils $pathUtils, private ExportUtils $exportUtils)
+    {
     }
 
-    /**
-     * @Route("/", name="bottin_admin_export_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'bottin_admin_export_index', methods: ['GET'])]
     public function index(): Response
     {
         $user = $this->getUser();
@@ -56,19 +42,14 @@ class ExportController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/select", name="bottin_admin_export_select", methods={"GET", "POST"})
-     */
+    #[Route(path: '/select', name: 'bottin_admin_export_select', methods: ['GET', 'POST'])]
     public function selection(Request $request): Response
     {
         $form = $this->createForm(SelectCategoryType::class);
         $categories = $this->categoryRepository->getRootNodes();
         $categories = SortUtils::sortCategories($categories);
-
         $user = $this->getUser();
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $categorySelected = $form->get('categorySelected')->getData();
 
@@ -84,9 +65,7 @@ class ExportController extends AbstractController
             $this->selectionRepository->flush();
             $this->redirectToRoute('bottin_admin_export_select');
         }
-
         $selections = $this->selectionRepository->findByUser($user->getUserIdentifier());
-
         array_map(
             function ($selection) {
                 $category = $selection->getCategory();
@@ -105,10 +84,8 @@ class ExportController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/add/{id}", name="bottin_admin_selection_delete", methods={"GET"})
-     */
-    public function delete(Selection $selection): Response
+    #[Route(path: '/add/{id}', name: 'bottin_admin_selection_delete', methods: ['GET'])]
+    public function delete(Selection $selection): RedirectResponse
     {
         $this->selectionRepository->remove($selection);
         $this->selectionRepository->flush();

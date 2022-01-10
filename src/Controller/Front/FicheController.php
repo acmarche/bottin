@@ -12,30 +12,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Fiche controller.
- *
- * @Route("/fiche")
  */
+#[Route(path: '/fiche')]
 class FicheController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-    private ClassementRepository $classementRepository;
-    private PathUtils $pathUtils;
-
-    public function __construct(
-        PathUtils $pathUtils,
-        ClassementRepository $classementRepository,
-        FicheRepository $ficheRepository
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->classementRepository = $classementRepository;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FicheRepository $ficheRepository)
+    {
     }
 
     /**
      * Finds and displays a Fiche fiche.
-     *
-     * @Route("/{slug}", name="bottin_front_fiche_show", methods={"GET"})
      */
+    #[Route(path: '/{slug}', name: 'bottin_front_fiche_show', methods: ['GET'])]
     public function show(Fiche $fiche): Response
     {
         $classements = $this->classementRepository->getByFiche($fiche);
@@ -50,9 +38,7 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/by/index/{anchor}", name="bottin_front_fiche_by_index")
-     */
+    #[Route(path: '/by/index/{anchor}', name: 'bottin_front_fiche_by_index')]
     public function index($anchor = null): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();

@@ -16,23 +16,14 @@ class ElasticIndexer
 {
     use ElasticClientTrait;
 
-    private SerializerInterface $serializer;
-    private FicheSerializer $ficheSerializer;
-    private CategorySerializer $categorySerializer;
-    private ClassementElastic $classementElastic;
-
     public function __construct(
         string $elasticIndexName,
-        SerializerInterface $serializer,
-        FicheSerializer $ficheSerializer,
-        CategorySerializer $categorySerializer,
-        ClassementElastic $classementElastic
+        private SerializerInterface $serializer,
+        private FicheSerializer $ficheSerializer,
+        private CategorySerializer $categorySerializer,
+        private ClassementElastic $classementElastic
     ) {
         $this->connect($elasticIndexName);
-        $this->serializer = $serializer;
-        $this->ficheSerializer = $ficheSerializer;
-        $this->categorySerializer = $categorySerializer;
-        $this->classementElastic = $classementElastic;
     }
 
     public function indexFiche(Fiche $fiche): Response

@@ -4,15 +4,8 @@ namespace AcMarche\Bottin\Classement\Message;
 
 class ClassementDeleted
 {
-    private int $ficheId;
-    private int $classementId;
-    private int $categoryId;
-
-    public function __construct(int $ficheId, int $classementId, int $categoryId)
+    public function __construct(private int $ficheId, private int $classementId, private int $categoryId)
     {
-        $this->ficheId = $ficheId;
-        $this->classementId = $classementId;
-        $this->categoryId = $categoryId;
     }
 
     public function getFicheId(): int

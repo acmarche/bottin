@@ -2,12 +2,13 @@
 
 namespace AcMarche\Bottin\Entity;
 
-use DateTimeImmutable;
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,11 +19,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="fiche_images")
  * @Vich\Uploadable
  */
-class FicheImage
+class FicheImage implements Stringable
 {
     use FicheFieldTrait;
     use IdTrait;
-
     /**
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="images")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE"))
@@ -38,10 +38,8 @@ class FicheImage
      * @Vich\UploadableField(mapping="bottin_fiche_image", fileNameProperty="imageName")
      *
      * note This is not a mapped field of entity metadata, just a simple property.
-     * @Assert\Image(
-     *     maxSize="7M"
-     * )
      */
+    #[Assert\Image(maxSize: '7M')]
     protected ?File $image = null;
 
     /**
@@ -56,6 +54,7 @@ class FicheImage
 
     /**
      * @ORM\Column(name="updated_at", type="datetime")
+     *
      * @var DateTime|DateTimeImmutable
      */
     protected \DateTimeInterface $updatedAt;
@@ -151,7 +150,7 @@ class FicheImage
     /**
      * @return DateTime|DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }

@@ -4,11 +4,8 @@ namespace AcMarche\Bottin\Fiche\Message;
 
 final class FicheDeleted
 {
-    private int $ficheId;
-
-    public function __construct(int $ficheId)
+    public function __construct(private int $ficheId)
     {
-        $this->ficheId = $ficheId;
     }
 
     public function getFicheId(): int

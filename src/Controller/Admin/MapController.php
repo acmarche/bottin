@@ -14,21 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Map controller.
  *
- * @Route("/admin/map")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/map')]
 class MapController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-
-    public function __construct(FicheRepository $ficheRepository)
+    public function __construct(private FicheRepository $ficheRepository)
     {
-        $this->ficheRepository = $ficheRepository;
     }
 
-    /**
-     * @Route("/{id}/edit", name="bottin_admin_map_edit", methods={"GET", "POST"})
-     */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_map_edit', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {
         if ($fiche->getFtlb()) {
@@ -36,11 +31,8 @@ class MapController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
-
         $form = $this->createForm(LocalisationType::class, $fiche);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La localisation a bien été modifiée');

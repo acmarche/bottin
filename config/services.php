@@ -1,19 +1,19 @@
 <?php
 
 use AcMarche\Bottin\Elasticsearch\ElasticServer;
-use Elasticsearch\ClientBuilder;
-use Elasticsearch\Client;
-use Symfony\Component\Ldap\Ldap;
 use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
 use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Fidry\AliceDataFixtures\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -47,7 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(HadesRepository::class)
         ->args([
-            '$url' => '%env(HADES_URL)%',
+            '$baseUrl' => '%env(HADES_URL)%',
             '$user' => '%env(HADES_USER)%',
             '$password' => '%env(HADES_PASSWORD)%',
         ]);

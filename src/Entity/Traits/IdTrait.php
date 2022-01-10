@@ -11,8 +11,8 @@ trait IdTrait
      * @ORM\Id()
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"category:read"})
      */
+    #[Groups(groups: ['category:read'])]
     private ?int $id = 0;
 
     public function getId(): int

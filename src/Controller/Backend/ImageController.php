@@ -19,31 +19,22 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
  * Image controller.
- *
- * @Route("/backend/image")
  */
+#[Route(path: '/backend/image')]
 class ImageController extends AbstractController
 {
-    private UploadHandler $uploadHandler;
-    private ImageRepository $imageRepository;
-
-    public function __construct(
-        ImageRepository $imageRepository,
-        UploadHandler $uploadHandler
-    ) {
-        $this->uploadHandler = $uploadHandler;
-        $this->imageRepository = $imageRepository;
+    public function __construct(private ImageRepository $imageRepository, private UploadHandler $uploadHandler)
+    {
     }
 
     /**
-     * @Route("/new/{uuid}", name="bottin_backend_image_edit", methods={"GET", "POST"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/new/{uuid}', name: 'bottin_backend_image_edit', methods: ['GET', 'POST'])]
     public function new(Token $token): Response
     {
         $fiche = $token->getFiche();
         $ficheImage = new FicheImage($fiche);
-
         $form = $this->createForm(
             FicheImageType::class,
             $ficheImage,
@@ -63,9 +54,9 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/upload/{uuid}", name="bottin_backend_image_upload")
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/upload/{uuid}', name: 'bottin_backend_image_upload')]
     public function upload(Request $request, Token $token): Response
     {
         $fiche = $token->getFiche();
@@ -74,12 +65,10 @@ class ImageController extends AbstractController
          * @var UploadedFile $file
          */
         $file = $request->files->get('file');
-
         $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
         $ficheImage->setMime($file->getMimeType());
         $ficheImage->setImageName($file->getClientOriginalName());
         $ficheImage->setImage($file);
-
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
         } catch (Exception $exception) {
@@ -88,7 +77,6 @@ class ImageController extends AbstractController
                 ['error' => $exception->getMessage()]
             );
         }
-
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
 
@@ -96,14 +84,13 @@ class ImageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_backend_image_show", methods={"GET"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/{id}', name: 'bottin_backend_image_show', methods: ['GET'])]
     public function show(FicheImage $ficheImage): Response
     {
         $fiche = $ficheImage->getFiche();
         $token = $fiche->getToken();
-
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
 
         return $this->render(
@@ -115,29 +102,24 @@ class ImageController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/", name="bottin_backend_image_delete", methods={"POST"})
-     */
+    #[Route(path: '/', name: 'bottin_backend_image_delete', methods: ['POST'])]
     public function delete(Request $request): RedirectResponse
     {
         $imageId = (int) $request->request->get('imageid');
-        if ($imageId === 0) {
+        if (0 === $imageId) {
             $this->addFlash('danger', 'Image non trouvée');
 
             return $this->redirectToRoute('bottin_front_home');
         }
-
         $ficheImage = $this->imageRepository->find($imageId);
-        if ($ficheImage === null) {
+        if (!$ficheImage instanceof FicheImage) {
             $this->addFlash('danger', 'Image non trouvée');
 
             return $this->redirectToRoute('bottin_front_home');
         }
-
         $fiche = $ficheImage->getFiche();
         $token = $fiche->getToken();
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
-
         if ($this->isCsrfTokenValid('deleteimage', $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
             $this->imageRepository->flush();

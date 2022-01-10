@@ -16,33 +16,8 @@ use AcMarche\Bottin\Utils\PathUtils;
 
 class ApiUtils
 {
-    private PathUtils $pathUtils;
-    private ClassementRepository $classementRepository;
-    private HoraireRepository $horaireRepository;
-    private CategorySerializer $categorySerializer;
-    private ClassementSerializer $classementSerializer;
-    private FicheImageSerializer $ficheImageSerializer;
-    private FicheSerializer $ficheSerializer;
-    private HoraireSerializer $horaireSerializer;
-
-    public function __construct(
-        HoraireRepository $horaireRepository,
-        ClassementRepository $classementRepository,
-        PathUtils $pathUtils,
-        CategorySerializer $categorySerializer,
-        ClassementSerializer $classementSerializer,
-        FicheImageSerializer $ficheImageSerializer,
-        FicheSerializer $ficheSerializer,
-        HoraireSerializer $horaireSerializer
-    ) {
-        $this->pathUtils = $pathUtils;
-        $this->classementRepository = $classementRepository;
-        $this->horaireRepository = $horaireRepository;
-        $this->categorySerializer = $categorySerializer;
-        $this->classementSerializer = $classementSerializer;
-        $this->ficheImageSerializer = $ficheImageSerializer;
-        $this->ficheSerializer = $ficheSerializer;
-        $this->horaireSerializer = $horaireSerializer;
+    public function __construct(private HoraireRepository $horaireRepository, private ClassementRepository $classementRepository, private PathUtils $pathUtils, private CategorySerializer $categorySerializer, private ClassementSerializer $classementSerializer, private FicheImageSerializer $ficheImageSerializer, private FicheSerializer $ficheSerializer, private HoraireSerializer $horaireSerializer)
+    {
     }
 
     /**
@@ -104,7 +79,7 @@ class ApiUtils
             $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
         $logo = null;
-        if ($urls !== []) {
+        if ([] !== $urls) {
             $logo = $urls[0];
         }
         $dataFiche['logo'] = $logo;

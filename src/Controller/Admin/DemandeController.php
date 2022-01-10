@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Demande;
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\DemandeType;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\DemandeRepository;
@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,36 +23,19 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Demande controller.
  *
- * @Route("/admin/demande")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/demande')]
 class DemandeController extends AbstractController
 {
-    private DemandeRepository $demandeRepository;
-    private FicheRepository $ficheRepository;
-    private PropertyUtil $propertyUtil;
-    private MailFactory $mailFactory;
-    private MailerInterface $mailer;
-
-    public function __construct(
-        DemandeRepository $demandeRepository,
-        FicheRepository $ficheRepository,
-        MailFactory $mailFactory,
-        MailerInterface $mailer,
-        PropertyUtil $propertyUtil
-    ) {
-        $this->demandeRepository = $demandeRepository;
-        $this->ficheRepository = $ficheRepository;
-        $this->propertyUtil = $propertyUtil;
-        $this->mailFactory = $mailFactory;
-        $this->mailer = $mailer;
+    public function __construct(private DemandeRepository $demandeRepository, private FicheRepository $ficheRepository, private MailFactory $mailFactory, private MailerInterface $mailer, private PropertyUtil $propertyUtil)
+    {
     }
 
     /**
      * Lists all Demande entities.
-     *
-     * @Route("/", name="bottin_admin_demande", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_admin_demande', methods: ['GET'])]
     public function index(): Response
     {
         $demandes = $this->demandeRepository->search();
@@ -66,21 +50,16 @@ class DemandeController extends AbstractController
 
     /**
      * Finds and displays a Demande entity.
-     *
-     * @Route("/{id}", name="bottin_admin_demande_show", methods={"GET", "POST"})
      */
-    public function show(Request $request, Demande $demande)
+    #[Route(path: '/{id}', name: 'bottin_admin_demande_show', methods: ['GET', 'POST'])]
+    public function show(Request $request, Demande $demande): RedirectResponse|Response|NotFoundHttpException
     {
         $fiche = $this->ficheRepository->find($demande->getFiche());
-
         if (!$fiche instanceof Fiche) {
             return $this->createNotFoundException('Fiche non trouvée');
         }
-
         $editForm = $this->createForm(DemandeType::class, $demande);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             if ($demande->getTraiter()) {
                 $this->addFlash('warning', 'Cette demande a déjà été traitée');
@@ -89,7 +68,7 @@ class DemandeController extends AbstractController
             }
 
             $metas = $request->request->get('metas');
-            if (0 == ($metas === null ? 0 : \count($metas))) {
+            if (0 == (null === $metas ? 0 : \count($metas))) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
@@ -100,7 +79,7 @@ class DemandeController extends AbstractController
             }
 
             $demande->setTraiter(true);
-            $demande->setTraiterBy($this->getUser()->getUsername());
+            $demande->setTraiterBy($this->getUser()->getUserIdentifier());
 
             $this->demandeRepository->flush();
             $this->ficheRepository->flush();
@@ -131,9 +110,7 @@ class DemandeController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_demande_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_demande_delete', methods: ['POST'])]
     public function delete(Request $request, Demande $demande): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$demande->getId(), $request->request->get('_token'))) {

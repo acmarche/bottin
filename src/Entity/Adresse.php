@@ -13,17 +13,17 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Stringable;
 
 /**
  * @ORM\Entity(repositoryClass=AdresseRepository::class)
  */
-class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface
+class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
 {
     use IdTrait;
     use SluggableTrait;
     use TimestampableTrait;
     use LocationTrait;
-
     /**
      * @ORM\Column(type="string", length=150, nullable=false)
      */
@@ -32,32 +32,26 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
      * @ORM\Column(type="string", nullable=false)
      */
     protected ?string $rue = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $numero = null;
-
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
     protected ?int $cp = null;
-
     /**
      * @ORM\Column(type="string", nullable=false)
      */
     protected ?string $localite = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $longitude = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $latitude = null;
-
     /**
      * @var Fiche[]
      * @ORM\OneToMany(targetEntity=Fiche::class, mappedBy="adresse")

@@ -13,27 +13,14 @@ use Twig\TwigFunction;
 
 class BottinExtension extends AbstractExtension
 {
-    private Security $security;
-    private RouterInterface $router;
-    private RequestStack $requestStack;
-    private TokenRepository $tokenRepository;
-
-    public function __construct(
-        Security $security,
-        RouterInterface $router,
-        RequestStack $requestStack,
-        TokenRepository $tokenRepository
-    ) {
-        $this->security = $security;
-        $this->router = $router;
-        $this->requestStack = $requestStack;
-        $this->tokenRepository = $tokenRepository;
+    public function __construct(private Security $security, private RouterInterface $router, private RequestStack $requestStack, private TokenRepository $tokenRepository)
+    {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('bottin_url_fiche_show', fn($fiche): string => $this->urlFiche($fiche)),
+            new TwigFunction('bottin_url_fiche_show', fn ($fiche): string => $this->urlFiche($fiche)),
         ];
     }
 

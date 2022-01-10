@@ -6,20 +6,21 @@ use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\PdvRepository")
  * @ORM\Table(name="pdv")
  */
-class Pdv
+class Pdv implements Stringable
 {
     use IdTrait;
 
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank
      */
+    #[Assert\NotBlank]
     protected ?string $intitule = null;
 
     /**

@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,14 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\SituationRepository")
  * @ORM\Table(name="situation")
  */
-class Situation
+class Situation implements Stringable
 {
     use IdTrait;
 
     /**
      * @ORM\Column(type="string", nullable=false)
-     * @Assert\NotBlank
      */
+    #[Assert\NotBlank]
     protected string $name;
 
     /**

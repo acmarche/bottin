@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\User;
 use AcMarche\Bottin\Repository\UserRepository;
 use AcMarche\Bottin\User\Form\UtilisateurEditType;
 use AcMarche\Bottin\User\Form\UtilisateurType;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,27 +16,19 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/utilisateur")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/utilisateur')]
 class UtilisateurController extends AbstractController
 {
-    private UserRepository $userRepository;
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    public function __construct(
-        UserRepository $userRepository,
-        UserPasswordHasherInterface $userPasswordHasher
-    ) {
-        $this->userRepository = $userRepository;
-        $this->userPasswordHasher = $userPasswordHasher;
+    public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $userPasswordHasher, private ManagerRegistry $managerRegistry)
+    {
     }
 
     /**
      * Lists all Utilisateur entities.
-     *
-     * @Route("/", name="bottin_admin_utilisateur", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_admin_utilisateur', methods: ['GET'])]
     public function index(): Response
     {
         $users = $this->userRepository->findBy([], ['nom' => 'ASC']);
@@ -50,17 +43,13 @@ class UtilisateurController extends AbstractController
 
     /**
      * Displays a form to create a new Utilisateur utilisateur.
-     *
-     * @Route("/new", name="bottin_admin_utilisateur_new", methods={"GET", "POST"})
      */
+    #[Route(path: '/new', name: 'bottin_admin_utilisateur_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $user = new User();
-
         $form = $this->createForm(UtilisateurType::class, $user);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword())
@@ -83,9 +72,8 @@ class UtilisateurController extends AbstractController
 
     /**
      * Finds and displays a Utilisateur utilisateur.
-     *
-     * @Route("/{id}", name="bottin_admin_utilisateur_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_utilisateur_show', methods: ['GET'])]
     public function show(User $user): Response
     {
         return $this->render(
@@ -98,15 +86,12 @@ class UtilisateurController extends AbstractController
 
     /**
      * Displays a form to edit an existing Utilisateur utilisateur.
-     *
-     * @Route("/{id}/edit", name="bottin_admin_utilisateur_edit", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user): Response
     {
         $editForm = $this->createForm(UtilisateurEditType::class, $user);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userRepository->flush();
             $this->addFlash('success', "L'utilisateur a bien été modifié");
@@ -125,13 +110,12 @@ class UtilisateurController extends AbstractController
 
     /**
      * Deletes a Utilisateur utilisateur.
-     *
-     * @Route("/{id}", name="bottin_admin_utilisateur_delete", methods={"POST"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, User $user): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
             $this->addFlash('success', 'L\'utilisateur a été supprimé');

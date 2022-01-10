@@ -15,36 +15,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Fiche controller.
- *
- * @Route("/backend/fiche")
  */
+#[Route(path: '/backend/fiche')]
 class FicheController extends AbstractController
 {
-    private ClassementRepository $classementRepository;
-    private PathUtils $pathUtils;
-    private FormUtils $formUtils;
-    private FicheRepository $ficheRepository;
-
-    public function __construct(
-        PathUtils $pathUtils,
-        ClassementRepository $classementRepository,
-        FormUtils $formUtils,
-        FicheRepository $ficheRepository
-    ) {
-        $this->classementRepository = $classementRepository;
-        $this->pathUtils = $pathUtils;
-        $this->formUtils = $formUtils;
-        $this->ficheRepository = $ficheRepository;
+    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FormUtils $formUtils, private FicheRepository $ficheRepository, private MessageBusInterface $messageBus)
+    {
     }
 
     /**
-     * @Route("/{uuid}", name="bottin_backend_fiche_show", methods={"GET"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/{uuid}', name: 'bottin_backend_fiche_show', methods: ['GET'])]
     public function show(Token $token): Response
     {
         if (!$this->isGranted(TokenVoter::TOKEN_EDIT, $token)) {
@@ -67,23 +54,21 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/{uuid}/edit/{etape}", name="bottin_backend_fiche_edit", methods={"GET", "POST"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/{uuid}/edit/{etape}', name: 'bottin_backend_fiche_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
         $fiche = $token->getFiche();
-        if ($etape !== 0) {
+        if (0 !== $etape) {
             $fiche->setEtape($etape);
         }
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
-
         $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ficheRepository->flush();
-            $this->dispatchMessage(new FicheUpdated($fiche->getId(), $oldAdresse));
+            $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
 
             $this->addFlash('success', 'La fiche a bien été modifiée');
             $etape = $fiche->getEtape() + 1;
@@ -106,9 +91,9 @@ class FicheController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="bottin_backend_fiche_delete", methods={"POST"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/{id}', name: 'bottin_backend_fiche_delete', methods: ['POST'])]
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         return $this->redirectToRoute('bottin_front_home');

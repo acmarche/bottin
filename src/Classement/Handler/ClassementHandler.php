@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Classement\Handler;
 
-use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Bottin;
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -13,13 +13,8 @@ use Exception;
 
 class ClassementHandler
 {
-    private ClassementRepository $classementRepository;
-    private CategoryRepository $categoryRepository;
-
-    public function __construct(ClassementRepository $classementRepository, CategoryRepository $categoryRepository)
+    public function __construct(private ClassementRepository $classementRepository, private CategoryRepository $categoryRepository)
     {
-        $this->classementRepository = $classementRepository;
-        $this->categoryRepository = $categoryRepository;
     }
 
     /**

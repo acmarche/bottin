@@ -12,24 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckupController extends AbstractController
 {
-    private CategoryService $categoryService;
-    private FicheRepository $ficheRepository;
-    private ClassementRepository $classementRepository;
-
-    public function __construct(
-        CategoryService $categoryService,
-        FicheRepository $ficheRepository,
-        ClassementRepository $classementRepository
-    ) {
-        $this->categoryService = $categoryService;
-        $this->ficheRepository = $ficheRepository;
-        $this->classementRepository = $classementRepository;
+    public function __construct(private CategoryService $categoryService, private FicheRepository $ficheRepository, private ClassementRepository $classementRepository)
+    {
     }
 
     /**
-     * @Route("/admin/empty", name="bottin_admin_categories_empty")
      * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
+    #[Route(path: '/admin/empty', name: 'bottin_admin_categories_empty')]
     public function empty(): Response
     {
         $categories = $this->categoryService->getEmpyCategories();
@@ -43,17 +33,16 @@ class CheckupController extends AbstractController
     }
 
     /**
-     * @Route("/admin/secteur/principal", name="bottin_admin_secteur_principal")
      * @IsGranted("ROLE_BOTTIN_ADMIN")
      */
+    #[Route(path: '/admin/secteur/principal', name: 'bottin_admin_secteur_principal')]
     public function principal(): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();
         $data = [];
-
         foreach ($fiches as $fiche) {
             $classements = $fiche->getClassements();
-            $principaux = array_filter($classements->toArray(), fn($classement) => (bool) $classement->getPrincipal());
+            $principaux = array_filter($classements->toArray(), fn ($classement) => (bool) $classement->getPrincipal());
             if (0 == \count($principaux)) {
                 $data[] = $fiche;
             }

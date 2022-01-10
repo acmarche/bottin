@@ -14,26 +14,21 @@ class StreetView
     private string $baseUrl;
     private HttpClientInterface $httpClient;
     private string $size;
-    /**
-     * @var ?int
-     */
-    private $heading;
+    private ?int $heading = null;
     private int $fov;
     private int $pitch;
-    private string $key;
 
-    public function __construct(string $apiKeyGoogle)
+    public function __construct(private string $key)
     {
         $this->baseUrl = 'https://maps.googleapis.com/maps/api/streetview';
         $this->httpClient = HttpClient::create();
         $this->size = '1024x768';
         $this->heading = null; //0 => 360 90 =>EST, 180 => SUD
         $this->fov = 90; //zoom 1 => 120
-        $this->pitch = 0; //90 vers le haut, -90 vers le bas
-        $this->key = $apiKeyGoogle;
+        $this->pitch = 0;
     }
 
-    public function getPhoto($latitude, $longitude)
+    public function getPhoto($latitude, $longitude): array|string
     {
         $request = null;
         $query = [

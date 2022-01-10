@@ -12,21 +12,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class DefaultController.
  *
- * @Route("/admin/history")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/history')]
 class HistoryController extends AbstractController
 {
-    private HistoryRepository $historyRepository;
-
-    public function __construct(HistoryRepository $historyRepository)
+    public function __construct(private HistoryRepository $historyRepository)
     {
-        $this->historyRepository = $historyRepository;
     }
 
-    /**
-     * @Route("/fiche/{id}", name="bottin_admin_history_fiche")
-     */
+    #[Route(path: '/fiche/{id}', name: 'bottin_admin_history_fiche')]
     public function fiche(Fiche $fiche): Response
     {
         $histories = $this->historyRepository->findByFiche($fiche);
@@ -40,9 +35,7 @@ class HistoryController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/", name="bottin_admin_history_index")
-     */
+    #[Route(path: '/', name: 'bottin_admin_history_index')]
     public function index(): Response
     {
         $histories = $this->historyRepository->findOrdered();

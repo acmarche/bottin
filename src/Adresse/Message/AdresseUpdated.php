@@ -4,13 +4,8 @@ namespace AcMarche\Bottin\Adresse\Message;
 
 class AdresseUpdated
 {
-    private int $adresseId;
-    private ?string $oldRue;
-
-    public function __construct(int $adresseId, ?string $oldRue)
+    public function __construct(private int $adresseId, private ?string $oldRue)
     {
-        $this->adresseId = $adresseId;
-        $this->oldRue = $oldRue;
     }
 
     public function getAdresseId(): int

@@ -7,11 +7,8 @@ use Behat\Behat\Context\Context;
 
 class DatabaseContext implements Context
 {
-    private FixtureLoader $fixtureLoader;
-
-    public function __construct(FixtureLoader $fixtureLoader)
+    public function __construct(private FixtureLoader $fixtureLoader)
     {
-        $this->fixtureLoader = $fixtureLoader;
     }
 
     /**

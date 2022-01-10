@@ -8,11 +8,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorySerializer
 {
-    private SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     public function serializeCategory(Category $category): array

@@ -11,13 +11,8 @@ use AcMarche\Bottin\Repository\FicheRepository;
 
 class HadesFactory
 {
-    private FicheRepository $ficheRepository;
-    private ClassementRepository $classementRepository;
-
-    public function __construct(FicheRepository $ficheRepository, ClassementRepository $classementRepository)
+    public function __construct(private FicheRepository $ficheRepository, private ClassementRepository $classementRepository)
     {
-        $this->ficheRepository = $ficheRepository;
-        $this->classementRepository = $classementRepository;
     }
 
     public function createFiche(OffreInterface $offre): Fiche

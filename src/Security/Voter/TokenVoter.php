@@ -9,13 +9,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TokenVoter extends Voter
 {
-    private TokenUtils $tokenUtils;
     public const TOKEN_EDIT = 'TOKEN_EDIT';
 
-    public function __construct(
-        TokenUtils $tokenUtils
-    ) {
-        $this->tokenUtils = $tokenUtils;
+    public function __construct(private TokenUtils $tokenUtils)
+    {
     }
 
     protected function supports(string $attribute, $subject): bool

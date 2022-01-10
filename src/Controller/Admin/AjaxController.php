@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Classement\Message\ClassementDeleted;
+use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
@@ -11,57 +11,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Ajax controller.
  *
- * @Route("/admin/ajax")
- * IsGranted("ROLE_BOTTIN_ADMIN")
- *
  * @todo protect
  */
+#[Route(path: '/admin/ajax')]
 class AjaxController extends AbstractController
 {
-    private ClassementRepository $classementRepository;
-    private CategoryRepository $categoryRepository;
-    private PathUtils $pathUtils;
-
-    public function __construct(
-        PathUtils $pathUtils,
-        ClassementRepository $classementRepository,
-        CategoryRepository $categoryRepository
-    ) {
-        $this->classementRepository = $classementRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private CategoryRepository $categoryRepository, private MessageBusInterface $messageBus)
+    {
     }
 
-    /**
-     * @Route("/removeclassment", name="bottin_admin_ajax_remove_classement", methods={"POST"})
-     */
+    #[Route(path: '/removeclassment', name: 'bottin_admin_ajax_remove_classement', methods: ['POST'])]
     public function removeClassement(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
-
         if (!$classement instanceof Classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
 
             return new Response($template);
         }
-
         $fiche = $classement->getFiche();
         $category = $classement->getCategory();
         $this->classementRepository->remove($classement);
         $this->classementRepository->flush();
-
-        $this->dispatchMessage(new ClassementDeleted($fiche->getId(), $classementId, $category->getId()));
-
+        $this->messageBus->dispatch(new ClassementDeleted($fiche->getId(), $classementId, $category->getId()));
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
-
         $template = $this->renderView(
             '@AcMarcheBottin/backend/classement/_list.html.twig',
             ['classements' => $classements]
@@ -70,14 +52,11 @@ class AjaxController extends AbstractController
         return new Response($template);
     }
 
-    /**
-     * @Route("/setprincipalclassement", name="bottin_admin_ajax_principal_classement", methods={"POST"})
-     */
+    #[Route(path: '/setprincipalclassement', name: 'bottin_admin_ajax_principal_classement', methods: ['POST'])]
     public function setPrincipal(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
-
         if (!$classementSelect instanceof Classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
@@ -108,17 +87,13 @@ class AjaxController extends AbstractController
         return new Response($template);
     }
 
-    /**
-     * @Route("/getcategories", name="bottin_admin_ajax_get_categories", methods={"GET"})
-     */
+    #[Route(path: '/getcategories', name: 'bottin_admin_ajax_get_categories', methods: ['GET'])]
     public function ajaxCategories(Request $request): Response
     {
         $keyword = $request->get('q', null);
-
         if (!$keyword) {
             return new Response('Oups pas su obtenir les catégories');
         }
-
         $categories = $this->categoryRepository->search($keyword);
 
         return $this->render(
@@ -129,22 +104,18 @@ class AjaxController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/getcategoriesforexport", name="bottin_admin_ajax_get_categories_for_export", methods={"POST"})
-     */
+    #[Route(path: '/getcategoriesforexport', name: 'bottin_admin_ajax_get_categories_for_export', methods: ['POST'])]
     public function ajaxCategoriesForExport(Request $request): Response
     {
         $jsonResponse = new JsonResponse();
-        $parentId = (int) $request->get('parentId');
-        $level = (int) $request->get('level');
+        $parentId = (int)$request->get('parentId');
+        $level = (int)$request->get('level');
         ++$level;
-
-        if ($parentId === 0) {
+        if (0 === $parentId) {
             $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
 
             return $jsonResponse;
         }
-
         $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
 
         return $this->render(
@@ -156,9 +127,7 @@ class AjaxController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/fetch/{query}", name="bottin_admin_fetch")
-     */
+    #[Route(path: '/fetch/{query}', name: 'bottin_admin_fetch')]
     public function fetchCategorie(?string $query = null): JsonResponse
     {
         $data = [];
@@ -174,12 +143,10 @@ class AjaxController extends AbstractController
         return new JsonResponse($data);
     }
 
-    /**
-     * @Route("/getcategory", name="bottin_ajax_fetch_category")
-     */
+    #[Route(path: '/getcategory', name: 'bottin_ajax_fetch_category')]
     public function fetchCategory(Request $request): Response
     {
-        $categoryId = (int) $request->get('id');
+        $categoryId = (int)$request->get('id');
         $category = $this->categoryRepository->find($categoryId);
 
         return new Response($category->getName());

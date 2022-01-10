@@ -7,11 +7,8 @@ use AcMarche\Bottin\Hades\Entity\OffreInterface;
 
 class HadesImport
 {
-    private HadesFactory $hadesFactory;
-
-    public function __construct(HadesFactory $hadesFactory)
+    public function __construct(private HadesFactory $hadesFactory)
     {
-        $this->hadesFactory = $hadesFactory;
     }
 
     public function treatment(OffreInterface $offre, Category $category): void

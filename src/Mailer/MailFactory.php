@@ -2,26 +2,19 @@
 
 namespace AcMarche\Bottin\Mailer;
 
-use Exception;
 use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mime\Address;
 
 class MailFactory
 {
-    private FicheUtils $ficheUtils;
-    private ClassementHandler $classementHandler;
-    private PdfFactory $pdfFactory;
-
-    public function __construct(FicheUtils $ficheUtils, ClassementHandler $classementHandler, PdfFactory $pdfFactory)
+    public function __construct(private FicheUtils $ficheUtils, private ClassementHandler $classementHandler, private PdfFactory $pdfFactory)
     {
-        $this->ficheUtils = $ficheUtils;
-        $this->classementHandler = $classementHandler;
-        $this->pdfFactory = $pdfFactory;
     }
 
     public function mailMessageToFiche(?string $to, string $subject, string $body, Fiche $fiche): TemplatedEmail
@@ -29,13 +22,13 @@ class MailFactory
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
 
-        if ($classements !== []) {
+        if ([] !== $classements) {
             $fiche->root = $this->classementHandler->getRoot($classements[0]);
             $from = Bottin::EMAILS[$fiche->root];
         }
 
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-        $email = $emails !== [] ? $emails[0] : 'webmaster@marche.be';
+        $email = [] !== $emails ? $emails[0] : 'webmaster@marche.be';
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
@@ -62,7 +55,7 @@ class MailFactory
         return $templatedEmail;
     }
 
-    public function mailContact(string $nom, string $from, string $message): self
+    public function mailContact(string $nom, string $from, string $message): TemplatedEmail
     {
         return (new TemplatedEmail())
             ->subject('Contact depuis bottin marche')

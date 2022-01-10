@@ -13,12 +13,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SearchCommand extends Command
 {
     protected static $defaultName = 'bottin:search';
-    private SearchEngineInterface $searchEngine;
 
-    public function __construct(SearchEngineInterface $searchEngine, string $name = null)
+    public function __construct(private SearchEngineInterface $searchEngine, string $name = null)
     {
         parent::__construct($name);
-        $this->searchEngine = $searchEngine;
     }
 
     protected function configure(): void

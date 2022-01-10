@@ -8,14 +8,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class FileUtils
 {
-    private FileLocator $fileLocator;
-
-    public function __construct(FileLocator $fileLocator)
+    public function __construct(private FileLocator $fileLocator)
     {
-        $this->fileLocator = $fileLocator;
     }
 
-    public function getFilePath(string $fileName): string
+    public function getFilePath(string $fileName): array|string
     {
         return $this->fileLocator->locate(
             '@AcMarcheBottinBundle'.\DIRECTORY_SEPARATOR.'config'.\DIRECTORY_SEPARATOR.'elastic'.\DIRECTORY_SEPARATOR.$fileName

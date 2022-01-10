@@ -18,19 +18,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 class CategoryService
 {
-    private CategoryRepository $categoryRepository;
     private array $data = [];
-    private ClassementRepository $classementRepository;
-    private PathUtils $pathUtils;
 
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        ClassementRepository $classementRepository,
-        PathUtils $pathUtils
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->classementRepository = $classementRepository;
-        $this->pathUtils = $pathUtils;
+    public function __construct(private CategoryRepository $categoryRepository, private ClassementRepository $classementRepository, private PathUtils $pathUtils)
+    {
     }
 
     /**

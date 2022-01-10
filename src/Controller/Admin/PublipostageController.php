@@ -2,13 +2,13 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,34 +20,16 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Publipostage controller.
  *
- * @Route("/admin/publipostage")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/publipostage')]
 class PublipostageController extends AbstractController
 {
-    private MailerInterface $mailer;
-    private ExportUtils $exportUtils;
-    private MailFactory $mailFactory;
-    private FicheUtils $ficheUtils;
-    private PdfFactory $pdfFactory;
-
-    public function __construct(
-        MailerInterface $mailer,
-        MailFactory $mailFactory,
-        ExportUtils $exportUtils,
-        FicheUtils $ficheUtils,
-        PdfFactory $pdfFactory
-    ) {
-        $this->mailer = $mailer;
-        $this->exportUtils = $exportUtils;
-        $this->mailFactory = $mailFactory;
-        $this->ficheUtils = $ficheUtils;
-        $this->pdfFactory = $pdfFactory;
+    public function __construct(private MailerInterface $mailer, private MailFactory $mailFactory, private ExportUtils $exportUtils, private FicheUtils $ficheUtils, private PdfFactory $pdfFactory)
+    {
     }
 
-    /**
-     * @Route("/", name="bottin_admin_publipostage_index", methods={"GET"})
-     */
+    #[Route(path: '/', name: 'bottin_admin_publipostage_index', methods: ['GET'])]
     public function index(): Response
     {
         $user = $this->getUser();
@@ -61,28 +43,24 @@ class PublipostageController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/mail", name="bottin_admin_publipostage_mail_all", methods={"GET", "POST"})
-     * @Route("/mail/{id}", name="bottin_admin_publipostage_mail_fiche", methods={"GET", "POST"})
-     */
+    #[Route(path: '/mail', name: 'bottin_admin_publipostage_mail_all', methods: ['GET', 'POST'])]
+    #[Route(path: '/mail/{id}', name: 'bottin_admin_publipostage_mail_fiche', methods: ['GET', 'POST'])]
     public function byMail(Request $request, Fiche $fiche = null): Response
     {
         $user = $this->getUser();
         $to = null;
-        if ($fiche !== null) {
+        if (null !== $fiche) {
             $fiches = [$fiche];
             $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
-            $to = $emails !== [] ? $emails[0] : 'webmaster@marche.be';
+            $to = [] !== $emails ? $emails[0] : 'webmaster@marche.be';
         } else {
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
-
         $form = $this->createForm(MessageType::class, [
             'from' => $this->getParameter('bottin.email_from'),
             'to' => $to,
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
@@ -106,7 +84,6 @@ class PublipostageController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_publipostage_index');
         }
-
         $noEmails = [];
         foreach ($fiches as $fiche) {
             if (0 == \count($this->ficheUtils->extractEmailsFromFiche($fiche))) {
@@ -124,23 +101,18 @@ class PublipostageController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/paper", name="bottin_admin_publipostage_paper_all", methods={"GET", "POST"})
-     * @Route("/paper/{id}", name="bottin_admin_publipostage_paper_fiche", methods={"GET", "POST"})
-     */
+    #[Route(path: '/paper', name: 'bottin_admin_publipostage_paper_all', methods: ['GET', 'POST'])]
+    #[Route(path: '/paper/{id}', name: 'bottin_admin_publipostage_paper_fiche', methods: ['GET', 'POST'])]
     public function byPaper(Fiche $fiche = null): PdfResponse
     {
-        if ($fiche !== null) {
+        if (null !== $fiche) {
             $fiches = [$fiche];
         } else {
             $user = $this->getUser();
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
-
         $html = $this->pdfFactory->fichesPublipostage($fiches);
-
         //return new Response($html);
-
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
 }

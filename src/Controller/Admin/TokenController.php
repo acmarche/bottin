@@ -7,6 +7,7 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Token\TokenUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,32 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class TokenController.
  *
- * @Route("/admin/token")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/token')]
 class TokenController extends AbstractController
 {
-    private TokenUtils $tokenUtils;
-    private FicheRepository $ficheRepository;
-
-    public function __construct(
-        TokenUtils $tokenUtils,
-        FicheRepository $ficheRepository
-    ) {
-        $this->tokenUtils = $tokenUtils;
-        $this->ficheRepository = $ficheRepository;
+    public function __construct(private TokenUtils $tokenUtils, private FicheRepository $ficheRepository)
+    {
     }
 
-    /**
-     * @Route("/generate/all", name="bottin_admin_token_generate_for_all", methods={"GET", "POST"})
-     */
+    #[Route(path: '/generate/all', name: 'bottin_admin_token_generate_for_all', methods: ['GET', 'POST'])]
     public function generateAll(Request $request): Response
     {
         $form = $this->createFormBuilder()->getForm();
-
         $fiches = $this->ficheRepository->findAllWithJoins();
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->tokenUtils->generateForAll();
             $this->addFlash('success', 'Tokens générés');
@@ -56,10 +46,8 @@ class TokenController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/generate/one/{id}", name="bottin_admin_token_generate_for_one")
-     */
-    public function generateOne(Fiche $fiche): Response
+    #[Route(path: '/generate/one/{id}', name: 'bottin_admin_token_generate_for_one')]
+    public function generateOne(Fiche $fiche): RedirectResponse
     {
         $this->tokenUtils->generateForOneFiche($fiche, true);
         $this->addFlash('success', 'Token généré');

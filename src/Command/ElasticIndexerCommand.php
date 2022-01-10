@@ -15,9 +15,6 @@ class ElasticIndexerCommand extends Command
     protected static $defaultName = 'bottin:indexer';
 
     private ?SymfonyStyle $io = null;
-    private ElasticIndexer $elasticIndexer;
-    private FicheRepository $ficheRepository;
-    private CategoryRepository $categoryRepository;
 
     protected function configure(): void
     {
@@ -26,15 +23,12 @@ class ElasticIndexerCommand extends Command
     }
 
     public function __construct(
-        string $name = null,
-        ElasticIndexer $elasticIndexer,
-        FicheRepository $ficheRepository,
-        CategoryRepository $categoryRepository
+        private ElasticIndexer $elasticIndexer,
+        private FicheRepository $ficheRepository,
+        private CategoryRepository $categoryRepository,
+        string $name = null
     ) {
         parent::__construct($name);
-        $this->elasticIndexer = $elasticIndexer;
-        $this->ficheRepository = $ficheRepository;
-        $this->categoryRepository = $categoryRepository;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

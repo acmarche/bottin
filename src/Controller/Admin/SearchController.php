@@ -14,41 +14,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    private AggregationUtils $aggregationUtils;
-    private SuggestUtils $suggestUtils;
-    private SearchEngineInterface $searchEngine;
-
-    public function __construct(
-        SearchEngineInterface $searchEngine,
-        AggregationUtils $aggregationUtils,
-        SuggestUtils $suggestUtils
-    ) {
-        $this->aggregationUtils = $aggregationUtils;
-        $this->suggestUtils = $suggestUtils;
-        $this->searchEngine = $searchEngine;
+    public function __construct(private SearchEngineInterface $searchEngine, private AggregationUtils $aggregationUtils, private SuggestUtils $suggestUtils)
+    {
     }
 
-    /**
-     * @Route("/searchadvanced", name="bottin_admin_fiche_search_advanced", methods={"GET"})
-     * @Route("/searchadvanced/{keyword}", name="bottin_admin_fiche_search", methods={"GET"})
-     */
+    #[Route(path: '/searchadvanced', name: 'bottin_admin_fiche_search_advanced', methods: ['GET'])]
+    #[Route(path: '/searchadvanced/{keyword}', name: 'bottin_admin_fiche_search', methods: ['GET'])]
     public function ficher(Request $request, ?string $keyword): Response
     {
         $session = $request->getSession();
         $args = $hits = $suggest = $aggregations = $pmr = $centreville = $midi = [];
         $count = 0;
-
         if ($session->has('fiche_search')) {
             $args = json_decode($session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
         }
-
         if ($keyword) {
             $args['nom'] = $keyword;
         }
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
             $session->set('fiche_search', json_encode($args, JSON_THROW_ON_ERROR));

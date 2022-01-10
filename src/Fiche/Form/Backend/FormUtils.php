@@ -8,25 +8,19 @@ use Symfony\Component\Form\FormInterface;
 
 class FormUtils
 {
-    private FormFactoryInterface $formFactory;
-
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(private FormFactoryInterface $formFactory)
     {
-        $this->formFactory = $formFactory;
     }
 
     public function createFormByEtape(Fiche $fiche): FormInterface
     {
         $etape = $fiche->getEtape();
-        switch ($etape) {
-            case 2:
-                return $this->formFactory->create(FicheContactType::class, $fiche);
-            case 3:
-                return $this->formFactory->create(FicheSociauxType::class, $fiche);
-            case 4:
-                return $this->formFactory->create(FicheComplementType::class, $fiche);
-            default:
-                return $this->formFactory->create(FicheActiviteType::class, $fiche);
-        }
+
+        return match ($etape) {
+            2 => $this->formFactory->create(FicheContactType::class, $fiche),
+            3 => $this->formFactory->create(FicheSociauxType::class, $fiche),
+            4 => $this->formFactory->create(FicheComplementType::class, $fiche),
+            default => $this->formFactory->create(FicheActiviteType::class, $fiche),
+        };
     }
 }

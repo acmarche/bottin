@@ -45,17 +45,18 @@ class History implements TimestampableInterface
     protected ?string $new_value = null;
 
     public function __construct(
-        ?Fiche $fiche,
+        ?Fiche  $fiche,
         ?string $made_by,
         ?string $property,
         ?string $old_value,
         ?string $new_value
-    ) {
+    )
+    {
         $this->fiche = $fiche;
-        $this->old_value = substr($old_value, 0, 250);
-        $this->new_value = substr($new_value, 0, 250);
         $this->property = $property;
         $this->made_by = $made_by;
+        $this->old_value = substr($old_value, 0, 250);
+        $this->new_value = substr($new_value, 0, 250);
     }
 
     public function getMadeBy(): ?string

@@ -19,21 +19,15 @@ class SyncFtlbCommand extends Command
      * @var string
      */
     protected static $defaultName = 'bottin:syncftlb';
-    private HadesRepository $hadesRepository;
-    private CategoryRepository $categoryRepository;
     private ?SymfonyStyle $symfonyStyle = null;
-    private Hades $hades;
 
     public function __construct(
-        Hades $hades,
-        HadesRepository $hadesRepository,
-        CategoryRepository $categoryRepository,
+        private Hades $hades,
+        private HadesRepository $hadesRepository,
+        private CategoryRepository $categoryRepository,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->hadesRepository = $hadesRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->hades = $hades;
     }
 
     protected function configure(): void

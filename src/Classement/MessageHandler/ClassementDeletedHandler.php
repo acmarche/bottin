@@ -6,26 +6,17 @@ use AcMarche\Bottin\Classement\Message\ClassementDeleted;
 use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class ClassementDeletedHandler implements MessageHandlerInterface
 {
-    private HistoryUtils $historyUtils;
     private FlashBagInterface $flashBag;
-    private CategoryRepository $categoryRepository;
-    private FicheRepository $ficheRepository;
 
-    public function __construct(
-        HistoryUtils $historyUtils,
-        FlashBagInterface $flashBag,
-        CategoryRepository $categoryRepository,
-        FicheRepository $ficheRepository
-    ) {
-        $this->historyUtils = $historyUtils;
-        $this->flashBag = $flashBag;
-        $this->categoryRepository = $categoryRepository;
-        $this->ficheRepository = $ficheRepository;
+    public function __construct(private HistoryUtils $historyUtils, RequestStack $requestStack, private CategoryRepository $categoryRepository, private FicheRepository $ficheRepository)
+    {
+        $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 
     public function __invoke(ClassementDeleted $classementDeleted): void

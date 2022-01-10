@@ -13,20 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    private CategoryRepository $categoryRepository;
-    private TokenRepository $tokenRepository;
-
-    public function __construct(
-        CategoryRepository $categoryRepository,
-        TokenRepository $tokenRepository
-    ) {
-        $this->categoryRepository = $categoryRepository;
-        $this->tokenRepository = $tokenRepository;
+    public function __construct(private CategoryRepository $categoryRepository, private TokenRepository $tokenRepository)
+    {
     }
 
-    /**
-     * @Route("/", name="bottin_front_home")
-     */
+    #[Route(path: '/', name: 'bottin_front_home')]
     public function index(): Response
     {
         $categories = $this->categoryRepository->getRootNodes();
@@ -43,14 +34,12 @@ class DefaultController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/updateFiche", name="bottin_backend_password", methods={"GET", "POST"})
-     */
+    #[Route(path: '/updateFiche', name: 'bottin_backend_password', methods: ['GET', 'POST'])]
     public function tokenPassword(Request $request): Response
     {
+        $this->addFlash();
         $form = $this->createForm(TokenPasswordType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->get('password')->getData();
             if (($token = $this->tokenRepository->findOneByPassword($data)) !== null) {

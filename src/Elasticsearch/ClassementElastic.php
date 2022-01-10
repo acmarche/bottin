@@ -8,13 +8,8 @@ use AcMarche\Bottin\Serializer\ClassementSerializer;
 
 class ClassementElastic
 {
-    private ClassementRepository $classementRepository;
-    private ClassementSerializer $classementSerializer;
-
-    public function __construct(ClassementRepository $classementRepository, ClassementSerializer $classementSerializer)
+    public function __construct(private ClassementRepository $classementRepository, private ClassementSerializer $classementSerializer)
     {
-        $this->classementRepository = $classementRepository;
-        $this->classementSerializer = $classementSerializer;
     }
 
     /**

@@ -19,31 +19,22 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 /**
  * Image controller.
  *
- * @Route("/admin/image")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/image')]
 class ImageController extends AbstractController
 {
-    private UploadHandler $uploadHandler;
-    private ImageRepository $imageRepository;
-
-    public function __construct(
-        ImageRepository $imageRepository,
-        UploadHandler $uploadHandler
-    ) {
-        $this->uploadHandler = $uploadHandler;
-        $this->imageRepository = $imageRepository;
+    public function __construct(private ImageRepository $imageRepository, private UploadHandler $uploadHandler)
+    {
     }
 
     /**
      * Displays a form to create a new Image entity.
-     *
-     * @Route("/new/{id}", name="bottin_admin_image_new", methods={"GET", "POST"})
      */
+    #[Route(path: '/new/{id}', name: 'bottin_admin_image_new', methods: ['GET', 'POST'])]
     public function new(Fiche $fiche): Response
     {
         $ficheImage = new FicheImage($fiche);
-
         $form = $this->createForm(
             FicheImageType::class,
             $ficheImage,
@@ -61,9 +52,7 @@ class ImageController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/upload/{id}", name="bottin_admin_image_upload")
-     */
+    #[Route(path: '/upload/{id}', name: 'bottin_admin_image_upload')]
     public function upload(Request $request, Fiche $fiche): Response
     {
         $ficheImage = new FicheImage($fiche);
@@ -71,12 +60,10 @@ class ImageController extends AbstractController
          * @var UploadedFile $file
          */
         $file = $request->files->get('file');
-
         $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
         $ficheImage->setMime($file->getMimeType());
         $ficheImage->setImageName($file->getClientOriginalName());
         $ficheImage->setImage($file);
-
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
         } catch (Exception $exception) {
@@ -85,7 +72,6 @@ class ImageController extends AbstractController
                 ['error' => $exception->getMessage()]
             );
         }
-
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
 
@@ -94,9 +80,8 @@ class ImageController extends AbstractController
 
     /**
      * Finds and displays a Image entity.
-     *
-     * @Route("/{id}", name="bottin_admin_image_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_image_show', methods: ['GET'])]
     public function show(FicheImage $ficheImage): Response
     {
         return $this->render(
@@ -108,9 +93,7 @@ class ImageController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_image_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_image_delete', methods: ['POST'])]
     public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {
         $fiche = $ficheImage->getFiche();

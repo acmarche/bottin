@@ -15,23 +15,19 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Pdv controller.
  *
- * @Route("/admin/pdv")
  * @IsGranted("ROLE_BOTTIN_ADMIN")
  */
+#[Route(path: '/admin/pdv')]
 class PdvController extends AbstractController
 {
-    private PdvRepository $pdvRepository;
-
-    public function __construct(PdvRepository $pdvRepository)
+    public function __construct(private PdvRepository $pdvRepository)
     {
-        $this->pdvRepository = $pdvRepository;
     }
 
     /**
      * Lists all Pdv entities.
-     *
-     * @Route("/", name="bottin_admin_pdv", methods={"GET"})
      */
+    #[Route(path: '/', name: 'bottin_admin_pdv', methods: ['GET'])]
     public function index(): Response
     {
         $pdvs = $this->pdvRepository->findAll();
@@ -46,17 +42,13 @@ class PdvController extends AbstractController
 
     /**
      * Displays a form to create a new Pdv entity.
-     *
-     * @Route("/new", name="bottin_admin_pdv_new", methods={"GET", "POST"})
      */
+    #[Route(path: '/new', name: 'bottin_admin_pdv_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $pdv = new Pdv();
-
         $form = $this->createForm(PdvType::class, $pdv);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->pdvRepository->persist($pdv);
             $this->pdvRepository->flush();
@@ -77,9 +69,8 @@ class PdvController extends AbstractController
 
     /**
      * Finds and displays a Pdv entity.
-     *
-     * @Route("/{id}", name="bottin_admin_pdv_show", methods={"GET"})
      */
+    #[Route(path: '/{id}', name: 'bottin_admin_pdv_show', methods: ['GET'])]
     public function show(Pdv $pdv): Response
     {
         $fiches = $pdv->getFiches();
@@ -95,15 +86,12 @@ class PdvController extends AbstractController
 
     /**
      * Displays a form to edit an existing Pdv entity.
-     *
-     * @Route("/{id}/edit", name="bottin_admin_pdv_edit", methods={"GET", "POST"})
      */
+    #[Route(path: '/{id}/edit', name: 'bottin_admin_pdv_edit', methods: ['GET', 'POST'])]
     public function edit(Pdv $pdv, Request $request): Response
     {
         $editForm = $this->createForm(PdvType::class, $pdv);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->pdvRepository->flush();
             $this->addFlash('success', 'Le point de vente a bien été modifié');
@@ -120,9 +108,7 @@ class PdvController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/{id}", name="bottin_admin_pdv_delete", methods={"POST"})
-     */
+    #[Route(path: '/{id}', name: 'bottin_admin_pdv_delete', methods: ['POST'])]
     public function delete(Request $request, Pdv $pdv): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$pdv->getId(), $request->request->get('_token'))) {

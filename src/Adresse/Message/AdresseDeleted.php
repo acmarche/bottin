@@ -4,11 +4,8 @@ namespace AcMarche\Bottin\Adresse\Message;
 
 final class AdresseDeleted
 {
-    private int $adresseId;
-
-    public function __construct(int $adresseId)
+    public function __construct(private int $adresseId)
     {
-        $this->adresseId = $adresseId;
     }
 
     public function getAdresseId(): int

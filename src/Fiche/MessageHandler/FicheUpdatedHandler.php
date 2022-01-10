@@ -8,26 +8,17 @@ use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class FicheUpdatedHandler implements MessageHandlerInterface
 {
-    private FicheRepository $ficheRepository;
     private FlashBagInterface $flashBag;
-    private LocationUpdater $locationUpdater;
-    private ElasticIndexer $elasticIndexer;
 
-    public function __construct(
-        FicheRepository $ficheRepository,
-        LocationUpdater $locationUpdater,
-        ElasticIndexer $elasticIndexer,
-        FlashBagInterface $flashBag
-    ) {
-        $this->ficheRepository = $ficheRepository;
-        $this->flashBag = $flashBag;
-        $this->locationUpdater = $locationUpdater;
-        $this->elasticIndexer = $elasticIndexer;
+    public function __construct(private FicheRepository $ficheRepository, private LocationUpdater $locationUpdater, private ElasticIndexer $elasticIndexer, private RequestStack $requestStack)
+    {
+        $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 
     public function __invoke(FicheUpdated $ficheUpdated): void

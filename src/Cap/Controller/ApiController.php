@@ -24,45 +24,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
-    private CategoryService $categoryService;
-    private FicheRepository $ficheRepository;
-    private CategoryRepository $categoryRepository;
-    private ApiUtils $apiUtils;
-    private DemandeHandler $demandeHandler;
-    private SearchEngineInterface $searchEngine;
-    private ClassementRepository $classementRepository;
-    private LoggerInterface $logger;
-
-    public function __construct(
-        ApiUtils $apiUtils,
-        DemandeHandler $demandeHandler,
-        CategoryService $categoryService,
-        CategoryRepository $categoryRepository,
-        FicheRepository $ficheRepository,
-        SearchEngineInterface $searchEngine,
-        ClassementRepository $classementRepository,
-        LoggerInterface $logger
-    ) {
-        $this->categoryService = $categoryService;
-        $this->ficheRepository = $ficheRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->apiUtils = $apiUtils;
-        $this->demandeHandler = $demandeHandler;
-        $this->searchEngine = $searchEngine;
-        $this->classementRepository = $classementRepository;
-        $this->logger = $logger;
+    public function __construct(private ApiUtils $apiUtils, private DemandeHandler $demandeHandler, private CategoryService $categoryService, private CategoryRepository $categoryRepository, private FicheRepository $ficheRepository, private SearchEngineInterface $searchEngine, private ClassementRepository $classementRepository, private LoggerInterface $logger)
+    {
     }
 
     /**
      * Fiches par categorie.
-     *
-     * @Route("/bottin/fiches/category/{id}", name="bottin_admin_api_fiche_by_category", methods={"GET"})
      */
+    #[Route(path: '/bottin/fiches/category/{id}', name: 'bottin_admin_api_fiche_by_category', methods: ['GET'])]
     public function fichesByCategory(Category $category): JsonResponse
     {
         $data = [];
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
-
         foreach ($fiches as $fiche) {
             $data[] = $this->apiUtils->prepareFiche($fiche);
         }
@@ -72,9 +45,8 @@ class ApiController extends AbstractController
 
     /**
      * Toutes les rubriques de commerces.
-     *
-     * @Route("/bottin/commerces", name="bottin_admin_api_commerces", methods={"GET"})
      */
+    #[Route(path: '/bottin/commerces', name: 'bottin_admin_api_commerces', methods: ['GET'])]
     public function commerce(): JsonResponse
     {
         $data = $this->apiUtils->prepareCategories($this->categoryRepository->getRubriquesShopping());
@@ -84,37 +56,31 @@ class ApiController extends AbstractController
 
     /**
      * Toutes les fiches des commerces.
-     *
-     * @Route("/bottin/fiches", name="bottin_admin_api_fiches_commerces", methods={"GET"})
      */
+    #[Route(path: '/bottin/fiches', name: 'bottin_admin_api_fiches_commerces', methods: ['GET'])]
     public function fiches(): JsonResponse
     {
         $fiches = array_merge(
             $this->categoryService->getFichesByCategoryId(Cap::idEco),
             $this->categoryService->getFichesByCategoryId(Cap::idPharmacies)
         );
-
         $data = [];
         foreach ($fiches as $fiche) {
             $data[] = $this->apiUtils->prepareFiche($fiche);
         }
-
         /*     $parsedQuestionText = $cache->get('markdown_'.md5($questionText), function() use ($questionText, $markdownParser) {
-                 return $markdownParser->transformMarkdown($questionText);
-             });*/
-
+                   return $markdownParser->transformMarkdown($questionText);
+               });*/
         return $this->json($data);
     }
 
     /**
      * Toutes les fiches pour android.
-     *
-     * @Route("/bottin/fichesandroid", name="bottin_admin_api_fiches_all", methods={"GET"})
      */
+    #[Route(path: '/bottin/fichesandroid', name: 'bottin_admin_api_fiches_all', methods: ['GET'])]
     public function fichesAndroid(): JsonResponse
     {
         $fiches = $this->ficheRepository->findAll();
-
         $data = [];
         foreach ($fiches as $fiche) {
             $data[] = $this->apiUtils->prepareFicheAndroid($fiche);
@@ -126,10 +92,9 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @Route("/bottin/fichebyid/{id}", name="bottin_admin_api_fiche_by_id", methods={"GET"})
-     *
      * @param Fiche $fiche
      */
+    #[Route(path: '/bottin/fichebyid/{id}', name: 'bottin_admin_api_fiche_by_id', methods: ['GET'])]
     public function ficheById(int $id): JsonResponse
     {
         $fiche = $this->ficheRepository->find($id);
@@ -143,14 +108,12 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @Route("/bottin/fichebyids", name="bottin_admin_api_fiche_by_ids", methods={"POST"})
-     *
      * @param Fiche $fiche
      */
+    #[Route(path: '/bottin/fichebyids', name: 'bottin_admin_api_fiche_by_ids', methods: ['POST'])]
     public function ficheByIds(Request $request): JsonResponse
     {
         $ids = json_decode($request->request->get('ids'), true, 512, JSON_THROW_ON_ERROR);
-
         $fiches = $this->ficheRepository->findByIds($ids);
         $data = [];
         foreach ($fiches as $fiche) {
@@ -163,11 +126,11 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     * @Route("/bottin/fichebyslugname/{slugname}", name="bottin_admin_api_fiche_by_slugname", methods={"GET"})
      * @ParamConverter("fiche", options={"mapping"={"slugname"="slug"}})
      *
      * @param Fiche $fiche
      */
+    #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
     public function ficheBySlug(string $slugname): JsonResponse
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
@@ -178,14 +141,11 @@ class ApiController extends AbstractController
         return $this->json($this->apiUtils->prepareFiche($fiche));
     }
 
-    /**
-     * @Route("/updatefiche", name="bottin_admin_api_update_fiche", methods={"POST"})
-     */
+    #[Route(path: '/updatefiche', name: 'bottin_admin_api_update_fiche', methods: ['POST'])]
     public function updatefiche(Request $request): JsonResponse
     {
         $data = $request->request->all();
         $result = $this->demandeHandler->handle($data);
-
         $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
 
         return $this->json($result);
@@ -193,9 +153,8 @@ class ApiController extends AbstractController
 
     /**
      * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
-     *
-     * @Route("/bottin/search", name="bottin_admin_api_search", methods={"POST"})
      */
+    #[Route(path: '/bottin/search', name: 'bottin_admin_api_search', methods: ['POST'])]
     public function search(Request $request): JsonResponse
     {
         $keyword = $request->request->get('keyword');
@@ -209,9 +168,8 @@ class ApiController extends AbstractController
 
     /**
      * Toutes les classements pour android.
-     *
-     * @Route("/bottin/classements", name="bottin_admin_api_classements", methods={"GET"})
      */
+    #[Route(path: '/bottin/classements', name: 'bottin_admin_api_classements', methods: ['GET'])]
     public function classements(): JsonResponse
     {
         $classements = $this->classementRepository->findAll();
@@ -225,9 +183,8 @@ class ApiController extends AbstractController
 
     /**
      * Toutes les categories pour android.
-     *
-     * @Route("/bottin/categories", name="bottin_admin_api_categories", methods={"GET"})
      */
+    #[Route(path: '/bottin/categories', name: 'bottin_admin_api_categories', methods: ['GET'])]
     public function categories(): JsonResponse
     {
         $categories = $this->categoryRepository->findAll();

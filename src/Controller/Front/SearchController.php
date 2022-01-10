@@ -2,10 +2,10 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use Exception;
 use AcMarche\Bottin\Form\Search\SearchSimpleType;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,26 +13,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    private SearchEngineInterface $searchEngine;
-
-    public function __construct(
-        SearchEngineInterface $searchEngine
-    ) {
-        $this->searchEngine = $searchEngine;
+    public function __construct(private SearchEngineInterface $searchEngine)
+    {
     }
 
-    /**
-     * @Route("/search", name="bottin_front_search")
-     */
+    #[Route(path: '/search', name: 'bottin_front_search')]
     public function search(Request $request): Response
     {
         $hits = [];
         $keyword = null;
         $count = 0;
         $form = $this->createForm(SearchSimpleType::class, [], ['method' => 'GET']);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
             $keyword = $args['nom'];
@@ -57,9 +49,7 @@ class SearchController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/search/form", name="bottin_front_search_form")
-     */
+    #[Route(path: '/search/form', name: 'bottin_front_search_form')]
     public function searchForm(): Response
     {
         $form = $this->createForm(
@@ -79,14 +69,11 @@ class SearchController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/search/ajax2", name="bottin_front_search_ajax2")
-     */
+    #[Route(path: '/search/ajax2', name: 'bottin_front_search_ajax2')]
     public function searchAjax2(Request $request): Response
     {
         $hits = [];
         $q = $request->query->get('q');
-
         try {
             $response = $this->searchEngine->doSearch($q);
             $hits = $response->getResults();
@@ -103,14 +90,11 @@ class SearchController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/search/ajax", name="bottin_front_search_ajax")
-     */
+    #[Route(path: '/search/ajax', name: 'bottin_front_search_ajax')]
     public function searchAjax(Request $request): Response
     {
         $hits = [];
         $q = $request->query->get('q');
-
         try {
             $response = $this->searchEngine->doSearch($q);
             $hits = $response->getResults();

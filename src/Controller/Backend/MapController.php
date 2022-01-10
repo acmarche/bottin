@@ -13,29 +13,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Map controller.
- *
- * @Route("/backend/map")
  */
+#[Route(path: '/backend/map')]
 class MapController extends AbstractController
 {
-    private FicheRepository $ficheRepository;
-
-    public function __construct(FicheRepository $ficheRepository)
+    public function __construct(private FicheRepository $ficheRepository)
     {
-        $this->ficheRepository = $ficheRepository;
     }
 
     /**
-     * @Route("/{uuid}/edit", name="bottin_backend_map_edit", methods={"GET", "POST"})
      * @IsGranted("TOKEN_EDIT", subject="token")
      */
+    #[Route(path: '/{uuid}/edit', name: 'bottin_backend_map_edit', methods: ['GET', 'POST'])]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();
         $form = $this->createForm(LocalisationType::class, $fiche);
-
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La localisation a bien été modifiée');

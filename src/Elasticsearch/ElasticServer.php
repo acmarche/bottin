@@ -15,12 +15,10 @@ class ElasticServer
     use ElasticClientTrait;
 
     public const INDEX_NAME = 'bottin';
-    private FileUtils $fileUtils;
 
-    public function __construct(string $elasticIndexName, FileUtils $fileUtils)
+    public function __construct(string $elasticIndexName, private FileUtils $fileUtils)
     {
         $this->connect($elasticIndexName);
-        $this->fileUtils = $fileUtils;
     }
 
     public function createIndex(): void

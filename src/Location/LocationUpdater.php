@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Location;
 
 use Exception;
+use JsonException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -10,11 +11,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class LocationUpdater
 {
-    private LocationInterface $location;
-
-    public function __construct(LocationInterface $location)
+    public function __construct(private LocationInterface $location)
     {
-        $this->location = $location;
     }
 
     public function convertAddressToCoordinates(LocationAbleInterface $locationAble): bool
@@ -35,14 +33,14 @@ class LocationUpdater
                 throw new Exception('Decode json error:'.$response);
             }
 
-            if (\is_array($tab) && \count($tab) > 0) {
+            if (\is_array($tab) && [] !== $tab) {
                 $this->setCoordinates($locationAble, $tab);
 
                 return true;
             } else {
                 throw new Exception('Convertion en latitude longitude error:'.$response);
             }
-        } catch (\JsonException | ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
+        } catch (JsonException | ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
             throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }

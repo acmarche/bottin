@@ -16,11 +16,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 class HoraireService
 {
     public ArrayCollection $horaires;
-    private HoraireRepository $horaireRepository;
 
-    public function __construct(HoraireRepository $horaireRepository)
+    public function __construct(private HoraireRepository $horaireRepository)
     {
-        $this->horaireRepository = $horaireRepository;
     }
 
     public function getAllDays(): array

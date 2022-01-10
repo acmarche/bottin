@@ -8,32 +8,29 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Stringable;
 
 /**
  * @ORM\Entity(repositoryClass="AcMarche\Bottin\Repository\DemandeRepository")
  * @ORM\Table(name="demande")
  */
-class Demande implements TimestampableInterface
+class Demande implements TimestampableInterface, Stringable
 {
     use TimestampableTrait;
     use IdTrait;
-
     /**
      * @ORM\ManyToOne(targetEntity="Fiche", inversedBy="demandes")
      * @ORM\JoinColumn(nullable=false))
      */
     protected ?Fiche $fiche = null;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $traiter_by = null;
-
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
      */
     protected bool $traiter = false;
-
     /**
      * @var DemandeMeta[]|ArrayCollection|iterable
      * @ORM\OneToMany(targetEntity="AcMarche\Bottin\Entity\DemandeMeta", mappedBy="demande", cascade={"persist", "remove"})
