@@ -37,6 +37,9 @@ class FicheSerializer
         return $this->serializer->serialize($fiche, 'json', ['groups' => 'group1']);
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function serializeFiche(Fiche $fiche): array
     {
         $data = json_decode($this->serializeBaseFiche($fiche), true, 512, JSON_THROW_ON_ERROR);

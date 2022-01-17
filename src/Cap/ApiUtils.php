@@ -76,7 +76,7 @@ class ApiUtils
         $dataFiche['images'] = $this->getImages($fiche);
         $urls = [];
         foreach ($dataFiche['images'] as $image) {
-            $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
         }
         $logo = null;
         if ([] !== $urls) {
@@ -90,17 +90,22 @@ class ApiUtils
 
     public function prepareFicheAndroid(Fiche $fiche): array
     {
-        $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
-        $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
-        $dataFiche['images'] = $this->getImages($fiche);
-        $urls = [];
-        foreach ($dataFiche['images'] as $image) {
-            $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
-        }
-        $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
-        $dataFiche['photos'] = $urls;
+        try {
+            $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
+            $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
+            $dataFiche['images'] = $this->getImages($fiche);
+            $urls = [];
+            foreach ($dataFiche['images'] as $image) {
+                $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+            }
+            $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
+            $dataFiche['photos'] = $urls;
 
-        return $dataFiche;
+            return $dataFiche;
+        } catch (\JsonException $e) {
+            return [];
+        }
+
     }
 
     public function getImages(Fiche $fiche): array

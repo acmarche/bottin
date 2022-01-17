@@ -6,10 +6,6 @@ use AcMarche\Bottin\Entity\Horaire;
 
 class HoraireSerializer
 {
-    public function __construct()
-    {
-    }
-
     public function serializeHoraireForApi(Horaire $horaire): array
     {
         $data = [];
@@ -18,12 +14,12 @@ class HoraireSerializer
         $data['media_path'] = $horaire->getMediaPath();
         $data['is_open_at_lunch'] = (int) $horaire->getIsOpenAtLunch();
         $data['is_rdv'] = (int) $horaire->getIsRdv();
-        $data['morning_start'] = null != $horaire->getMorningStart() ? $horaire->getMorningStart()->format(
+        $data['morning_start'] = $horaire->getMorningStart()?->format(
             'H:i:s'
-        ) : null;
-        $data['morning_end'] = null != $horaire->getMorningEnd() ? $horaire->getMorningEnd()->format('H:i:s') : null;
-        $data['noon_start'] = null != $horaire->getNoonStart() ? $horaire->getNoonStart()->format('H:i:s') : null;
-        $data['noon_end'] = null != $horaire->getNoonEnd() ? $horaire->getNoonEnd()->format('H:i:s') : null;
+        );
+        $data['morning_end'] = $horaire->getMorningEnd()?->format('H:i:s');
+        $data['noon_start'] = $horaire->getNoonStart()?->format('H:i:s');
+        $data['noon_end'] = $horaire->getNoonEnd()?->format('H:i:s');
         $data['fiche_id'] = $horaire->getFiche()->getId();
         $data['is_closed'] = (int) $horaire->getIsClosed(); //force 1,0
 
