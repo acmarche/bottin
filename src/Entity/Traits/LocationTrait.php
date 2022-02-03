@@ -25,7 +25,7 @@ trait LocationTrait
         return $this->rue;
     }
 
-    public function setRue(string $rue): self
+    public function setRue(?string $rue): self
     {
         $this->rue = $rue;
 
@@ -57,7 +57,7 @@ trait LocationTrait
         return $this->cp;
     }
 
-    public function setCp(int $cp): self
+    public function setCp(?int $cp): self
     {
         $this->cp = $cp;
 
@@ -73,7 +73,7 @@ trait LocationTrait
         return $this->localite;
     }
 
-    public function setLocalite(string $localite): self
+    public function setLocalite(?string $localite): self
     {
         $this->localite = $localite;
 
