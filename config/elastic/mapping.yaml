@@ -2,7 +2,7 @@ mappings:
   properties:
     id:
       type: long
-      index: false
+      index: true
     location:
       type: geo_point
     cap:
