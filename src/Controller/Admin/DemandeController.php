@@ -27,8 +27,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class DemandeController extends AbstractController
 {
-    public function __construct(private DemandeRepository $demandeRepository, private FicheRepository $ficheRepository, private MailFactory $mailFactory, private MailerInterface $mailer, private PropertyUtil $propertyUtil)
-    {
+    public function __construct(
+        private DemandeRepository $demandeRepository,
+        private FicheRepository $ficheRepository,
+        private MailFactory $mailFactory,
+        private MailerInterface $mailer,
+        private PropertyUtil $propertyUtil
+    ) {
     }
 
     /**
@@ -66,8 +71,8 @@ class DemandeController extends AbstractController
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
             }
 
-            $metas = $request->request->get('metas');
-            if (0 == (null === $metas ? 0 : \count($metas))) {
+            $metas = $request->request->all('metas');
+            if (count($metas) == 0) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
