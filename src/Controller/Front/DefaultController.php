@@ -37,7 +37,6 @@ class DefaultController extends AbstractController
     #[Route(path: '/updateFiche', name: 'bottin_backend_password', methods: ['GET', 'POST'])]
     public function tokenPassword(Request $request): Response
     {
-        $this->addFlash();
         $form = $this->createForm(TokenPasswordType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
