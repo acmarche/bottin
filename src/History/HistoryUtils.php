@@ -84,7 +84,14 @@ class HistoryUtils
     public function newFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
-        $this->createForFiche($fiche, $username, 'new', '', '');
+        $this->createForFiche($fiche, $username, 'nouvelle fiche', '', '');
+        $this->historyRepository->flush();
+    }
+
+    public function deleteFiche(string $nomFiche): void
+    {
+        $username = $this->getUsername();
+        $this->createForFiche(null, $username, 'suppression de fiche', $nomFiche, '');
         $this->historyRepository->flush();
     }
 }

@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="card">
-        <h3 class="card-header">Les 100 dernières modifications</h3>
+        <h3 class="card-header">Les 200 dernières modifications</h3>
 
         <div class="card-body">
             <table class="table table-bordered">
@@ -20,9 +20,13 @@
                 {% for history in histories %}
                     <tr>
                         <td>
-                            <a href="{{ bottin_url_fiche_show(history.fiche) }}">
-                                {{ history.fiche }}
-                            </a>
+                            {% if history.fiche %}
+                                <a href="{{ bottin_url_fiche_show(history.fiche) }}">
+                                    {{ history.fiche }}
+                                </a>
+                            {% else %}
+                                Fiche inexistante
+                            {% endif %}
                         </td>
                         <td>{{ history.madeBy }}</td>
                         <td>{{ history.property }}</td>

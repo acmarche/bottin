@@ -16,7 +16,7 @@ class History implements TimestampableInterface
     use FicheFieldTrait;
     use TimestampableTrait;
     #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'histories')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     protected ?Fiche $fiche = null;
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $made_by = null;

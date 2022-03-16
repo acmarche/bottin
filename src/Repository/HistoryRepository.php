@@ -48,8 +48,8 @@ class HistoryRepository extends ServiceEntityRepository
             ->leftJoin('h.fiche', 'fiche', 'WITH')
             ->addSelect('fiche')
             ->orderBy('h.createdAt', 'DESC')
-            ->setMaxResults(100)
-            ->groupBy('h.fiche')
+            ->setMaxResults(200)
+          //  ->groupBy('h.fiche')
             ->getQuery()
             ->getResult();
     }

@@ -31,8 +31,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class FicheController extends AbstractController
 {
-    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FicheRepository $ficheRepository, private HoraireService $horaireService, private SearchEngineInterface $searchEngine, private HistoryUtils $historyUtils, private MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private PathUtils $pathUtils,
+        private ClassementRepository $classementRepository,
+        private FicheRepository $ficheRepository,
+        private HoraireService $horaireService,
+        private SearchEngineInterface $searchEngine,
+        private HistoryUtils $historyUtils,
+        private MessageBusInterface $messageBus
+    ) {
     }
 
     /**
@@ -166,10 +173,12 @@ class FicheController extends AbstractController
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
+            $nomFiche = $fiche->getSociete();
             $this->messageBus->dispatch(new FicheDeleted($fiche->getId()));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();
 
+            $this->historyUtils->deleteFiche($nomFiche);
             $this->addFlash('success', 'La fiche a bien été supprimée');
         }
 
