@@ -13,19 +13,28 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class HistoryUtils
 {
-    public function __construct(private SerializerInterface $serializer, private FicheRepository $ficheRepository, private Security $security, private HistoryRepository $historyRepository, private PathUtils $pathUtils)
-    {
+    public function __construct(
+        private SerializerInterface $serializer,
+        private FicheRepository $ficheRepository,
+        private Security $security,
+        private HistoryRepository $historyRepository,
+        private PathUtils $pathUtils
+    ) {
     }
 
     public function diffFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
+        if ($username === null) {
+            $username = "token";
+        }
 
         $originalData = $this->ficheRepository->getOriginalEntityData($fiche);
         $toArrayEntity = $this->ficheToArray($fiche);
         unset($toArrayEntity['created_at']);
         unset($toArrayEntity['updated_at']);
         unset($toArrayEntity['id']);
+
         $changes = array_diff_assoc($toArrayEntity, $originalData);
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);

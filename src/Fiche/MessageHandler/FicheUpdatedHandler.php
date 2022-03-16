@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Fiche\MessageHandler;
 use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Exception;
@@ -16,8 +17,12 @@ class FicheUpdatedHandler implements MessageHandlerInterface
 {
     private FlashBagInterface $flashBag;
 
-    public function __construct(private FicheRepository $ficheRepository, private LocationUpdater $locationUpdater, private ElasticIndexer $elasticIndexer, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private FicheRepository $ficheRepository,
+        private LocationUpdater $locationUpdater,
+        private ElasticIndexer $elasticIndexer,
+        RequestStack $requestStack
+    ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 

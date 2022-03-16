@@ -6,10 +6,12 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Fiche\Form\Backend\FormUtils;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use AcMarche\Bottin\Utils\PathUtils;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,8 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/backend/fiche')]
 class FicheController extends AbstractController
 {
-    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FormUtils $formUtils, private FicheRepository $ficheRepository, private MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private PathUtils $pathUtils,
+        private ClassementRepository $classementRepository,
+        private FormUtils $formUtils,
+        private FicheRepository $ficheRepository,
+        private HistoryUtils $historyUtils,
+        private MessageBusInterface $messageBus
+    ) {
     }
 
     #[Route(path: '/{uuid}', name: 'bottin_backend_fiche_show', methods: ['GET'])]
@@ -63,6 +71,13 @@ class FicheController extends AbstractController
         $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            try {
+                $this->historyUtils->diffFiche($fiche);
+            } catch (Exception $e) {
+              //  $this->addFlash('danger', 'error '.$e->getMessage());
+            }
+
             $this->ficheRepository->flush();
             $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
 

@@ -16,8 +16,12 @@ class FicheCreatedHandler implements MessageSubscriberInterface
 {
     private FlashBagInterface $flashBag;
 
-    public function __construct(private FicheRepository $ficheRepository, private LocationUpdater $locationUpdater, RequestStack $requestStack, private ElasticIndexer $elasticIndexer)
-    {
+    public function __construct(
+        private FicheRepository $ficheRepository,
+        private LocationUpdater $locationUpdater,
+        RequestStack $requestStack,
+        private ElasticIndexer $elasticIndexer
+    ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 

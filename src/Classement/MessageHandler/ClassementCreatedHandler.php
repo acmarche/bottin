@@ -13,8 +13,11 @@ class ClassementCreatedHandler implements MessageHandlerInterface
 {
     private FlashBagInterface $flashBag;
 
-    public function __construct(private ClassementRepository $classementRepository, private HistoryUtils $historyUtils, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private ClassementRepository $classementRepository,
+        private HistoryUtils $historyUtils,
+        RequestStack $requestStack
+    ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 

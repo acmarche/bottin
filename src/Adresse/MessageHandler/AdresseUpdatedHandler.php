@@ -14,8 +14,11 @@ class AdresseUpdatedHandler implements MessageHandlerInterface
 {
     private FlashBagInterface $flashBag;
 
-    public function __construct(private AdresseRepository $adresseRepository, private LocationUpdater $locationUpdater, private RequestStack $requestStack)
-    {
+    public function __construct(
+        private AdresseRepository $adresseRepository,
+        private LocationUpdater $locationUpdater,
+        RequestStack $requestStack
+    ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 

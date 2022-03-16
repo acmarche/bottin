@@ -11,7 +11,7 @@ class CategoryCreatedHandler implements MessageHandlerInterface
 {
     private FlashBagInterface $flashBag;
 
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack)
     {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
