@@ -21,7 +21,7 @@ class MailFactory
     ) {
     }
 
-    public function mailMessageToFiche(?string $to, string $subject, string $body, Fiche $fiche): TemplatedEmail
+    public function mailMessageToFiche(?string $to, string $subject, ?string $body, Fiche $fiche): TemplatedEmail
     {
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];

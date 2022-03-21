@@ -13,8 +13,12 @@ use Symfony\Component\Routing\RouterInterface;
 
 class ExportUtils
 {
-    public function __construct(private RouterInterface $router, private SelectionRepository $selectionRepository, private CategoryService $categoryService, private FicheRepository $ficheRepository)
-    {
+    public function __construct(
+        private RouterInterface $router,
+        private SelectionRepository $selectionRepository,
+        private CategoryService $categoryService,
+        private FicheRepository $ficheRepository
+    ) {
     }
 
     public function generateUrlToken(Token $token): string
@@ -45,8 +49,12 @@ class ExportUtils
         return SortUtils::sortFiche($fiches);
     }
 
-    public function replaceUrlToken(Fiche $fiche, string $message): ?string
+    public function replaceUrlToken(Fiche $fiche, ?string $message): ?string
     {
+        if ($message == null) {
+            return null;
+        }
+
         $url = '';
         if (($token = $fiche->getToken()) !== null) {
             $url = $this->generateUrlToken($token);

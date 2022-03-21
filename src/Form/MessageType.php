@@ -39,7 +39,7 @@ class MessageType extends AbstractType
                 'message',
                 TextareaType::class,
                 [
-                    'required' => true,
+                    'required' => false,
                     'attr' => ['rows' => 5],
                 ]
             );
