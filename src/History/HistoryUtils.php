@@ -25,9 +25,6 @@ class HistoryUtils
     public function diffFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
-        if ($username === null) {
-            $username = "token";
-        }
 
         $originalData = $this->ficheRepository->getOriginalEntityData($fiche);
         $toArrayEntity = $this->ficheToArray($fiche);
@@ -51,11 +48,14 @@ class HistoryUtils
         return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
     }
 
-    private function getUsername(): ?string
+    private function getUsername(): string
     {
         $username = null;
         if (($user = $this->security->getUser()) !== null) {
             $username = $user->getUserIdentifier();
+        }
+        if ($username === null) {
+            $username = "token";
         }
 
         return $username;
