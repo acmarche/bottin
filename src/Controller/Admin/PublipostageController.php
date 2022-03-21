@@ -76,7 +76,6 @@ class PublipostageController extends AbstractController
                 $email = $this->mailFactory->mailMessageToFiche($to, $data['subject'], $message, $fiche);
                 try {
                     $this->mailer->send($email);
-                    $this->addFlash('success', 'Votre message a bien été envoyé');
                 } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
                 }
