@@ -10,6 +10,7 @@ use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mime\Address;
 
 class MailFactory
@@ -17,7 +18,8 @@ class MailFactory
     public function __construct(
         private FicheUtils $ficheUtils,
         private ClassementHandler $classementHandler,
-        private PdfFactory $pdfFactory
+        private PdfFactory $pdfFactory,
+        private ParameterBagInterface $parameterBag
     ) {
     }
 
@@ -37,9 +39,9 @@ class MailFactory
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
             ->to(new Address('jf@marche.be', $email))
-         //   ->to(new Address('adl@marche.be', $email))
-         //   ->bcc(new Address('jf@marche.be', $email))
-          //  ->to(new Address($to, $email))
+            ->cc(new Address('adl@marche.be', $email))
+            //->bcc(new Address('jf@marche.be', $email))
+            //->to(new Address($to, $email))
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(
@@ -56,7 +58,10 @@ class MailFactory
         $html = $this->pdfFactory->fiche($fiche);
         $invoicepdf = $this->pdfFactory->pdf->getOutputFromHtml($html);
 
+        $logo = $this->parameterBag->get('kernel.project_dir').'/src/AcMarche/Bottin/public/images/marche.jpg';
+
         $templatedEmail->attach($invoicepdf, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
+        $templatedEmail->embedFromPath($logo, 'logomarche', 'image/jpeg');
 
         return $templatedEmail;
     }

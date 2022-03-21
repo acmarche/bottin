@@ -85,6 +85,8 @@ class PublipostageController extends AbstractController
                 ++$i;
             }
 
+            $this->addFlash('success', 'Les mails ont bien été envoyés');
+
             return $this->redirectToRoute('bottin_admin_publipostage_index');
         }
         $noEmails = [];
