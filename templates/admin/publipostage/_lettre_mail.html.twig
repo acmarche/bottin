@@ -3,7 +3,7 @@
         Bonjour {{ fiche.societe }},
         <br/><br/>
         Vous êtes actuellement répertorié dans l'annuaire économique <br/>de la <a href="https://www.marche.be">Ville de
-            Marche-en-Famenne</a>, et sur le site de <a href="https://cap.marche.be/">Cap sur Marche</a>
+            Marche-en-Famenne</a>,<br/> et sur le site de <a href="https://cap.marche.be/">Cap sur Marche</a>
         pour les commerces et entreprises.
         <br/><br/>
         Afin de vous référencer correctement,
@@ -21,7 +21,7 @@
         {% if fiche.token %}
             Rendez-vous sur la page :
             <br/><br/>
-            <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
+            <a href="{{ absolute_url(path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid})) }}" target="_blank">
                 {{ absolute_url(path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid})) }}
             </a>
         {% endif %}
