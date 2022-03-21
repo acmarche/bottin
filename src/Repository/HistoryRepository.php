@@ -49,7 +49,24 @@ class HistoryRepository extends ServiceEntityRepository
             ->addSelect('fiche')
             ->orderBy('h.createdAt', 'DESC')
             ->setMaxResults(200)
-          //  ->groupBy('h.fiche')
+            //  ->groupBy('h.fiche')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return History[] Returns an array of History objects
+     */
+    public function findModifiedByToken(string $date): array
+    {
+        return $this->createQueryBuilder('h')
+            ->leftJoin('h.fiche', 'fiche', 'WITH')
+            ->addSelect('fiche')
+            ->andWhere('h.createdAt LIKE :date')
+            ->setParameter('date', $date.'%')
+            ->andWhere('h.made_by = :token')
+            ->setParameter('token', 'token')
+            ->orderBy('h.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

@@ -1,0 +1,49 @@
+{% extends '@email/default/notification/body.html.twig' %}
+{% block lead %}
+    <p class="lead">
+        {{ email.subject }}
+    </p>
+{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <tr>
+            <th>Champ</th>
+            <th>Ancienne valeur</th>
+            <th>Nouvelle valeur</th>
+        </tr>
+        {% for data in histories %}
+            {% for history in data %}
+                {% if loop.first %}
+                    <tr>
+                        <th colspan="4">
+                            &nbsp;
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            {% if history.fiche %}
+                                <a href="{{ path('bottin_admin_fiche_show', {'id': history.fiche.id}) }}">
+                                    {{ history.fiche.societe }}
+                                </a>
+                            {% else %}
+                                No name
+                            {% endif %}
+                        </th>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ history.property }}</td>
+                        <td>{{ history.oldValue }}</td>
+                        <td>{{ history.newValue }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+
+    <br/><br/>
+    {{ absolute_url(path('bottin_admin_history_index')) }}
+
+{% endblock %}

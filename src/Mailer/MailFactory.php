@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Mailer;
 use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\History;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Exception;
@@ -13,8 +14,11 @@ use Symfony\Component\Mime\Address;
 
 class MailFactory
 {
-    public function __construct(private FicheUtils $ficheUtils, private ClassementHandler $classementHandler, private PdfFactory $pdfFactory)
-    {
+    public function __construct(
+        private FicheUtils $ficheUtils,
+        private ClassementHandler $classementHandler,
+        private PdfFactory $pdfFactory
+    ) {
     }
 
     public function mailMessageToFiche(?string $to, string $subject, string $body, Fiche $fiche): TemplatedEmail
@@ -90,7 +94,14 @@ class MailFactory
             ->to($emails[0])
             ->cc('adl@marche.be')
             ->htmlTemplate('@AcMarcheBottin/mail/_confirm_demande.html.twig')
-            ->context(['fiche' => $fiche]);
+            ->context(
+                [
+                    'fiche' => $fiche,
+                    'importance' => 'normal',
+                    'action_url' => '',
+                    'exception' => null,
+                ]
+            );
 
         return $templatedEmail;
     }
@@ -103,7 +114,33 @@ class MailFactory
             ->from('adl@marche.be')
             ->to('adl@marche.be')
             ->htmlTemplate('@AcMarcheBottin/mail/_new_demande.html.twig')
-            ->context(['fiche' => $fiche]);
+            ->context([
+                'fiche' => $fiche,
+                'importance' => 'normal',
+                'action_url' => '',
+                'exception' => null,
+            ]);
+
+        return $templatedEmail;
+    }
+
+    /**
+     * @param array|History[] $histories
+     */
+    public function mailHistory(array $histories): TemplatedEmail
+    {
+        $templatedEmail = new TemplatedEmail();
+        $templatedEmail
+            ->subject('Bottin: Mises à jour du jour')
+            ->from('adl@marche.be')
+            ->to('adl@marche.be')
+            ->htmlTemplate('@AcMarcheBottin/mail/_history.html.twig')
+            ->context([
+                'histories' => $histories,
+                'importance' => 'normal',
+                'action_url' => '',
+                'exception' => null,
+            ]);
 
         return $templatedEmail;
     }
