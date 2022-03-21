@@ -24,8 +24,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class PublipostageController extends AbstractController
 {
-    public function __construct(private MailerInterface $mailer, private MailFactory $mailFactory, private ExportUtils $exportUtils, private FicheUtils $ficheUtils, private PdfFactory $pdfFactory)
-    {
+    public function __construct(
+        private MailerInterface $mailer,
+        private MailFactory $mailFactory,
+        private ExportUtils $exportUtils,
+        private FicheUtils $ficheUtils,
+        private PdfFactory $pdfFactory
+    ) {
     }
 
     #[Route(path: '/', name: 'bottin_admin_publipostage_index', methods: ['GET'])]
@@ -72,7 +77,7 @@ class PublipostageController extends AbstractController
                 try {
                     $this->mailer->send($email);
                     $this->addFlash('success', 'Votre message a bien été envoyé');
-                } catch (TransportExceptionInterface $e) {
+                } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
                 }
                 if (5 == $i) {
@@ -111,6 +116,7 @@ class PublipostageController extends AbstractController
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
         $html = $this->pdfFactory->fichesPublipostage($fiches);
+
         //return new Response($html);
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
