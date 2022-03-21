@@ -8,11 +8,15 @@
         </div>
         <div class="card-body">
 
+            <div class="alert alert-info">
+                Attention en générant de nouveaux tokens, tous les autres ne seront plus valables
+            </div>
+
             {{ form_start(form) }}
             {{ form_errors(form) }}
             <button type="submit" name="send" class="btn btn-primary">Générer</button>
             {{ form_end(form) }}
-<br /><br />
+            <br/><br/>
             {% for fiche in fiches %}
                 {% if fiche.token %}
                     <a href="{{ path('bottin_backend_fiche_show', {'uuid': fiche.token.uuid}) }}" target="_blank">
