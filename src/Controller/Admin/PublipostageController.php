@@ -80,7 +80,7 @@ class PublipostageController extends AbstractController
                 } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
                 }
-                if (5 == $i) {
+                if (15 == $i) {
                     break;
                 }
                 ++$i;
