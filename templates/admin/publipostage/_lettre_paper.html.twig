@@ -19,7 +19,7 @@
         <br/><br/>
         Votre fiche <strong>{{ fiche.societe }}</strong> est actuellement répertoriée dans l'annuaire économique
         de la Ville de Marche-en-Famenne (www.marche.be),
-      <br/>  et, sur le site de Cap sur Marche (cap.marche.be) pour les commerces et entreprises.
+        <br/> et, sur le site de Cap sur Marche (cap.marche.be) pour les commerces et entreprises.
         <br/><br/>
         Afin de vous référencer correctement, l'Agence de Développement Local procède à une mise à jour de l'ensemble
         des données des commerces et entreprises.
@@ -32,8 +32,7 @@
         <br/><br/>
         {% if fiche.token %}
             Rendez-vous sur la page : {{ url('bottin_front_home') }}<br/>
-            Cliquez sur "Mettre à jour" <br/>
-            et encodez le mot de passe :
+            Cliquez sur "Mettre à jour" et encodez le mot de passe :
             <strong> {{ fiche.token.password }}</strong>
         {% endif %}
         <br/><br/>
