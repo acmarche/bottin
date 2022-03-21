@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Fiche\Form\FicheImageType;
+use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ImageRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use Exception;
@@ -23,8 +24,11 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 #[Route(path: '/backend/image')]
 class ImageController extends AbstractController
 {
-    public function __construct(private ImageRepository $imageRepository, private UploadHandler $uploadHandler)
-    {
+    public function __construct(
+        private ImageRepository $imageRepository,
+        private UploadHandler $uploadHandler,
+        private HistoryUtils $historyUtils
+    ) {
     }
 
     #[Route(path: '/new/{uuid}', name: 'bottin_backend_image_edit', methods: ['GET', 'POST'])]
@@ -76,6 +80,8 @@ class ImageController extends AbstractController
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
 
+        $this->historyUtils->addImage($fiche, $ficheImage);
+
         return $this->render('@AcMarcheBottin/admin/upload/_response_ok.html.twig');
     }
 
@@ -99,7 +105,7 @@ class ImageController extends AbstractController
     #[Route(path: '/', name: 'bottin_backend_image_delete', methods: ['POST'])]
     public function delete(Request $request): RedirectResponse
     {
-        $imageId = (int) $request->request->get('imageid');
+        $imageId = (int)$request->request->get('imageid');
         if (0 === $imageId) {
             $this->addFlash('danger', 'Image non trouvée');
 

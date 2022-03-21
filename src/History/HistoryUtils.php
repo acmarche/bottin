@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\History;
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Entity\History;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\HistoryRepository;
@@ -92,6 +93,13 @@ class HistoryUtils
     {
         $username = $this->getUsername();
         $this->createForFiche(null, $username, 'suppression de fiche', $nomFiche, '');
+        $this->historyRepository->flush();
+    }
+
+    public function addImage(Fiche $fiche, FicheImage $ficheImage)
+    {
+        $username = $this->getUsername();
+        $this->createForFiche($fiche, $username, 'ajout image', '', $ficheImage->getImageName());
         $this->historyRepository->flush();
     }
 }
