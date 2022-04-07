@@ -13,8 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    public function __construct(private CategoryRepository $categoryRepository, private TokenRepository $tokenRepository)
-    {
+    public function __construct(
+        private CategoryRepository $categoryRepository,
+        private TokenRepository $tokenRepository
+    ) {
     }
 
     #[Route(path: '/', name: 'bottin_front_home')]
@@ -53,6 +55,17 @@ class DefaultController extends AbstractController
             '@AcMarcheBottin/backend/token/password.html.twig',
             [
                 'form' => $form->createView(),
+            ]
+        );
+    }
+
+    #[Route(path: '/contact', name: 'bottin_front_contact')]
+    public function contact(): Response
+    {
+        return $this->render(
+            '@AcMarcheBottin/front/default/contact.html.twig',
+            [
+
             ]
         );
     }
