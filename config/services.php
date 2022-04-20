@@ -45,9 +45,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(HadesRepository::class)
         ->args([
-            '$baseUrl' => '%env(HADES_URL)%',
-            '$user' => '%env(HADES_USER)%',
-            '$password' => '%env(HADES_PASSWORD)%',
+            '$baseUrl' => '',
+            '$user' => '',
+            '$password' => '',
         ]);
 
     $services->alias(LoaderInterface::class, 'fidry_alice_data_fixtures.loader.doctrine');
