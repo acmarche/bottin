@@ -38,9 +38,8 @@ class MailFactory
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
-            ->to(new Address('jf@marche.be', $email))
-            // ->bcc(new Address('adl@marche.be'))
-            // ->to($emails)
+            ->bcc(new Address('jf@marche.be', $email))
+            ->to(...$emails)
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(

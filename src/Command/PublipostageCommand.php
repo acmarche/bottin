@@ -45,8 +45,8 @@ class PublipostageCommand extends Command
             } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error('Erreur lors de l\'envoie du message: '.$e->getMessage());
             }
-            if (15 == $i) {
-                break;
+            if (1 == $i) {
+                //break;
             }
             ++$i;
         }
