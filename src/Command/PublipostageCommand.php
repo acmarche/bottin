@@ -46,7 +46,7 @@ class PublipostageCommand extends Command
                 $io->error('Erreur lors de l\'envoie du message: '.$e->getMessage());
             }
             if (15 == $i) {
-               // break;
+                break;
             }
             ++$i;
         }
