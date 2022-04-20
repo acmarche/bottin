@@ -5,15 +5,17 @@ namespace AcMarche\Bottin\Command;
 use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
+#[AsCommand(
+    name: 'bottin:indexer',
+    description: 'Add a short description for your command',
+)]
 class ElasticIndexerCommand extends Command
 {
-    protected static $defaultName = 'bottin:indexer';
-
     private ?SymfonyStyle $io = null;
 
     protected function configure(): void

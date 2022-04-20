@@ -23,8 +23,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::LDAP_USER, '%env(ACLDAP_USER)%');
     $parameters->set(Option::LDAP_PASSWORD, '%env(ACLDAP_PASSWORD)%');
     $parameters->set('bottin.cp_default', '6900');
-    $parameters->set('router.request_context.scheme', 'bottin.local');
-    $parameters->set('router.request_context.host', 'http');
     $parameters->set('bottin.url_update_category', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
     $parameters->set('bottin.email_from', '%env(EMAIL_FROM)%');
     $parameters->set('es_config', ['hosts' => 'http://localhost:9200']);

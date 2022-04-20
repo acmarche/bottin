@@ -21,7 +21,6 @@ class AcMarcheBottinExtension extends Extension implements PrependExtensionInter
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         $this->loader->load('services.php');
-        //$this->loader->load('routes/routes.php');
     }
 
     /**

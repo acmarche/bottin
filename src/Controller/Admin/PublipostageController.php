@@ -17,9 +17,6 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Publipostage controller.
- */
 #[Route(path: '/admin/publipostage')]
 #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class PublipostageController extends AbstractController
