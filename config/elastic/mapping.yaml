@@ -143,4 +143,8 @@ mappings:
       type: date
     image:
       type: text
+    email:
+      type: text
+    contact_email:
+      type: text
 

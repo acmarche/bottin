@@ -62,6 +62,8 @@ class SearchElastic implements SearchEngineInterface
                 'societe^1.2',
                 'societe.stemmed',
                 'societe.edgengram',
+                'email',
+                'contact_email',
                 'comment1',
                 'comment1.stemmed',
                 'secteurs',

@@ -42,6 +42,8 @@ AcMarche\Bottin\Entity\Fiche:
       groups: ['group1']
     contact_localite:
       groups: ['group1']
+    contact_email:
+      groups: ['group1']
     contact_telephone:
       groups: ['group1']
     contact_telephone_autre:
