@@ -41,7 +41,7 @@ class PublipostageCommand extends Command
             $message = $this->exportUtils->replaceUrlToken($fiche, $message);
             $email = $this->mailFactory->mailMessageToFiche($to, $subject, $message, $fiche);
             try {
-                $this->mailer->send($email);
+              //  $this->mailer->send($email);
             } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error('Erreur lors de l\'envoie du message: '.$e->getMessage());
             }
