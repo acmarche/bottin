@@ -69,7 +69,8 @@ class MailFactory
         return (new TemplatedEmail())
             ->subject('Contact depuis bottin marche')
             ->from($from)
-            ->to('jf@marche.be')
+            ->cc('jf@marche.be')
+            ->to('adl@marche.be')
             ->htmlTemplate('@AcMarcheBottin/mail/_frombottin.html.twig')
             ->context(
                 [
