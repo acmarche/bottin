@@ -11,7 +11,7 @@ trait DocumentsTrait
     /**
      * @var Document[]|Collection|iterable
      */
-    #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\Document', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     private iterable $documents;
 
     /**
