@@ -27,8 +27,7 @@
         document.querySelector('#exampleModal').addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
             const imageId = button.dataset.imageid;
-            let modal = document.querySelector('#dissocierModalTuteur');
-            modal.querySelector('#imageid').value = imageId;
+            document.querySelector('#imageid').value = imageId;
         })
     </script>
 {% endblock %}

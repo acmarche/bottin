@@ -10,7 +10,6 @@
             </div>
             <div class="modal-footer">
                 <form method="post" action="{{ path('bottin_backend_image_delete') }}">
-
                     <input type="hidden" name="_token" value="{{ csrf_token('deleteimage' ) }}">
                     <input type="hidden" id="imageid" name="imageid" value="0">
                     <button type="button" class="btn btn-secondary"
