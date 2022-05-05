@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Entity;
 use AcMarche\Bottin\Doctrine\LogoTrait;
 use AcMarche\Bottin\Entity\Traits\EnfantTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\CategoryRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -30,7 +31,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *     itemOperations={"get"})
  * @ApiFilter(SearchFilter::class, properties={"name"="partial", "id"="exact"})
  */
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\CategoryRepository')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'category')]
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, Stringable
 {

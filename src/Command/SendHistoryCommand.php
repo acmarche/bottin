@@ -37,11 +37,11 @@ class SendHistoryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $today = date('Y-m-d');
+        $today = new \DateTime('-1 day');
 
         $changes = [];
         $deleted = [];
-        $histories = $this->historyRepository->findModifiedByToken($today);
+        $histories = $this->historyRepository->findModifiedByToken($today->format('Y-m-d'));
         foreach ($histories as $history) {
             $fiche = $history->getFiche();
             if ($fiche) {
