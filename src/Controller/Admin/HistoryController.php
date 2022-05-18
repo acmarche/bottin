@@ -53,6 +53,7 @@ class HistoryController extends AbstractController
             [
                 'histories' => $histories,
                 'form' => $form->createView(),
+                'search' => $form->isSubmitted(),
             ]
         );
     }
