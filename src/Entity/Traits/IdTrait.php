@@ -13,7 +13,7 @@ trait IdTrait
     #[ORM\Column(type: 'integer')]
     private ?int $id = 0;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

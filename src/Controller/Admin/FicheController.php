@@ -174,7 +174,8 @@ class FicheController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
             $nomFiche = $fiche->getSociete();
-            $this->messageBus->dispatch(new FicheDeleted($fiche->getId()));
+            $id = $fiche->getId();
+            $this->messageBus->dispatch(new FicheDeleted($id));
             $this->ficheRepository->remove($fiche);
             $this->ficheRepository->flush();
 
