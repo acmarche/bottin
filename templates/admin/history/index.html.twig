@@ -2,9 +2,30 @@
 
 {% block body %}
     <div class="card">
-        <h3 class="card-header">Les 200 dernières modifications</h3>
-
+        <h3 class="card-header">Historique des modifications</h3>
         <div class="card-body">
+            <div class="hidden-print mb-3">
+                {{ form_start(form, { 'attr': {'class': 'form-inli4ne'}}) }}
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="col">
+                        {{ form_row(form.nom) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.madeBy) }}
+                    </div>
+                    <div class="col">
+                        {{ form_row(form.property) }}
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mr-1" type="submit"><i class="fas fa-search" aria-hidden="true"></i>
+                    Rechercher
+                </button>
+
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -30,9 +51,9 @@
                         </td>
                         <td>{{ history.madeBy }}</td>
                         <td>{{ history.property }}</td>
-                        <td>{{ history.oldValue }}</td>
-                        <td>{{ history.newValue }}</td>
-                        <td>{{ history.createdAt | format_datetime('full', 'short') }}</td>
+                        <td>{{ history.oldValue|u.truncate(100,'...') }}</td>
+                        <td>{{ history.newValue|u.truncate(100,'...') }}</td>
+                        <td>{{ history.createdAt | format_date('short') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

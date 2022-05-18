@@ -3,9 +3,11 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Form\Search\SearchHistoryType;
 use AcMarche\Bottin\Repository\HistoryRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,14 +37,22 @@ class HistoryController extends AbstractController
     }
 
     #[Route(path: '/', name: 'bottin_admin_history_index')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $histories = $this->historyRepository->findOrdered();
+        $form = $this->createForm(SearchHistoryType::class, [], ['method' => 'GET']);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $args = $form->getData();
+            $histories = $this->historyRepository->search($args['nom'], $args['madeBy'], $args['property']);
+        } else {
+            $histories = $this->historyRepository->findOrdered();
+        }
 
         return $this->render(
             '@AcMarcheBottin/admin/history/index.html.twig',
             [
                 'histories' => $histories,
+                'form' => $form->createView(),
             ]
         );
     }

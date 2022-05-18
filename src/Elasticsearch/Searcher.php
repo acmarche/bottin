@@ -91,7 +91,7 @@ class Searcher
         }
 
         if ([] !== $constraints) {
-            $this->addConstraints($constraints, $destinataire, $service);
+
         } else {
             if ($destinataire) {
                 $match = new MatchQuery('destinataires', $destinataire->getId());
@@ -119,56 +119,6 @@ class Searcher
         }
     }
 
-    /**
-     * si pas tous les droits
-     * destinataires : 136 OR services :20 OR services: 28 OR services: 70 OR services: 65.
-     */
-    private function addConstraints(
-        array $constraints,
-        ?Destinataire $destinataire = null,
-        ?Service $service = null
-    ): void {
-        $constraintQuery = new BoolQuery();
-
-        /*
-         * si le user n'a pas sélectionné de server et destinataire
-         */
-        if (!$destinataire && !$service) {
-            foreach ($constraints['destinataires'] as $destina) {
-                $match = new MatchQuery('destinataires', $destina->getId());
-                $constraintQuery->addShould($match);
-            }
-            foreach ($constraints['services'] as $servi) {
-                $match = new MatchQuery('services', $servi->getId());
-                $constraintQuery->addShould($match);
-            }
-            $this->boolQuery->addMust($constraintQuery);
-
-            return;
-        }
-
-        if (null !== $destinataire) {
-            if (\in_array($destinataire, $constraints['destinataires'])) {
-                $match = new MatchQuery('destinataires', $destinataire->getId());
-                $constraintQuery->addMust($match);
-            } else {
-                $match = new MatchQuery('destinataires', 99_999_999); //anti fraude
-                $constraintQuery->addMust($match);
-            }
-        }
-
-        if (null !== $service) {
-            if (\in_array($service, $constraints['services'])) {
-                $match = new MatchQuery('services', $service->getId());
-                $constraintQuery->addShould($match);
-            } else {
-                $match = new MatchQuery('services', 99_999_999); //anti fraude
-                $constraintQuery->addMust($match);
-            }
-        }
-
-        $this->boolQuery->addMust($constraintQuery);
-    }
 
     public function byGeolocalistion(): void
     {
