@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="card">
-        <h3 class="card-header">Historique des modifications</h3>
+        <h3 class="card-header">Historique des modifications {%  if search %}<span class="badge bg-success">{{ histories|length }}</span>{% endif %}</h3>
         <div class="card-body">
             <div class="hidden-print mb-3">
                 {{ form_start(form, { 'attr': {'class': 'form-inli4ne'}}) }}
