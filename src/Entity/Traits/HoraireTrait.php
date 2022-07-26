@@ -39,7 +39,7 @@ trait HoraireTrait
             $this->horaires->removeElement($horaire);
             // set the owning side to null (unless already changed)
             if ($horaire->getFiche() === $this) {
-                $horaire->setFiche(null);
+             //   $horaire->setFiche(null);
             }
         }
 
