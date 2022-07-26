@@ -5,16 +5,14 @@ namespace AcMarche\Bottin\DependencyInjection;
 use Symfony\Component\Config\Builder\ConfigBuilderGenerator;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
  *
  * @see http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class AcMarcheBottinExtension extends Extension implements PrependExtensionInterface
+class AcMarcheBottinExtension
 {
     private PhpFileLoader $loader;
 
