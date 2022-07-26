@@ -4,36 +4,29 @@ namespace AcMarche\Bottin\Hades\Command;
 
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Hades\Hades;
-use AcMarche\Bottin\Hades\HadesImport;
 use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use Exception;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(
+    name: 'bottin:syncftlb',
+    description: 'Synchronise avec la ftlb',
+)]
 class SyncFtlbCommand extends Command
 {
-    /**
-     * @var string
-     */
-    protected static $defaultName = 'bottin:syncftlb';
     private ?SymfonyStyle $symfonyStyle = null;
 
     public function __construct(
         private Hades $hades,
         private HadesRepository $hadesRepository,
-        private CategoryRepository $categoryRepository,
-        string $name = null
+        private CategoryRepository $categoryRepository
     ) {
-        parent::__construct($name);
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Synchronise avec la ftlb');
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
