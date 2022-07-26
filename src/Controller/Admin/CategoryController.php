@@ -28,8 +28,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
 class CategoryController extends AbstractController
 {
-    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private PathUtils $pathUtils, private MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private CategoryRepository $categoryRepository,
+        private CategoryService $categoryService,
+        private PathUtils $pathUtils,
+        private MessageBusInterface $messageBus
+    ) {
     }
 
     /**
