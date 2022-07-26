@@ -9,7 +9,6 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
-use Fidry\AliceDataFixtures\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -50,8 +49,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             '$password' => '',
         ]);
 
-    $services->alias(LoaderInterface::class, 'fidry_alice_data_fixtures.loader.doctrine');
-    $services->set(ClientBuilder::class);
+   // $services->set(ClientBuilder::class);
 
     $services->set(Client::class)
         ->factory('@Elasticsearch\ClientBuilder::fromConfig')
