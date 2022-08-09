@@ -93,6 +93,10 @@ class CategoryRepository extends ServiceEntityRepository
 
         $commerces = $this->getDirectChilds(Cap::idCommerces); //commerces-entreprises
         foreach ($commerces as $rubrique) {
+            //skip industrie
+            if ($rubrique->getId() === 690) {
+                continue;
+            }
             $id = $rubrique->getId();
             $enfants = [];
             $enfantsTmp = $this->getDirectChilds($id);
@@ -106,6 +110,7 @@ class CategoryRepository extends ServiceEntityRepository
             }
 
             $rubrique->setEnfants($enfants);
+
 
             $rubriques[] = $rubrique;
         }
