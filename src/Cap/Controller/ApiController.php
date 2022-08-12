@@ -24,8 +24,16 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
-    public function __construct(private ApiUtils $apiUtils, private DemandeHandler $demandeHandler, private CategoryService $categoryService, private CategoryRepository $categoryRepository, private FicheRepository $ficheRepository, private SearchEngineInterface $searchEngine, private ClassementRepository $classementRepository, private LoggerInterface $logger)
-    {
+    public function __construct(
+        private ApiUtils $apiUtils,
+        private DemandeHandler $demandeHandler,
+        private CategoryService $categoryService,
+        private CategoryRepository $categoryRepository,
+        private FicheRepository $ficheRepository,
+        private SearchEngineInterface $searchEngine,
+        private ClassementRepository $classementRepository,
+        private LoggerInterface $logger
+    ) {
     }
 
     /**
@@ -68,9 +76,11 @@ class ApiController extends AbstractController
         foreach ($fiches as $fiche) {
             $data[] = $this->apiUtils->prepareFiche($fiche);
         }
+
         /*     $parsedQuestionText = $cache->get('markdown_'.md5($questionText), function() use ($questionText, $markdownParser) {
                    return $markdownParser->transformMarkdown($questionText);
                });*/
+
         return $this->json($data);
     }
 
@@ -143,11 +153,15 @@ class ApiController extends AbstractController
     #[Route(path: '/updatefiche', name: 'bottin_admin_api_update_fiche', methods: ['POST'])]
     public function updatefiche(Request $request): JsonResponse
     {
-        $data = $request->request->all();
-        $result = $this->demandeHandler->handle($data);
-        $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
+        try {
+            $data = $request->request->all();
+            $result = $this->demandeHandler->handle($data);
+            $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
 
-        return $this->json($result);
+            return $this->json($result);
+        } catch (\Exception $exception) {
+            return $this->json(['error' => $exception->getMessage()]);
+        }
     }
 
     /**
