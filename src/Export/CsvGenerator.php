@@ -117,6 +117,7 @@ class CsvGenerator
             'midi',
             'pmr',
             'ecommerce',
+            'tva/bce',
             'ClickAndCollect',
             'pdv',
             'Contactnom',
@@ -183,6 +184,7 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->getMidi());
             $worksheet->setCellValue($lettre++.$ligne, $fiche->getPmr());
             $worksheet->setCellValue($lettre++.$ligne, $fiche->isEcommerce());
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->getNumeroTva());
             $worksheet->setCellValue($lettre++.$ligne, $fiche->isClickCollect());
             $worksheet->setCellValue($lettre++.$ligne, $pdv);
             /*
