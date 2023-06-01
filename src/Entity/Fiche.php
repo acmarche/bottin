@@ -21,6 +21,7 @@ use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
+use AcMarche\Bottin\Repository\FicheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
@@ -30,7 +31,7 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\FicheRepository')]
+#[ORM\Entity(repositoryClass: FicheRepository::class)]
 #[ORM\Table(name: 'fiche')]
 class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
 {

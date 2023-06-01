@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\ImageRepository;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -17,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @Vich\Uploadable
  */
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\ImageRepository')]
+#[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'fiche_images')]
 class FicheImage implements Stringable
 {
