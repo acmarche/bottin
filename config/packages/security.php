@@ -35,6 +35,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'logout' => ['path' => 'app_logout'],
         'form_login' => [],
         'entry_point' => BottinAuthenticator::class,
+        'login_throttling' => [
+            'max_attempts' => 6, //per minute...
+        ],
     ];
 
     if (interface_exists(LdapInterface::class)) {
