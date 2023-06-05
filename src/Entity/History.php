@@ -4,17 +4,19 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\HistoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\HistoryRepository')]
+#[ORM\Entity(repositoryClass: HistoryRepository::class)]
 #[ORM\Table(name: 'history')]
 class History implements TimestampableInterface
 {
     use IdTrait;
     use FicheFieldTrait;
     use TimestampableTrait;
+
     #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'histories')]
     #[ORM\JoinColumn(nullable: true)]
     protected ?Fiche $fiche = null;

@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\DocumentRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -14,10 +15,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\DocumentRepository')]
+
+#[Vich\Uploadable]
+#[ORM\Entity(repositoryClass: DocumentRepository::class)]
 class Document implements TimestampableInterface, Stringable
 {
     use TimestampableTrait;
@@ -28,14 +28,11 @@ class Document implements TimestampableInterface, Stringable
     protected string $name;
     #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $description = null;
-    #[ORM\ManyToOne(targetEntity: 'AcMarche\Bottin\Entity\Fiche', inversedBy: 'documents')]
+    #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Fiche $fiche = null;
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     *
-     * @Vich\UploadableField(mapping="bottin_fiche_document", fileNameProperty="fileName", size="fileSize")
-     */
+
+    #[Vich\UploadableField(mapping: 'bottin_fiche_document', fileNameProperty: 'fileName', size: "fileSize")]
     #[Assert\File(maxSize: '16384k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'Uniquement des PDF')]
     private ?File $file = null;
     #[ORM\Column(type: 'string')]

@@ -3,16 +3,14 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\SituationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Class Situation.
- */
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\SituationRepository')]
+#[ORM\Entity(repositoryClass: SituationRepository::class)]
 #[ORM\Table(name: 'situation')]
 class Situation implements Stringable
 {
@@ -23,7 +21,7 @@ class Situation implements Stringable
     /**
      * @var Fiche[]
      */
-    #[ORM\ManyToMany(targetEntity: 'AcMarche\Bottin\Entity\Fiche', mappedBy: 'situations')]
+    #[ORM\ManyToMany(targetEntity: Fiche::class, mappedBy: 'situations')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
     protected iterable $fiches;
 

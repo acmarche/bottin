@@ -4,21 +4,18 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
-use AcMarche\Bottin\Fiche\Form\FicheImageType;
+use AcMarche\Bottin\Form\ImageDropZoneType;
 use AcMarche\Bottin\Repository\ImageRepository;
 use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
-/**
- * Image controller.
- */
 #[Route(path: '/admin/image')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ImageController extends AbstractController
@@ -27,20 +24,27 @@ class ImageController extends AbstractController
     {
     }
 
-    /**
-     * Displays a form to create a new Image entity.
-     */
     #[Route(path: '/new/{id}', name: 'bottin_admin_image_new', methods: ['GET', 'POST'])]
-    public function new(Fiche $fiche): Response
+    public function new(Request $request, Fiche $fiche): Response
     {
-        $ficheImage = new FicheImage($fiche);
-        $form = $this->createForm(
-            FicheImageType::class,
-            $ficheImage,
-            [
-                'action' => $this->generateUrl('bottin_admin_image_upload', ['id' => $fiche->getId()]),
-            ]
-        );
+        $form = $this->createForm(ImageDropZoneType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile[] $data
+             */
+            $data = $form->getData();
+            foreach ($data['file'] as $file) {
+                if ($file instanceof UploadedFile) {
+                    $this->treatmentFile($file,$fiche);
+                }
+            }
+
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+        }
+
+        // $images = $this->fileHelper->getImages($association);
+
 
         return $this->render(
             '@AcMarcheBottin/admin/image/new.html.twig',
@@ -51,35 +55,29 @@ class ImageController extends AbstractController
         );
     }
 
-    #[Route(path: '/upload/{id}', name: 'bottin_admin_image_upload')]
-    public function upload(Request $request, Fiche $fiche): Response
+
+    public function treatmentFile(UploadedFile $file, Fiche $fiche): void
     {
         $ficheImage = new FicheImage($fiche);
-        /**
-         * @var UploadedFile $file
-         */
-        $file = $request->files->get('file');
-        $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
+        $orignalName = preg_replace(
+            '#.'.$file->guessClientExtension().'#',
+            '',
+            $file->getClientOriginalName()
+        );
+        $fileName = $orignalName.'-'.uniqid().'.'.$file->guessClientExtension();
+
         $ficheImage->setMime($file->getMimeType());
-        $ficheImage->setImageName($file->getClientOriginalName());
+        $ficheImage->setImageName($fileName);
         $ficheImage->setImage($file);
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
         } catch (Exception $exception) {
-            return $this->render(
-                '@AcMarcheBottin/admin/upload/_response_fail.html.twig',
-                ['error' => $exception->getMessage()]
-            );
+            $this->addFlash('danger', 'Erreur upload image: '.$exception->getMessage());
         }
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
-
-        return $this->render('@AcMarcheBottin/admin/upload/_response_ok.html.twig');
     }
 
-    /**
-     * Finds and displays a Image entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_image_show', methods: ['GET'])]
     public function show(FicheImage $ficheImage): Response
     {

@@ -15,34 +15,29 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'fiche_images')]
 class FicheImage implements Stringable
 {
     use FicheFieldTrait;
     use IdTrait;
+
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Fiche $fiche = null;
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $principale = false;
-    /**
-     * @Vich\UploadableField(mapping="bottin_fiche_image", fileNameProperty="imageName")
-     *
-     * note This is not a mapped field of entity metadata, just a simple property.
-     */
+
+    #[Vich\UploadableField(mapping: 'bottin_fiche_image', fileNameProperty: 'imageName')]
     #[Assert\Image(maxSize: '7M')]
     protected ?File $image = null;
     #[ORM\Column(type: 'string', length: 255, name: 'image_name')]
     protected ?string $imageName = null;
     #[ORM\Column(type: 'string')]
     protected ?string $mime = null;
-    /**
-     * @var DateTime|DateTimeImmutable
-     */
+
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
     protected \DateTimeInterface $updatedAt;
 

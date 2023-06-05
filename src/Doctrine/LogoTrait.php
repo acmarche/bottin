@@ -9,11 +9,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 trait LogoTrait
 {
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     *
-     * @Vich\UploadableField(mapping="bottin_category_logo", fileNameProperty="logo")
-     */
+    #[Vich\UploadableField(mapping: 'bottin_category_logo', fileNameProperty: 'logo')]
     protected ?File $logoFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -37,11 +33,7 @@ trait LogoTrait
     /**
      * LOGO BLANC.
      */
-    /**
-     * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     *
-     * @Vich\UploadableField(mapping="bottin_category_logo", fileNameProperty="logo_blanc")
-     */
+    #[Vich\UploadableField(mapping: 'bottin_category_logo', fileNameProperty: 'logo_blanc')]
     protected ?File $logoBlancFile = null;
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $logo_blanc = null;

@@ -3,24 +3,26 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\PdvRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\PdvRepository')]
+#[ORM\Entity(repositoryClass: PdvRepository::class)]
 #[ORM\Table(name: 'pdv')]
 class Pdv implements Stringable
 {
     use IdTrait;
+
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $intitule = null;
     /**
      * @var Fiche[]
      */
-    #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\Fiche', mappedBy: 'pdv')]
+    #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'pdv')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
     protected iterable $fiches;
 

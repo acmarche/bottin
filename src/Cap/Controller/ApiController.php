@@ -13,7 +13,6 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +101,8 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @param Fiche $fiche
+     * @param int $id
+     * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyid/{id}', name: 'bottin_admin_api_fiche_by_id', methods: ['GET'])]
     public function ficheById(int $id): JsonResponse
@@ -118,7 +118,9 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @param Fiche $fiche
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \JsonException
      */
     #[Route(path: '/bottin/fichebyids', name: 'bottin_admin_api_fiche_by_ids', methods: ['POST'])]
     public function ficheByIds(Request $request): JsonResponse
@@ -136,10 +138,10 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     * @param Fiche $fiche
+     * @param string $slugname
+     * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
-    #[ParamConverter(data: 'fiche', options: ['mapping' => ['slugname' => 'slug']])]
     public function ficheBySlug(string $slugname): JsonResponse
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
@@ -180,7 +182,7 @@ class ApiController extends AbstractController
     }
 
     /**
-     * Toutes les classements pour android.
+     * Tous les classements pour android.
      */
     #[Route(path: '/bottin/classements', name: 'bottin_admin_api_classements', methods: ['GET'])]
     public function classements(): JsonResponse

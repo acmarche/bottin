@@ -3,18 +3,12 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
- * )
- */
+
 #[UniqueEntity(fields: ['fiche', 'category'], message: 'Déjà dans ce classement')]
 #[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\ClassementRepository')]
 #[ORM\Table(name: 'classements')]

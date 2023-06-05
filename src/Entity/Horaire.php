@@ -3,10 +3,11 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\HoraireRepository;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\HoraireRepository')]
+#[ORM\Entity(repositoryClass: HoraireRepository::class)]
 #[ORM\Table(name: 'horaire')]
 class Horaire
 {

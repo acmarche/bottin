@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\DemandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Stringable;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\DemandeRepository')]
+#[ORM\Entity(repositoryClass: DemandeRepository::class)]
 #[ORM\Table(name: 'demande')]
 class Demande implements TimestampableInterface, Stringable
 {
@@ -26,7 +27,7 @@ class Demande implements TimestampableInterface, Stringable
     /**
      * @var DemandeMeta[]|ArrayCollection|iterable
      */
-    #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\DemandeMeta', mappedBy: 'demande', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: DemandeMeta::class, mappedBy: 'demande', cascade: ['persist', 'remove'])]
     protected iterable $metas;
 
     public function __construct()

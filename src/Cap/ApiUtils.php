@@ -16,8 +16,16 @@ use AcMarche\Bottin\Utils\PathUtils;
 
 class ApiUtils
 {
-    public function __construct(private HoraireRepository $horaireRepository, private ClassementRepository $classementRepository, private PathUtils $pathUtils, private CategorySerializer $categorySerializer, private ClassementSerializer $classementSerializer, private FicheImageSerializer $ficheImageSerializer, private FicheSerializer $ficheSerializer, private HoraireSerializer $horaireSerializer)
-    {
+    public function __construct(
+        private HoraireRepository $horaireRepository,
+        private ClassementRepository $classementRepository,
+        private PathUtils $pathUtils,
+        private CategorySerializer $categorySerializer,
+        private ClassementSerializer $classementSerializer,
+        private FicheImageSerializer $ficheImageSerializer,
+        private FicheSerializer $ficheSerializer,
+        private HoraireSerializer $horaireSerializer
+    ) {
     }
 
     /**
@@ -76,7 +84,7 @@ class ApiUtils
         $dataFiche['images'] = $this->getImages($fiche);
         $urls = [];
         foreach ($dataFiche['images'] as $image) {
-            $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+            $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
         $logo = null;
         if ([] !== $urls) {
@@ -96,7 +104,7 @@ class ApiUtils
             $dataFiche['images'] = $this->getImages($fiche);
             $urls = [];
             foreach ($dataFiche['images'] as $image) {
-                $urls[] = 'https://bottin.marche.be/bottin/fiches/' . $fiche->getId() . '/' . $image['image_name'];
+                $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
             }
             $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
             $dataFiche['photos'] = $urls;

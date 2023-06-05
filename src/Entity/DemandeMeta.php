@@ -3,15 +3,16 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\DemandeMetaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\DemandeMetaRepository')]
+#[ORM\Entity(repositoryClass: DemandeMetaRepository::class)]
 #[ORM\Table(name: 'demande_metas')]
 class DemandeMeta
 {
     use IdTrait;
-    #[ORM\ManyToOne(targetEntity: 'AcMarche\Bottin\Entity\Demande', inversedBy: 'metas')]
+    #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'metas')]
     protected Demande $demande;
     /**
      * @Assert\NotBlank

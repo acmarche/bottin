@@ -6,9 +6,6 @@ use AcMarche\Bottin\Doctrine\LogoTrait;
 use AcMarche\Bottin\Entity\Traits\EnfantTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Repository\CategoryRepository;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,14 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- * @ApiResource(
- *     normalizationContext={"groups"={"category:read"}},
- *     collectionOperations={"get"},
- *     itemOperations={"get"})
- * @ApiFilter(SearchFilter::class, properties={"name"="partial", "id"="exact"})
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'category')]
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, Stringable
@@ -41,6 +31,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     use TimestampableTrait;
     use EnfantTrait;
     use IdTrait;
+
     #[Assert\NotBlank]
     #[Groups(groups: ['category:read'])]
     #[ORM\Column(type: 'string', nullable: false)]
