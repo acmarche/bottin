@@ -12,7 +12,7 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use AcMarche\Bottin\Utils\PathUtils;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ class FicheController extends AbstractController
     }
 
     #[Route(path: '/{uuid}', name: 'bottin_backend_fiche_show', methods: ['GET'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function show(Token $token): Response
     {
         if (!$this->isGranted(TokenVoter::TOKEN_EDIT, $token)) {
@@ -60,7 +60,7 @@ class FicheController extends AbstractController
     }
 
     #[Route(path: '/{uuid}/edit/{etape}', name: 'bottin_backend_fiche_edit', methods: ['GET', 'POST'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
         $fiche = $token->getFiche();
@@ -102,7 +102,7 @@ class FicheController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'bottin_backend_fiche_delete', methods: ['POST'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         return $this->redirectToRoute('bottin_front_home');

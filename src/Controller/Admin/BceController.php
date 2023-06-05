@@ -6,14 +6,14 @@ use AcMarche\Bce\Cache\CbeCache;
 use AcMarche\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[Route(path: '/admin/bce')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class BceController extends AbstractController
 {
     public function __construct(private CbeRepository $bceRepository, private CbeCache $bceCache)

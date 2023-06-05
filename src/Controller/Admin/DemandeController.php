@@ -10,7 +10,7 @@ use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Utils\PropertyUtil;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Demande controller.
  */
 #[Route(path: '/admin/demande')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class DemandeController extends AbstractController
 {
     public function __construct(

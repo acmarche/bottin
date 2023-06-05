@@ -4,21 +4,22 @@ namespace AcMarche\Bottin\Localite\MessageHandler;
 
 use AcMarche\Bottin\Localite\Message\LocaliteUpdated;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class LocaliteUpdatedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class LocaliteUpdatedHandler
 {
-    private FlashBagInterface $flashBag;
+
 
     public function __construct(private RequestStack $requestStack)
     {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
+
     }
 
     public function __invoke(LocaliteUpdated $localiteUpdated): void
     {
-        $this->flashBag->add(
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add(
             'success',
             'La localité a bien été mise à jour'
         );

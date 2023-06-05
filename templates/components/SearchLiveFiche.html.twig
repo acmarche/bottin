@@ -1,0 +1,24 @@
+<div{{ attributes }}>
+
+    <input type="text"
+           id="fiche_new_societe"
+           name="societe"
+           required="required"
+           data-model="query"
+           placeholder="Indiquez le nom de la société, club, indépendant..."
+           class="form-control">
+
+    {% if computed.fiches|length > 0 %}
+        <div data-loading="addClass(opacity-50)" class="mt-3 row">
+            <ul class="list-group">
+                {% for fiche in computed.fiches %}
+                    <li class="list-group-item">
+                        <a href="{{ path('bottin_admin_fiche_show', {'id': fiche.id}) }}">
+                            {{ fiche.societe }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>

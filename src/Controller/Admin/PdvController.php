@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Form\PdvType;
 use AcMarche\Bottin\Repository\PdvRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Pdv controller.
  */
 #[Route(path: '/admin/pdv')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class PdvController extends AbstractController
 {
     public function __construct(private PdvRepository $pdvRepository)

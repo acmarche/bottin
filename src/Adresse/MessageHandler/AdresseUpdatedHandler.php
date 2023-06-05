@@ -7,17 +7,15 @@ use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class AdresseUpdatedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class AdresseUpdatedHandler
 {
-    private FlashBagInterface $flashBag;
-
     public function __construct(
         private AdresseRepository $adresseRepository,
         private LocationUpdater $locationUpdater,
-        RequestStack $requestStack
+        private RequestStack $requestStack
     ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
@@ -32,7 +30,8 @@ class AdresseUpdatedHandler implements MessageHandlerInterface
                 $this->locationUpdater->convertAddressToCoordinates($adresse);
                 $this->adresseRepository->flush();
             } catch (Exception $e) {
-                $this->flashBag->add(
+                $flashBag = $this->requestStack->getSession()->getFlashBag();
+                $flashBag->add(
                     'danger',
                     $e->getMessage()
                 );

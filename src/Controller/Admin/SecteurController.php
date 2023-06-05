@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Repository\FicheRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Secteur controller.
  */
 #[Route(path: '/admin/secteur')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class SecteurController extends AbstractController
 {
     public function __construct(private FicheRepository $ficheRepository)

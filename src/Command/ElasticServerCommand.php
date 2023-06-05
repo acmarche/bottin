@@ -9,21 +9,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 #[AsCommand(
     name: 'bottin:server',
-    description: 'Add a short description for your command',
+    description: 'Raz l\'index',
 )]
 class ElasticServerCommand extends Command
 {
     public function __construct(private ElasticServer $elasticServer, string $name = null)
     {
         parent::__construct($name);
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Raz l\'index');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

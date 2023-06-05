@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Form\ContactType;
 use AcMarche\Bottin\Mailer\MailFactory;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +34,7 @@ class DefaultController extends AbstractController
     }
 
     #[Route(path: '/contact/{uuid}', name: 'bottin_backend_contact')]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function contact(Request $request, Token $token): Response
     {
         $form = $this->createForm(ContactType::class);

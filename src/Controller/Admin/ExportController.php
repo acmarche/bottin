@@ -9,7 +9,7 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\SelectionRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Export controller.
  */
 #[Route(path: '/admin/export')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ExportController extends AbstractController
 {
     public function __construct(private CategoryRepository $categoryRepository, private SelectionRepository $selectionRepository, private PathUtils $pathUtils, private ExportUtils $exportUtils)

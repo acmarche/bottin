@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +17,7 @@ class CheckupController extends AbstractController
     }
 
     #[Route(path: '/admin/empty', name: 'bottin_admin_categories_empty')]
-    #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+    #[IsGranted('ROLE_BOTTIN_ADMIN')]
     public function empty(): Response
     {
         $categories = $this->categoryService->getEmpyCategories();
@@ -31,7 +31,7 @@ class CheckupController extends AbstractController
     }
 
     #[Route(path: '/admin/secteur/principal', name: 'bottin_admin_secteur_principal')]
-    #[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+    #[IsGranted('ROLE_BOTTIN_ADMIN')]
     public function principal(): Response
     {
         $fiches = $this->ficheRepository->findAllWithJoins();

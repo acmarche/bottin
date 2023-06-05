@@ -11,7 +11,7 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +29,7 @@ class ClassementController extends AbstractController
     }
 
     #[Route(path: '/edit/{uuid}', name: 'bottin_backend_classement_edit', methods: ['GET', 'POST'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();

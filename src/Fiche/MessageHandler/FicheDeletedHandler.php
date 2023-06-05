@@ -5,9 +5,10 @@ namespace AcMarche\Bottin\Fiche\MessageHandler;
 use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class FicheDeletedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class FicheDeletedHandler
 {
     public function __construct(private FicheRepository $ficheRepository, private ElasticIndexer $elasticIndexer)
     {

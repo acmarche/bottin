@@ -6,7 +6,7 @@ use AcMarche\Bottin\Document\Form\DocumentType;
 use AcMarche\Bottin\Entity\Document;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\DocumentRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Document controller.
  */
 #[Route(path: '/admin/document')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class DocumentController extends AbstractController
 {
     public function __construct(private DocumentRepository $documentRepository)

@@ -9,7 +9,7 @@ use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ImageRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,7 +32,7 @@ class ImageController extends AbstractController
     }
 
     #[Route(path: '/new/{uuid}', name: 'bottin_backend_image_edit', methods: ['GET', 'POST'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function new(Token $token): Response
     {
         $fiche = $token->getFiche();
@@ -56,7 +56,7 @@ class ImageController extends AbstractController
     }
 
     #[Route(path: '/upload/{uuid}', name: 'bottin_backend_image_upload')]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function upload(Request $request, Token $token): Response
     {
         $fiche = $token->getFiche();
@@ -86,7 +86,7 @@ class ImageController extends AbstractController
     }
 
     #[Route(path: '/{id}', name: 'bottin_backend_image_show', methods: ['GET'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function show(FicheImage $ficheImage): Response
     {
         $fiche = $ficheImage->getFiche();

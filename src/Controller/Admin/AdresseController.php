@@ -9,7 +9,7 @@ use AcMarche\Bottin\Adresse\Message\AdresseUpdated;
 use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\AdresseRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,20 +17,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Lieu controller.
- */
 #[Route(path: '/admin/adresse')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class AdresseController extends AbstractController
 {
     public function __construct(private AdresseRepository $adresseRepository, private MessageBusInterface $messageBus)
     {
     }
 
-    /**
-     * Lists all Lieu entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_adresse', methods: ['GET'])]
     public function index(): Response
     {
@@ -44,9 +38,6 @@ class AdresseController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Lieu entity.
-     */
     #[Route(path: '/new', name: 'bottin_admin_adresse_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -72,9 +63,6 @@ class AdresseController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Lieu entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_adresse_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Adresse $adresse): Response
     {
@@ -99,9 +87,6 @@ class AdresseController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Lieu entity.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_adresse_edit', methods: ['GET', 'POST'])]
     public function edit(Adresse $adresse, Request $request): Response
     {

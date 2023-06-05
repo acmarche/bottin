@@ -16,19 +16,17 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Utils\PathUtils;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Fiche controller.
- */
+
 #[Route(path: '/admin/fiche')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class FicheController extends AbstractController
 {
     public function __construct(
@@ -42,9 +40,6 @@ class FicheController extends AbstractController
     ) {
     }
 
-    /**
-     * Lists all Fiche entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_fiche_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
@@ -76,41 +71,42 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Fiche fiche.
-     *
-     * @throws Exception
-     */
     #[Route(path: '/new', name: 'bottin_admin_fiche_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        $fiche = new Fiche();
-        $fiche->setCp($this->getParameter('bottin.cp_default'));
-        $form = $this->createForm(FicheType::class, $fiche);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->ficheRepository->insert($fiche);
+        if ($this->isCsrfTokenValid('fichenew', $request->request->get('_token'))) {
 
+            $params = $request->request;
+            $societe = trim($params->get('societe'));
+
+            if (!$societe) {
+                $this->addFlash('danger', 'Le nom ne peut être vide');
+
+                return $this->redirectToRoute('bottin_admin_fiche_new');
+            }
+
+            $fiche = new Fiche();
+            $fiche->setSociete($societe);
+            $fiche->setCp($this->getParameter('bottin.cp_default'));
+            $this->ficheRepository->insert($fiche);
             $this->historyUtils->newFiche($fiche);
+
             $this->messageBus->dispatch(new FicheCreated($fiche->getId()));
 
-            $this->addFlash('success', 'La fiche a bien été crée');
+            $this->addFlash('success', 'La fiche a bien ajoutée');
+            $this->addFlash('success', 'Après avoir rempli les coordonnées, pensez à classer la fiche');
 
-            return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
+            return $this->redirectToRoute('bottin_admin_fiche_edit', ['id' => $fiche->getId()]);
         }
 
         return $this->render(
             '@AcMarcheBottin/admin/fiche/new.html.twig',
             [
-                'fiche' => $fiche,
-                'form' => $form->createView(),
+
             ]
         );
     }
 
-    /**
-     * Finds and displays a Fiche fiche.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_fiche_show', methods: ['GET'])]
     public function show(Fiche $fiche): Response
     {
@@ -126,9 +122,6 @@ class FicheController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Fiche fiche.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_fiche_edit', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {

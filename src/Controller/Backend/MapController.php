@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ class MapController extends AbstractController
     }
 
     #[Route(path: '/{uuid}/edit', name: 'bottin_backend_map_edit', methods: ['GET', 'POST'])]
-    #[IsGranted(data: 'TOKEN_EDIT', subject: 'token')]
+    #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
         $fiche = $token->getFiche();

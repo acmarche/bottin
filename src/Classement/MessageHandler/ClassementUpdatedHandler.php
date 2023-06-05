@@ -3,9 +3,10 @@
 namespace AcMarche\Bottin\Classement\MessageHandler;
 
 use AcMarche\Bottin\Classement\Message\ClassementUpdated;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class ClassementUpdatedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ClassementUpdatedHandler
 {
     public function __invoke(ClassementUpdated $classementUpdated): void
     {

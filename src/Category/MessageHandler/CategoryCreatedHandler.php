@@ -4,21 +4,20 @@ namespace AcMarche\Bottin\Category\MessageHandler;
 
 use AcMarche\Bottin\Category\Message\CategoryCreated;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class CategoryCreatedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class CategoryCreatedHandler
 {
-    private FlashBagInterface $flashBag;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private RequestStack $requestStack)
     {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 
     public function __invoke(CategoryCreated $categoryCreated): void
     {
-        $this->flashBag->add(
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add(
             'success',
             'La catégorie a bien été crée'
         );

@@ -12,17 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'bottin:indexer',
-    description: 'Add a short description for your command',
+    description: 'Mise à jour des données',
 )]
 class ElasticIndexerCommand extends Command
 {
     private ?SymfonyStyle $io = null;
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Mise à jour des données');
-    }
 
     public function __construct(
         private ElasticIndexer $elasticIndexer,

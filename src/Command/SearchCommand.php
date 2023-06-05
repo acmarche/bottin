@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'bottin:search',
-    description: 'Add a short description for your command',
+    description: 'Test search',
 )]
 class SearchCommand extends Command
 {
@@ -24,7 +24,6 @@ class SearchCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Test search')
             ->addArgument('keyword', InputArgument::REQUIRED, 'Mot clef');
     }
 

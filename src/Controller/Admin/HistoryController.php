@@ -5,7 +5,7 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Form\Search\SearchHistoryType;
 use AcMarche\Bottin\Repository\HistoryRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class DefaultController.
  */
 #[Route(path: '/admin/history')]
-#[IsGranted(data: 'ROLE_BOTTIN_ADMIN')]
+#[IsGranted('ROLE_BOTTIN_ADMIN')]
 class HistoryController extends AbstractController
 {
     public function __construct(private HistoryRepository $historyRepository)

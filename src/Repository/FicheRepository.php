@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Repository;
 use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,11 +28,7 @@ class FicheRepository extends ServiceEntityRepository
      */
     public function findByIds(array $ids): array
     {
-        return $this->createQueryBuilder('fiche')
-            ->leftJoin('fiche.classements', 'classements', 'WITH')
-            ->leftJoin('fiche.horaires', 'horaires', 'WITH')
-            ->leftJoin('fiche.images', 'images', 'WITH')
-            ->addSelect('classements', 'horaires', 'images')
+        return $this->createQbl()
             ->andWhere('fiche IN (:ids)')
             ->setParameter('ids', $ids)
             ->getQuery()->getResult();
@@ -52,24 +49,20 @@ class FicheRepository extends ServiceEntityRepository
      */
     public function searchByNameAndCity(string $name, ?string $localite): array
     {
-        $queryBuilder = $this->createQueryBuilder('fiche')
-            ->leftJoin('fiche.pdv', 'pdv', 'WITH')
-            ->leftJoin('fiche.classements', 'classements', 'WITH')
-            ->leftJoin('fiche.horaires', 'horaires', 'WITH')
-            ->leftJoin('fiche.images', 'images', 'WITH')
-            ->leftJoin('fiche.adresse', 'adresse', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'adresse');
+        $queryBuilder = $this->createQbl();
 
         if ('' !== $name) {
-            $queryBuilder->andWhere(
-                'fiche.societe LIKE :nom OR 
+            $queryBuilder
+                ->andWhere(
+                    'fiche.societe LIKE :nom OR 
                 fiche.admin_email LIKE :nom OR 
                 fiche.email  LIKE :nom OR 
                 fiche.contact_email LIKE :nom OR 
                 fiche.societe LIKE :nom OR
                 fiche.nom LIKE :nom OR 
                 fiche.prenom LIKE :nom'
-            )->setParameter('nom', '%'.$name.'%');
+                )
+                ->setParameter('nom', '%'.$name.'%');
         }
 
         if ($localite) {
@@ -87,14 +80,19 @@ class FicheRepository extends ServiceEntityRepository
      */
     public function findAllWithJoins(): array
     {
+        return $this->createQbl()
+            ->addOrderBy('fiche.societe')
+            ->getQuery()->getResult();
+    }
+
+    private function createQbl(): QueryBuilder
+    {
         return $this->createQueryBuilder('fiche')
             ->leftJoin('fiche.pdv', 'pdv', 'WITH')
             ->leftJoin('fiche.classements', 'classements', 'WITH')
             ->leftJoin('fiche.token', 'token', 'WITH')
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token')
-            ->addOrderBy('fiche.societe')
-            ->getQuery()->getResult();
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token');
     }
 }

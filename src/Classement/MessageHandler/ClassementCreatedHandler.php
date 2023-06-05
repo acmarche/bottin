@@ -6,19 +6,17 @@ use AcMarche\Bottin\Classement\Message\ClassementCreated;
 use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class ClassementCreatedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+class ClassementCreatedHandler
 {
-    private FlashBagInterface $flashBag;
-
     public function __construct(
         private ClassementRepository $classementRepository,
         private HistoryUtils $historyUtils,
-        RequestStack $requestStack
+        private RequestStack $requestStack
     ) {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
+
     }
 
     public function __invoke(ClassementCreated $classementCreated): void
@@ -26,8 +24,8 @@ class ClassementCreatedHandler implements MessageHandlerInterface
         $classement = $this->classementRepository->find($classementCreated->getClassementId());
         $fiche = $classement->getFiche();
         $category = $classement->getCategory();
-
-        $this->flashBag->add('success', 'Le classement a bien été ajouté');
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add('success', 'Le classement a bien été ajouté');
 
         $this->historyUtils->diffClassement($fiche, $category, 'ajout');
     }

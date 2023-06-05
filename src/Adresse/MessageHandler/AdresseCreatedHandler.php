@@ -8,19 +8,17 @@ use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-class AdresseCreatedHandler implements MessageSubscriberInterface
+#[AsMessageHandler]
+class AdresseCreatedHandler
 {
-    private FlashBagInterface $flashBag;
-
     public function __construct(
         private AdresseRepository $adresseRepository,
         private LocationUpdater $locationUpdater,
-        RequestStack $requestStack
+        private RequestStack $requestStack
     ) {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
+
     }
 
     public function __invoke(AdresseCreated $adresseCreated): void
@@ -35,26 +33,12 @@ class AdresseCreatedHandler implements MessageSubscriberInterface
         try {
             $this->locationUpdater->convertAddressToCoordinates($adresse);
         } catch (Exception $e) {
-            $this->flashBag->add(
+            $flashBag = $this->requestStack->getSession()->getFlashBag();
+            $flashBag->add(
                 'danger',
                 $e->getMessage()
             );
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getHandledMessages(): iterable
-    {
-        // handle this message on __invoke
-        yield AdresseCreated::class;
-
-        // also handle this message on handleOtherSmsNotification
-        yield AdresseCreated::class => [
-            //  'method' => 'handleElastic',
-            //'priority' => 0,
-            //'bus' => 'messenger.bus.default',
-        ];
-    }
 }

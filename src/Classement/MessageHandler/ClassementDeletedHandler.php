@@ -7,16 +7,19 @@ use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class ClassementDeletedHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class ClassementDeletedHandler
 {
-    private FlashBagInterface $flashBag;
 
-    public function __construct(private HistoryUtils $historyUtils, RequestStack $requestStack, private CategoryRepository $categoryRepository, private FicheRepository $ficheRepository)
-    {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
+    public function __construct(
+        private HistoryUtils $historyUtils,
+        private RequestStack $requestStack,
+        private CategoryRepository $categoryRepository,
+        private FicheRepository $ficheRepository
+    ) {
+
     }
 
     public function __invoke(ClassementDeleted $classementDeleted): void
@@ -25,6 +28,8 @@ final class ClassementDeletedHandler implements MessageHandlerInterface
         $fiche = $this->ficheRepository->find($classementDeleted->getFicheId());
 
         $this->historyUtils->diffClassement($fiche, $category, 'suppression');
-        $this->flashBag->add('success', 'Le classement a bien été supprimé');
+
+        $flashBag = $this->requestStack->getSession()->getFlashBag();
+        $flashBag->add('success', 'Le classement a bien été supprimé');
     }
 }

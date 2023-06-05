@@ -14,7 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'bottin:create-user',
-    description: 'Add a short description for your command',
+    description: 'Création d\'un utilisateur',
 )]
 class CreateUserCommand extends Command
 {
@@ -29,7 +29,6 @@ class CreateUserCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Création d\'un utilisateur')
             ->addArgument('name', InputArgument::REQUIRED, 'nom')
             ->addArgument('email', InputArgument::REQUIRED, 'Email')
             ->addArgument('password', InputArgument::REQUIRED, 'Mot de passe');

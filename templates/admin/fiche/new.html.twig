@@ -3,10 +3,19 @@
 {% block body -%}
 
     <div class="card">
-            <h3>Nouvelle fiche</h3>
+        <h3 class="card-header">Nouvelle fiche</h3>
         <div class="card-body">
 
-        {% include '@AcMarcheBottin/admin/fiche/_form.html.twig' %}
+            <div class="alert alert-info">
+                Indiquez le nom et vérifiez dans les propositions si cette fiche existe déjà ou pas
+            </div>
+            <form method="post" action="{{ path('bottin_admin_fiche_new') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('fichenew') }}">
+                {{ component('SearchLiveFiche',{'t':2}) }}
+                <button class="btn btn-primary my-3" type="submit">
+                    <i class="far fa-save" aria-hidden="true"></i> Ajouter
+                </button>
+            </form>
 
         </div>
     </div>
