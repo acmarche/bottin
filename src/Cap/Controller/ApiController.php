@@ -207,6 +207,14 @@ class ApiController extends AbstractController
         return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
     }
 
+    #[Route(path: '/bottin/categories/parent/{id}', name: 'bottin_admin_api_categories_by_parent', methods: ['GET'])]
+    public function categoriesByParent(Category $category): JsonResponse
+    {
+        $categories = $this->categoryRepository->getDirectChilds($category->getId());
+
+        return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
+    }
+
     /**
      * Toutes les categories sous forme d'arbre.
      *
