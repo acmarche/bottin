@@ -48,12 +48,10 @@ class MigrationCommand extends Command
             if (!$tag) {
                 return Command::FAILURE;
             }
-            $fiches = [];
             foreach ($this->ficheRepository->findBy([$key => 1]) as $fiche) {
                 $symfonyStyle->writeln($fiche->getSociete());
-                $fiches[] = $fiche;
+                $fiche->addTag($tag);
             }
-            $tag->fiches = $fiches;
         }
 
         $this->tagRepository->flush();
