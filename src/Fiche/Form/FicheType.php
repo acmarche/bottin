@@ -9,6 +9,7 @@ use AcMarche\Bottin\Entity\Situation;
 use AcMarche\Bottin\Horaire\Form\HoraireType;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use AcMarche\Bottin\Repository\PdvRepository;
+use AcMarche\Bottin\Tag\Form\TagsAutocompleteField;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -26,9 +27,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $formBuilder
+        $builder
             ->add('societe', TextType::class)
             ->add(
                 'adresse',
@@ -399,9 +400,10 @@ class FicheType extends AbstractType
                         'class' => 'switch-custom',
                     ],
                 ]
-            );
+            )
+            ->add('tags', TagsAutocompleteField::class);
 
-        $formBuilder->addEventListener(
+        $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             function (FormEvent $event) {
                 $fiche = $event->getData();
@@ -420,9 +422,9 @@ class FicheType extends AbstractType
         );
     }
 
-    public function configureOptions(OptionsResolver $optionsResolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $optionsResolver->setDefaults(
+        $resolver->setDefaults(
             [
                 'data_class' => Fiche::class,
             ]

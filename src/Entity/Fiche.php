@@ -19,6 +19,7 @@ use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Entity\Traits\PdvTrait;
 use AcMarche\Bottin\Entity\Traits\SituationsTrait;
 use AcMarche\Bottin\Entity\Traits\SociauxTrait;
+use AcMarche\Bottin\Entity\Traits\TagTrait;
 use AcMarche\Bottin\Entity\Traits\TokenTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use AcMarche\Bottin\Repository\FicheRepository;
@@ -55,6 +56,8 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     use EcommerceTrait;
     use TokenTrait;
     use EtapeTrait;
+    use TagTrait;
+
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $societe = null;

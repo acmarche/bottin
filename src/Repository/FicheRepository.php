@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -85,6 +86,18 @@ class FicheRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    /**
+     * @param Tag $tag
+     * @return Fiche[]
+     */
+    public function findByTag(Tag $tag): array
+    {
+        return $this->createQbl()
+            ->andWhere(':tag2 MEMBER OF fiche.tags')
+            ->setParameter('tag2', $tag)
+            ->getQuery()->getResult();
+    }
+
     private function createQbl(): QueryBuilder
     {
         return $this->createQueryBuilder('fiche')
@@ -93,6 +106,7 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.token', 'token', 'WITH')
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token');
+            ->leftJoin('fiche.tags', 'tags', 'WITH')
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token','tags');
     }
 }

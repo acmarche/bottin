@@ -1,0 +1,35 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h3>Liste des tags</h3>
+        </div>
+        <div class="card-body">
+            <a href="{{ path('bottin_admin_tag_new') }}" class="btn btn-primary" role="button"><i
+                        class="fas fa-plus"></i> Ajouter</a>
+            <br/><br/>
+
+            <table class='table table-bordered table-hover'>
+                <thead>
+                <tr>
+                    <th>Intitule</th>
+                    <th>Fiches</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tag in tags %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('bottin_admin_tag_show', { 'id': tag.id }) }}">
+                                {{ tag.name }}
+                            </a>
+                        </td>
+                        <td>{{ tag.fiches | length }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
