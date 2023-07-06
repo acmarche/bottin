@@ -20,10 +20,10 @@ class TagsAutocompleteField extends AbstractType
             'choice_label' => 'name',
             'multiple' => true,
             'tom_select_options' => [
-                'create' => true,
-                'createOnBlur' => true,
+                'create' => false,
+                'createOnBlur' => false,
             ],
-            'allow_options_create' => true,
+            'allow_options_create' => false,
             'constraints' => [
                 // new Count(min: 1, minMessage: 'We need to eat *something*'),
             ],
