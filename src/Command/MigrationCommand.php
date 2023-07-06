@@ -54,7 +54,7 @@ class MigrationCommand extends Command
             }
         }
 
-        $this->tagRepository->flush();
+     //   $this->tagRepository->flush();
 
         return Command::SUCCESS;
     }
