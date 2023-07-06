@@ -107,6 +107,7 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
             ->leftJoin('fiche.tags', 'tags', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token','tags');
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token','tags')
+            ->addOrderBy('fiche.societe');
     }
 }
