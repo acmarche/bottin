@@ -149,6 +149,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
+                    'help'=>'Obsolète, utilisez les tags'
                 ]
             )
             ->add(
@@ -159,6 +160,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
+                    'help'=>'Obsolète, utilisez les tags'
                 ]
             )
             ->add(
@@ -169,6 +171,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
+                    'help'=>'Obsolète, utilisez les tags'
                 ]
             )
             ->add(
@@ -389,6 +392,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
+                    'help'=>'Obsolète, utilisez les tags'
                 ]
             )
             ->add(
@@ -399,6 +403,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
+                    'help'=>'Obsolète, utilisez les tags'
                 ]
             )
             ->add('tags', TagsAutocompleteField::class);
