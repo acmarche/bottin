@@ -25,6 +25,9 @@ class TagController extends AbstractController
     public function index(): Response
     {
         $tags = $this->tagRepository->findAllOrdered();
+        foreach ($tags as $tag) {
+            $tag->fiches = $this->ficheRepository->findByTag($tag);
+        }
 
         return $this->render(
             '@AcMarcheBottin/admin/tag/index.html.twig',
