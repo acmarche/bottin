@@ -2,8 +2,6 @@
 
 namespace AcMarche\Bottin\Elasticsearch;
 
-use AcMarche\Bottin\Elasticsearch\Data\Cleaner;
-use AcMarche\Bottin\Elasticsearch\Data\DocumentElastic;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Serializer\CategorySerializer;
@@ -24,22 +22,6 @@ class ElasticIndexer
         private ClassementElastic $classementElastic
     ) {
         $this->connect($elasticIndexName);
-    }
-
-    public function indexFiche(Fiche $fiche): Response
-    {
-        $documentElastic = $this->createDocumentElastic($fiche);
-
-        return $this->addDocument($documentElastic);
-    }
-
-    public function addDocument(DocumentElastic $documentElastic): Response
-    {
-        $content = $this->serializer->serialize($documentElastic, 'json');
-        $id = $documentElastic->id;
-        $doc = new Document($id, $content);
-
-        return $this->index->addDocument($doc);
     }
 
     public function updateFiche(Fiche $fiche): Response
@@ -78,32 +60,4 @@ class ElasticIndexer
         return $this->index->deleteById($id);
     }
 
-    private function createDocumentElastic(Fiche $fiche): DocumentElastic
-    {
-        $courrier = null;
-        $document = new DocumentElastic();
-        $document->id = (string) $fiche->getId();
-        $document->numero = $fiche->getNumero();
-        $document->description = Cleaner::cleandata($fiche->getDescription());
-        $document->expediteur = Cleaner::cleandata($fiche->getExpediteur());
-        $document->categorie = $courrier->getCategorie() ? $fiche->getCategorie()->getNom() : '';
-        $document->destinataires = $destinatairesId;
-        $document->services = $servicesId;
-        $document->original = $original; //pour affichage
-        $document->copie = $copie; //pour affichage
-        $document->recommande = $courrier->getRecommande();
-        $document->date_courrier = $courrier->getDateCourrier()->format('Y-m-d');
-
-        return $document;
-    }
-
-    private function updateCourrier(Fiche $fiche): Response
-    {
-        $documentElastic = $this->createDocumentElastic($fiche);
-        $content = $this->serializer->serialize($documentElastic, 'json');
-        $id = $documentElastic->id;
-        $doc = new Document($id, $content);
-
-        return $this->index->updateDocument($doc);
-    }
 }
