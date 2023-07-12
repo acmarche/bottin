@@ -19,7 +19,7 @@
 
             <div {{ stimulus_controller('classement', {
                 categoryId: 0,
-                'urlGetCategories':path('bottin_admin_ajax_get_categories_for_export'),
+                urlGetCategories: path('bottin_admin_ajax_get_categories_for_export'),
                 urlGetCategory: path('bottin_ajax_fetch_category'),
             }) }} >
                 {{ form_start(form) }}

@@ -1,4 +1,4 @@
-import {Controller} from 'stimulus';
+import {Controller} from '@hotwired/stimulus';
 import {useDebounce} from 'stimulus-use';
 
 /**
@@ -7,7 +7,6 @@ import {useDebounce} from 'stimulus-use';
 export default class extends Controller {
 
     static targets = ['categories', 'selectedCategory', 'result1', 'result2', 'result3', 'result4', 'result5', 'classementList', 'btn']
-    static debounces = ['search']
     static values = {
         urlGetCategories: String,
         urlDeleteClassement: String,
@@ -21,7 +20,7 @@ export default class extends Controller {
         useDebounce(this);
     }
 
-    async search(query) {
+    async searchJf(query) {
         const params = new URLSearchParams({
             parentId: query,
             level: this.categoryLevelValue
@@ -51,12 +50,12 @@ export default class extends Controller {
         const categoryIdSelected = event.currentTarget.dataset.categoryId;
         this.categoryLevelValue = event.currentTarget.dataset.categoryLevel;
         this.categoryIdValue = categoryIdSelected === this.categoryIdValue ? null : categoryIdSelected;
-        this.search(categoryIdSelected);
+        this.searchJf(categoryIdSelected);
         this.getCategory(categoryIdSelected);
 
-        this.categoriesTargets.forEach((element) => {
+       // this.categoriesTargets.forEach((element) => {
             //     console.log(element.dataset.categoryId);
-        });
+       // });
     }
 
     async delete(classementId) {
