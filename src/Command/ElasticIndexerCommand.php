@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
 #[AsCommand(
     name: 'bottin:indexer',
     description: 'Mise à jour des données',
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticIndexerCommand extends Command
 {
     private ?SymfonyStyle $io = null;
+    private array $skips = [705];
 
     public function __construct(
         private ElasticIndexer $elasticIndexer,
@@ -39,7 +41,16 @@ class ElasticIndexerCommand extends Command
 
     private function updateFiches(): void
     {
-        foreach ($this->ficheRepository->findAll() as $fiche) {
+        foreach ($this->ficheRepository->findAllWithJoins() as $fiche) {
+            $skip = false;
+            foreach ($this->skips as $categoryId) {
+                if ($fiche->hasCategory($categoryId)) {
+                    $skip = true;
+                }
+            }
+            if ($skip) {
+                continue;
+            }
             $response = $this->elasticIndexer->updateFiche($fiche);
             if ($response->hasError()) {
                 $this->io->error('Erreur lors de l\'indexation: '.$response->getErrorMessage());
@@ -52,6 +63,9 @@ class ElasticIndexerCommand extends Command
     private function updateCategories(): void
     {
         foreach ($this->categoryRepository->findAll() as $category) {
+            if (in_array($category->getId(), $this->skips)) {
+                continue;
+            }
             $response = $this->elasticIndexer->updateCategorie($category);
             if ($response->hasError()) {
                 $this->io->error('Erreur lors de l\'indexation: '.$response->getErrorMessage());

@@ -163,6 +163,17 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return null;
     }
 
+    public function hasCategory(int $categoryId): bool
+    {
+        foreach ($this->classements as $classement) {
+            if ($classement->getId() === $categoryId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function __toString(): string
     {
         return $this->societe;
