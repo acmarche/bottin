@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchCategoryType extends AbstractType
 {
-    public function __construct(private CategoryRepository $categoryRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository)
     {
     }
 

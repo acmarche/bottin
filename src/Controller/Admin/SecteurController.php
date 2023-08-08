@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class SecteurController extends AbstractController
 {
-    public function __construct(private FicheRepository $ficheRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository)
     {
     }
 

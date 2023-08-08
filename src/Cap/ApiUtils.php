@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Cap;
 
+use JsonException;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
@@ -17,14 +18,14 @@ use AcMarche\Bottin\Utils\PathUtils;
 class ApiUtils
 {
     public function __construct(
-        private HoraireRepository $horaireRepository,
-        private ClassementRepository $classementRepository,
-        private PathUtils $pathUtils,
-        private CategorySerializer $categorySerializer,
-        private ClassementSerializer $classementSerializer,
-        private FicheImageSerializer $ficheImageSerializer,
-        private FicheSerializer $ficheSerializer,
-        private HoraireSerializer $horaireSerializer
+        private readonly HoraireRepository $horaireRepository,
+        private readonly ClassementRepository $classementRepository,
+        private readonly PathUtils $pathUtils,
+        private readonly CategorySerializer $categorySerializer,
+        private readonly ClassementSerializer $classementSerializer,
+        private readonly FicheImageSerializer $ficheImageSerializer,
+        private readonly FicheSerializer $ficheSerializer,
+        private readonly HoraireSerializer $horaireSerializer
     ) {
     }
 
@@ -86,10 +87,12 @@ class ApiUtils
         foreach ($dataFiche['images'] as $image) {
             $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
         }
+
         $logo = null;
         if ([] !== $urls) {
             $logo = $urls[0];
         }
+
         $dataFiche['logo'] = $logo;
         $dataFiche['photos'] = $urls;
 
@@ -106,11 +109,12 @@ class ApiUtils
             foreach ($dataFiche['images'] as $image) {
                 $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
             }
+
             $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
             $dataFiche['photos'] = $urls;
 
             return $dataFiche;
-        } catch (\JsonException $e) {
+        } catch (JsonException) {
             return [];
         }
 

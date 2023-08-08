@@ -12,26 +12,36 @@ use Doctrine\ORM\Mapping as ORM;
 class Horaire
 {
     public DateTimeInterface $modify_date;
+
     use IdTrait;
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'horaires')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     protected ?int $day = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $media_path = null;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $is_open_at_lunch = false;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $is_rdv = false;
+
     #[ORM\Column(type: 'time', nullable: true)]
     protected ?DateTimeInterface $morning_start = null;
+
     #[ORM\Column(type: 'time', nullable: true)]
     protected ?DateTimeInterface $morning_end = null;
+
     #[ORM\Column(type: 'time', nullable: true)]
     protected ?DateTimeInterface $noon_start = null;
+
     #[ORM\Column(type: 'time', nullable: true)]
     protected ?DateTimeInterface $noon_end = null;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $is_closed = false;
 

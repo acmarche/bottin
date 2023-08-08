@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Command;
 
+use AcMarche\Bottin\Entity\Tag;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -17,8 +18,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrationCommand extends Command
 {
     public function __construct(
-        private FicheRepository $ficheRepository,
-        private TagRepository   $tagRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly TagRepository   $tagRepository,
         string                  $name = null
     )
     {
@@ -45,9 +46,10 @@ class MigrationCommand extends Command
         foreach ($types as $key => $item) {
             $symfonyStyle->section($item);
             $tag = $this->tagRepository->findOneByName($item);
-            if (!$tag) {
+            if (!$tag instanceof Tag) {
                 return Command::FAILURE;
             }
+
             foreach ($this->ficheRepository->findBy([$key => 1]) as $fiche) {
                 $symfonyStyle->writeln($fiche->getSociete());
                 $fiche->addTag($tag);

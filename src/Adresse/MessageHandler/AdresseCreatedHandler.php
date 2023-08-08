@@ -14,9 +14,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class AdresseCreatedHandler
 {
     public function __construct(
-        private AdresseRepository $adresseRepository,
-        private LocationUpdater $locationUpdater,
-        private RequestStack $requestStack
+        private readonly AdresseRepository $adresseRepository,
+        private readonly LocationUpdater $locationUpdater,
+        private readonly RequestStack $requestStack
     ) {
 
     }
@@ -32,11 +32,11 @@ class AdresseCreatedHandler
     {
         try {
             $this->locationUpdater->convertAddressToCoordinates($adresse);
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $flashBag = $this->requestStack->getSession()->getFlashBag();
             $flashBag->add(
                 'danger',
-                $e->getMessage()
+                $exception->getMessage()
             );
         }
     }

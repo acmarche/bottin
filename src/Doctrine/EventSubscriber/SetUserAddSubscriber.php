@@ -3,24 +3,18 @@
 namespace AcMarche\Bottin\Doctrine\EventSubscriber;
 
 use AcMarche\Bottin\Utils\PropertyUtil;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Exception;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class SetUserAddSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+final class SetUserAddSubscriber
 {
-    public function __construct(private Security $security, private PropertyUtil $propertyUtil)
+    public function __construct(private readonly Security $security, private readonly PropertyUtil $propertyUtil)
     {
-    }
-
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-        ];
     }
 
     public function prePersist(LifecycleEventArgs $lifecycleEventArgs): void

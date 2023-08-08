@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\History;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
@@ -15,11 +16,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 class HistoryUtils
 {
     public function __construct(
-        private SerializerInterface $serializer,
-        private FicheRepository $ficheRepository,
-        private Security $security,
-        private HistoryRepository $historyRepository,
-        private PathUtils $pathUtils
+        private readonly SerializerInterface $serializer,
+        private readonly FicheRepository $ficheRepository,
+        private readonly Security $security,
+        private readonly HistoryRepository $historyRepository,
+        private readonly PathUtils $pathUtils
     ) {
     }
 
@@ -37,6 +38,7 @@ class HistoryUtils
         foreach ($changes as $property => $change) {
             $this->createForFiche($fiche, $username, $property, $originalData[$property], $change);
         }
+
         if ([] !== $changes) {
             $this->historyRepository->flush();
         }
@@ -52,9 +54,10 @@ class HistoryUtils
     private function getUsername(): string
     {
         $username = null;
-        if (($user = $this->security->getUser()) !== null) {
+        if (($user = $this->security->getUser()) instanceof UserInterface) {
             $username = $user->getUserIdentifier();
         }
+
         if ($username === null) {
             $username = "token";
         }

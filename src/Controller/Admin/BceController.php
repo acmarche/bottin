@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bce\Entity\Enterprise;
 use AcMarche\Bce\Cache\CbeCache;
 use AcMarche\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
@@ -16,7 +17,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class BceController extends AbstractController
 {
-    public function __construct(private CbeRepository $bceRepository, private CbeCache $bceCache)
+    public function __construct(private readonly CbeRepository $bceRepository, private readonly CbeCache $bceCache)
     {
     }
 
@@ -29,8 +30,9 @@ class BceController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
+
         $entreprise = $this->bceCache->getCacheData($number);
-        if (null === $entreprise) {
+        if (!$entreprise instanceof Enterprise) {
             try {
                 $entreprise = $this->bceRepository->findByNumber($number);
             } catch (TransportExceptionInterface | Exception $e) {

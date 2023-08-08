@@ -18,6 +18,7 @@ class Tag implements Stringable
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     public int $id;
+
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
     public ?string $name = null;

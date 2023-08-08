@@ -19,9 +19,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class TestController extends AbstractController
 {
-    private HttpClientInterface $httpClient;
+    private readonly HttpClientInterface $httpClient;
 
-    public function __construct(private CategoryRepository $categoryRepository)
+    public function __construct(private readonly CategoryRepository $categoryRepository)
     {
         $httpClient = HttpClient::create(
             [
@@ -100,8 +100,8 @@ class TestController extends AbstractController
                 ]
             );
             $result = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
-        } catch (TransportExceptionInterface $e) {
-            $result = ['error1', $e->getMessage()];
+        } catch (TransportExceptionInterface $transportException) {
+            $result = ['error1', $transportException->getMessage()];
         }
 
         return $this->render(
@@ -153,9 +153,10 @@ class TestController extends AbstractController
                     'body' => $data,
                 ]
             );
-        } catch (TransportExceptionInterface $e) {
-            return $this->json(['error' => $e->getMessage()]);
+        } catch (TransportExceptionInterface $transportException) {
+            return $this->json(['error' => $transportException->getMessage()]);
         }
+
         try {
             $content = $request->getContent();
 

@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Adresse\Message;
 
 class AdresseUpdated
 {
-    public function __construct(private int $adresseId, private ?string $oldRue)
+    public function __construct(private readonly int $adresseId, private readonly ?string $oldRue)
     {
     }
 

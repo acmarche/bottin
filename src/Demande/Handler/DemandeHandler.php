@@ -14,7 +14,7 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class DemandeHandler
 {
-    public function __construct(private FicheRepository $ficheRepository, private DemandeRepository $demandeRepository, private DemandeMetaRepository $demandeMetaRepository, private MailFactory $mailFactory, private MailerInterface $mailer)
+    public function __construct(private readonly FicheRepository $ficheRepository, private readonly DemandeRepository $demandeRepository, private readonly DemandeMetaRepository $demandeMetaRepository, private readonly MailFactory $mailFactory, private readonly MailerInterface $mailer)
     {
     }
 
@@ -32,11 +32,13 @@ class DemandeHandler
 
         $demande = new Demande();
         $demande->setFiche($fiche);
+
         $this->demandeRepository->persist($demande);
         foreach ($data as $key => $value) {
             if ('id' == $key) {
                 continue;
             }
+
             $demandeMeta = new DemandeMeta($demande, $key, $value);
             $demande->addMeta($demandeMeta);
             $this->demandeMetaRepository->persist($demandeMeta);
@@ -49,8 +51,8 @@ class DemandeHandler
             $this->mailer->send($email);
 
             return ['error' => 0];
-        } catch (TransportExceptionInterface $e) {
-            return ['error' => $e->getMessage()];
+        } catch (TransportExceptionInterface $transportException) {
+            return ['error' => $transportException->getMessage()];
         }
     }
 }

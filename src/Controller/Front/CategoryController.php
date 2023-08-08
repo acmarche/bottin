@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/category')]
 class CategoryController extends AbstractController
 {
-    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private PathUtils $pathUtils)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly CategoryService $categoryService, private readonly PathUtils $pathUtils)
     {
     }
 

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/admin/ajax')]
 class AjaxController extends AbstractController
 {
-    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private CategoryRepository $categoryRepository, private MessageBusInterface $messageBus)
+    public function __construct(private readonly PathUtils $pathUtils, private readonly ClassementRepository $classementRepository, private readonly CategoryRepository $categoryRepository, private readonly MessageBusInterface $messageBus)
     {
     }
 
@@ -37,13 +37,16 @@ class AjaxController extends AbstractController
 
             return new Response($template);
         }
+
         $fiche = $classement->getFiche();
         $category = $classement->getCategory();
         $this->classementRepository->remove($classement);
         $this->classementRepository->flush();
+
         $this->messageBus->dispatch(new ClassementDeleted($fiche->getId(), $classementId, $category->getId()));
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
+
         $template = $this->renderView(
             '@AcMarcheBottin/backend/classement/_list.html.twig',
             ['classements' => $classements]
@@ -94,6 +97,7 @@ class AjaxController extends AbstractController
         if (!$keyword) {
             return new Response('Oups pas su obtenir les catégories');
         }
+
         $categories = $this->categoryRepository->search($keyword);
 
         return $this->render(
@@ -116,6 +120,7 @@ class AjaxController extends AbstractController
 
             return $jsonResponse;
         }
+
         $categories = $this->categoryRepository->findBy(['parent' => $parentId], ['name' => 'ASC']);
 
         return $this->render(

@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Stringable;
@@ -10,27 +11,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[UniqueEntity(fields: ['fiche', 'category'], message: 'Déjà dans ce classement')]
-#[ORM\Entity(repositoryClass: 'AcMarche\Bottin\Repository\ClassementRepository')]
+#[ORM\Entity(repositoryClass: ClassementRepository::class)]
 #[ORM\Table(name: 'classements')]
 #[ORM\UniqueConstraint(name: 'classement_idx', columns: ['fiche_id', 'category_id'])]
 class Classement implements Stringable
 {
     use IdTrait;
-    #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Fiche $fiche;
-
-    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Category $category;
     #[Groups(groups: ['read', 'write'])]
     #[ORM\Column(type: 'boolean')]
     protected bool $principal = false;
 
-    public function __construct(?Fiche $fiche, ?Category $category)
+    public function __construct(#[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    protected ?Fiche $fiche, #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    protected ?Category $category)
     {
-        $this->fiche = $fiche;
-        $this->category = $category;
     }
 
     public function __toString(): string
@@ -45,7 +41,7 @@ class Classement implements Stringable
 
     public function __isset($prop): bool
     {
-        return isset($this->$prop);
+        return property_exists($this, 'prop') && $this->$prop !== null;
     }
 
     public function getPrincipal(): bool

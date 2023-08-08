@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Classement\Message;
 
 class ClassementCreated
 {
-    public function __construct(private int $ficheId, private int $classementId)
+    public function __construct(private readonly int $ficheId, private readonly int $classementId)
     {
     }
 

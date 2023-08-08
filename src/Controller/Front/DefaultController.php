@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
+use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\TokenRepository;
 use AcMarche\Bottin\Token\Form\TokenPasswordType;
@@ -14,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     public function __construct(
-        private CategoryRepository $categoryRepository,
-        private TokenRepository $tokenRepository
+        private readonly CategoryRepository $categoryRepository,
+        private readonly TokenRepository $tokenRepository
     ) {
     }
 
@@ -43,9 +44,10 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->get('password')->getData();
-            if (($token = $this->tokenRepository->findOneByPassword($data)) !== null) {
+            if (($token = $this->tokenRepository->findOneByPassword($data)) instanceof Token) {
                 return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);
             }
+
             $this->addFlash('danger', 'Fiche non trouvée');
 
             return $this->redirectToRoute('bottin_backend_password');

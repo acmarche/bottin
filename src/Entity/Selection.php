@@ -10,15 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Selection
 {
     use IdTrait;
-    #[ORM\ManyToOne(targetEntity: Category::class)]
-    private Category $category;
-    #[ORM\Column(type: 'string', length: 120)]
-    private string $user;
 
-    public function __construct(Category $category, string $user)
+    public function __construct(#[ORM\ManyToOne(targetEntity: Category::class)]
+    private Category $category, #[ORM\Column(type: 'string', length: 120)]
+    private string $user)
     {
-        $this->category = $category;
-        $this->user = $user;
     }
 
     public function getCategory(): Category

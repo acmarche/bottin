@@ -60,7 +60,7 @@ class FicheComplementType extends AbstractType
                 [
                     'required' => false,
                     'attr' => ['rows' => 6],
-                    'help' => 'D\'autres informations',
+                    'help' => "D'autres informations",
                 ]
             );
     }

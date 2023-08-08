@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class UtilisateurController extends AbstractController
 {
-    public function __construct(private UserRepository $userRepository, private UserPasswordHasherInterface $userPasswordHasher, private ManagerRegistry $managerRegistry)
+    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $userPasswordHasher, private readonly ManagerRegistry $managerRegistry)
     {
     }
 

@@ -11,7 +11,7 @@ trait DemandeTrait
     /**
      * @var Demande[]|iterable|Collection
      */
-    #[ORM\OneToMany(targetEntity: 'AcMarche\Bottin\Entity\Demande', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     protected iterable $demandes;
 
     /**

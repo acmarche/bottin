@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class TokenController extends AbstractController
 {
-    public function __construct(private TokenUtils $tokenUtils, private FicheRepository $ficheRepository)
+    public function __construct(private readonly TokenUtils $tokenUtils, private readonly FicheRepository $ficheRepository)
     {
     }
 

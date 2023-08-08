@@ -47,6 +47,7 @@ class AggregationUtils
         if (!isset($agg['buckets'])) {
             return 0;
         }
+
         foreach ($agg['buckets'] as $data) {
             if ('true' == $data['key']) {
                 return $data['doc_count'];

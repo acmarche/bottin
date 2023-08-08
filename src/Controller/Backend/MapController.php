@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/backend/map')]
 class MapController extends AbstractController
 {
-    public function __construct(private FicheRepository $ficheRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository)
     {
     }
 

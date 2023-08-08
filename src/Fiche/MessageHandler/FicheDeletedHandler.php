@@ -10,7 +10,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class FicheDeletedHandler
 {
-    public function __construct(private FicheRepository $ficheRepository, private ElasticIndexer $elasticIndexer)
+    public function __construct(private readonly FicheRepository $ficheRepository, private readonly ElasticIndexer $elasticIndexer)
     {
     }
 

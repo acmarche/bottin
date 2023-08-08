@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class AdresseController extends AbstractController
 {
-    public function __construct(private AdresseRepository $adresseRepository, private MessageBusInterface $messageBus)
+    public function __construct(private readonly AdresseRepository $adresseRepository, private readonly MessageBusInterface $messageBus)
     {
     }
 

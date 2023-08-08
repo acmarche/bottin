@@ -6,12 +6,13 @@ class Cleaner
 {
     public static function cleandata($data): string
     {
-        $data = preg_replace('#&nbsp;#', ' ', $data);
+        $data = preg_replace('#&nbsp;#', ' ', (string) $data);
         $data = preg_replace('#&amp;#', ' ', $data); //&
         $data = preg_replace('#&#', ' ', $data);
         $data = preg_replace('#<#', '', $data);
         $data = preg_replace('#’#', "'", $data);
         $data = preg_replace(["#\(#", "#\)#"], '', $data);
+
         $special_chars = [
             '?',
             '[',

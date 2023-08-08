@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Command;
 
+use Exception;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\FicheRepository;
@@ -20,10 +21,10 @@ use Symfony\Component\Mailer\MailerInterface;
 class PublipostageCommand extends Command
 {
     public function __construct(
-        private FicheRepository $ficheRepository,
-        private MailerInterface $mailer,
-        private MailFactory $mailFactory,
-        private ExportUtils $exportUtils,
+        private readonly FicheRepository $ficheRepository,
+        private readonly MailerInterface $mailer,
+        private readonly MailFactory $mailFactory,
+        private readonly ExportUtils $exportUtils,
         string $name = null
     ) {
         parent::__construct($name);
@@ -42,14 +43,17 @@ class PublipostageCommand extends Command
             $email = $this->mailFactory->mailMessageToFiche($to, $subject, $message, $fiche);
             try {
                 //  $this->mailer->send($email);
-            } catch (TransportExceptionInterface|\Exception $e) {
-                $io->error('Erreur lors de l\'envoie du message: '.$e->getMessage());
+            } catch (TransportExceptionInterface|Exception $e) {
+                $io->error("Erreur lors de l'envoie du message: ".$e->getMessage());
             }
+
             if (1 == $i) {
                 //break;
             }
+
             ++$i;
         }
+
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 
         return Command::SUCCESS;

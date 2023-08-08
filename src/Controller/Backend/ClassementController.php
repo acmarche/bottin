@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/backend/classement')]
 class ClassementController extends AbstractController
 {
-    public function __construct(private ClassementRepository $classementRepository, private ClassementHandler $classementHandler, private CategoryRepository $categoryRepository, private PathUtils $pathUtils, private MessageBusInterface $messageBus)
+    public function __construct(private readonly ClassementRepository $classementRepository, private readonly ClassementHandler $classementHandler, private readonly CategoryRepository $categoryRepository, private readonly PathUtils $pathUtils, private readonly MessageBusInterface $messageBus)
     {
     }
 
@@ -36,8 +36,10 @@ class ClassementController extends AbstractController
         $form = $this->createForm(ClassementSimpleType::class);
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
+
         $roots = $this->categoryRepository->getRootNodes();
         $roots = SortUtils::sortCategories($roots);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();

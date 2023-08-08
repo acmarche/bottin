@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class TagController extends AbstractController
 {
-    public function __construct(private TagRepository $tagRepository, private FicheRepository $ficheRepository)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly FicheRepository $ficheRepository)
     {
     }
 

@@ -25,9 +25,9 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 class ImageController extends AbstractController
 {
     public function __construct(
-        private ImageRepository $imageRepository,
-        private UploadHandler $uploadHandler,
-        private HistoryUtils $historyUtils
+        private readonly ImageRepository $imageRepository,
+        private readonly UploadHandler $uploadHandler,
+        private readonly HistoryUtils $historyUtils
     ) {
     }
 
@@ -77,6 +77,7 @@ class ImageController extends AbstractController
                 ['error' => $exception->getMessage()]
             );
         }
+
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
 
@@ -111,12 +112,14 @@ class ImageController extends AbstractController
 
             return $this->redirectToRoute('bottin_front_home');
         }
+
         $ficheImage = $this->imageRepository->find($imageId);
         if (!$ficheImage instanceof FicheImage) {
             $this->addFlash('danger', 'Image non trouvée');
 
             return $this->redirectToRoute('bottin_front_home');
         }
+
         $fiche = $ficheImage->getFiche();
         $token = $fiche->getToken();
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);

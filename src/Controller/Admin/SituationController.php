@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class SituationController extends AbstractController
 {
-    public function __construct(private SituationRepository $situationRepository)
+    public function __construct(private readonly SituationRepository $situationRepository)
     {
     }
 

@@ -2,6 +2,8 @@
 
 namespace AcMarche\Bottin\Command;
 
+use DateTime;
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\HistoryRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -19,9 +21,9 @@ use Symfony\Component\Mailer\MailerInterface;
 class SendHistoryCommand extends Command
 {
     public function __construct(
-        private HistoryRepository $historyRepository,
-        private MailFactory $mailFactory,
-        private MailerInterface $mailer,
+        private readonly HistoryRepository $historyRepository,
+        private readonly MailFactory $mailFactory,
+        private readonly MailerInterface $mailer,
         string $name = null
     ) {
         parent::__construct($name);
@@ -30,21 +32,22 @@ class SendHistoryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $today = new \DateTime('-1 day');
+        $today = new DateTime('-1 day');
 
         $changes = [];
         $deleted = [];
         $histories = $this->historyRepository->findModifiedByToken($today->format('Y-m-d'));
         foreach ($histories as $history) {
             $fiche = $history->getFiche();
-            if ($fiche) {
+            if ($fiche instanceof Fiche) {
                 $ficheId = $fiche->getId();
                 $changes[$ficheId][] = $history;
             } else {
                 $deleted[] = $history->getOldValue();
             }
         }
-        if (count($changes) > 0) {
+
+        if ($changes !== []) {
             $email = $this->mailFactory->mailHistory($changes);
             try {
                 $this->mailer->send($email);

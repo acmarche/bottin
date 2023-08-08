@@ -15,12 +15,12 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class FicheUpdatedHandler
 {
-    private FlashBagInterface $flashBag;
+    private readonly FlashBagInterface $flashBag;
 
     public function __construct(
-        private FicheRepository $ficheRepository,
-        private LocationUpdater $locationUpdater,
-        private ElasticIndexer $elasticIndexer,
+        private readonly FicheRepository $ficheRepository,
+        private readonly LocationUpdater $locationUpdater,
+        private readonly ElasticIndexer $elasticIndexer,
         RequestStack $requestStack
     ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
@@ -38,6 +38,7 @@ class FicheUpdatedHandler
                 $this->flashBag->add('danger', $e->getMessage());
             }
         }
+
         $this->updateSearchEngine($fiche);
     }
 

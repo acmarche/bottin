@@ -18,12 +18,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ElasticIndexerCommand extends Command
 {
     private ?SymfonyStyle $io = null;
+
     private array $skips = [705];
 
     public function __construct(
-        private ElasticIndexer $elasticIndexer,
-        private FicheRepository $ficheRepository,
-        private CategoryRepository $categoryRepository,
+        private readonly ElasticIndexer $elasticIndexer,
+        private readonly FicheRepository $ficheRepository,
+        private readonly CategoryRepository $categoryRepository,
         string $name = null
     ) {
         parent::__construct($name);
@@ -48,12 +49,14 @@ class ElasticIndexerCommand extends Command
                     $skip = true;
                 }
             }
+
             if ($skip) {
                 continue;
             }
+
             $response = $this->elasticIndexer->updateFiche($fiche);
             if ($response->hasError()) {
-                $this->io->error('Erreur lors de l\'indexation: '.$response->getErrorMessage());
+                $this->io->error("Erreur lors de l'indexation: ".$response->getErrorMessage());
             } else {
                 $this->io->writeln($fiche->getSociete().': '.$response->getStatus());
             }
@@ -66,9 +69,10 @@ class ElasticIndexerCommand extends Command
             if (in_array($category->getId(), $this->skips)) {
                 continue;
             }
+
             $response = $this->elasticIndexer->updateCategorie($category);
             if ($response->hasError()) {
-                $this->io->error('Erreur lors de l\'indexation: '.$response->getErrorMessage());
+                $this->io->error("Erreur lors de l'indexation: ".$response->getErrorMessage());
             } else {
                 $this->io->writeln($category->getName().': '.$response->getStatus());
             }

@@ -14,10 +14,10 @@ final class ClassementDeletedHandler
 {
 
     public function __construct(
-        private HistoryUtils $historyUtils,
-        private RequestStack $requestStack,
-        private CategoryRepository $categoryRepository,
-        private FicheRepository $ficheRepository
+        private readonly HistoryUtils $historyUtils,
+        private readonly RequestStack $requestStack,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly FicheRepository $ficheRepository
     ) {
 
     }

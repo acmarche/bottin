@@ -12,10 +12,11 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class AdresseUpdatedHandler
 {
+    public $flashBag;
     public function __construct(
-        private AdresseRepository $adresseRepository,
-        private LocationUpdater $locationUpdater,
-        private RequestStack $requestStack
+        private readonly AdresseRepository $adresseRepository,
+        private readonly LocationUpdater $locationUpdater,
+        private readonly RequestStack $requestStack
     ) {
         $this->flashBag = $requestStack->getSession()->getFlashBag();
     }

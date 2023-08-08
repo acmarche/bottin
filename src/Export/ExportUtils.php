@@ -14,10 +14,10 @@ use Symfony\Component\Routing\RouterInterface;
 class ExportUtils
 {
     public function __construct(
-        private RouterInterface $router,
-        private SelectionRepository $selectionRepository,
-        private CategoryService $categoryService,
-        private FicheRepository $ficheRepository
+        private readonly RouterInterface $router,
+        private readonly SelectionRepository $selectionRepository,
+        private readonly CategoryService $categoryService,
+        private readonly FicheRepository $ficheRepository
     ) {
     }
 
@@ -40,6 +40,7 @@ class ExportUtils
         foreach ($selections as $selection) {
             $categories[] = $selection->getCategory();
         }
+
         if ([] !== $categories) {
             $fiches = $this->categoryService->getFichesByCategoriesAndHerChildren($categories);
         } else {
@@ -56,7 +57,7 @@ class ExportUtils
         }
 
         $url = '';
-        if (($token = $fiche->getToken()) !== null) {
+        if (($token = $fiche->getToken()) instanceof Token) {
             $url = $this->generateUrlToken($token);
         }
 

@@ -8,6 +8,7 @@ use Elastica\Index;
 trait ElasticClientTrait
 {
     public Client $client;
+
     private Index $index;
 
     public function connect(string $indexName, int $port = 9200)

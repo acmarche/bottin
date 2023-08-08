@@ -19,12 +19,13 @@ class Pdv implements Stringable
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $intitule = null;
+
     /**
      * @var Fiche[]
      */
     #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'pdv')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
-    protected iterable $fiches;
+    protected iterable $fiches = [];
 
     public function __construct()
     {

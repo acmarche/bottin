@@ -21,24 +21,21 @@ class History implements TimestampableInterface
     #[ORM\JoinColumn(nullable: true)]
     protected ?Fiche $fiche = null;
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $made_by = null;
-    #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $property = null;
-    #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $old_value = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $new_value = null;
 
     public function __construct(
         ?Fiche $fiche,
-        ?string $made_by,
-        ?string $property,
+        #[ORM\Column(type: 'string', nullable: true)]
+        protected ?string $made_by,
+        #[ORM\Column(type: 'string', nullable: true)]
+        protected ?string $property,
         ?string $old_value,
         ?string $new_value
     ) {
         $this->fiche = $fiche;
-        $this->property = $property;
-        $this->made_by = $made_by;
         $this->old_value = substr($old_value, 0, 250);
         $this->new_value = substr($new_value, 0, 250);
     }

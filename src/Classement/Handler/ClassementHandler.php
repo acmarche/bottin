@@ -13,7 +13,7 @@ use Exception;
 
 class ClassementHandler
 {
-    public function __construct(private ClassementRepository $classementRepository, private CategoryRepository $categoryRepository)
+    public function __construct(private readonly ClassementRepository $classementRepository, private readonly CategoryRepository $categoryRepository)
     {
     }
 
@@ -32,7 +32,7 @@ class ClassementHandler
             throw new Exception('La catégorie n\'a pas été trouvée.');
         }
 
-        if (null !== $this->classementRepository->checkExist($fiche, $category)) {
+        if ($this->classementRepository->checkExist($fiche, $category) instanceof Classement) {
             throw new Exception('La fiche est déjà classée dans cette rubrique');
         }
 

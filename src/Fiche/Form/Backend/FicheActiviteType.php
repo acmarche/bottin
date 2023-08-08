@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheActiviteType extends AbstractType
 {
-    public function __construct(private LocaliteRepository $localiteRepository)
+    public function __construct(private readonly LocaliteRepository $localiteRepository)
     {
     }
 
@@ -44,8 +44,8 @@ class FicheActiviteType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => $localites,
-                    'choice_label' => fn ($localite) => $localite->getNom(),
-                    'choice_value' => fn ($localite) => $localite,
+                    'choice_label' => static fn($localite) => $localite->getNom(),
+                    'choice_value' => static fn($localite) => $localite,
                     'required' => false,
                 ]
             )

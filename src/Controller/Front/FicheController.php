@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/fiche')]
 class FicheController extends AbstractController
 {
-    public function __construct(private PathUtils $pathUtils, private ClassementRepository $classementRepository, private FicheRepository $ficheRepository)
+    public function __construct(private readonly PathUtils $pathUtils, private readonly ClassementRepository $classementRepository, private readonly FicheRepository $ficheRepository)
     {
     }
 

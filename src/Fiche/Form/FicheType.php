@@ -36,7 +36,7 @@ class FicheType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Adresse::class,
-                    'query_builder' => fn (AdresseRepository $adresseRepository) => $adresseRepository->queryBuilderForSelect(),
+                    'query_builder' => static fn(AdresseRepository $adresseRepository) => $adresseRepository->queryBuilderForSelect(),
                     'required' => false,
                     'placeholder' => 'Sélectionnez une adresse existante',
                     'help' => 'Cette adresse écrasera l\' adresse encodée sur la fiche ',
@@ -370,7 +370,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'Note (privé)',
-                    'help' => 'Cette information n\'apparaitra pas pour le public',
+                    'help' => "Cette information n'apparaitra pas pour le public",
                     'attr' => ['rows' => 3],
                 ]
             )
@@ -380,7 +380,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'class' => Pdv::class,
-                    'query_builder' => fn (PdvRepository $cr) => $cr->getForList(),
+                    'query_builder' => static fn(PdvRepository $cr) => $cr->getForList(),
                 ]
             )
             ->add(
@@ -410,10 +410,9 @@ class FicheType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            static function (FormEvent $event) {
                 $fiche = $event->getData();
                 $form = $event->getForm();
-
                 if (null != $fiche->getId()) {
                     $form->add(
                         'horaires',

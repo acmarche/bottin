@@ -16,16 +16,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Stringa
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $username = null;
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private ?string $email = null;
+
     #[ORM\Column(type: 'string', length: 180, nullable: false)]
     private ?string $nom = null;
+
     #[ORM\Column(type: 'string', length: 180, nullable: true)]
     private ?string $prenom = null;
+
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
     #[ORM\Column(type: 'string')]
     private string $password;
+
     protected ?string $plainPassword = null;
 
     public function getUserIdentifier(): string
@@ -48,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Stringa
     public function removeRole(string $role): void
     {
         if (\in_array($role, $this->roles, true)) {
-            $index = array_search($role, $this->roles);
+            $index = array_search($role, $this->roles, true);
             unset($this->roles[$index]);
         }
     }

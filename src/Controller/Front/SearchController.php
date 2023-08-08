@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    public function __construct(private SearchEngineInterface $searchEngine)
+    public function __construct(private readonly SearchEngineInterface $searchEngine)
     {
     }
 
@@ -78,8 +78,8 @@ class SearchController extends AbstractController
             $response = $this->searchEngine->doSearch($q);
             $hits = $response->getResults();
             $count = $response->count();
-        } catch (BadRequest400Exception $e) {
-            $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+        } catch (BadRequest400Exception $badRequest400Exception) {
+            $this->addFlash('danger', 'Erreur dans la recherche: '.$badRequest400Exception->getMessage());
         }
 
         return $this->render(
@@ -99,8 +99,8 @@ class SearchController extends AbstractController
             $response = $this->searchEngine->doSearch($q);
             $hits = $response->getResults();
             $count = $response->count();
-        } catch (BadRequest400Exception $e) {
-            $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+        } catch (BadRequest400Exception $badRequest400Exception) {
+            $this->addFlash('danger', 'Erreur dans la recherche: '.$badRequest400Exception->getMessage());
         }
 
         return $this->render(

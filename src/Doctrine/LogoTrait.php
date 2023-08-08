@@ -18,7 +18,7 @@ trait LogoTrait
     public function setLogoFile(File $file = null)
     {
         $this->logoFile = $file;
-        if (null !== $file) {
+        if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updated = new DateTime('now');
@@ -35,13 +35,14 @@ trait LogoTrait
      */
     #[Vich\UploadableField(mapping: 'bottin_category_logo', fileNameProperty: 'logo_blanc')]
     protected ?File $logoBlancFile = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $logo_blanc = null;
 
     public function setLogoBlancFile(File $file = null)
     {
         $this->logoBlancFile = $file;
-        if (null !== $file) {
+        if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updated = new DateTime('now');

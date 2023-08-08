@@ -36,20 +36,26 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     #[Groups(groups: ['category:read'])]
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $name = null;
+
     #[ORM\ManyToOne(targetEntity: 'Category')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?Category $parent = null;
+
     #[ORM\OneToMany(targetEntity: 'Classement', mappedBy: 'category', cascade: ['remove'])]
     protected iterable $classements;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $mobile = false;
+
     #[Groups(groups: 'category:read')]
     #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $description = null;
+
     /**
      * Utiliser pour afficher le classement.
      */
     protected array $path;
+
     private ArrayCollection $children;
 
     public function __construct()

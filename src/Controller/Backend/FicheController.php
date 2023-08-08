@@ -27,12 +27,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class FicheController extends AbstractController
 {
     public function __construct(
-        private PathUtils $pathUtils,
-        private ClassementRepository $classementRepository,
-        private FormUtils $formUtils,
-        private FicheRepository $ficheRepository,
-        private HistoryUtils $historyUtils,
-        private MessageBusInterface $messageBus
+        private readonly PathUtils $pathUtils,
+        private readonly ClassementRepository $classementRepository,
+        private readonly FormUtils $formUtils,
+        private readonly FicheRepository $ficheRepository,
+        private readonly HistoryUtils $historyUtils,
+        private readonly MessageBusInterface $messageBus
     ) {
     }
 
@@ -45,6 +45,7 @@ class FicheController extends AbstractController
 
             return $this->redirectToRoute('bottin_front_home');
         }
+
         $fiche = $token->getFiche();
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
@@ -67,6 +68,7 @@ class FicheController extends AbstractController
         if (0 !== $etape) {
             $fiche->setEtape($etape);
         }
+
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
@@ -74,7 +76,7 @@ class FicheController extends AbstractController
 
             try {
                 $this->historyUtils->diffFiche($fiche);
-            } catch (Exception $e) {
+            } catch (Exception) {
               //  $this->addFlash('danger', 'error '.$e->getMessage());
             }
 

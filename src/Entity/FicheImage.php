@@ -27,19 +27,22 @@ class FicheImage implements Stringable
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     protected ?Fiche $fiche = null;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $principale = false;
 
     #[Vich\UploadableField(mapping: 'bottin_fiche_image', fileNameProperty: 'imageName')]
     #[Assert\Image(maxSize: '7M')]
     protected ?File $image = null;
+
     #[ORM\Column(type: 'string', length: 255, name: 'image_name')]
     protected ?string $imageName = null;
+
     #[ORM\Column(type: 'string')]
     protected ?string $mime = null;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    protected \DateTimeInterface $updatedAt;
+    protected DateTimeInterface $updatedAt;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -52,7 +55,7 @@ class FicheImage implements Stringable
     {
         $this->image = $image;
 
-        if (null !== $image) {
+        if ($image instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new DateTime('now');
@@ -63,10 +66,11 @@ class FicheImage implements Stringable
     {
         return $this->image;
     }
+
     /**
      * Pour ajouter plusieurs images d'un coup.
      */
-    protected array $images;
+    protected array $images = [];
 
     public function setImages(array $images): self
     {
@@ -88,7 +92,6 @@ class FicheImage implements Stringable
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
-        $this->images = [];
         $this->updatedAt = new DateTime();
     }
 
@@ -131,7 +134,7 @@ class FicheImage implements Stringable
     /**
      * @return DateTime|DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTimeInterface
+    public function getUpdatedAt(): DateTimeInterface
     {
         return $this->updatedAt;
     }

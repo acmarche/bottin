@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Export;
 
+use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\Security;
 
 class CsvGenerator
 {
-    public function __construct(private CategoryRepository $categoryRepository, private CategoryService $categoryService, private FicheRepository $ficheRepository, private SelectionRepository $selectionRepository, private Security $security, private ExportUtils $exportUtils)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly CategoryService $categoryService, private readonly FicheRepository $ficheRepository, private readonly SelectionRepository $selectionRepository, private readonly Security $security, private readonly ExportUtils $exportUtils)
     {
     }
 
@@ -73,6 +74,7 @@ class CsvGenerator
                     }
                 }
             }
+
             ++$ligne;
         }
 
@@ -163,7 +165,7 @@ class CsvGenerator
 
         ++$ligne;
         foreach ($fiches as $fiche) {
-            $pdv = null !== $fiche->getPdv() ? $fiche->getPdv()->getIntitule() : '';
+            $pdv = $fiche->getPdv() instanceof Pdv ? $fiche->getPdv()->getIntitule() : '';
 
             $lettre = 'A';
             $worksheet->setCellValue($lettre++.$ligne, $fiche->getSociete());

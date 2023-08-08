@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Classement\Message;
 
 class ClassementDeleted
 {
-    public function __construct(private int $ficheId, private int $classementId, private int $categoryId)
+    public function __construct(private readonly int $ficheId, private readonly int $classementId, private readonly int $categoryId)
     {
     }
 

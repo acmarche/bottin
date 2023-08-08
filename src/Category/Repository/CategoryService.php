@@ -20,7 +20,7 @@ class CategoryService
 {
     private array $data = [];
 
-    public function __construct(private CategoryRepository $categoryRepository, private ClassementRepository $classementRepository, private PathUtils $pathUtils)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly ClassementRepository $classementRepository, private readonly PathUtils $pathUtils)
     {
     }
 

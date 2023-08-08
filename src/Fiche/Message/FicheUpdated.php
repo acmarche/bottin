@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Fiche\Message;
 
 class FicheUpdated
 {
-    public function __construct(private int $ficheId, private ?string $oldAddress)
+    public function __construct(private readonly int $ficheId, private readonly ?string $oldAddress)
     {
     }
 

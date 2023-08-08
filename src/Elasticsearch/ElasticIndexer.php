@@ -16,10 +16,10 @@ class ElasticIndexer
 
     public function __construct(
         string $elasticIndexName,
-        private SerializerInterface $serializer,
-        private FicheSerializer $ficheSerializer,
-        private CategorySerializer $categorySerializer,
-        private ClassementElastic $classementElastic
+        private readonly SerializerInterface $serializer,
+        private readonly FicheSerializer $ficheSerializer,
+        private readonly CategorySerializer $categorySerializer,
+        private readonly ClassementElastic $classementElastic
     ) {
         $this->connect($elasticIndexName);
     }
@@ -33,6 +33,7 @@ class ElasticIndexer
         if ((is_countable($data['classements']) ? \count($data['classements']) : 0) > 0) {
             $data['cap'] = true;
         }
+
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
         //$data['id'] = 'fiche_'.$fiche->getId();
 

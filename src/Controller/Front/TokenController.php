@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/token')]
 class TokenController extends AbstractController
 {
-    public function __construct(private TokenUtils $tokenUtils)
+    public function __construct(private readonly TokenUtils $tokenUtils)
     {
     }
 
@@ -27,6 +27,7 @@ class TokenController extends AbstractController
 
             return $this->redirectToRoute('bottin_front_home');
         }
+
         $fiche = $token->getFiche();
 
         return $this->render(

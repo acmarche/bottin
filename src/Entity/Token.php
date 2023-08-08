@@ -23,8 +23,10 @@ class Token implements TimestampableInterface
     #[ORM\OneToOne(targetEntity: Fiche::class, inversedBy: 'token')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
+
     #[ORM\Column(type: 'date', nullable: false)]
     protected DateTimeInterface $expireAt;
+
     #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     protected ?string $password = null;
 

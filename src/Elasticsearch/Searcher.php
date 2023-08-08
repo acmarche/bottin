@@ -25,7 +25,7 @@ class Searcher
     public function __construct(string $indexName, ?LoggerInterface $logger = null)
     {
         $this->connect($indexName);
-        if (null !== $logger) {
+        if ($logger instanceof LoggerInterface) {
             $this->client->setLogger($logger);
         }
     }
@@ -111,8 +111,8 @@ class Searcher
 
     private function addDates(?DateTimeInterface $date_debut, ?DateTimeInterface $date_fin): void
     {
-        if (null !== $date_debut) {
-            $date_fin = null !== $date_fin ? $date_fin->format('Y-m-d') : $date_debut->format('Y-m-d');
+        if ($date_debut instanceof DateTimeInterface) {
+            $date_fin = $date_fin instanceof DateTimeInterface ? $date_fin->format('Y-m-d') : $date_debut->format('Y-m-d');
             $date_debut = $date_debut->format('Y-m-d');
             $range = new Range('date_courrier', ['gte' => $date_debut, 'lte' => $date_fin]);
             $this->boolQuery->addMust($range);

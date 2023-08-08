@@ -25,10 +25,7 @@ class SuggestUtils
     private function getSuggest(ResultSet $response, string $key): array
     {
         $suggests = $response->getSuggests();
-        if (isset($suggests[$key])) {
-            return $suggests[$key];
-        }
 
-        return [];
+        return $suggests[$key] ?? [];
     }
 }

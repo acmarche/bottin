@@ -24,23 +24,30 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     use LocationTrait;
     #[ORM\Column(type: 'string', length: 150, nullable: false)]
     private ?string $nom = null;
+
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $rue = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $numero = null;
+
     #[ORM\Column(type: 'integer', nullable: false)]
     protected ?int $cp = null;
+
     #[ORM\Column(type: 'string', nullable: false)]
     protected ?string $localite = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $longitude = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $latitude = null;
+
     /**
      * @var Fiche[]
      */
     #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'adresse')]
-    protected iterable $fiches;
+    protected iterable $fiches = [];
 
     public function __construct()
     {

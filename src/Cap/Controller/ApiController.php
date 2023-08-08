@@ -2,6 +2,8 @@
 
 namespace AcMarche\Bottin\Cap\Controller;
 
+use JsonException;
+use Exception;
 use AcMarche\Bottin\Cap\ApiUtils;
 use AcMarche\Bottin\Cap\Cap;
 use AcMarche\Bottin\Category\Repository\CategoryService;
@@ -24,14 +26,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiController extends AbstractController
 {
     public function __construct(
-        private ApiUtils $apiUtils,
-        private DemandeHandler $demandeHandler,
-        private CategoryService $categoryService,
-        private CategoryRepository $categoryRepository,
-        private FicheRepository $ficheRepository,
-        private SearchEngineInterface $searchEngine,
-        private ClassementRepository $classementRepository,
-        private LoggerInterface $logger
+        private readonly ApiUtils $apiUtils,
+        private readonly DemandeHandler $demandeHandler,
+        private readonly CategoryService $categoryService,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly SearchEngineInterface $searchEngine,
+        private readonly ClassementRepository $classementRepository,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -101,7 +103,6 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @param int $id
      * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyid/{id}', name: 'bottin_admin_api_fiche_by_id', methods: ['GET'])]
@@ -118,9 +119,8 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @param Request $request
      * @return JsonResponse
-     * @throws \JsonException
+     * @throws JsonException
      */
     #[Route(path: '/bottin/fichebyids', name: 'bottin_admin_api_fiche_by_ids', methods: ['POST'])]
     public function ficheByIds(Request $request): JsonResponse
@@ -138,7 +138,6 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {slugname}.
      *
-     * @param string $slugname
      * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
@@ -161,7 +160,7 @@ class ApiController extends AbstractController
             $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
 
             return $this->json($result);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->json(['error' => $exception->getMessage()]);
         }
     }
@@ -176,6 +175,7 @@ class ApiController extends AbstractController
         if (!$keyword) {
             return $this->json(['error' => 'Pas de mot clef']);
         }
+
         $result = $this->searchEngine->doSearchForCap($keyword);
 
         return $this->json($result);
@@ -242,8 +242,10 @@ class ApiController extends AbstractController
                 foreach ($level1->getChildNodes() as $level2) {
                     $levels2[] = $this->apiUtils->serializeCategoryForAndroid($level2);
                 }
+
                 $levels1['children'] = $levels2;
             }
+
             $rootclean['children'] = $levels1;
             $categories[] = $rootclean;
             break; //todo not finished

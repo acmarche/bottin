@@ -29,10 +29,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     public function __construct(
-        private CategoryRepository $categoryRepository,
-        private CategoryService $categoryService,
-        private PathUtils $pathUtils,
-        private MessageBusInterface $messageBus
+        private readonly CategoryRepository $categoryRepository,
+        private readonly CategoryService $categoryService,
+        private readonly PathUtils $pathUtils,
+        private readonly MessageBusInterface $messageBus
     ) {
     }
 
@@ -43,11 +43,13 @@ class CategoryController extends AbstractController
     public function index(Request $request): Response
     {
         $session = $request->getSession();
-        $args = $data = [];
+        $args = [];
+        $data = [];
         $categoryRoot = null;
         if ($session->has('category_search')) {
-            $args = json_decode($session->get('category_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('category_search'), true, 512, JSON_THROW_ON_ERROR);
         }
+
         $form = $this->createForm(
             SearchCategoryType::class,
             $args,
@@ -77,6 +79,7 @@ class CategoryController extends AbstractController
             $categories = $this->categoryRepository->getRootNodes();
             $categories = SortUtils::sortCategories($categories);
         }
+
         foreach ($categories as $rootNode) {
             $data[] = $this->categoryRepository->getTree($rootNode->getRealMaterializedPath());
         }
@@ -98,16 +101,17 @@ class CategoryController extends AbstractController
     public function new(Request $request, Category $parent = null): Response
     {
         $category = new Category();
-        if (null !== $parent) {
+        if ($parent instanceof Category) {
             $category->setParent($parent);
         }
+
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->categoryRepository->persist($category);
             $this->categoryRepository->flush();
 
-            if (null !== $parent) {
+            if ($parent instanceof Category) {
                 $category->setChildNodeOf($parent);
                 $this->categoryRepository->flush();
             }
@@ -216,7 +220,7 @@ class CategoryController extends AbstractController
             $this->categoryRepository->flush();
 
             $this->addFlash('success', 'La catégorie a bien été supprimée');
-            if (null !== $parent) {
+            if ($parent instanceof Category) {
                 return $this->redirectToRoute('bottin_admin_category_show', ['id' => $parent->getId()]);
             }
         }

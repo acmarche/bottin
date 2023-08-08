@@ -12,11 +12,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'bottin:server',
-    description: 'Raz l\'index',
+    description: "Raz l'index",
 )]
 class ElasticServerCommand extends Command
 {
-    public function __construct(private ElasticServer $elasticServer, string $name = null)
+    public function __construct(private readonly ElasticServer $elasticServer, string $name = null)
     {
         parent::__construct($name);
     }

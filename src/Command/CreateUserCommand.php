@@ -19,8 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class CreateUserCommand extends Command
 {
     public function __construct(
-        private UserRepository $userRepository,
-        private UserPasswordHasherInterface $userPasswordEncoder,
+        private readonly UserRepository $userRepository,
+        private readonly UserPasswordHasherInterface $userPasswordEncoder,
         string $name = null
     ) {
         parent::__construct($name);
@@ -48,12 +48,13 @@ class CreateUserCommand extends Command
             return 1;
         }
 
-        if (\strlen($name) < 1) {
+        if (\strlen((string) $name) < 1) {
             $symfonyStyle->error('Name minium 1');
 
             return 1;
         }
-        if (null !== $this->userRepository->findOneBy(['email' => $email])) {
+
+        if ($this->userRepository->findOneBy(['email' => $email]) instanceof User) {
             $symfonyStyle->error('Un utilisateur existe déjà avec cette adresse email');
 
             return 1;

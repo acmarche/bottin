@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SearchCommand extends Command
 {
-    public function __construct(private SearchEngineInterface $searchEngine, string $name = null)
+    public function __construct(private readonly SearchEngineInterface $searchEngine, string $name = null)
     {
         parent::__construct($name);
     }
@@ -40,8 +40,8 @@ class SearchCommand extends Command
                 $fiche = $hit->getData();
                 $io->writeln($fiche['societe']);
             }
-        } catch (BadRequest400Exception $e) {
-            $io->error('Erreur dans la recherche: '.$e->getMessage());
+        } catch (BadRequest400Exception $badRequest400Exception) {
+            $io->error('Erreur dans la recherche: '.$badRequest400Exception->getMessage());
         }
 
         return 0;

@@ -18,12 +18,13 @@ class Situation implements Stringable
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
     protected string $name;
+
     /**
      * @var Fiche[]
      */
     #[ORM\ManyToMany(targetEntity: Fiche::class, mappedBy: 'situations')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
-    protected iterable $fiches;
+    protected iterable $fiches = [];
 
     public function __construct()
     {

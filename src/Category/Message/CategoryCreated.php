@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Category\Message;
 
 class CategoryCreated
 {
-    public function __construct(private int $categoryId)
+    public function __construct(private readonly int $categoryId)
     {
     }
 

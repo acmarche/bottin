@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/backend')]
 class DefaultController extends AbstractController
 {
-    public function __construct(private MailerInterface $mailer, private MailFactory $mailFactory)
+    public function __construct(private readonly MailerInterface $mailer, private readonly MailFactory $mailFactory)
     {
     }
 
@@ -46,7 +46,7 @@ class DefaultController extends AbstractController
                 $this->mailer->send($email);
                 $this->addFlash('success', 'Votre message a bien été envoyé');
             } catch (TransportExceptionInterface $e) {
-                $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
+                $this->addFlash('danger', "Erreur lors de l'envoie du message: ".$e->getMessage());
             }
 
             return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);

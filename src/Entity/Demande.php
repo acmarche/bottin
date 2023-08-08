@@ -20,10 +20,13 @@ class Demande implements TimestampableInterface, Stringable
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'demandes')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
+
     #[ORM\Column(type: 'string', nullable: true)]
     protected ?string $traiter_by = null;
+
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $traiter = false;
+
     /**
      * @var DemandeMeta[]|ArrayCollection|iterable
      */

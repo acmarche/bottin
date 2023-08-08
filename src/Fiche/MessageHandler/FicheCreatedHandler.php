@@ -11,8 +11,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class FicheCreatedHandler
 {
     public function __construct(
-        private FicheRepository $ficheRepository,
-        private ElasticIndexer $elasticIndexer
+        private readonly FicheRepository $ficheRepository,
+        private readonly ElasticIndexer $elasticIndexer
     ) {
 
     }

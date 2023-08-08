@@ -14,9 +14,9 @@ class ElasticServer
 {
     use ElasticClientTrait;
 
-    public const INDEX_NAME = 'bottin';
+    final public const INDEX_NAME = 'bottin';
 
-    public function __construct(string $elasticIndexName, private FileUtils $fileUtils)
+    public function __construct(string $elasticIndexName, private readonly FileUtils $fileUtils)
     {
         $this->connect($elasticIndexName);
     }
@@ -26,8 +26,8 @@ class ElasticServer
         try {
             $analyser = $this->fileUtils->readConfigFile('analyzers.yaml');
             $settings = $this->fileUtils->readConfigFile('settings.yaml');
-        } catch (ParseException $e) {
-            printf('Unable to parse the YAML string: %s', $e->getMessage());
+        } catch (ParseException $parseException) {
+            printf('Unable to parse the YAML string: %s', $parseException->getMessage());
 
             return;
         }
@@ -45,8 +45,8 @@ class ElasticServer
             $mapping = new Mapping($properties['mappings']['properties']);
             $response = $this->index->setMapping($mapping);
             dump($response);
-        } catch (ParseException $e) {
-            printf('Unable to parse the YAML string: %s', $e->getMessage());
+        } catch (ParseException $parseException) {
+            printf('Unable to parse the YAML string: %s', $parseException->getMessage());
         }
     }
 }

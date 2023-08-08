@@ -10,9 +10,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class CategoryUpdatedHandler
 {
-    private FlashBagInterface $flashBag;
+    private readonly FlashBagInterface $flashBag;
 
-    public function __construct(private RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
 
     }

@@ -12,9 +12,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class ClassementCreatedHandler
 {
     public function __construct(
-        private ClassementRepository $classementRepository,
-        private HistoryUtils $historyUtils,
-        private RequestStack $requestStack
+        private readonly ClassementRepository $classementRepository,
+        private readonly HistoryUtils $historyUtils,
+        private readonly RequestStack $requestStack
     ) {
 
     }
