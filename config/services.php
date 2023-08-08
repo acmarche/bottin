@@ -1,14 +1,12 @@
 <?php
 
 use AcMarche\Bottin\Elasticsearch\ElasticServer;
-use AcMarche\Bottin\Hades\HadesRepository;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
 use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -41,15 +39,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DirectoryNamer::class)
         ->public();
-
-    $services->set(HadesRepository::class)
-        ->args([
-            '$baseUrl' => '',
-            '$user' => '',
-            '$password' => '',
-        ]);
-
-   // $services->set(ClientBuilder::class);
 
     $services->set(Client::class)
         ->factory('@Elasticsearch\ClientBuilder::fromConfig')
