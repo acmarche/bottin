@@ -6,7 +6,6 @@ use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Entity\Traits\UuidTrait;
 use AcMarche\Bottin\Repository\TokenRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
@@ -15,17 +14,17 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 #[ORM\Table(name: 'token')]
 class Token implements TimestampableInterface
 {
-    use IdTrait;
     use FicheFieldTrait;
-    use UuidTrait;
+    use IdTrait;
     use TimestampableTrait;
+    use UuidTrait;
 
     #[ORM\OneToOne(targetEntity: Fiche::class, inversedBy: 'token')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
 
     #[ORM\Column(type: 'date', nullable: false)]
-    protected DateTimeInterface $expireAt;
+    protected \DateTimeInterface $expireAt;
 
     #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
     protected ?string $password = null;
@@ -36,12 +35,12 @@ class Token implements TimestampableInterface
         $this->uuid = $this->generateUuid();
     }
 
-    public function getExpireAt(): DateTimeInterface
+    public function getExpireAt(): \DateTimeInterface
     {
         return $this->expireAt;
     }
 
-    public function setExpireAt(DateTimeInterface $expireAt): self
+    public function setExpireAt(\DateTimeInterface $expireAt): self
     {
         $this->expireAt = $expireAt;
 

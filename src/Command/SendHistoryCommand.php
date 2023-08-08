@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Command;
 
-use DateTime;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\HistoryRepository;
@@ -32,7 +31,7 @@ class SendHistoryCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $today = new DateTime('-1 day');
+        $today = new \DateTime('-1 day');
 
         $changes = [];
         $deleted = [];
@@ -47,7 +46,7 @@ class SendHistoryCommand extends Command
             }
         }
 
-        if ($changes !== []) {
+        if ([] !== $changes) {
             $email = $this->mailFactory->mailHistory($changes);
             try {
                 $this->mailer->send($email);

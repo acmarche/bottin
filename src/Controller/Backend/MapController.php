@@ -5,11 +5,11 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Map controller.

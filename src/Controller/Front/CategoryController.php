@@ -54,11 +54,11 @@ class CategoryController extends AbstractController
          */
         $fiches = $this->categoryService->getFichesByCategoryIdWithOutChildrend($category);
         $category->getMaterializedPath();
-        //1/2
+        // 1/2
         $category->getRealMaterializedPath();
-        //1/2/3
+        // 1/2/3
         $category->getRootMaterializedPath();
-        //1
+        // 1
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         return $this->render(

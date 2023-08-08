@@ -10,13 +10,12 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
-use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Classement controller.
@@ -48,7 +47,7 @@ class ClassementController extends AbstractController
             try {
                 $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
                 $this->messageBus->dispatch(new ClassementCreated($fiche->getId(), $classement->getId()));
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
             }
 

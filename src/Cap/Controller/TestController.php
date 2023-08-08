@@ -43,7 +43,7 @@ class TestController extends AbstractController
     {
         $url = $this->generateUrl('bottin_admin_api_fiches_commerces', [], false);
         $request = $this->httpClient->request('GET', $url);
-        $fiches = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+        $fiches = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
 
         return $this->render('@AcMarcheBottin/admin/test/fiches.html.twig', ['fiches' => $fiches, 'url' => $url]);
     }
@@ -53,7 +53,7 @@ class TestController extends AbstractController
     {
         $url = $this->generateUrl('bottin_admin_api_commerces', [], false);
         $request = $this->httpClient->request('GET', $url);
-        $categories = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+        $categories = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
 
         return $this->render(
             '@AcMarcheBottin/admin/test/commerce.html.twig',
@@ -66,7 +66,7 @@ class TestController extends AbstractController
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_category', ['id' => $id], false);
         $request = $this->httpClient->request('GET', $url);
-        $fiches = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+        $fiches = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
         $category = $this->categoryRepository->find($id);
 
         return $this->render(
@@ -80,7 +80,7 @@ class TestController extends AbstractController
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_id', ['id' => $id], false);
         $request = $this->httpClient->request('GET', $url);
-        $fiche = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+        $fiche = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
 
         return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
@@ -99,7 +99,7 @@ class TestController extends AbstractController
                     'body' => $fields,
                 ]
             );
-            $result = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+            $result = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
         } catch (TransportExceptionInterface $transportException) {
             $result = ['error1', $transportException->getMessage()];
         }
@@ -118,7 +118,7 @@ class TestController extends AbstractController
     {
         $url = $this->generateUrl('bottin_admin_api_fiche_by_slugname', ['slugname' => $slug], false);
         $request = $this->httpClient->request('GET', $url);
-        $fiche = json_decode($request->getContent(), null, 512, JSON_THROW_ON_ERROR);
+        $fiche = json_decode($request->getContent(), null, 512, \JSON_THROW_ON_ERROR);
 
         return $this->render('@AcMarcheBottin/admin/test/fiche.html.twig', ['fiche' => $fiche, 'url' => $url]);
     }
@@ -161,7 +161,7 @@ class TestController extends AbstractController
             $content = $request->getContent();
 
             return $this->json($content);
-        } catch (ClientExceptionInterface | TransportExceptionInterface | ServerExceptionInterface | RedirectionExceptionInterface $e) {
+        } catch (ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface $e) {
             return $this->json(['error' => $e->getMessage()]);
         }
     }

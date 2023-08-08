@@ -8,14 +8,13 @@ use AcMarche\Bottin\Fiche\Form\FicheImageType;
 use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ImageRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
-use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
 /**
@@ -71,7 +70,7 @@ class ImageController extends AbstractController
         $ficheImage->setImage($file);
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->render(
                 '@AcMarcheBottin/admin/upload/_response_fail.html.twig',
                 ['error' => $exception->getMessage()]
@@ -106,7 +105,7 @@ class ImageController extends AbstractController
     #[Route(path: '/', name: 'bottin_backend_image_delete', methods: ['POST'])]
     public function delete(Request $request): RedirectResponse
     {
-        $imageId = (int)$request->request->get('imageid');
+        $imageId = (int) $request->request->get('imageid');
         if (0 === $imageId) {
             $this->addFlash('danger', 'Image non trouvée');
 

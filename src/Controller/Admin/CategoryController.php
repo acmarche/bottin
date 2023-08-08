@@ -13,13 +13,13 @@ use AcMarche\Bottin\Form\Search\SearchCategoryType;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\SortUtils;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Category controller.
@@ -47,7 +47,7 @@ class CategoryController extends AbstractController
         $data = [];
         $categoryRoot = null;
         if ($session->has('category_search')) {
-            $args = json_decode((string) $session->get('category_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('category_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(
@@ -68,7 +68,7 @@ class CategoryController extends AbstractController
                 $args['parent'] = $root;
             }
 
-            $session->set('category_search', json_encode($args, JSON_THROW_ON_ERROR));
+            $session->set('category_search', json_encode($args, \JSON_THROW_ON_ERROR));
 
             if ($root) {
                 $categoryRoot = $this->categoryRepository->find($root);
@@ -142,11 +142,11 @@ class CategoryController extends AbstractController
          */
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
         $category->getMaterializedPath();
-        //1/2
+        // 1/2
         $category->getRealMaterializedPath();
-        //1/2/3
+        // 1/2/3
         $category->getRootMaterializedPath();
-        //1
+        // 1
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         return $this->render(

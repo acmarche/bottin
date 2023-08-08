@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Command;
 
-use Exception;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\FicheRepository;
@@ -38,17 +37,17 @@ class PublipostageCommand extends Command
         foreach ($fiches as $fiche) {
             $message = null;
             $to = null;
-            $subject = "Mise à jour de vos données";
+            $subject = 'Mise à jour de vos données';
             $message = $this->exportUtils->replaceUrlToken($fiche, $message);
             $email = $this->mailFactory->mailMessageToFiche($to, $subject, $message, $fiche);
             try {
                 //  $this->mailer->send($email);
-            } catch (TransportExceptionInterface|Exception $e) {
+            } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error("Erreur lors de l'envoie du message: ".$e->getMessage());
             }
 
             if (1 == $i) {
-                //break;
+                // break;
             }
 
             ++$i;

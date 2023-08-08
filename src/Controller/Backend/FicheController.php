@@ -12,13 +12,13 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
 use AcMarche\Bottin\Utils\PathUtils;
 use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Fiche controller.
@@ -73,11 +73,10 @@ class FicheController extends AbstractController
         $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
                 $this->historyUtils->diffFiche($fiche);
             } catch (Exception) {
-              //  $this->addFlash('danger', 'error '.$e->getMessage());
+                //  $this->addFlash('danger', 'error '.$e->getMessage());
             }
 
             $this->ficheRepository->flush();

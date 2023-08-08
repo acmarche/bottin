@@ -6,7 +6,6 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Form\ImageDropZoneType;
 use AcMarche\Bottin\Repository\ImageRepository;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,7 +35,7 @@ class ImageController extends AbstractController
             $data = $form->getData();
             foreach ($data['file'] as $file) {
                 if ($file instanceof UploadedFile) {
-                    $this->treatmentFile($file,$fiche);
+                    $this->treatmentFile($file, $fiche);
                 }
             }
 
@@ -44,7 +43,6 @@ class ImageController extends AbstractController
         }
 
         // $images = $this->fileHelper->getImages($association);
-
 
         return $this->render(
             '@AcMarcheBottin/admin/image/new.html.twig',
@@ -54,7 +52,6 @@ class ImageController extends AbstractController
             ]
         );
     }
-
 
     public function treatmentFile(UploadedFile $file, Fiche $fiche): void
     {
@@ -71,7 +68,7 @@ class ImageController extends AbstractController
         $ficheImage->setImage($file);
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $this->addFlash('danger', 'Erreur upload image: '.$exception->getMessage());
         }
 

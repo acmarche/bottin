@@ -16,7 +16,7 @@ class SetToListener implements EventSubscriberInterface
             return;
         }
 
-        //$email->bcc(new Address('xx@xx.be', 'Test mail'));
+        // $email->bcc(new Address('xx@xx.be', 'Test mail'));
     }
 
     public static function getSubscribedEvents(): array

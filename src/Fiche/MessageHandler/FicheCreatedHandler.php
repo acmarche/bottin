@@ -14,7 +14,6 @@ class FicheCreatedHandler
         private readonly FicheRepository $ficheRepository,
         private readonly ElasticIndexer $elasticIndexer
     ) {
-
     }
 
     public function __invoke(FicheCreated $ficheCreated): void
@@ -23,5 +22,4 @@ class FicheCreatedHandler
         $this->elasticIndexer->updateFiche($fiche);
         $this->ficheRepository->flush();
     }
-
 }

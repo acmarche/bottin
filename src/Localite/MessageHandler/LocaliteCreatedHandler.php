@@ -14,7 +14,6 @@ class LocaliteCreatedHandler
 
     public function __construct(private readonly RequestStack $requestStack)
     {
-
     }
 
     public function __invoke(LocaliteCreated $localiteCreated): void

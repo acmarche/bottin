@@ -9,14 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Stringable;
 
 #[ORM\Entity(repositoryClass: DemandeRepository::class)]
 #[ORM\Table(name: 'demande')]
-class Demande implements TimestampableInterface, Stringable
+class Demande implements TimestampableInterface, \Stringable
 {
-    use TimestampableTrait;
     use IdTrait;
+    use TimestampableTrait;
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'demandes')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;

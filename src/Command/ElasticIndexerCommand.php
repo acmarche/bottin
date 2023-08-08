@@ -66,7 +66,7 @@ class ElasticIndexerCommand extends Command
     private function updateCategories(): void
     {
         foreach ($this->categoryRepository->findAll() as $category) {
-            if (in_array($category->getId(), $this->skips)) {
+            if (\in_array($category->getId(), $this->skips, true)) {
                 continue;
             }
 

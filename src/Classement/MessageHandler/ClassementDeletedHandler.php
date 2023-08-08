@@ -12,14 +12,12 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class ClassementDeletedHandler
 {
-
     public function __construct(
         private readonly HistoryUtils $historyUtils,
         private readonly RequestStack $requestStack,
         private readonly CategoryRepository $categoryRepository,
         private readonly FicheRepository $ficheRepository
     ) {
-
     }
 
     public function __invoke(ClassementDeleted $classementDeleted): void

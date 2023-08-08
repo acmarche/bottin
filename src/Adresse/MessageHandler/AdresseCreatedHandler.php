@@ -6,7 +6,6 @@ use AcMarche\Bottin\Adresse\Message\AdresseCreated;
 use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\AdresseRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -18,7 +17,6 @@ class AdresseCreatedHandler
         private readonly LocationUpdater $locationUpdater,
         private readonly RequestStack $requestStack
     ) {
-
     }
 
     public function __invoke(AdresseCreated $adresseCreated): void
@@ -32,7 +30,7 @@ class AdresseCreatedHandler
     {
         try {
             $this->locationUpdater->convertAddressToCoordinates($adresse);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $flashBag = $this->requestStack->getSession()->getFlashBag();
             $flashBag->add(
                 'danger',
@@ -40,5 +38,4 @@ class AdresseCreatedHandler
             );
         }
     }
-
 }

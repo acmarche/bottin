@@ -2,15 +2,14 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use AcMarche\Bce\Entity\Enterprise;
 use AcMarche\Bce\Cache\CbeCache;
+use AcMarche\Bce\Entity\Enterprise;
 use AcMarche\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
-use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 #[Route(path: '/admin/bce')]
@@ -35,7 +34,7 @@ class BceController extends AbstractController
         if (!$entreprise instanceof Enterprise) {
             try {
                 $entreprise = $this->bceRepository->findByNumber($number);
-            } catch (TransportExceptionInterface | Exception $e) {
+            } catch (TransportExceptionInterface|\Exception $e) {
                 $this->addFlash('warning', 'Erreur survenue: '.$e->getMessage());
 
                 return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);

@@ -9,10 +9,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 final class LocaliteDeletedHandler
 {
-
     public function __construct(private readonly RequestStack $requestStack)
     {
-
     }
 
     public function __invoke(LocaliteDeleted $localiteDeleted)

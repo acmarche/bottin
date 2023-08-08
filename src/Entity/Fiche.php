@@ -29,34 +29,33 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FicheRepository::class)]
 #[ORM\Table(name: 'fiche')]
-class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
+class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleInterface, \Stringable
 {
-    use IdTrait;
-    use LocationTrait;
-    use SluggableTrait;
-    use TimestampableTrait;
     use AdminTrait;
+    use CapTrait;
     use ClassementTrait;
     use ContactTrait;
     use DemandeTrait;
-    use HoraireTrait;
-    use ImageTrait;
     use DocumentsTrait;
+    use EcommerceTrait;
+    use EnabledTrait;
+    use EtapeTrait;
+    use HoraireTrait;
+    use IdTrait;
+    use ImageTrait;
     use InformationTrait;
-    use SociauxTrait;
+    use LocationTrait;
     use PdvTrait;
     use SituationsTrait;
-    use EnabledTrait;
-    use CapTrait;
-    use EcommerceTrait;
-    use TokenTrait;
-    use EtapeTrait;
+    use SluggableTrait;
+    use SociauxTrait;
     use TagTrait;
+    use TimestampableTrait;
+    use TokenTrait;
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]

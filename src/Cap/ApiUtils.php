@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Cap;
 
-use JsonException;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 use AcMarche\Bottin\Entity\Fiche;
@@ -14,6 +13,7 @@ use AcMarche\Bottin\Serializer\FicheImageSerializer;
 use AcMarche\Bottin\Serializer\FicheSerializer;
 use AcMarche\Bottin\Serializer\HoraireSerializer;
 use AcMarche\Bottin\Utils\PathUtils;
+use JsonException;
 
 class ApiUtils
 {
@@ -80,7 +80,7 @@ class ApiUtils
     public function prepareFiche(Fiche $fiche): array
     {
         $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
-        $dataFiche['classements'] = $this->getClassementsForApi($fiche); //only eco !!
+        $dataFiche['classements'] = $this->getClassementsForApi($fiche); // only eco !!
         $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
         $dataFiche['images'] = $this->getImages($fiche);
         $urls = [];
@@ -117,7 +117,6 @@ class ApiUtils
         } catch (JsonException) {
             return [];
         }
-
     }
 
     public function getImages(Fiche $fiche): array

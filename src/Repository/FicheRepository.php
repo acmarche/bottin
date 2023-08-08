@@ -55,12 +55,12 @@ class FicheRepository extends ServiceEntityRepository
         if ('' !== $name) {
             $queryBuilder
                 ->andWhere(
-                    'fiche.societe LIKE :nom OR 
-                fiche.admin_email LIKE :nom OR 
-                fiche.email  LIKE :nom OR 
-                fiche.contact_email LIKE :nom OR 
+                    'fiche.societe LIKE :nom OR
+                fiche.admin_email LIKE :nom OR
+                fiche.email  LIKE :nom OR
+                fiche.contact_email LIKE :nom OR
                 fiche.societe LIKE :nom OR
-                fiche.nom LIKE :nom OR 
+                fiche.nom LIKE :nom OR
                 fiche.prenom LIKE :nom'
                 )
                 ->setParameter('nom', '%'.$name.'%');
@@ -106,7 +106,7 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
             ->leftJoin('fiche.tags', 'tags', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token','tags')
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token', 'tags')
             ->addOrderBy('fiche.societe');
     }
 }

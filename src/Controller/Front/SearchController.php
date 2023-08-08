@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Controller\Front;
 use AcMarche\Bottin\Form\Search\SearchSimpleType;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use Elasticsearch\Common\Exceptions\BadRequest400Exception;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +32,7 @@ class SearchController extends AbstractController
                 $response = $this->searchEngine->doSearch($keyword);
                 $hits = $response->getResults();
                 $count = $response->count();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }

@@ -20,33 +20,21 @@ class LdapBottin implements LdapInterface
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function bind(string $dn = null, string $password = null): void
     {
         $this->adapter->getConnection()->bind($dn, $password);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function query(string $dn, string $query, array $options = []): QueryInterface
     {
         return $this->adapter->createQuery($dn, $query, $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getEntryManager(): EntryManagerInterface
     {
         return $this->adapter->getEntryManager();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function escape(string $subject, string $ignore = '', int $flags = 0): string
     {
         return $this->adapter->escape($subject, $ignore, $flags);

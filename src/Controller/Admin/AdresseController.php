@@ -9,13 +9,13 @@ use AcMarche\Bottin\Adresse\Message\AdresseUpdated;
 use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Location\Form\LocalisationType;
 use AcMarche\Bottin\Repository\AdresseRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin/adresse')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]

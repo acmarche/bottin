@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Location;
 
 use AcMarche\Bottin\Entity\Fiche;
-use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -23,7 +22,7 @@ class GeolocalisationGoogleService
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function convertToCoordonate(Fiche $fiche, $withNum = true): array
     {
@@ -43,25 +42,25 @@ class GeolocalisationGoogleService
                 ]
             );
         } catch (TransportExceptionInterface $transportException) {
-            throw new Exception($transportException->getMessage(), $transportException->getCode(), $transportException);
+            throw new \Exception($transportException->getMessage(), $transportException->getCode(), $transportException);
         }
 
         try {
             $content = $request->getContent();
         } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
+            throw new \Exception($exception->getMessage(), $exception->getCode(), $exception);
         }
 
-        $coordonates = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+        $coordonates = json_decode($content, true, 512, \JSON_THROW_ON_ERROR);
 
         if (\is_array($coordonates)) {
             if (isset($coordonates['error_message'])) {
-                throw new Exception($coordonates['error_message']);
+                throw new \Exception($coordonates['error_message']);
             }
 
             $status = $coordonates['status'];
             if ('ZERO_RESULTS' === $status) {
-                throw new Exception("Pas d'adresse postale");
+                throw new \Exception("Pas d'adresse postale");
             }
 
             $results = $coordonates['results'];

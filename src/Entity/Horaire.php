@@ -4,16 +4,14 @@ namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Repository\HoraireRepository;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HoraireRepository::class)]
 #[ORM\Table(name: 'horaire')]
 class Horaire
 {
-    public DateTimeInterface $modify_date;
-
     use IdTrait;
+    public \DateTimeInterface $modify_date;
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'horaires')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Fiche $fiche = null;
@@ -31,16 +29,16 @@ class Horaire
     protected bool $is_rdv = false;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    protected ?DateTimeInterface $morning_start = null;
+    protected ?\DateTimeInterface $morning_start = null;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    protected ?DateTimeInterface $morning_end = null;
+    protected ?\DateTimeInterface $morning_end = null;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    protected ?DateTimeInterface $noon_start = null;
+    protected ?\DateTimeInterface $noon_start = null;
 
     #[ORM\Column(type: 'time', nullable: true)]
-    protected ?DateTimeInterface $noon_end = null;
+    protected ?\DateTimeInterface $noon_end = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
     protected bool $is_closed = false;
@@ -99,55 +97,55 @@ class Horaire
         return $this;
     }
 
-    public function getMorningStart(): ?DateTimeInterface
+    public function getMorningStart(): ?\DateTimeInterface
     {
         return $this->morning_start;
     }
 
-    public function setMorningStart(?DateTimeInterface $morning_start): self
+    public function setMorningStart(?\DateTimeInterface $morning_start): self
     {
         $this->morning_start = $morning_start;
 
         return $this;
     }
 
-    public function getMorningEnd(): ?DateTimeInterface
+    public function getMorningEnd(): ?\DateTimeInterface
     {
         return $this->morning_end;
     }
 
-    public function setMorningEnd(?DateTimeInterface $morning_end): self
+    public function setMorningEnd(?\DateTimeInterface $morning_end): self
     {
         $this->morning_end = $morning_end;
 
         return $this;
     }
 
-    public function getNoonStart(): ?DateTimeInterface
+    public function getNoonStart(): ?\DateTimeInterface
     {
         return $this->noon_start;
     }
 
-    public function setNoonStart(?DateTimeInterface $noon_start): self
+    public function setNoonStart(?\DateTimeInterface $noon_start): self
     {
         $this->noon_start = $noon_start;
 
         return $this;
     }
 
-    public function getNoonEnd(): ?DateTimeInterface
+    public function getNoonEnd(): ?\DateTimeInterface
     {
         return $this->noon_end;
     }
 
-    public function setNoonEnd(?DateTimeInterface $noon_end): self
+    public function setNoonEnd(?\DateTimeInterface $noon_end): self
     {
         $this->noon_end = $noon_end;
 
         return $this;
     }
 
-    public function setModifyDate(DateTimeInterface $modify_date): self
+    public function setModifyDate(\DateTimeInterface $modify_date): self
     {
         $this->modify_date = $modify_date;
 

@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\History;
 
-use Symfony\Component\Security\Core\User\UserInterface;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\FicheImage;
@@ -11,6 +10,7 @@ use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\HistoryRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class HistoryUtils
@@ -48,7 +48,7 @@ class HistoryUtils
     {
         $data = $this->serializer->serialize($fiche, 'json', ['groups' => 'group1']);
 
-        return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        return json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
     }
 
     private function getUsername(): string
@@ -58,8 +58,8 @@ class HistoryUtils
             $username = $user->getUserIdentifier();
         }
 
-        if ($username === null) {
-            $username = "token";
+        if (null === $username) {
+            $username = 'token';
         }
 
         return $username;

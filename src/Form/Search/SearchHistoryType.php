@@ -40,7 +40,7 @@ class SearchHistoryType extends AbstractType
                 'property',
                 ChoiceType::class,
                 [
-                    'choices' => array_combine($this->fields(),  $this->fields()),
+                    'choices' => array_combine($this->fields(), $this->fields()),
                     'required' => false,
                     'label' => 'Quel champ',
                 ]

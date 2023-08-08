@@ -2,8 +2,6 @@
 
 namespace AcMarche\Bottin\Location;
 
-use Exception;
-use JsonException;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -18,19 +16,19 @@ class LocationUpdater
     public function convertAddressToCoordinates(LocationAbleInterface $locationAble): bool
     {
         if (!$locationAble->getRue()) {
-            throw new Exception('Aucune rue encodée, pas de données de géolocalisation');
+            throw new \Exception('Aucune rue encodée, pas de données de géolocalisation');
         }
 
         try {
             $response = $this->location->search($this->getAdresseString($locationAble));
-            $tab = json_decode((string) $response, true, 512, JSON_THROW_ON_ERROR);
+            $tab = json_decode((string) $response, true, 512, \JSON_THROW_ON_ERROR);
 
             if (\is_array($tab) && 0 == \count($tab)) {
-                throw new Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
+                throw new \Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
             }
 
             if (false == $tab) {
-                throw new Exception('Decode json error:'.$response);
+                throw new \Exception('Decode json error:'.$response);
             }
 
             if (\is_array($tab) && [] !== $tab) {
@@ -38,10 +36,10 @@ class LocationUpdater
 
                 return true;
             } else {
-                throw new Exception('Convertion en latitude longitude error:'.$response);
+                throw new \Exception('Convertion en latitude longitude error:'.$response);
             }
-        } catch (JsonException | ClientExceptionInterface | RedirectionExceptionInterface | TransportExceptionInterface | ServerExceptionInterface $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        } catch (\JsonException|ClientExceptionInterface|RedirectionExceptionInterface|TransportExceptionInterface|ServerExceptionInterface $e) {
+            throw new \Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 

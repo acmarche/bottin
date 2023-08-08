@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Doctrine;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -21,7 +20,7 @@ trait LogoTrait
         if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updated = new DateTime('now');
+            $this->updated = new \DateTime('now');
         }
     }
 
@@ -45,7 +44,7 @@ trait LogoTrait
         if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updated = new DateTime('now');
+            $this->updated = new \DateTime('now');
         }
     }
 

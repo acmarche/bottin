@@ -7,12 +7,11 @@ use AcMarche\Bottin\Repository\SituationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SituationRepository::class)]
 #[ORM\Table(name: 'situation')]
-class Situation implements Stringable
+class Situation implements \Stringable
 {
     use IdTrait;
     #[Assert\NotBlank]

@@ -19,6 +19,7 @@ class SortUtils
             static function ($a, $b) {
                 $ad = $a->getSociete();
                 $bd = $b->getSociete();
+
                 return $ad <=> $bd;
             }
         );
@@ -27,8 +28,6 @@ class SortUtils
     }
 
     /**
-     * @param Category[] $fiches
-     *
      * @return Category[]
      */
     public static function sortCategories(array $categories): array
@@ -38,6 +37,7 @@ class SortUtils
             static function ($a, $b) {
                 $ad = $a->getName();
                 $bd = $b->getName();
+
                 return $ad <=> $bd;
             }
         );

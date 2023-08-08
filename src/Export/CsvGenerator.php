@@ -2,9 +2,9 @@
 
 namespace AcMarche\Bottin\Export;
 
-use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\SelectionRepository;
@@ -38,7 +38,7 @@ class CsvGenerator
 
         $lettre = 'A';
         foreach ($colonnes as $colonne) {
-            //$sheet->getColumnDimension('A')->setWidth(20);
+            // $sheet->getColumnDimension('A')->setWidth(20);
             $worksheet->setCellValue($lettre.$ligne, $colonne);
             //    $sheet->getStyle($lettre.$ligne)->applyFromArray($font);
             ++$lettre;
@@ -157,7 +157,7 @@ class CsvGenerator
         $ligne = 1;
         $lettre = 'A';
         foreach ($colonnes as $colonne) {
-            //$sheet->getColumnDimension('A')->setWidth(20);
+            // $sheet->getColumnDimension('A')->setWidth(20);
             $worksheet->setCellValue($lettre.$ligne, $colonne);
             //  $sheet->getStyle($lettre.$ligne)->applyFromArray($font);
             ++$lettre;

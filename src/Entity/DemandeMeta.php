@@ -23,8 +23,7 @@ class DemandeMeta
         protected ?string $champ,
         #[ORM\Column(type: 'string', nullable: true)]
         protected ?string $value
-    )
-    {
+    ) {
     }
 
     public function getChamp(): ?string

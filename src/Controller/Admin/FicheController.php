@@ -24,7 +24,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
 #[Route(path: '/admin/fiche')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class FicheController extends AbstractController
@@ -47,14 +46,14 @@ class FicheController extends AbstractController
         $args = [];
         $fiches = [];
         if ($session->has('fiche_search')) {
-            $args = json_decode((string) $session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
-            $session->set('fiche_search', json_encode($args, JSON_THROW_ON_ERROR));
+            $session->set('fiche_search', json_encode($args, \JSON_THROW_ON_ERROR));
 
             try {
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
@@ -77,11 +76,10 @@ class FicheController extends AbstractController
     public function new(Request $request): Response
     {
         if ($this->isCsrfTokenValid('fichenew', $request->request->get('_token'))) {
-
             $params = $request->request;
             $societe = trim($params->get('societe'));
 
-            if ($societe === '' || $societe === '0') {
+            if ('' === $societe || '0' === $societe) {
                 $this->addFlash('danger', 'Le nom ne peut être vide');
 
                 return $this->redirectToRoute('bottin_admin_fiche_new');
@@ -104,7 +102,6 @@ class FicheController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/admin/fiche/new.html.twig',
             [
-
             ]
         );
     }

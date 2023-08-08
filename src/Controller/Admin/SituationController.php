@@ -5,12 +5,12 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Entity\Situation;
 use AcMarche\Bottin\Form\SituationType;
 use AcMarche\Bottin\Repository\SituationRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Situation controller.

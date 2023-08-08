@@ -36,7 +36,7 @@ class FicheType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Adresse::class,
-                    'query_builder' => static fn(AdresseRepository $adresseRepository) => $adresseRepository->queryBuilderForSelect(),
+                    'query_builder' => static fn (AdresseRepository $adresseRepository) => $adresseRepository->queryBuilderForSelect(),
                     'required' => false,
                     'placeholder' => 'Sélectionnez une adresse existante',
                     'help' => 'Cette adresse écrasera l\' adresse encodée sur la fiche ',
@@ -149,7 +149,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
-                    'help'=>'Obsolète, utilisez les tags'
+                    'help' => 'Obsolète, utilisez les tags',
                 ]
             )
             ->add(
@@ -160,7 +160,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
-                    'help'=>'Obsolète, utilisez les tags'
+                    'help' => 'Obsolète, utilisez les tags',
                 ]
             )
             ->add(
@@ -171,7 +171,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
-                    'help'=>'Obsolète, utilisez les tags'
+                    'help' => 'Obsolète, utilisez les tags',
                 ]
             )
             ->add(
@@ -380,7 +380,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'class' => Pdv::class,
-                    'query_builder' => static fn(PdvRepository $cr) => $cr->getForList(),
+                    'query_builder' => static fn (PdvRepository $cr) => $cr->getForList(),
                 ]
             )
             ->add(
@@ -392,7 +392,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
-                    'help'=>'Obsolète, utilisez les tags'
+                    'help' => 'Obsolète, utilisez les tags',
                 ]
             )
             ->add(
@@ -403,7 +403,7 @@ class FicheType extends AbstractType
                     'label_attr' => [
                         'class' => 'switch-custom',
                     ],
-                    'help'=>'Obsolète, utilisez les tags'
+                    'help' => 'Obsolète, utilisez les tags',
                 ]
             )
             ->add('tags', TagsAutocompleteField::class);

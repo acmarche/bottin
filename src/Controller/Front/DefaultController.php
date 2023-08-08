@@ -67,7 +67,6 @@ class DefaultController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/front/default/contact.html.twig',
             [
-
             ]
         );
     }

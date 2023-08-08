@@ -38,8 +38,8 @@ class MarcheHandler implements MessageSubscriberInterface
         // also handle this message on handleOtherSmsNotification
         yield ClassementDeleted::class => [
             'method' => 'classementDeleted',
-            //'priority' => 0,
-            //'bus' => 'messenger.bus.default',
+            // 'priority' => 0,
+            // 'bus' => 'messenger.bus.default',
         ];
 
         yield FicheUpdated::class => [

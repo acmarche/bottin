@@ -41,7 +41,7 @@ class ElasticServer
     {
         try {
             $properties = $this->fileUtils->readConfigFile('mapping.yaml');
-            //$properties = Yaml::parse(file_get_contents(__DIR__.'/mappings/mapping.yaml'));
+            // $properties = Yaml::parse(file_get_contents(__DIR__.'/mappings/mapping.yaml'));
             $mapping = new Mapping($properties['mappings']['properties']);
             $response = $this->index->setMapping($mapping);
             dump($response);

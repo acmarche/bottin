@@ -5,10 +5,10 @@ namespace AcMarche\Bottin\Controller\Admin;
 use AcMarche\Bottin\Category\Repository\CategoryService;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CheckupController extends AbstractController
 {
@@ -38,7 +38,7 @@ class CheckupController extends AbstractController
         $data = [];
         foreach ($fiches as $fiche) {
             $classements = $fiche->getClassements();
-            $principaux = array_filter($classements->toArray(), static fn($classement) => (bool) $classement->getPrincipal());
+            $principaux = array_filter($classements->toArray(), static fn ($classement) => (bool) $classement->getPrincipal());
             if (0 == \count($principaux)) {
                 $data[] = $fiche;
             }

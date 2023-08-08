@@ -9,7 +9,6 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class CategoryCreatedHandler
 {
-
     public function __construct(private readonly RequestStack $requestStack)
     {
     }

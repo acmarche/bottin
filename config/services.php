@@ -8,10 +8,11 @@ use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Elasticsearch\Client;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -67,6 +68,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         $services->set(LdapBottin::class)
             ->arg('$adapter', service(Adapter::class))
-            ->tag('ldap'); //necessary for new LdapBadge(LdapMercredi::class)
+            ->tag('ldap'); // necessary for new LdapBadge(LdapMercredi::class)
     }
 };

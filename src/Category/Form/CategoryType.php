@@ -55,7 +55,7 @@ class CategoryType extends AbstractType
                     'label' => 'Logo blanc',
                 ]
             );
-        //->add('parent');
+        // ->add('parent');
     }
 
     public function configureOptions(OptionsResolver $optionsResolver): void

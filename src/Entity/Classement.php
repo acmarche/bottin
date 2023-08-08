@@ -2,19 +2,17 @@
 
 namespace AcMarche\Bottin\Entity;
 
-use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Repository\ClassementRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 
 #[UniqueEntity(fields: ['fiche', 'category'], message: 'Déjà dans ce classement')]
 #[ORM\Entity(repositoryClass: ClassementRepository::class)]
 #[ORM\Table(name: 'classements')]
 #[ORM\UniqueConstraint(name: 'classement_idx', columns: ['fiche_id', 'category_id'])]
-class Classement implements Stringable
+class Classement implements \Stringable
 {
     use IdTrait;
     #[Groups(groups: ['read', 'write'])]
@@ -22,10 +20,10 @@ class Classement implements Stringable
     protected bool $principal = false;
 
     public function __construct(#[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Fiche $fiche, #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Category $category)
+        #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        protected ?Fiche $fiche, #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
+        #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+        protected ?Category $category)
     {
     }
 

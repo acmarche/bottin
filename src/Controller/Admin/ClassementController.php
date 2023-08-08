@@ -9,13 +9,12 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
-use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Classement controller.
@@ -49,7 +48,7 @@ class ClassementController extends AbstractController
                 $this->messageBus->dispatch(new ClassementCreated($fiche->getId(), $classement->getId()));
 
                 return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->addFlash('danger', $e->getMessage());
 
                 return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);

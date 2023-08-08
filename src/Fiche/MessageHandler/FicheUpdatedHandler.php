@@ -7,7 +7,6 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
 use AcMarche\Bottin\Repository\FicheRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -34,7 +33,7 @@ class FicheUpdatedHandler
                 $this->locationUpdater->convertAddressToCoordinates($fiche);
                 $this->ficheRepository->flush();
                 $this->flashBag->add('success', 'Coordonnées gps misent à jour');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->flashBag->add('danger', $e->getMessage());
             }
         }

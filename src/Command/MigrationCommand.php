@@ -19,16 +19,14 @@ class MigrationCommand extends Command
 {
     public function __construct(
         private readonly FicheRepository $ficheRepository,
-        private readonly TagRepository   $tagRepository,
-        string                  $name = null
-    )
-    {
+        private readonly TagRepository $tagRepository,
+        string $name = null
+    ) {
         parent::__construct($name);
     }
 
     protected function configure(): void
     {
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -40,7 +38,7 @@ class MigrationCommand extends Command
             'click_collect' => 'Click and collect',
             'ecommerce' => 'Ecommerce',
             'pmr' => 'Pmr',
-            'midi' => 'Temps de midi'
+            'midi' => 'Temps de midi',
         ];
 
         foreach ($types as $key => $item) {
@@ -56,7 +54,7 @@ class MigrationCommand extends Command
             }
         }
 
-     //   $this->tagRepository->flush();
+        //   $this->tagRepository->flush();
 
         return Command::SUCCESS;
     }

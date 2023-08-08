@@ -14,7 +14,6 @@ class CategoryUpdatedHandler
 
     public function __construct(private readonly RequestStack $requestStack)
     {
-
     }
 
     public function __invoke(CategoryUpdated $categoryUpdated): void

@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Twig;
 
-
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -22,7 +21,7 @@ class SearchLiveFiche
 
     public function getFiches(): array
     {
-        if ($this->query !== null) {
+        if (null !== $this->query) {
             return $this->ficheRepository->searchByNameAndCity($this->query, null);
         }
 

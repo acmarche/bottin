@@ -12,8 +12,8 @@ class Selection
     use IdTrait;
 
     public function __construct(#[ORM\ManyToOne(targetEntity: Category::class)]
-    private Category $category, #[ORM\Column(type: 'string', length: 120)]
-    private string $user)
+        private Category $category, #[ORM\Column(type: 'string', length: 120)]
+        private string $user)
     {
     }
 

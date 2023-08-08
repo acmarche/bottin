@@ -133,7 +133,7 @@ class AjaxController extends AbstractController
     }
 
     #[Route(path: '/fetch/{query}', name: 'bottin_admin_fetch')]
-    public function fetchCategorie(?string $query = null): JsonResponse
+    public function fetchCategorie(string $query = null): JsonResponse
     {
         $data = [];
         $i = 0;

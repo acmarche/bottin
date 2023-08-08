@@ -10,8 +10,6 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 interface LocationInterface
 {
     /**
-     * @return mixed
-     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface

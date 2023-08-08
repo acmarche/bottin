@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Repository;
 use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
-use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -33,7 +32,7 @@ class TokenRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function isValid(Fiche $fiche, DateTimeInterface $date): ?Token
+    public function isValid(Fiche $fiche, \DateTimeInterface $date): ?Token
     {
         return $this->createQueryBuilder('token')
             ->andWhere('token.fiche = :fiche')

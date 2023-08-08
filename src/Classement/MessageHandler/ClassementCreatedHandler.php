@@ -16,7 +16,6 @@ class ClassementCreatedHandler
         private readonly HistoryUtils $historyUtils,
         private readonly RequestStack $requestStack
     ) {
-
     }
 
     public function __invoke(ClassementCreated $classementCreated): void

@@ -11,7 +11,6 @@ class CategoryDeledHandler
 {
     public function __construct(private readonly RequestStack $requestStack)
     {
-
     }
 
     public function __invoke(CategoryDeleted $categoryDeleted): void

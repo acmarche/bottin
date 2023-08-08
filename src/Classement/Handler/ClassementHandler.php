@@ -9,7 +9,6 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 
 class ClassementHandler
 {
@@ -23,24 +22,24 @@ class ClassementHandler
     public function handleNewClassement(Fiche $fiche, ?int $categoryId): Classement
     {
         if (!$categoryId) {
-            throw new Exception('La référence à la rubrique n\'a pas été trouvée');
+            throw new \Exception('La référence à la rubrique n\'a pas été trouvée');
         }
 
         $category = $this->categoryRepository->find($categoryId);
 
         if (!$category instanceof Category) {
-            throw new Exception('La catégorie n\'a pas été trouvée.');
+            throw new \Exception('La catégorie n\'a pas été trouvée.');
         }
 
         if ($this->classementRepository->checkExist($fiche, $category) instanceof Classement) {
-            throw new Exception('La fiche est déjà classée dans cette rubrique');
+            throw new \Exception('La fiche est déjà classée dans cette rubrique');
         }
 
         $classement = new Classement($fiche, $category);
         $category = $this->categoryRepository->getTree($category->getRealMaterializedPath());
 
         if ($category->getChildNodes()->count() > 0) {
-            throw new Exception('Vous ne pouvez pas classer dans une rubrique qui contient des sous éléments');
+            throw new \Exception('Vous ne pouvez pas classer dans une rubrique qui contient des sous éléments');
         }
 
         $this->classementRepository->insert($classement);
@@ -65,6 +64,6 @@ class ClassementHandler
             }
         }
 
-        throw new Exception('Root not found '.$classement);
+        throw new \Exception('Root not found '.$classement);
     }
 }

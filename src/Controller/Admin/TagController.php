@@ -6,12 +6,12 @@ use AcMarche\Bottin\Entity\Tag;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Tag\Form\TagType;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin/tag')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
@@ -99,7 +99,7 @@ class TagController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_tag_delete', methods: ['POST'])]
     public function delete(Request $request, Tag $tag): RedirectResponse
     {
-        if ($this->isCsrfTokenValid('delete' . $tag->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$tag->getId(), $request->request->get('_token'))) {
             $this->tagRepository->remove($tag);
             $this->tagRepository->flush();
             $this->addFlash('success', 'Le point de vente a bien été supprimé');

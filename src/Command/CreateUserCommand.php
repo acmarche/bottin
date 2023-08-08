@@ -42,13 +42,13 @@ class CreateUserCommand extends Command
         $name = $input->getArgument('name');
         $password = $input->getArgument('password');
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
             $symfonyStyle->error('Adresse email non valide');
 
             return 1;
         }
 
-        if (\strlen((string) $name) < 1) {
+        if ('' === (string) $name) {
             $symfonyStyle->error('Name minium 1');
 
             return 1;

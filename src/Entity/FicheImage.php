@@ -5,21 +5,16 @@ namespace AcMarche\Bottin\Entity;
 use AcMarche\Bottin\Entity\Traits\FicheFieldTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Repository\ImageRepository;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'fiche_images')]
-class FicheImage implements Stringable
+class FicheImage implements \Stringable
 {
     use FicheFieldTrait;
     use IdTrait;
@@ -42,7 +37,7 @@ class FicheImage implements Stringable
     protected ?string $mime = null;
 
     #[ORM\Column(name: 'updated_at', type: 'datetime')]
-    protected DateTimeInterface $updatedAt;
+    protected \DateTimeInterface $updatedAt;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -51,14 +46,14 @@ class FicheImage implements Stringable
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      */
-    public function setImage(?File $image = null): void
+    public function setImage(File $image = null): void
     {
         $this->image = $image;
 
         if ($image instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new DateTime('now');
+            $this->updatedAt = new \DateTime('now');
         }
     }
 
@@ -92,7 +87,7 @@ class FicheImage implements Stringable
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
-        $this->updatedAt = new DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getPrincipale(): bool
@@ -132,14 +127,14 @@ class FicheImage implements Stringable
     }
 
     /**
-     * @return DateTime|DateTimeImmutable
+     * @return \DateTime|\DateTimeImmutable
      */
-    public function getUpdatedAt(): DateTimeInterface
+    public function getUpdatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

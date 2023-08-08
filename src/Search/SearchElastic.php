@@ -23,7 +23,7 @@ class SearchElastic implements SearchEngineInterface
 
     private ?BoolQuery $boolQuery = null;
 
-    public function __construct(string $elasticIndexName, ?LoggerInterface $logger = null)
+    public function __construct(string $elasticIndexName, LoggerInterface $logger = null)
     {
         $this->connect($elasticIndexName);
         if ($logger instanceof LoggerInterface) {
@@ -31,7 +31,7 @@ class SearchElastic implements SearchEngineInterface
         }
     }
 
-    public function doSearch(string $keyword, ?string $localite = null, int $limit = 50): iterable
+    public function doSearch(string $keyword, string $localite = null, int $limit = 50): iterable
     {
         $boolQuery = $this->createQueryForFiche($keyword, $localite);
 
@@ -47,7 +47,7 @@ class SearchElastic implements SearchEngineInterface
         return $search->search($query, $options);
     }
 
-    private function createQueryForFiche(string $keyword, ?string $localite = null): BoolQuery
+    private function createQueryForFiche(string $keyword, string $localite = null): BoolQuery
     {
         $this->boolQuery = new BoolQuery();
 
@@ -91,7 +91,7 @@ class SearchElastic implements SearchEngineInterface
         $this->boolQuery->addMust($capFilter);
         $ficheFilter = new MatchQuery('type', 'fiche');
         $this->boolQuery->addMust($ficheFilter);
-        //$boolQuery->add($matchQuery, BoolQuery::FILTER);
+        // $boolQuery->add($matchQuery, BoolQuery::FILTER);
 
         $query = new Query();
         $query->setQuery($boolQuery);
@@ -105,7 +105,7 @@ class SearchElastic implements SearchEngineInterface
         return $client->search($params);
     }
 
-    public function doSearchAdvanced(string $keyword, ?string $localite = null): iterable
+    public function doSearchAdvanced(string $keyword, string $localite = null): iterable
     {
         $boolQuery = $this->createQueryForFiche($keyword);
 
@@ -255,8 +255,8 @@ class SearchElastic implements SearchEngineInterface
                                 [
                                     'field' => 'societe',
                                     'suggest_mode' => 'always',
-                                    //"pre_filter" => "reverse",
-                                    //"post_filter" => "reverse"
+                                    // "pre_filter" => "reverse",
+                                    // "post_filter" => "reverse"
                                 ],
                             ],
                             'highlight' => [

@@ -6,7 +6,6 @@ use AcMarche\Bottin\Utils\PropertyUtil;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Exception;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -29,7 +28,7 @@ final class SetUserAddSubscriber
 
     private function setUserAdd(object $entity): void
     {
-        //for loading fixtures
+        // for loading fixtures
         if ($entity->getUserAdd()) {
             return;
         }
@@ -37,7 +36,7 @@ final class SetUserAddSubscriber
         $user = $this->security->getUser();
 
         if (!$user instanceof UserInterface) {
-            throw new Exception('You must be login');
+            throw new \Exception('You must be login');
         }
 
         if ($user) {

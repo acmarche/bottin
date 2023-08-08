@@ -35,7 +35,7 @@ class ElasticIndexer
         }
 
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
-        //$data['id'] = 'fiche_'.$fiche->getId();
+        // $data['id'] = 'fiche_'.$fiche->getId();
 
         $content = $this->serializer->serialize($data, 'json');
         $doc = new Document($fiche->getId(), $content);
@@ -60,5 +60,4 @@ class ElasticIndexer
 
         return $this->index->deleteById($id);
     }
-
 }

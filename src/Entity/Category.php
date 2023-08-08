@@ -15,7 +15,6 @@ use Knp\DoctrineBehaviors\Contract\Entity\TreeNodeInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Knp\DoctrineBehaviors\Model\Tree\TreeNodeTrait;
-use Stringable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -23,14 +22,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: 'category')]
-class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, Stringable
+class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, \Stringable
 {
-    use LogoTrait;
-    use TreeNodeTrait;
-    use SluggableTrait;
-    use TimestampableTrait;
     use EnfantTrait;
     use IdTrait;
+    use LogoTrait;
+    use SluggableTrait;
+    use TimestampableTrait;
+    use TreeNodeTrait;
 
     #[Assert\NotBlank]
     #[Groups(groups: ['category:read'])]

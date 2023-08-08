@@ -103,8 +103,6 @@ class CategoryService
     }
 
     /**
-     * @param int $idCategory
-     *
      * @return Fiche[]
      */
     public function getFichesByCategoryIdWithOutChildrend(Category $category): array
@@ -125,11 +123,11 @@ class CategoryService
 
     protected function test(Category $category): void
     {
-        //Returns a node hydrated with its children and parents
-        ($this->categoryRepository->getTree($category->getRealMaterializedPath()));
-        //tout l'arbre sauf une branche et ses enfants, flat
-        ($this->categoryRepository->getTreeExceptNodeAndItsChildrenQB($category)->getQuery()->getResult());
-        //all childs flat
-        ($this->categoryRepository->getFlatTree($category->getRealMaterializedPath()));
+        // Returns a node hydrated with its children and parents
+        $this->categoryRepository->getTree($category->getRealMaterializedPath());
+        // tout l'arbre sauf une branche et ses enfants, flat
+        $this->categoryRepository->getTreeExceptNodeAndItsChildrenQB($category)->getQuery()->getResult();
+        // all childs flat
+        $this->categoryRepository->getFlatTree($category->getRealMaterializedPath());
     }
 }

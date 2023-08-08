@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
-use Exception;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
@@ -10,13 +9,13 @@ use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin/publipostage')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
@@ -75,7 +74,7 @@ class PublipostageController extends AbstractController
                 $email = $this->mailFactory->mailMessageToFiche($to, $data['subject'], $message, $fiche);
                 try {
                     $this->mailer->send($email);
-                } catch (TransportExceptionInterface|Exception $e) {
+                } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', "Erreur lors de l'envoie du message: ".$e->getMessage());
                 }
 
@@ -121,7 +120,7 @@ class PublipostageController extends AbstractController
 
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
-        //return new Response($html);
+        // return new Response($html);
         return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
     }
 }

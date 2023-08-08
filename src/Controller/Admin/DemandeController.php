@@ -9,8 +9,6 @@ use AcMarche\Bottin\Mailer\MailFactory;
 use AcMarche\Bottin\Repository\DemandeRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Utils\PropertyUtil;
-use Exception;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +17,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Demande controller.
@@ -73,7 +72,7 @@ class DemandeController extends AbstractController
             }
 
             $metas = $request->request->all('metas');
-            if (count($metas) == 0) {
+            if (0 == \count($metas)) {
                 $this->addFlash('danger', 'Il faut au moins un champ à modifier pour valider la demande');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
@@ -98,7 +97,7 @@ class DemandeController extends AbstractController
                 $this->addFlash('success', 'Un email de confirmation à bien été envoyé');
             } catch (TransportExceptionInterface $e) {
                 $this->addFlash('danger', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->addFlash('warning', 'L\'envoie de confirmation par email à échoué : '.$e->getMessage());
             }
 

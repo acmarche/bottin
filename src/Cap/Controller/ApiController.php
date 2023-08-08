@@ -2,8 +2,6 @@
 
 namespace AcMarche\Bottin\Cap\Controller;
 
-use JsonException;
-use Exception;
 use AcMarche\Bottin\Cap\ApiUtils;
 use AcMarche\Bottin\Cap\Cap;
 use AcMarche\Bottin\Category\Repository\CategoryService;
@@ -102,8 +100,6 @@ class ApiController extends AbstractController
 
     /**
      * Le detail de la fiche {id}.
-     *
-     * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyid/{id}', name: 'bottin_admin_api_fiche_by_id', methods: ['GET'])]
     public function ficheById(int $id): JsonResponse
@@ -119,13 +115,12 @@ class ApiController extends AbstractController
     /**
      * Le detail de la fiche {id}.
      *
-     * @return JsonResponse
-     * @throws JsonException
+     * @throws \JsonException
      */
     #[Route(path: '/bottin/fichebyids', name: 'bottin_admin_api_fiche_by_ids', methods: ['POST'])]
     public function ficheByIds(Request $request): JsonResponse
     {
-        $ids = json_decode($request->request->get('ids'), true, 512, JSON_THROW_ON_ERROR);
+        $ids = json_decode($request->request->get('ids'), true, 512, \JSON_THROW_ON_ERROR);
         $fiches = $this->ficheRepository->findByIds($ids);
         $data = [];
         foreach ($fiches as $fiche) {
@@ -137,8 +132,6 @@ class ApiController extends AbstractController
 
     /**
      * Le detail de la fiche {slugname}.
-     *
-     * @return JsonResponse
      */
     #[Route(path: '/bottin/fichebyslugname/{slugname}', name: 'bottin_admin_api_fiche_by_slugname', methods: ['GET'])]
     public function ficheBySlug(string $slugname): JsonResponse
@@ -157,10 +150,10 @@ class ApiController extends AbstractController
         try {
             $data = $request->request->all();
             $result = $this->demandeHandler->handle($data);
-            $this->logger->info('api update fiche result'.json_encode($result, JSON_THROW_ON_ERROR));
+            $this->logger->info('api update fiche result'.json_encode($result, \JSON_THROW_ON_ERROR));
 
             return $this->json($result);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->json(['error' => $exception->getMessage()]);
         }
     }
@@ -248,7 +241,7 @@ class ApiController extends AbstractController
 
             $rootclean['children'] = $levels1;
             $categories[] = $rootclean;
-            break; //todo not finished
+            break; // todo not finished
         }
 
         return $this->json($categories);

@@ -27,8 +27,8 @@ class StreetView
     {
         $this->baseUrl = 'https://maps.googleapis.com/maps/api/streetview';
         $this->httpClient = HttpClient::create();
-        $this->size = '1024x768'; //0 => 360 90 =>EST, 180 => SUD
-        $this->fov = 90; //zoom 1 => 120
+        $this->size = '1024x768'; // 0 => 360 90 =>EST, 180 => SUD
+        $this->fov = 90; // zoom 1 => 120
         $this->pitch = 0;
     }
 

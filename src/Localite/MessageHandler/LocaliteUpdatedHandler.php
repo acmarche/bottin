@@ -9,11 +9,8 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class LocaliteUpdatedHandler
 {
-
-
     public function __construct(private readonly RequestStack $requestStack)
     {
-
     }
 
     public function __invoke(LocaliteUpdated $localiteUpdated): void

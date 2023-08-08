@@ -13,8 +13,8 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 #[ORM\Table(name: 'history')]
 class History implements TimestampableInterface
 {
-    use IdTrait;
     use FicheFieldTrait;
+    use IdTrait;
     use TimestampableTrait;
 
     #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'histories')]

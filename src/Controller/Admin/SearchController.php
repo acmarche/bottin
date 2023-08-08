@@ -32,7 +32,7 @@ class SearchController extends AbstractController
         $midi = [];
         $count = 0;
         if ($session->has('fiche_search')) {
-            $args = json_decode((string) $session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         if ($keyword) {
@@ -43,7 +43,7 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
-            $session->set('fiche_search', json_encode($args, JSON_THROW_ON_ERROR));
+            $session->set('fiche_search', json_encode($args, \JSON_THROW_ON_ERROR));
 
             try {
                 $response = $this->searchEngine->doSearchAdvanced($args['nom'], $args['localite']);

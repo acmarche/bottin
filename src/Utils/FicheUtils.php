@@ -12,15 +12,15 @@ class FicheUtils
     public function extractEmailsFromFiche(Fiche $fiche): array
     {
         $emails = [];
-        if (filter_var($fiche->getEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($fiche->getEmail(), \FILTER_VALIDATE_EMAIL)) {
             $emails[] = $fiche->getEmail();
         }
 
-        if (filter_var($fiche->getContactEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($fiche->getContactEmail(), \FILTER_VALIDATE_EMAIL)) {
             $emails[] = $fiche->getContactEmail();
         }
 
-        if (filter_var($fiche->getAdminEmail(), FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($fiche->getAdminEmail(), \FILTER_VALIDATE_EMAIL)) {
             $emails[] = $fiche->getAdminEmail();
         }
 

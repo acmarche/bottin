@@ -25,10 +25,6 @@ class GoogleReverse implements LocationReverseInterface
         $this->httpClient = HttpClient::create();
     }
 
-    /**
-     * @param $latitude
-     * @param $longitude
-     */
     public function reverse($latitude, $longitude): array
     {
         try {
@@ -37,7 +33,7 @@ class GoogleReverse implements LocationReverseInterface
                 $this->baseUrl,
                 [
                     'query' => [
-                        //'location_type' => 'ROOFTOP',
+                        // 'location_type' => 'ROOFTOP',
                         'result_type' => 'street_address',
                         'key' => $this->apiKeyGoogle,
                         'latlng' => $latitude.','.$longitude,
@@ -45,7 +41,7 @@ class GoogleReverse implements LocationReverseInterface
                 ]
             );
 
-            $this->result = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $this->result = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
             return $this->result;
         } catch (ClientException|TransportExceptionInterface $e) {

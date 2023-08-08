@@ -12,7 +12,7 @@ class DirectoryNamer implements DirectoryNamerInterface
     protected function getExtension(UploadedFile $uploadedFile): ?string
     {
         $originalName = $uploadedFile->getClientOriginalName();
-        if (($extension = pathinfo($originalName, PATHINFO_EXTENSION)) !== '') {
+        if (($extension = pathinfo($originalName, \PATHINFO_EXTENSION)) !== '') {
             return $extension;
         }
 

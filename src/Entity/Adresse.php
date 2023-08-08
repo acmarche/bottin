@@ -13,15 +13,14 @@ use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use Stringable;
 
 #[ORM\Entity(repositoryClass: AdresseRepository::class)]
-class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface, Stringable
+class Adresse implements SluggableInterface, TimestampableInterface, LocationAbleInterface, \Stringable
 {
     use IdTrait;
+    use LocationTrait;
     use SluggableTrait;
     use TimestampableTrait;
-    use LocationTrait;
     #[ORM\Column(type: 'string', length: 150, nullable: false)]
     private ?string $nom = null;
 

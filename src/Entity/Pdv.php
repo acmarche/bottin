@@ -7,12 +7,11 @@ use AcMarche\Bottin\Repository\PdvRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PdvRepository::class)]
 #[ORM\Table(name: 'pdv')]
-class Pdv implements Stringable
+class Pdv implements \Stringable
 {
     use IdTrait;
 

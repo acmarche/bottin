@@ -19,8 +19,8 @@ use Knp\DoctrineBehaviors\ORM\Tree\TreeTrait;
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    use TreeTrait;
     use OrmCrudTrait;
+    use TreeTrait;
 
     public function __construct(ManagerRegistry $managerRegistry)
     {
@@ -30,7 +30,7 @@ class CategoryRepository extends ServiceEntityRepository
     /**
      * @return Category[]
      */
-    public function search(?string $name = null, ?Category $category = null): array
+    public function search(string $name = null, Category $category = null): array
     {
         $queryBuilder = $this->createQueryBuilder('category');
 
@@ -91,10 +91,10 @@ class CategoryRepository extends ServiceEntityRepository
     {
         $rubriques = [];
 
-        $commerces = $this->getDirectChilds(Cap::idCommerces); //commerces-entreprises
+        $commerces = $this->getDirectChilds(Cap::idCommerces); // commerces-entreprises
         foreach ($commerces as $rubrique) {
-            //skip industrie
-            if ($rubrique->getId() === 690) {
+            // skip industrie
+            if (690 === $rubrique->getId()) {
                 continue;
             }
 
@@ -111,7 +111,6 @@ class CategoryRepository extends ServiceEntityRepository
             }
 
             $rubrique->setEnfants($enfants);
-
 
             $rubriques[] = $rubrique;
         }

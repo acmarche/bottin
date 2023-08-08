@@ -8,7 +8,6 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\History;
 use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
-use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mime\Address;
@@ -90,7 +89,7 @@ class MailFactory
         $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
 
         if (0 == \count($emails)) {
-            throw new Exception('Aucun email n\'a été trouvé pour ce commerçant');
+            throw new \Exception('Aucun email n\'a été trouvé pour ce commerçant');
         }
 
         $templatedEmail = new TemplatedEmail();

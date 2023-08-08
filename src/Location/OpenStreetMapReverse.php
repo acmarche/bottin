@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Location;
 
-use Exception;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -26,14 +25,11 @@ class OpenStreetMapReverse implements LocationReverseInterface
     }
 
     /**
-     * @param $latitude
-     * @param $longitude
-     *
-     * @throws Exception
+     * @throws \Exception
      */
     public function reverse($latitude, $longitude): array
     {
-        sleep(1); //policy
+        sleep(1); // policy
         try {
             $request = $this->httpClient->request(
                 'GET',
@@ -51,11 +47,11 @@ class OpenStreetMapReverse implements LocationReverseInterface
                 ]
             );
 
-            $this->result = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+            $this->result = json_decode($request->getContent(), true, 512, \JSON_THROW_ON_ERROR);
 
             return $this->result;
         } catch (ClientException $clientException) {
-            throw new Exception($clientException->getMessage(), $clientException->getCode(), $clientException);
+            throw new \Exception($clientException->getMessage(), $clientException->getCode(), $clientException);
         }
     }
 

@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Elasticsearch;
 
-use DateTimeInterface;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\MatchQuery;
@@ -22,7 +21,7 @@ class Searcher
 
     private ?BoolQuery $boolQuery = null;
 
-    public function __construct(string $indexName, ?LoggerInterface $logger = null)
+    public function __construct(string $indexName, LoggerInterface $logger = null)
     {
         $this->connect($indexName);
         if ($logger instanceof LoggerInterface) {
@@ -91,7 +90,6 @@ class Searcher
         }
 
         if ([] !== $constraints) {
-
         } else {
             if ($destinataire) {
                 $match = new MatchQuery('destinataires', $destinataire->getId());
@@ -109,16 +107,15 @@ class Searcher
         return $this->boolQuery;
     }
 
-    private function addDates(?DateTimeInterface $date_debut, ?DateTimeInterface $date_fin): void
+    private function addDates(?\DateTimeInterface $date_debut, ?\DateTimeInterface $date_fin): void
     {
-        if ($date_debut instanceof DateTimeInterface) {
-            $date_fin = $date_fin instanceof DateTimeInterface ? $date_fin->format('Y-m-d') : $date_debut->format('Y-m-d');
+        if ($date_debut instanceof \DateTimeInterface) {
+            $date_fin = $date_fin instanceof \DateTimeInterface ? $date_fin->format('Y-m-d') : $date_debut->format('Y-m-d');
             $date_debut = $date_debut->format('Y-m-d');
             $range = new Range('date_courrier', ['gte' => $date_debut, 'lte' => $date_fin]);
             $this->boolQuery->addMust($range);
         }
     }
-
 
     public function byGeolocalistion(): void
     {
@@ -169,8 +166,8 @@ class Searcher
                                 [
                                     'field' => 'localite',
                                     'suggest_mode' => 'always',
-                                    //"pre_filter" => "reverse",
-                                    //"post_filter" => "reverse"
+                                    // "pre_filter" => "reverse",
+                                    // "post_filter" => "reverse"
                                 ],
                             ],
                             'highlight' => [

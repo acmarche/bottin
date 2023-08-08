@@ -14,7 +14,7 @@ class CategorySerializer
 
     public function serializeCategory(Category $category): array
     {
-        $std = json_decode($this->serializer->serialize($category, 'json', ['groups' => 'group1']), true, 512, JSON_THROW_ON_ERROR);
+        $std = json_decode($this->serializer->serialize($category, 'json', ['groups' => 'group1']), true, 512, \JSON_THROW_ON_ERROR);
 
         $std['updated_at'] = $category->getUpdatedAt()->format('Y-m-d');
         $std['created_at'] = $category->getCreatedAt()->format('Y-m-d');
@@ -29,7 +29,7 @@ class CategorySerializer
         $data['name'] = $category->getName();
         $data['description'] = $category->getDescription();
         $data['id'] = $category->getId();
-        $data['lvl'] = $category->getNodeLevel() - 1; //adaptation
+        $data['lvl'] = $category->getNodeLevel() - 1; // adaptation
         $data['lft'] = '';
         $data['rgt'] = '';
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
@@ -50,7 +50,7 @@ class CategorySerializer
         $data['slugname'] = $category->getSlug();
         $data['slug'] = $category->getSlug();
         $data['name'] = $category->getName();
-        $data['lvl'] = $category->getNodeLevel() - 1; //adaptation
+        $data['lvl'] = $category->getNodeLevel() - 1; // adaptation
         $data['lft'] = '';
         $data['rgt'] = '';
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());

@@ -5,12 +5,11 @@ namespace AcMarche\Bottin\Entity;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
-use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'tag')]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-class Tag implements Stringable
+class Tag implements \Stringable
 {
     use SluggableTrait;
 
@@ -24,13 +23,13 @@ class Tag implements Stringable
     public ?string $name = null;
 
     #[ORM\Column(type: 'string', unique: true, nullable: true)]
-    protected $slug = null;
+    protected $slug;
 
     public $fiches = [];
 
     public function __toString(): string
     {
-        return (string)$this->name;
+        return (string) $this->name;
     }
 
     public function getId(): int

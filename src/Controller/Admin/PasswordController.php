@@ -6,12 +6,12 @@ use AcMarche\Bottin\Entity\User;
 use AcMarche\Bottin\User\Form\UtilisateurEditType;
 use AcMarche\Bottin\User\Form\UtilisateurPasswordType;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(path: '/admin/utilisateur/password')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]

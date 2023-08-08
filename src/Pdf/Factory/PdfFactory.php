@@ -71,7 +71,7 @@ class PdfFactory
             ]
         );
 
-        //return new Response($html);
+        // return new Response($html);
     }
 
     public function sendResponse(string $html, string $name): PdfResponse

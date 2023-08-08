@@ -52,7 +52,7 @@ class ExportUtils
 
     public function replaceUrlToken(Fiche $fiche, ?string $message): ?string
     {
-        if ($message == null) {
+        if (null == $message) {
             return null;
         }
 
