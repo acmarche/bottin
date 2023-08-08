@@ -39,7 +39,7 @@ class CategoryRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%'.$name.'%');
         }
 
-        if (null !== $category) {
+        if ($category instanceof Category) {
             $queryBuilder->andWhere('category.parent = :root')
                 ->setParameter('root', $category);
         }
@@ -97,6 +97,7 @@ class CategoryRepository extends ServiceEntityRepository
             if ($rubrique->getId() === 690) {
                 continue;
             }
+
             $id = $rubrique->getId();
             $enfants = [];
             $enfantsTmp = $this->getDirectChilds($id);

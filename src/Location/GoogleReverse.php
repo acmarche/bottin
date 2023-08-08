@@ -13,11 +13,13 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class GoogleReverse implements LocationReverseInterface
 {
-    private string $baseUrl;
-    private HttpClientInterface $httpClient;
+    private readonly string $baseUrl;
+
+    private readonly HttpClientInterface $httpClient;
+
     private array $result = [];
 
-    public function __construct(private string $apiKeyGoogle)
+    public function __construct(private readonly string $apiKeyGoogle)
     {
         $this->baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
         $this->httpClient = HttpClient::create();

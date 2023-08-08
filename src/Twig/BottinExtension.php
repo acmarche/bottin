@@ -13,7 +13,7 @@ use Twig\TwigFunction;
 
 class BottinExtension extends AbstractExtension
 {
-    public function __construct(private Security $security, private RouterInterface $router, private RequestStack $requestStack, private TokenRepository $tokenRepository)
+    public function __construct(private readonly Security $security, private readonly RouterInterface $router, private readonly RequestStack $requestStack, private readonly TokenRepository $tokenRepository)
     {
     }
 

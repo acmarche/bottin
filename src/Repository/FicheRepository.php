@@ -87,7 +87,6 @@ class FicheRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Tag $tag
      * @return Fiche[]
      */
     public function findByTag(Tag $tag): array

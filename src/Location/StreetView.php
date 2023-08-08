@@ -11,19 +11,23 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class StreetView
 {
-    private string $baseUrl;
-    private HttpClientInterface $httpClient;
-    private string $size;
-    private ?int $heading = null;
-    private int $fov;
-    private int $pitch;
+    private readonly string $baseUrl;
 
-    public function __construct(private string $key)
+    private readonly HttpClientInterface $httpClient;
+
+    private readonly string $size;
+
+    private ?int $heading = null;
+
+    private readonly int $fov;
+
+    private readonly int $pitch;
+
+    public function __construct(private readonly string $key)
     {
         $this->baseUrl = 'https://maps.googleapis.com/maps/api/streetview';
         $this->httpClient = HttpClient::create();
-        $this->size = '1024x768';
-        $this->heading = null; //0 => 360 90 =>EST, 180 => SUD
+        $this->size = '1024x768'; //0 => 360 90 =>EST, 180 => SUD
         $this->fov = 90; //zoom 1 => 120
         $this->pitch = 0;
     }
@@ -33,7 +37,7 @@ class StreetView
         $request = null;
         $query = [
             'key' => $this->key,
-            'location' => "$latitude, $longitude",
+            'location' => sprintf('%s, %s', $latitude, $longitude),
             'size' => $this->size,
             'fov' => $this->fov,
             'pitch' => $this->pitch,
@@ -51,13 +55,13 @@ class StreetView
                     'query' => $query,
                 ]
             );
-        } catch (TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $transportException) {
         }
 
         try {
             return $request->getContent();
-        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
-            return $this->createError($e->getMessage());
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $transportException) {
+            return $this->createError($transportException->getMessage());
         }
     }
 

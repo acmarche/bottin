@@ -17,7 +17,7 @@ class HoraireService
 {
     public ArrayCollection $horaires;
 
-    public function __construct(private HoraireRepository $horaireRepository)
+    public function __construct(private readonly HoraireRepository $horaireRepository)
     {
     }
 

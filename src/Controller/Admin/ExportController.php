@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ExportController extends AbstractController
 {
-    public function __construct(private CategoryRepository $categoryRepository, private SelectionRepository $selectionRepository, private PathUtils $pathUtils, private ExportUtils $exportUtils)
+    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly SelectionRepository $selectionRepository, private readonly PathUtils $pathUtils, private readonly ExportUtils $exportUtils)
     {
     }
 
@@ -47,6 +47,7 @@ class ExportController extends AbstractController
         $form = $this->createForm(SelectCategoryType::class);
         $categories = $this->categoryRepository->getRootNodes();
         $categories = SortUtils::sortCategories($categories);
+
         $user = $this->getUser();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,6 +65,7 @@ class ExportController extends AbstractController
             $this->selectionRepository->flush();
             $this->redirectToRoute('bottin_admin_export_select');
         }
+
         $selections = $this->selectionRepository->findByUser($user->getUserIdentifier());
         array_map(
             function ($selection) {

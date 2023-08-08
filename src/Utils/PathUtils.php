@@ -25,7 +25,7 @@ class PathUtils
     {
         $path = [];
         $parent = $category->getParent();
-        if (null !== $parent) {
+        if ($parent instanceof Category) {
             $path[] = $parent;
             $path = array_merge(self::getFullPath($parent), $path);
         }

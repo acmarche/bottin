@@ -4,7 +4,7 @@ namespace AcMarche\Bottin\Localite\Message;
 
 final class LocaliteDeleted
 {
-    public function __construct(private int $localiteId)
+    public function __construct(private readonly int $localiteId)
     {
     }
 

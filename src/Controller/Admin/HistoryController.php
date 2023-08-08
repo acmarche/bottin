@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class DefaultController.
- */
 #[Route(path: '/admin/history')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class HistoryController extends AbstractController

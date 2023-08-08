@@ -14,7 +14,7 @@ use Twig\Environment;
 
 class PdfFactory
 {
-    public function __construct(private CategoryService $categoryService, public Pdf $pdf, private ClassementRepository $classementRepository, private PathUtils $pathUtils, private Environment $environment, private ClassementHandler $classementHandler)
+    public function __construct(private readonly CategoryService $categoryService, public Pdf $pdf, private readonly ClassementRepository $classementRepository, private readonly PathUtils $pathUtils, private readonly Environment $environment, private readonly ClassementHandler $classementHandler)
     {
     }
 
@@ -22,6 +22,7 @@ class PdfFactory
     {
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
+
         $fiche->classementsFull = $classements;
 
         return $this->environment->render(
@@ -45,6 +46,7 @@ class PdfFactory
             if ([] !== $classements) {
                 $fiche->root = $this->classementHandler->getRoot($classements[0]);
             }
+
             $classements = $this->pathUtils->setPathForClassements($classements);
             $fiche->classementsFull = $classements;
         }

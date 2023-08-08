@@ -35,9 +35,9 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'app_login';
+    final public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, private UserRepository $userRepository, private ParameterBagInterface $parameterBag)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly UserRepository $userRepository, private readonly ParameterBagInterface $parameterBag)
     {
     }
 

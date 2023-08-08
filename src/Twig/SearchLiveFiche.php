@@ -16,7 +16,7 @@ class SearchLiveFiche
     #[LiveProp(writable: true)]
     public ?string $query = null;
 
-    public function __construct(private FicheRepository $ficheRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository)
     {
     }
 
@@ -25,6 +25,7 @@ class SearchLiveFiche
         if ($this->query !== null) {
             return $this->ficheRepository->searchByNameAndCity($this->query, null);
         }
+
         return [];
     }
 }

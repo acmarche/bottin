@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Serializer;
 
+use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Classement;
 
 class ClassementSerializer
@@ -13,7 +14,7 @@ class ClassementSerializer
     public function serializeClassementForApi(Classement $classement): array
     {
         $category = $classement->getCategory();
-        $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() instanceof Category ? $category->getParent()->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
         $data['name'] = $category->getName();
@@ -32,12 +33,6 @@ class ClassementSerializer
 
     public function serializeClassementForApiAndroid(Classement $classement): array
     {
-        $data = [];
-        $data['id'] = $classement->getId();
-        $data['fiche_id'] = $classement->getFiche()->getId();
-        $data['category_id'] = $classement->getCategory()->getId();
-        $data['principal'] = (bool) $classement->getPrincipal();
-
-        return $data;
+        return ['id' => $classement->getId(), 'fiche_id' => $classement->getFiche()->getId(), 'category_id' => $classement->getCategory()->getId(), 'principal' => (bool) $classement->getPrincipal()];
     }
 }

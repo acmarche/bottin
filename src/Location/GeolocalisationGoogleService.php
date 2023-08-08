@@ -13,11 +13,11 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GeolocalisationGoogleService
 {
-    private string $clefGoogle;
+    private readonly string $clefGoogle;
 
     private string $urlGoogle = 'https://maps.googleapis.com/maps/api/geocode/json';
 
-    public function __construct(private HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
+    public function __construct(private readonly HttpClientInterface $httpClient, ParameterBagInterface $parameterBag)
     {
         $this->clefGoogle = $parameterBag->get('bottin.api_key_geocode');
     }
@@ -42,8 +42,8 @@ class GeolocalisationGoogleService
                     ],
                 ]
             );
-        } catch (TransportExceptionInterface $exception) {
-            throw new Exception($exception->getMessage(), $exception->getCode(), $exception);
+        } catch (TransportExceptionInterface $transportException) {
+            throw new Exception($transportException->getMessage(), $transportException->getCode(), $transportException);
         }
 
         try {
@@ -61,7 +61,7 @@ class GeolocalisationGoogleService
 
             $status = $coordonates['status'];
             if ('ZERO_RESULTS' === $status) {
-                throw new Exception('Pas d\'adresse postale');
+                throw new Exception("Pas d'adresse postale");
             }
 
             $results = $coordonates['results'];

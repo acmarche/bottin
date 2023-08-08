@@ -16,14 +16,10 @@ class SortUtils
     {
         usort(
             $fiches,
-            function ($a, $b) {
+            static function ($a, $b) {
                 $ad = $a->getSociete();
                 $bd = $b->getSociete();
-                if ($ad === $bd) {
-                    return 0;
-                }
-
-                return $ad > $bd ? 1 : -1;
+                return $ad <=> $bd;
             }
         );
 
@@ -39,14 +35,10 @@ class SortUtils
     {
         usort(
             $categories,
-            function ($a, $b) {
+            static function ($a, $b) {
                 $ad = $a->getName();
                 $bd = $b->getName();
-                if ($ad == $bd) {
-                    return 0;
-                }
-
-                return $ad > $bd ? 1 : -1;
+                return $ad <=> $bd;
             }
         );
 

@@ -6,7 +6,7 @@ use AcMarche\Bottin\Repository\FicheRepository;
 
 class SearchSql implements SearchEngineInterface
 {
-    public function __construct(private FicheRepository $ficheRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository)
     {
     }
 

@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Serializer;
 
+use JsonException;
 use AcMarche\Bottin\Cap\CapService;
 use AcMarche\Bottin\Entity\Fiche;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -9,7 +10,7 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class FicheSerializer
 {
-    public function __construct(private SerializerInterface $serializer, private UploaderHelper $uploaderHelper)
+    public function __construct(private readonly SerializerInterface $serializer, private readonly UploaderHelper $uploaderHelper)
     {
     }
 
@@ -38,7 +39,7 @@ class FicheSerializer
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function serializeFiche(Fiche $fiche): array
     {

@@ -26,7 +26,7 @@ class SearchElastic implements SearchEngineInterface
     public function __construct(string $elasticIndexName, ?LoggerInterface $logger = null)
     {
         $this->connect($elasticIndexName);
-        if (null !== $logger) {
+        if ($logger instanceof LoggerInterface) {
             $this->client->setLogger($logger);
         }
     }
@@ -72,6 +72,7 @@ class SearchElastic implements SearchEngineInterface
         );
         $match->setQuery($keyword);
         $match->setType(MultiMatch::TYPE_MOST_FIELDS);
+
         $this->boolQuery->addMust($match);
 
         $ficheFilter = new MatchQuery('type', 'fiche');

@@ -15,6 +15,7 @@ class DirectoryNamer implements DirectoryNamerInterface
         if (($extension = pathinfo($originalName, PATHINFO_EXTENSION)) !== '') {
             return $extension;
         }
+
         if ($extension = $uploadedFile->guessExtension()) {
             return $extension;
         }

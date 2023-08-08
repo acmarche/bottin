@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class DocumentController extends AbstractController
 {
-    public function __construct(private DocumentRepository $documentRepository)
+    public function __construct(private readonly DocumentRepository $documentRepository)
     {
     }
 

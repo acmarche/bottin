@@ -28,11 +28,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class DemandeController extends AbstractController
 {
     public function __construct(
-        private DemandeRepository $demandeRepository,
-        private FicheRepository $ficheRepository,
-        private MailFactory $mailFactory,
-        private MailerInterface $mailer,
-        private PropertyUtil $propertyUtil
+        private readonly DemandeRepository $demandeRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly MailFactory $mailFactory,
+        private readonly MailerInterface $mailer,
+        private readonly PropertyUtil $propertyUtil
     ) {
     }
 
@@ -62,6 +62,7 @@ class DemandeController extends AbstractController
         if (!$fiche instanceof Fiche) {
             return $this->createNotFoundException('Fiche non trouvée');
         }
+
         $editForm = $this->createForm(DemandeType::class, $demande);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -77,6 +78,7 @@ class DemandeController extends AbstractController
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
             }
+
             foreach ($metas as $champ => $value) {
                 $set = 'set'.ucfirst($champ);
                 $fiche->$set($value);

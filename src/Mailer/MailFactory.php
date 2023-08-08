@@ -16,10 +16,10 @@ use Symfony\Component\Mime\Address;
 class MailFactory
 {
     public function __construct(
-        private FicheUtils $ficheUtils,
-        private ClassementHandler $classementHandler,
-        private PdfFactory $pdfFactory,
-        private ParameterBagInterface $parameterBag
+        private readonly FicheUtils $ficheUtils,
+        private readonly ClassementHandler $classementHandler,
+        private readonly PdfFactory $pdfFactory,
+        private readonly ParameterBagInterface $parameterBag
     ) {
     }
 

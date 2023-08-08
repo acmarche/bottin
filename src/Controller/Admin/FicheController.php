@@ -30,13 +30,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class FicheController extends AbstractController
 {
     public function __construct(
-        private PathUtils $pathUtils,
-        private ClassementRepository $classementRepository,
-        private FicheRepository $ficheRepository,
-        private HoraireService $horaireService,
-        private SearchEngineInterface $searchEngine,
-        private HistoryUtils $historyUtils,
-        private MessageBusInterface $messageBus
+        private readonly PathUtils $pathUtils,
+        private readonly ClassementRepository $classementRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly HoraireService $horaireService,
+        private readonly SearchEngineInterface $searchEngine,
+        private readonly HistoryUtils $historyUtils,
+        private readonly MessageBusInterface $messageBus
     ) {
     }
 
@@ -44,10 +44,12 @@ class FicheController extends AbstractController
     public function index(Request $request): Response
     {
         $session = $request->getSession();
-        $args = $fiches = [];
+        $args = [];
+        $fiches = [];
         if ($session->has('fiche_search')) {
-            $args = json_decode($session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
         }
+
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -79,7 +81,7 @@ class FicheController extends AbstractController
             $params = $request->request;
             $societe = trim($params->get('societe'));
 
-            if (!$societe) {
+            if ($societe === '' || $societe === '0') {
                 $this->addFlash('danger', 'Le nom ne peut être vide');
 
                 return $this->redirectToRoute('bottin_admin_fiche_new');
@@ -130,6 +132,7 @@ class FicheController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
+
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
         $editForm = $this->createForm(FicheType::class, $fiche);
@@ -142,7 +145,7 @@ class FicheController extends AbstractController
             try {
                 $this->historyUtils->diffFiche($fiche);
             } catch (Exception) {
-                $this->addFlash('danger', 'Erreur pour l\'enregistrement dans l\' historique');
+                $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique");
             }
 
             $this->ficheRepository->flush();

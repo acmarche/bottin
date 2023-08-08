@@ -8,7 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class FileUtils
 {
-    public function __construct(private FileLocator $fileLocator)
+    public function __construct(private readonly FileLocator $fileLocator)
     {
     }
 
@@ -23,7 +23,7 @@ class FileUtils
     {
         $filePath = $this->getFilePath($fileName);
         set_error_handler(
-            function ($type, $msg) use (&$error) {
+            static function ($type, $msg) use (&$error) {
                 $error = $msg;
             }
         );

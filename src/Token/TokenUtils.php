@@ -10,7 +10,7 @@ use DateTime;
 
 class TokenUtils
 {
-    public function __construct(private FicheRepository $ficheRepository, private TokenRepository $tokenRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository, private readonly TokenRepository $tokenRepository)
     {
     }
 
@@ -27,14 +27,17 @@ class TokenUtils
 
     public function generateForOneFiche(Fiche $fiche, bool $flush = false): void
     {
-        if (($token = $fiche->getToken()) === null) {
+        if (!($token = $fiche->getToken()) instanceof Token) {
             $token = new Token($fiche);
             $this->tokenRepository->persist($token);
         }
+
         $token->setUuid($token->generateUuid());
         $token->setPassword($this->generatePassword());
+
         $date = new DateTime();
         $date->modify('+30days');
+
         $token->setExpireAt($date);
         if ($flush) {
             $this->tokenRepository->flush();
@@ -43,7 +46,7 @@ class TokenUtils
 
     public function isExpired(Token $token): bool
     {
-        $today = new \DateTime();
+        $today = new DateTime();
 
         return $token->getCreatedAt()->format('Y-m-d') > $today->format('Y-m-d');
     }
@@ -56,8 +59,9 @@ class TokenUtils
         for ($i = 0; $i < $length; ++$i) {
             $pieces[] = $keyspace[random_int(0, $max)];
         }
+
         $password = implode('', $pieces);
-        if (null !== $this->tokenRepository->findOneBy(['password' => $password])) {
+        if ($this->tokenRepository->findOneBy(['password' => $password]) instanceof Token) {
             $this->generatePassword();
         }
 

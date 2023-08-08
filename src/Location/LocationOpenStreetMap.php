@@ -11,8 +11,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class LocationOpenStreetMap implements LocationInterface
 {
-    private string $baseUrl;
-    private HttpClientInterface $httpClient;
+    private readonly string $baseUrl;
+
+    private readonly HttpClientInterface $httpClient;
 
     public function __construct()
     {

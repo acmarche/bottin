@@ -16,7 +16,7 @@ use Symfony\Component\Ldap\LdapInterface;
  */
 class LdapBottin implements LdapInterface
 {
-    public function __construct(private AdapterInterface $adapter)
+    public function __construct(private readonly AdapterInterface $adapter)
     {
     }
 

@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorySerializer
 {
-    public function __construct(private SerializerInterface $serializer)
+    public function __construct(private readonly SerializerInterface $serializer)
     {
     }
 
@@ -25,7 +25,7 @@ class CategorySerializer
     public function serializeCategory2(Category $category): array
     {
         $data = [];
-        $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() instanceof Category ? $category->getParent()->getId() : 0;
         $data['name'] = $category->getName();
         $data['description'] = $category->getDescription();
         $data['id'] = $category->getId();
@@ -43,7 +43,7 @@ class CategorySerializer
 
     public function serializePathCategoryForApi(Category $category): array
     {
-        $parentId = null !== $category->getParent() ? $category->getParent()->getId() : 0;
+        $parentId = $category->getParent() instanceof Category ? $category->getParent()->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
         $data['parent_id'] = $parentId;

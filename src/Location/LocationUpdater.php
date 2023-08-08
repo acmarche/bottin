@@ -11,7 +11,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class LocationUpdater
 {
-    public function __construct(private LocationInterface $location)
+    public function __construct(private readonly LocationInterface $location)
     {
     }
 
@@ -23,7 +23,7 @@ class LocationUpdater
 
         try {
             $response = $this->location->search($this->getAdresseString($locationAble));
-            $tab = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+            $tab = json_decode((string) $response, true, 512, JSON_THROW_ON_ERROR);
 
             if (\is_array($tab) && 0 == \count($tab)) {
                 throw new Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);

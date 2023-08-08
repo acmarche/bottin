@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Security\Voter;
 
+use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Token\TokenUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -9,9 +10,9 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class TokenVoter extends Voter
 {
-    public const TOKEN_EDIT = 'TOKEN_EDIT';
+    final public const TOKEN_EDIT = 'TOKEN_EDIT';
 
-    public function __construct(private TokenUtils $tokenUtils)
+    public function __construct(private readonly TokenUtils $tokenUtils)
     {
     }
 
@@ -28,7 +29,7 @@ class TokenVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        if (null === $subject->getFiche()) {
+        if (!$subject->getFiche() instanceof Fiche) {
             return false;
         }
 

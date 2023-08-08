@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckupController extends AbstractController
 {
-    public function __construct(private CategoryService $categoryService, private FicheRepository $ficheRepository, private ClassementRepository $classementRepository)
+    public function __construct(private readonly CategoryService $categoryService, private readonly FicheRepository $ficheRepository, private readonly ClassementRepository $classementRepository)
     {
     }
 
@@ -38,7 +38,7 @@ class CheckupController extends AbstractController
         $data = [];
         foreach ($fiches as $fiche) {
             $classements = $fiche->getClassements();
-            $principaux = array_filter($classements->toArray(), fn ($classement) => (bool) $classement->getPrincipal());
+            $principaux = array_filter($classements->toArray(), static fn($classement) => (bool) $classement->getPrincipal());
             if (0 == \count($principaux)) {
                 $data[] = $fiche;
             }
