@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class LocaliteController extends AbstractController
 {
-    public function __construct(private LocaliteRepository $localiteRepository, private MessageBusInterface $messageBus)
+    public function __construct(private readonly LocaliteRepository $localiteRepository, private readonly MessageBusInterface $messageBus)
     {
     }
 

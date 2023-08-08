@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class MapController extends AbstractController
 {
-    public function __construct(private FicheRepository $ficheRepository)
+    public function __construct(private readonly FicheRepository $ficheRepository)
     {
     }
 
@@ -30,6 +30,7 @@ class MapController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
+
         $form = $this->createForm(LocalisationType::class, $fiche);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
