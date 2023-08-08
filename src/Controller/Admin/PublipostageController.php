@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use Exception;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Form\MessageType;
@@ -22,11 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublipostageController extends AbstractController
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private MailFactory $mailFactory,
-        private ExportUtils $exportUtils,
-        private FicheUtils $ficheUtils,
-        private PdfFactory $pdfFactory
+        private readonly MailerInterface $mailer,
+        private readonly MailFactory $mailFactory,
+        private readonly ExportUtils $exportUtils,
+        private readonly FicheUtils $ficheUtils,
+        private readonly PdfFactory $pdfFactory
     ) {
     }
 
@@ -50,13 +51,14 @@ class PublipostageController extends AbstractController
     {
         $user = $this->getUser();
         $to = null;
-        if (null !== $fiche) {
+        if ($fiche instanceof Fiche) {
             $fiches = [$fiche];
             $emails = $this->ficheUtils->extractEmailsFromFiche($fiche);
             $to = [] !== $emails ? $emails[0] : 'webmaster@marche.be';
         } else {
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
+
         $form = $this->createForm(MessageType::class, [
             'from' => $this->getParameter('bottin.email_from'),
             'to' => $to,
@@ -73,12 +75,14 @@ class PublipostageController extends AbstractController
                 $email = $this->mailFactory->mailMessageToFiche($to, $data['subject'], $message, $fiche);
                 try {
                     $this->mailer->send($email);
-                } catch (TransportExceptionInterface|\Exception $e) {
-                    $this->addFlash('danger', 'Erreur lors de l\'envoie du message: '.$e->getMessage());
+                } catch (TransportExceptionInterface|Exception $e) {
+                    $this->addFlash('danger', "Erreur lors de l'envoie du message: ".$e->getMessage());
                 }
+
                 if (15 == $i) {
                     break;
                 }
+
                 ++$i;
             }
 
@@ -86,6 +90,7 @@ class PublipostageController extends AbstractController
 
             return $this->redirectToRoute('bottin_admin_publipostage_index');
         }
+
         $noEmails = [];
         foreach ($fiches as $fiche) {
             if (0 == \count($this->ficheUtils->extractEmailsFromFiche($fiche))) {
@@ -107,12 +112,13 @@ class PublipostageController extends AbstractController
     #[Route(path: '/paper/{id}', name: 'bottin_admin_publipostage_paper_fiche', methods: ['GET', 'POST'])]
     public function byPaper(Fiche $fiche = null): PdfResponse
     {
-        if (null !== $fiche) {
+        if ($fiche instanceof Fiche) {
             $fiches = [$fiche];
         } else {
             $user = $this->getUser();
             $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
         }
+
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
         //return new Response($html);

@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class PdvController extends AbstractController
 {
-    public function __construct(private PdvRepository $pdvRepository)
+    public function __construct(private readonly PdvRepository $pdvRepository)
     {
     }
 

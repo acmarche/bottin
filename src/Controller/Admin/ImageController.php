@@ -20,7 +20,7 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ImageController extends AbstractController
 {
-    public function __construct(private ImageRepository $imageRepository, private UploadHandler $uploadHandler)
+    public function __construct(private readonly ImageRepository $imageRepository, private readonly UploadHandler $uploadHandler)
     {
     }
 
@@ -74,6 +74,7 @@ class ImageController extends AbstractController
         } catch (Exception $exception) {
             $this->addFlash('danger', 'Erreur upload image: '.$exception->getMessage());
         }
+
         $this->imageRepository->persist($ficheImage);
         $this->imageRepository->flush();
     }

@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class HistoryController extends AbstractController
 {
-    public function __construct(private HistoryRepository $historyRepository)
+    public function __construct(private readonly HistoryRepository $historyRepository)
     {
     }
 

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    public function __construct(private SearchEngineInterface $searchEngine, private AggregationUtils $aggregationUtils, private SuggestUtils $suggestUtils)
+    public function __construct(private readonly SearchEngineInterface $searchEngine, private readonly AggregationUtils $aggregationUtils, private readonly SuggestUtils $suggestUtils)
     {
     }
 
@@ -23,14 +23,22 @@ class SearchController extends AbstractController
     public function ficher(Request $request, ?string $keyword): Response
     {
         $session = $request->getSession();
-        $args = $hits = $suggest = $aggregations = $pmr = $centreville = $midi = [];
+        $args = [];
+        $hits = [];
+        $suggest = [];
+        $aggregations = [];
+        $pmr = [];
+        $centreville = [];
+        $midi = [];
         $count = 0;
         if ($session->has('fiche_search')) {
-            $args = json_decode($session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
+            $args = json_decode((string) $session->get('fiche_search'), true, 512, JSON_THROW_ON_ERROR);
         }
+
         if ($keyword) {
             $args['nom'] = $keyword;
         }
+
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
