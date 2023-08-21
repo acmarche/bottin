@@ -21,9 +21,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Category controller.
- */
 #[Route(path: '/admin/category')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class CategoryController extends AbstractController
@@ -36,9 +33,6 @@ class CategoryController extends AbstractController
     ) {
     }
 
-    /**
-     * Lists all Category entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_category', methods: ['GET'])]
     public function index(Request $request): Response
     {
@@ -93,9 +87,6 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Category entity.
-     */
     #[Route(path: '/new', name: 'bottin_admin_category_new')]
     #[Route(path: '/new/{id}', name: 'bottin_admin_category_new_children', methods: ['GET', 'POST'])]
     public function new(Request $request, Category $parent = null): Response
@@ -130,9 +121,6 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Category entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {
@@ -141,7 +129,6 @@ class CategoryController extends AbstractController
          * get all fiches of this category and there children.
          */
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
-        $category->getMaterializedPath();
         // 1/2
         $category->getRealMaterializedPath();
         // 1/2/3

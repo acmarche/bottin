@@ -12,8 +12,10 @@ use Doctrine\ORM\NonUniqueResultException;
 
 class ClassementHandler
 {
-    public function __construct(private readonly ClassementRepository $classementRepository, private readonly CategoryRepository $categoryRepository)
-    {
+    public function __construct(
+        private readonly ClassementRepository $classementRepository,
+        private readonly CategoryRepository $categoryRepository
+    ) {
     }
 
     /**

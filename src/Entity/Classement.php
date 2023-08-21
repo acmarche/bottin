@@ -15,16 +15,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Classement implements \Stringable
 {
     use IdTrait;
+
     #[Groups(groups: ['read', 'write'])]
     #[ORM\Column(type: 'boolean')]
-    protected bool $principal = false;
+    public bool $principal = false;
+    #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Fiche $fiche;
+    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    public ?Category $category;
 
-    public function __construct(#[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
-        #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-        protected ?Fiche $fiche, #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
-        #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-        protected ?Category $category)
+    public function __construct(Fiche $fiche, Category $category)
     {
+        $this->fiche = $fiche;
+        $this->category = $category;
     }
 
     public function __toString(): string
