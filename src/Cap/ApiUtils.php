@@ -21,7 +21,7 @@ class ApiUtils
         private readonly HoraireRepository $horaireRepository,
         private readonly ClassementRepository $classementRepository,
         private readonly PathUtils $pathUtils,
-        private readonly CategorySerializer $categorySerializer,
+        public readonly CategorySerializer $categorySerializer,
         private readonly ClassementSerializer $classementSerializer,
         private readonly FicheImageSerializer $ficheImageSerializer,
         private readonly FicheSerializer $ficheSerializer,
@@ -47,7 +47,10 @@ class ApiUtils
 
     public function serializeCategoryForAndroid(Category $category): array
     {
-        return $this->categorySerializer->serializeCategory2($category);
+        $data = $this->categorySerializer->serializeCategory2($category);
+        $data['path'] = $this->getSerializedPath($category);
+
+        return $data;
     }
 
     public function serializeCategory(Category $category): array
@@ -110,7 +113,7 @@ class ApiUtils
                 $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
             }
 
-            $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls > 0) : 0) > 0 ? $urls[0] : null;
+            $dataFiche['logo'] = (is_countable($urls > 0) ? \count($urls) > 0 ? $urls[0] : null : null);
             $dataFiche['photos'] = $urls;
 
             return $dataFiche;
