@@ -125,6 +125,15 @@ class CategoryRepository extends ServiceEntityRepository
         return $rubriques;
     }
 
+    public function findOneBySlug(string $slug): ?Category
+    {
+        return $this->createQueryBuilder('category')
+            ->andWhere('category.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('category.name', 'ASC')
+            ->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * Manipulates the flat tree query builder before executing it. Override this method to customize the tree query.
      */
