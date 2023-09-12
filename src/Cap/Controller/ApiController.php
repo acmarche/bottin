@@ -35,11 +35,40 @@ class ApiController extends AbstractController
     ) {
     }
 
+
+    #[Route(path: '/bottin/cap/search/{id}/{noon}/{sunday}', methods: ['GET'])]
+    public function searchCap(Category $category, bool $noon = false, bool $sunday = false): JsonResponse
+    {
+        $data = [];
+        $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
+
+        foreach ($fiches as $fiche) {
+            $data[] = $this->apiUtils->prepareFiche($fiche);
+        }
+
+        return $this->json($data);
+    }
+
     /**
      * Fiches par categorie.
      */
     #[Route(path: '/bottin/fiches/category/{id}', name: 'bottin_admin_api_fiche_by_category', methods: ['GET'])]
     public function fichesByCategory(Category $category): JsonResponse
+    {
+        $data = [];
+        $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
+        foreach ($fiches as $fiche) {
+            $data[] = $this->apiUtils->prepareFiche($fiche);
+        }
+
+        return $this->json($data);
+    }
+
+    /**
+     * Fiches par categorie.
+     */
+    #[Route(path: '/bottin/fiches/category-by-slug/{slug}', methods: ['GET'])]
+    public function fichesByCategorySlug(Category $category): JsonResponse
     {
         $data = [];
         $fiches = $this->categoryService->getFichesByCategoryAndHerChildren($category);
@@ -198,6 +227,50 @@ class ApiController extends AbstractController
         $categories = $this->categoryRepository->findAll();
 
         return $this->json($this->apiUtils->prepareCategoriesForAndroid($categories));
+    }
+
+    #[Route(path: '/bottin/category/{id}', methods: ['GET'])]
+    public function category(int $id): JsonResponse
+    {
+        if ($category = $this->categoryRepository->find($id)) {
+
+            $children = $this->categoryRepository->getDirectChilds($id);
+            $category->setEnfants($children);
+
+            $data = $this->apiUtils->serializeCategoryForAndroid($category);
+            $enfantsSerialized = [];
+            foreach ($category->getEnfants() as $enfant) {
+                $dataEnfant = $this->apiUtils->categorySerializer->serializeCategory2($enfant);
+                $enfantsSerialized[] = $dataEnfant;
+            }
+            $data['enfants'] = $enfantsSerialized;
+
+            return $this->json($data);
+        }
+
+        return $this->json(null);
+    }
+
+    #[Route(path: '/bottin/category-by-slug/{slug}', methods: ['GET'])]
+    public function categoryBySlug(string $slug): JsonResponse
+    {
+        if ($category = $this->categoryRepository->findOneBySlug($slug)) {
+
+            $children = $this->categoryRepository->getDirectChilds($category->getId());
+            $category->setEnfants($children);
+
+            $data = $this->apiUtils->serializeCategoryForAndroid($category);
+            $enfantsSerialized = [];
+            foreach ($category->getEnfants() as $enfant) {
+                $dataEnfant = $this->apiUtils->categorySerializer->serializeCategory2($enfant);
+                $enfantsSerialized[] = $dataEnfant;
+            }
+            $data['enfants'] = $enfantsSerialized;
+
+            return $this->json($data);
+        }
+
+        return $this->json(null);
     }
 
     #[Route(path: '/bottin/categories/parent/{id}', name: 'bottin_admin_api_categories_by_parent', methods: ['GET'])]
