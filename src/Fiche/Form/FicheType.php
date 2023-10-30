@@ -6,7 +6,10 @@ use AcMarche\Bottin\Entity\Adresse;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Entity\Situation;
+use AcMarche\Bottin\Fiche\Form\Backend\AddFieldsMetaSubscriber;
 use AcMarche\Bottin\Horaire\Form\HoraireType;
+use AcMarche\Bottin\Meta\Form\MetaDataType;
+use AcMarche\Bottin\Meta\Repository\MetaFieldRepository;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use AcMarche\Bottin\Repository\PdvRepository;
 use AcMarche\Bottin\Tag\Form\TagsAutocompleteField;
@@ -27,6 +30,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheType extends AbstractType
 {
+    public function __construct(private readonly MetaFieldRepository $metaFieldRepository)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -36,7 +43,8 @@ class FicheType extends AbstractType
                 EntityType::class,
                 [
                     'class' => Adresse::class,
-                    'query_builder' => static fn (AdresseRepository $adresseRepository) => $adresseRepository->queryBuilderForSelect(),
+                    'query_builder' => static fn(AdresseRepository $adresseRepository
+                    ) => $adresseRepository->queryBuilderForSelect(),
                     'required' => false,
                     'placeholder' => 'Sélectionnez une adresse existante',
                     'help' => 'Cette adresse écrasera l\' adresse encodée sur la fiche ',
@@ -380,7 +388,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'class' => Pdv::class,
-                    'query_builder' => static fn (PdvRepository $cr) => $cr->getForList(),
+                    'query_builder' => static fn(PdvRepository $cr) => $cr->getForList(),
                 ]
             )
             ->add(
@@ -406,7 +414,12 @@ class FicheType extends AbstractType
                     'help' => 'Obsolète, utilisez les tags',
                 ]
             )
-            ->add('tags', TagsAutocompleteField::class);
+            ->add('tags', TagsAutocompleteField::class)
+            ->add('metas', CollectionType::class, [
+                'entry_type' => MetaDataType::class,
+                'entry_options' => ['label' => false],
+            ]);
+        // ->addEventSubscriber(new AddFieldsMetaSubscriber($this->metaFieldRepository));
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,

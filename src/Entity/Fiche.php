@@ -130,7 +130,8 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     #[ORM\JoinColumn(nullable: false)]
     protected ?iterable $histories;
 
-    public array $classementsFull;
+    public array $classementsFull = [];
+    public array $metas = [];
 
     public int $root = 511;
 

@@ -3,36 +3,33 @@
 {% block body %}
     <div class="card">
         <div class="card-header">
-            <h3>Liste des localités</h3>
+            <h3>Liste des champs complémentaires</h3>
         </div>
         <div class="card-body">
-            <a href="{{ path('bottin_admin_localite_new') }}" class="btn btn-primary" role="button"><i
+            <a href="{{ path('bottin_admin_meta_field_new') }}" class="btn btn-primary" role="button"><i
                         class="fas fa-plus"></i> Ajouter</a>
             <br/><br/>
 
             <table class='table table-bordered table-hover'>
                 <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Nombre de fiches</th>
+                    <th>Intitule</th>
+                    <th>Fiches</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for localite in localites %}
+                {% for meta in meta_fields %}
                     <tr>
                         <td>
-                            <a href="{{ path('bottin_admin_localite_show', { 'id': localite.id }) }}">
-                                {{ localite.nom }}
+                            <a href="{{ path('bottin_admin_meta_field_show', { 'id': meta.id }) }}">
+                                {{ meta.name }}
                             </a>
                         </td>
-                        <td>
-                            {{ localite.fiches|length }}
-                        </td>
+                        <td></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
 {% endblock %}

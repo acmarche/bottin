@@ -1,0 +1,8 @@
+<div class="row">
+    {% for metaType in form.metas %}
+    <div class="col-lg-3">
+        {{ metaType.vars.data }}
+        {{ form_row(metaType) }}
+    </div>
+    {% endfor %}
+</div>

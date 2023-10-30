@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Repository;
 
 use AcMarche\Bottin\Doctrine\OrmCrudTrait;
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\Localite;
 use AcMarche\Bottin\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -97,6 +98,19 @@ class FicheRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    /**
+     * @return Fiche[]
+     */
+    public function findByLocalite(Localite $localite): array
+    {
+        return $this->createQbl()
+            ->andWhere(
+                'fiche.localite = :localite OR (fiche.adresse IS NOT NULL AND adresse.localite = :localite) '
+            )
+            ->setParameter('localite', $localite->getNom())
+            ->getQuery()->getResult();
+    }
+
     private function createQbl(): QueryBuilder
     {
         return $this->createQueryBuilder('fiche')
@@ -106,7 +120,8 @@ class FicheRepository extends ServiceEntityRepository
             ->leftJoin('fiche.horaires', 'horaires', 'WITH')
             ->leftJoin('fiche.images', 'images', 'WITH')
             ->leftJoin('fiche.tags', 'tags', 'WITH')
-            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token', 'tags')
+            ->leftJoin('fiche.adresse', 'adresse', 'WITH')
+            ->addSelect('pdv', 'classements', 'horaires', 'images', 'token', 'tags', 'adresse')
             ->addOrderBy('fiche.societe');
     }
 }

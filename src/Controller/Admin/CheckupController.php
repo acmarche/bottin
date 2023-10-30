@@ -52,12 +52,7 @@ class CheckupController extends AbstractController
         $fiches = $this->ficheRepository->findAllWithJoins();
         $data = [];
         foreach ($fiches as $fiche) {
-            $classements = $fiche->getClassements();
-            $principaux = array_filter(
-                $classements->toArray(),
-                static fn($classement) => (bool)$classement->getPrincipal()
-            );
-            if (0 == \count($principaux)) {
+            if (0 == \count($fiche->getClassements())) {
                 $data[] = $fiche;
             }
         }

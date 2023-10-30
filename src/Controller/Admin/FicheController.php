@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Entity\MetaData;
 use AcMarche\Bottin\Fiche\Form\FicheType;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
@@ -10,6 +11,8 @@ use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Horaire\Handler\HoraireService;
+use AcMarche\Bottin\Meta\Repository\MetaDataRepository;
+use AcMarche\Bottin\Meta\Repository\MetaFieldRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
@@ -35,6 +38,8 @@ class FicheController extends AbstractController
         private readonly HoraireService $horaireService,
         private readonly SearchEngineInterface $searchEngine,
         private readonly HistoryUtils $historyUtils,
+        private readonly MetaFieldRepository $metaFieldRepository,
+        private readonly MetaDataRepository $metaDataRepository,
         private readonly MessageBusInterface $messageBus
     ) {
     }
@@ -46,7 +51,7 @@ class FicheController extends AbstractController
         $args = [];
         $fiches = [];
         if ($session->has('fiche_search')) {
-            $args = json_decode((string) $session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
+            $args = json_decode((string)$session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
@@ -132,10 +137,20 @@ class FicheController extends AbstractController
 
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
+
+        $metas = [];
+        foreach ($this->metaFieldRepository->findAll() as $field) {
+            $value = $this->metaDataRepository->findOneByFicheAndName($fiche, $field->getSlug());
+            $metas[] = new MetaData($fiche, $field->name, $value);
+        }
+        $fiche->metas = $metas;
+
         $editForm = $this->createForm(FicheType::class, $fiche);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $data = $editForm->getData();
+
+            dd($data);
             $horaires = $data->getHoraires();
             $this->horaireService->handleEdit($fiche, $horaires);
 

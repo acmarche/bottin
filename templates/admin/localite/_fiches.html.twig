@@ -1,0 +1,29 @@
+<h4 class="text-success">{{ localite.fiches|length }} fiches</h4>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Societe</th>
+        <th>Adresse</th>
+        <th>Téléphone</th>
+        <th>Nom</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for fiche in localite.fiches %}
+        <tr>
+            <td>
+                <a href="{{ bottin_url_fiche_show(fiche) }}"
+                   title="Détail de la fiche">{{ fiche.societe }}</a>
+            </td>
+            <td>{{ fiche.rue }}</td>
+            <td>{{ fiche.telephone }}</td>
+            <td>{{ fiche.nom }} {{ fiche.prenom }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Aucune fiche classée</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

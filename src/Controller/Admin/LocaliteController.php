@@ -7,6 +7,7 @@ use AcMarche\Bottin\Localite\Form\LocaliteType;
 use AcMarche\Bottin\Localite\Message\LocaliteCreated;
 use AcMarche\Bottin\Localite\Message\LocaliteDeleted;
 use AcMarche\Bottin\Localite\Message\LocaliteUpdated;
+use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\LocaliteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,24 +17,24 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Lieu controller.
- */
 #[Route(path: '/admin/localite')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class LocaliteController extends AbstractController
 {
-    public function __construct(private readonly LocaliteRepository $localiteRepository, private readonly MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private readonly LocaliteRepository $localiteRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
-    /**
-     * Lists all Lieu entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_localite_index', methods: ['GET'])]
     public function index(): Response
     {
-        $localites = $this->localiteRepository->findAll();
+        $localites = $this->localiteRepository->findAllOrderyByNom();
+        foreach ($localites as $localite) {
+            $localite->fiches = $this->ficheRepository->findByLocalite($localite);
+        }
 
         return $this->render(
             '@AcMarcheBottin/admin/localite/index.html.twig',
@@ -43,9 +44,6 @@ class LocaliteController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Lieu entity.
-     */
     #[Route(path: '/new', name: 'bottin_admin_localite_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -68,12 +66,11 @@ class LocaliteController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Lieu entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_localite_show', methods: ['GET', 'POST'])]
-    public function show(Request $request, Localite $localite): Response
+    public function show(Localite $localite): Response
     {
+        $localite->fiches = $this->ficheRepository->findByLocalite($localite);
+
         return $this->render(
             '@AcMarcheBottin/admin/localite/show.html.twig',
             [
@@ -82,9 +79,6 @@ class LocaliteController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Lieu entity.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_localite_edit', methods: ['GET', 'POST'])]
     public function edit(Localite $localite, Request $request): Response
     {

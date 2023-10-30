@@ -13,16 +13,19 @@ class DemandeMeta
 {
     use IdTrait;
 
+    #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'metas')]
+    protected Demande $demande;
+
+    #[Assert\NotBlank()]
+    #[ORM\Column(type: 'string', nullable: false)]
+    protected ?string $champ;
+    #[ORM\Column(type: 'string', nullable: true)]
+    protected ?string $value;
+
     public function __construct(
-        #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'metas')]
-        protected Demande $demande,
-        /**
-         * @Assert\NotBlank
-         */
-        #[ORM\Column(type: 'string', nullable: false)]
-        protected ?string $champ,
-        #[ORM\Column(type: 'string', nullable: true)]
-        protected ?string $value
+        Demande $demande,
+        ?string $champ,
+        ?string $value
     ) {
     }
 

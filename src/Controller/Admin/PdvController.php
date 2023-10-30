@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Pdv controller.
- */
+
 #[Route(path: '/admin/pdv')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class PdvController extends AbstractController
@@ -23,9 +21,6 @@ class PdvController extends AbstractController
     {
     }
 
-    /**
-     * Lists all Pdv entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_pdv', methods: ['GET'])]
     public function index(): Response
     {
@@ -39,9 +34,6 @@ class PdvController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Pdv entity.
-     */
     #[Route(path: '/new', name: 'bottin_admin_pdv_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -66,9 +58,6 @@ class PdvController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Pdv entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_pdv_show', methods: ['GET'])]
     public function show(Pdv $pdv): Response
     {
@@ -83,9 +72,6 @@ class PdvController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Pdv entity.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_pdv_edit', methods: ['GET', 'POST'])]
     public function edit(Pdv $pdv, Request $request): Response
     {

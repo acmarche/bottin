@@ -10,8 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Localite implements \Stringable
 {
     use IdTrait;
+
     #[ORM\Column(type: 'string', length: 150, nullable: false)]
     private ?string $nom = null;
+
+    public array $fiches = [];
 
     public function __toString(): string
     {

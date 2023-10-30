@@ -36,10 +36,9 @@ class PublipostageCommand extends Command
         $i = 0;
         foreach ($fiches as $fiche) {
             $message = null;
-            $to = null;
             $subject = 'Mise à jour de vos données';
             $message = $this->exportUtils->replaceUrlToken($fiche, $message);
-            $email = $this->mailFactory->mailMessageToFiche($to, $subject, $message, $fiche);
+            $email = $this->mailFactory->mailMessageToFiche($subject, $message, $fiche);
             try {
                 //  $this->mailer->send($email);
             } catch (TransportExceptionInterface|\Exception $e) {
