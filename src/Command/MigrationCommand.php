@@ -49,7 +49,7 @@ class MigrationCommand extends Command
             }
 
             foreach ($this->ficheRepository->findBy([$key => 1]) as $fiche) {
-                $symfonyStyle->writeln($fiche->getSociete());
+                $symfonyStyle->writeln($fiche->societe);
                 $fiche->addTag($tag);
             }
         }

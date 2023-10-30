@@ -25,7 +25,7 @@ class MapController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         $form = $this->createForm(LocalisationType::class, $fiche);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -58,7 +58,7 @@ class ElasticIndexerCommand extends Command
             if ($response->hasError()) {
                 $this->io->error("Erreur lors de l'indexation: ".$response->getErrorMessage());
             } else {
-                $this->io->writeln($fiche->getSociete().': '.$response->getStatus());
+                $this->io->writeln($fiche->societe.': '.$response->getStatus());
             }
         }
     }
@@ -74,7 +74,7 @@ class ElasticIndexerCommand extends Command
             if ($response->hasError()) {
                 $this->io->error("Erreur lors de l'indexation: ".$response->getErrorMessage());
             } else {
-                $this->io->writeln($category->getName().': '.$response->getStatus());
+                $this->io->writeln($category->name.': '.$response->getStatus());
             }
         }
     }

@@ -54,7 +54,7 @@ class CategoryService
     {
         $classements = $this->classementRepository->findBy(['category' => $category]);
         if (0 == \count($classements)) {
-            $category->setPath($this->pathUtils->getPath($category));
+            $category->path =$this->pathUtils->getPath($category);
             $this->data[] = $category;
         }
     }

@@ -21,8 +21,8 @@ class ClassementCreatedHandler
     public function __invoke(ClassementCreated $classementCreated): void
     {
         $classement = $this->classementRepository->find($classementCreated->getClassementId());
-        $fiche = $classement->getFiche();
-        $category = $classement->getCategory();
+        $fiche = $classement->fiche;
+        $category = $classement->category;
         $flashBag = $this->requestStack->getSession()->getFlashBag();
         $flashBag->add('success', 'Le classement a bien été ajouté');
 

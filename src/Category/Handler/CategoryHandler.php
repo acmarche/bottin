@@ -17,7 +17,7 @@ class CategoryHandler
                 break;
             }
             $path[] = $category;
-            $category = $category->getParent();
+            $category = $category->parent;
         }
 
         return array_reverse($path);

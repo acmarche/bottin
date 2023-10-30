@@ -21,7 +21,7 @@ class LocationUpdater
 
         try {
             $response = $this->location->search($this->getAdresseString($locationAble));
-            $tab = json_decode((string) $response, true, 512, \JSON_THROW_ON_ERROR);
+            $tab = json_decode((string)$response, true, 512, \JSON_THROW_ON_ERROR);
 
             if (\is_array($tab) && 0 == \count($tab)) {
                 throw new \Exception('L\'adresse n\'a pas pu être convertie en latitude longitude:'.$response);
@@ -45,8 +45,8 @@ class LocationUpdater
 
     private function setCoordinates(LocationAbleInterface $locationAble, array $data): void
     {
-        $locationAble->setLatitude($data[0]['lat']);
-        $locationAble->setLongitude($data[0]['lon']);
+        $locationAble->latitude = $data[0]['lat'];
+        $locationAble->longitude = $data[0]['lon'];
     }
 
     private function getAdresseString(LocationAbleInterface $locationAble): string

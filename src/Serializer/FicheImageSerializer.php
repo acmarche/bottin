@@ -12,6 +12,6 @@ class FicheImageSerializer
 
     public function serializeFicheImage(FicheImage $ficheImage): array
     {
-        return ['id' => $ficheImage->getId(), 'fiche_id' => $ficheImage->getFiche()->getId(), 'principale' => $ficheImage->getPrincipale(), 'image_name' => $ficheImage->getImageName(), 'mime' => $ficheImage->getMime(), 'updated_at' => $ficheImage->getUpdatedAt()->format('Y-m-d H:i:s')];
+        return ['id' => $ficheImage->getId(), 'fiche_id' => $ficheImage->fiche->getId(), 'principale' => $ficheImage->principale, 'image_name' => $ficheImage->imageName, 'mime' => $ficheImage->mime, 'updated_at' => $ficheImage->updatedAt->format('Y-m-d H:i:s')];
     }
 }

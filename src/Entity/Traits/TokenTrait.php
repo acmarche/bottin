@@ -8,15 +8,5 @@ use Doctrine\ORM\Mapping as ORM;
 trait TokenTrait
 {
     #[ORM\OneToOne(targetEntity: Token::class, mappedBy: 'fiche', cascade: ['remove'])]
-    private ?Token $token = null;
-
-    public function getToken(): ?Token
-    {
-        return $this->token;
-    }
-
-    public function setToken(?Token $token): void
-    {
-        $this->token = $token;
-    }
+    public ?Token $token = null;
 }

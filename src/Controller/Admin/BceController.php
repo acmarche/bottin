@@ -23,7 +23,7 @@ class BceController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_fiche_bce', methods: ['GET'])]
     public function show(Fiche $fiche): Response
     {
-        $number = $fiche->getNumeroTva();
+        $number = $fiche->numero_tva;
         if (!$number) {
             $this->addFlash('warning', 'Veuillez remplir le numéro de TVA');
 

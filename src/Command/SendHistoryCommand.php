@@ -37,12 +37,12 @@ class SendHistoryCommand extends Command
         $deleted = [];
         $histories = $this->historyRepository->findModifiedByToken($today->format('Y-m-d'));
         foreach ($histories as $history) {
-            $fiche = $history->getFiche();
+            $fiche = $history->fiche;
             if ($fiche instanceof Fiche) {
                 $ficheId = $fiche->getId();
                 $changes[$ficheId][] = $history;
             } else {
-                $deleted[] = $history->getOldValue();
+                $deleted[] = $history->old_value;
             }
         }
 

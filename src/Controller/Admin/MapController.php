@@ -25,12 +25,6 @@ class MapController extends AbstractController
     #[Route(path: '/{id}/edit', name: 'bottin_admin_map_edit', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {
-        if ($fiche->getFtlb()) {
-            $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
-
-            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
-        }
-
         $form = $this->createForm(LocalisationType::class, $fiche);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

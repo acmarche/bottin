@@ -12,21 +12,13 @@ trait ClassementTrait
      * @var Classement[]|iterable|Collection
      */
     #[ORM\OneToMany(targetEntity: Classement::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
-    protected iterable $classements;
-
-    /**
-     * @return Collection|Classement[]
-     */
-    public function getClassements(): Collection
-    {
-        return $this->classements;
-    }
+    public iterable $classements;
 
     public function addClassement(Classement $classement): self
     {
         if (!$this->classements->contains($classement)) {
             $this->classements[] = $classement;
-            $classement->setFiche($this);
+            $classement->fiche = $this;
         }
 
         return $this;
@@ -37,16 +29,12 @@ trait ClassementTrait
         if ($this->classements->contains($classement)) {
             $this->classements->removeElement($classement);
             // set the owning side to null (unless already changed)
-            if ($classement->getFiche() === $this) {
-                $classement->setFiche(null);
+            if ($classement->fiche === $this) {
+                $classement->fiche = null;
             }
         }
 
         return $this;
     }
 
-    public function setClassements(array $classements)
-    {
-        $this->classements = $classements;
-    }
 }

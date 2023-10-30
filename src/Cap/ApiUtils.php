@@ -149,7 +149,7 @@ class ApiUtils
         $classements = [];
         foreach ($classementsFiche as $classement) {
             $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
-            $category = $classement->getCategory();
+            $category = $classement->category;
             $dataClassement['path'] = $this->getPathsForApi($category);
             $classements[] = $dataClassement;
         }

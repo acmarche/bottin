@@ -11,33 +11,15 @@ class Selection
 {
     use IdTrait;
 
-    public function __construct(#[ORM\ManyToOne(targetEntity: Category::class)]
-        private Category $category, #[ORM\Column(type: 'string', length: 120)]
-        private string $user)
-    {
-    }
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    public Category $category;
+    #[ORM\Column(type: 'string', length: 120)]
+    public string $user;
 
-    public function getCategory(): Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(Category $category): self
+    public function __construct(Category $category, string $user)
     {
         $this->category = $category;
-
-        return $this;
-    }
-
-    public function getUser(): string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
         $this->user = $user;
-
-        return $this;
     }
+
 }

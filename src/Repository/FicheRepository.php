@@ -107,7 +107,7 @@ class FicheRepository extends ServiceEntityRepository
             ->andWhere(
                 'fiche.localite = :localite OR (fiche.adresse IS NOT NULL AND adresse.localite = :localite) '
             )
-            ->setParameter('localite', $localite->getNom())
+            ->setParameter('localite', $localite->nom)
             ->getQuery()->getResult();
     }
 

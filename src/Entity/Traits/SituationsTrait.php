@@ -9,15 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait SituationsTrait
 {
     #[ORM\ManyToMany(targetEntity: Situation::class, inversedBy: 'fiches')]
-    protected $situations;
-
-    /**
-     * @return Collection|Situation[]
-     */
-    public function getSituations(): Collection
-    {
-        return $this->situations;
-    }
+    public Collection $situations;
 
     public function addSituation(Situation $situation): self
     {

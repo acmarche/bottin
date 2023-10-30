@@ -22,24 +22,24 @@ class Document implements TimestampableInterface, \Stringable
     use TimestampableTrait;
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
-    protected string $name;
+    public string $name;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    protected ?string $description = null;
+    public ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'documents')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    protected ?Fiche $fiche = null;
+    public ?Fiche $fiche = null;
 
     #[Vich\UploadableField(mapping: 'bottin_fiche_document', fileNameProperty: 'fileName', size: 'fileSize')]
     #[Assert\File(maxSize: '16384k', mimeTypes: ['application/pdf', 'application/x-pdf'], mimeTypesMessage: 'Uniquement des PDF')]
-    private ?File $file = null;
+    public ?File $file = null;
 
     #[ORM\Column(type: 'string')]
-    private ?string $fileName = null;
+    public ?string $fileName = null;
 
     #[ORM\Column(type: 'integer')]
-    private ?int $fileSize = null;
+    public ?int $fileSize = null;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -59,16 +59,6 @@ class Document implements TimestampableInterface, \Stringable
         }
     }
 
-    public function getFile(): ?File
-    {
-        return $this->file;
-    }
-
-    public function setFile(?File $file): void
-    {
-        $this->file = $file;
-    }
-
     public function __construct(Fiche $fiche)
     {
         $this->fiche = $fiche;
@@ -77,53 +67,5 @@ class Document implements TimestampableInterface, \Stringable
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getFileName(): ?string
-    {
-        return $this->fileName;
-    }
-
-    public function setFileName(?string $fileName): self
-    {
-        $this->fileName = $fileName;
-
-        return $this;
-    }
-
-    public function getFileSize(): ?int
-    {
-        return $this->fileSize;
-    }
-
-    public function setFileSize(?int $fileSize): self
-    {
-        $this->fileSize = $fileSize;
-
-        return $this;
     }
 }

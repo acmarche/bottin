@@ -3,11 +3,9 @@
 namespace AcMarche\Bottin\Entity;
 
 use AcMarche\Bottin\Doctrine\LogoTrait;
-use AcMarche\Bottin\Entity\Traits\EnfantTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -24,7 +22,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Table(name: 'category')]
 class Category implements SluggableInterface, TimestampableInterface, TreeNodeInterface, \Stringable
 {
-    use EnfantTrait;
     use IdTrait;
     use LogoTrait;
     use SluggableTrait;
@@ -34,28 +31,35 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     #[Assert\NotBlank]
     #[Groups(groups: ['category:read'])]
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: 'Category')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?Category $parent = null;
+    public ?Category $parent = null;
 
     #[ORM\OneToMany(targetEntity: 'Classement', mappedBy: 'category', cascade: ['remove'])]
-    protected iterable $classements;
+    public iterable $classements;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected bool $mobile = false;
+    public bool $mobile = false;
 
     #[Groups(groups: 'category:read')]
     #[ORM\Column(type: 'text', nullable: true)]
-    protected ?string $description = null;
+    public ?string $description = null;
 
     /**
      * Utiliser pour afficher le classement.
      */
-    protected array $path;
+    public array $path;
 
-    private ArrayCollection $children;
+    /**
+     * @var ArrayCollection<Category>
+     */
+    public ArrayCollection $children;
+    /**
+     * @var Category[]
+     */
+    public array $enfants = [];
 
     public function __construct()
     {
@@ -66,19 +70,7 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
 
     public function getLabelHierarchical(): string
     {
-        return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->getName();
-    }
-
-    public function getPath(): array
-    {
-        return $this->path;
-    }
-
-    public function setPath(array $path): self
-    {
-        $this->path = $path;
-
-        return $this;
+        return str_repeat('-', $this->getNodeLevel() - 1).' '.$this->name;
     }
 
     public function __toString(): string
@@ -96,91 +88,11 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         return true;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getMobile(): bool
-    {
-        return $this->mobile;
-    }
-
-    public function setMobile(bool $mobile): self
-    {
-        $this->mobile = $mobile;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getLogo(): ?string
-    {
-        return $this->logo;
-    }
-
-    public function setLogo(?string $logo): self
-    {
-        $this->logo = $logo;
-
-        return $this;
-    }
-
-    public function getLogoBlanc(): ?string
-    {
-        return $this->logo_blanc;
-    }
-
-    public function setLogoBlanc(?string $logo_blanc): self
-    {
-        $this->logo_blanc = $logo_blanc;
-
-        return $this;
-    }
-
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?self $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Classement[]
-     */
-    public function getClassements(): iterable
-    {
-        return $this->classements;
-    }
-
     public function addClassement(Classement $classement): self
     {
         if (!$this->classements->contains($classement)) {
             $this->classements[] = $classement;
-            $classement->setCategory($this);
+            $classement->category = $this;
         }
 
         return $this;
@@ -191,8 +103,8 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
         if ($this->classements->contains($classement)) {
             $this->classements->removeElement($classement);
             // set the owning side to null (unless already changed)
-            if ($classement->getCategory() === $this) {
-                $classement->setCategory(null);
+            if ($classement->category === $this) {
+                $classement->category = null;
             }
         }
 

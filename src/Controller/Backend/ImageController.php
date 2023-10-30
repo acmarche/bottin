@@ -34,7 +34,7 @@ class ImageController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function new(Token $token): Response
     {
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         $ficheImage = new FicheImage($fiche);
         $form = $this->createForm(
             FicheImageType::class,
@@ -58,15 +58,15 @@ class ImageController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function upload(Request $request, Token $token): Response
     {
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         $ficheImage = new FicheImage($fiche);
         /**
          * @var UploadedFile $file
          */
         $file = $request->files->get('file');
         $nom = str_replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName());
-        $ficheImage->setMime($file->getMimeType());
-        $ficheImage->setImageName($file->getClientOriginalName());
+        $ficheImage->mime = $file->getMimeType();
+        $ficheImage->imageName = $file->getClientOriginalName();
         $ficheImage->setImage($file);
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
@@ -89,7 +89,7 @@ class ImageController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function show(FicheImage $ficheImage): Response
     {
-        $fiche = $ficheImage->getFiche();
+        $fiche = $ficheImage->fiche;
         $token = $fiche->getToken();
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
 
@@ -97,7 +97,7 @@ class ImageController extends AbstractController
             '@AcMarcheBottin/admin/image/show.html.twig',
             [
                 'image' => $ficheImage,
-                'fiche' => $ficheImage->getFiche(),
+                'fiche' => $ficheImage->fiche,
             ]
         );
     }
@@ -105,7 +105,7 @@ class ImageController extends AbstractController
     #[Route(path: '/', name: 'bottin_backend_image_delete', methods: ['POST'])]
     public function delete(Request $request): RedirectResponse
     {
-        $imageId = (int) $request->request->get('imageid');
+        $imageId = (int)$request->request->get('imageid');
         if (0 === $imageId) {
             $this->addFlash('danger', 'Image non trouvée');
 
@@ -119,7 +119,7 @@ class ImageController extends AbstractController
             return $this->redirectToRoute('bottin_front_home');
         }
 
-        $fiche = $ficheImage->getFiche();
+        $fiche = $ficheImage->fiche;
         $token = $fiche->getToken();
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
         if ($this->isCsrfTokenValid('deleteimage', $request->request->get('_token'))) {

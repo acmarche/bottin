@@ -59,7 +59,7 @@ class PasswordController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $userPasswordEncoder->hashPassword($user, $form->getData()->getPlainPassword());
-            $user->setPassword($password);
+            $user->password = $password;
             $em->flush();
 
             $this->addFlash('success', 'Mot de passe changé');

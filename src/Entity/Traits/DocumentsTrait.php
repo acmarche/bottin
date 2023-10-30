@@ -12,21 +12,13 @@ trait DocumentsTrait
      * @var Document[]|Collection|iterable
      */
     #[ORM\OneToMany(targetEntity: Document::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
-    private iterable $documents;
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
+    public iterable $documents;
 
     public function addDocument(Document $document): self
     {
         if (!$this->documents->contains($document)) {
             $this->documents[] = $document;
-            $document->setFiche($this);
+            $document->fiche = $this;
         }
 
         return $this;
@@ -37,19 +29,12 @@ trait DocumentsTrait
         if ($this->documents->contains($document)) {
             $this->documents->removeElement($document);
             // set the owning side to null (unless already changed)
-            if ($document->getFiche() === $this) {
-                $document->setFiche(null);
+            if ($document->fiche === $this) {
+                $document->fiche =null;
             }
         }
 
         return $this;
     }
 
-    /**
-     * Pour elastic.
-     */
-    public function setDocuments(array $documents)
-    {
-        $this->documents = $documents;
-    }
 }

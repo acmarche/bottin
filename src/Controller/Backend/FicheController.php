@@ -20,9 +20,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Fiche controller.
- */
 #[Route(path: '/backend/fiche')]
 class FicheController extends AbstractController
 {
@@ -46,7 +43,7 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('bottin_front_home');
         }
 
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);
 
@@ -64,9 +61,9 @@ class FicheController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Request $request, Token $token, int $etape = 1): Response
     {
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         if (0 !== $etape) {
-            $fiche->setEtape($etape);
+            $fiche->etape = $etape;
         }
 
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
@@ -83,7 +80,7 @@ class FicheController extends AbstractController
             $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
 
             $this->addFlash('success', 'La fiche a bien été modifiée');
-            $etape = $fiche->getEtape() + 1;
+            $etape = $fiche->etape + 1;
 
             return $this->redirectToRoute(
                 'bottin_backend_fiche_edit',
@@ -96,7 +93,7 @@ class FicheController extends AbstractController
             [
                 'fiche' => $fiche,
                 'token' => $token,
-                'etape' => $fiche->getEtape(),
+                'etape' => $fiche->etape,
                 'form' => $form->createView(),
             ]
         );

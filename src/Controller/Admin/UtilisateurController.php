@@ -19,8 +19,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class UtilisateurController extends AbstractController
 {
-    public function __construct(private readonly UserRepository $userRepository, private readonly UserPasswordHasherInterface $userPasswordHasher, private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly UserRepository $userRepository,
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly ManagerRegistry $managerRegistry
+    ) {
     }
 
     /**
@@ -49,9 +52,8 @@ class UtilisateurController extends AbstractController
         $form = $this->createForm(UtilisateurType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword())
-            );
+            $user->password =
+                $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword());
             $this->userRepository->insert($user);
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté");

@@ -28,7 +28,7 @@ class TokenController extends AbstractController
             return $this->redirectToRoute('bottin_front_home');
         }
 
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
 
         return $this->render(
             '@AcMarcheBottin/front/fiche/show.html.twig',

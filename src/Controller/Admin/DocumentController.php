@@ -61,7 +61,7 @@ class DocumentController extends AbstractController
             '@AcMarcheBottin/admin/document/show.html.twig',
             [
                 'document' => $document,
-                'fiche' => $document->getFiche(),
+                'fiche' => $document->fiche,
             ]
         );
     }
@@ -93,7 +93,7 @@ class DocumentController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_document_delete', methods: ['POST'])]
     public function delete(Request $request, Document $document): RedirectResponse
     {
-        $fiche = $document->getFiche();
+        $fiche = $document->fiche;
         if ($this->isCsrfTokenValid('delete'.$document->getId(), $request->request->get('_token'))) {
             $this->documentRepository->remove($document);
             $this->documentRepository->flush();

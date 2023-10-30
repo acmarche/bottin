@@ -48,7 +48,7 @@ class CreateUserCommand extends Command
             return 1;
         }
 
-        if ('' === (string) $name) {
+        if ('' === (string)$name) {
             $symfonyStyle->error('Name minium 1');
 
             return 1;
@@ -61,10 +61,10 @@ class CreateUserCommand extends Command
         }
 
         $user = new User();
-        $user->setUsername($email);
-        $user->setEmail($email);
-        $user->setNom($name);
-        $user->setPassword($this->userPasswordEncoder->hashPassword($user, $password));
+        $user->username = $email;
+        $user->email = $email;
+        $user->nom = $name;
+        $user->password = $this->userPasswordEncoder->hashPassword($user, $password);
         $user->addRole('ROLE_BOTTIN_ADMIN');
 
         $this->userRepository->insert($user);

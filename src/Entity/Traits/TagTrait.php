@@ -11,14 +11,6 @@ trait TagTrait
     #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist', 'remove'])]
     public array|Collection $tags;
 
-    /**
-     * @return Collection<int, Tag>
-     */
-    public function getTags(): Collection
-    {
-        return $this->tags;
-    }
-
     public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {

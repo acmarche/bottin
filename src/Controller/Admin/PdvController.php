@@ -61,7 +61,7 @@ class PdvController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_pdv_show', methods: ['GET'])]
     public function show(Pdv $pdv): Response
     {
-        $fiches = $pdv->getFiches();
+        $fiches = $pdv->fiches;
 
         return $this->render(
             '@AcMarcheBottin/admin/pdv/show.html.twig',

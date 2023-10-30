@@ -23,8 +23,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ExportController extends AbstractController
 {
-    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly SelectionRepository $selectionRepository, private readonly PathUtils $pathUtils, private readonly ExportUtils $exportUtils)
-    {
+    public function __construct(
+        private readonly CategoryRepository $categoryRepository,
+        private readonly SelectionRepository $selectionRepository,
+        private readonly PathUtils $pathUtils,
+        private readonly ExportUtils $exportUtils
+    ) {
     }
 
     #[Route(path: '/', name: 'bottin_admin_export_index', methods: ['GET'])]
@@ -69,8 +73,8 @@ class ExportController extends AbstractController
         $selections = $this->selectionRepository->findByUser($user->getUserIdentifier());
         array_map(
             function ($selection) {
-                $category = $selection->getCategory();
-                $selection->getCategory()->setPath($this->pathUtils->getPath($category));
+                $category = $selection->category;
+                $selection->category->path = $this->pathUtils->getPath($category);
             },
             $selections
         );

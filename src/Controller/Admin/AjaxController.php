@@ -22,14 +22,18 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/admin/ajax')]
 class AjaxController extends AbstractController
 {
-    public function __construct(private readonly PathUtils $pathUtils, private readonly ClassementRepository $classementRepository, private readonly CategoryRepository $categoryRepository, private readonly MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private readonly PathUtils $pathUtils,
+        private readonly ClassementRepository $classementRepository,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
     #[Route(path: '/removeclassment', name: 'bottin_admin_ajax_remove_classement', methods: ['POST'])]
     public function removeClassement(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classement = $this->classementRepository->find($classementId);
         if (!$classement instanceof Classement) {
             $error = 'classement non trouvé';
@@ -38,8 +42,8 @@ class AjaxController extends AbstractController
             return new Response($template);
         }
 
-        $fiche = $classement->getFiche();
-        $category = $classement->getCategory();
+        $fiche = $classement->fiche;
+        $category = $classement->category;
         $this->classementRepository->remove($classement);
         $this->classementRepository->flush();
 
@@ -58,21 +62,21 @@ class AjaxController extends AbstractController
     #[Route(path: '/setprincipalclassement', name: 'bottin_admin_ajax_principal_classement', methods: ['POST'])]
     public function setPrincipal(Request $request): Response
     {
-        $classementId = (int) $request->get('classementId');
+        $classementId = (int)$request->get('classementId');
         $classementSelect = $this->classementRepository->find($classementId);
         if (!$classementSelect instanceof Classement) {
             $error = 'classement non trouvé';
             $template = $this->renderView('@AcMarcheBottin/admin/ajax/error.html.twig', ['error' => $error]);
         } else {
-            $fiche = $classementSelect->getFiche();
+            $fiche = $classementSelect->fiche;
 
             $classements = $fiche->getClassements();
 
             foreach ($classements as $classement) {
                 if ($classement->getId() === $classementSelect->getId()) {
-                    $classement->setPrincipal(true);
+                    $classement->principal = true;
                 } else {
-                    $classement->setPrincipal(false);
+                    $classement->principal = false;
                 }
             }
 
@@ -112,8 +116,8 @@ class AjaxController extends AbstractController
     public function ajaxCategoriesForExport(Request $request): Response
     {
         $jsonResponse = new JsonResponse();
-        $parentId = (int) $request->get('parentId');
-        $level = (int) $request->get('level');
+        $parentId = (int)$request->get('parentId');
+        $level = (int)$request->get('level');
         ++$level;
         if (0 === $parentId) {
             $jsonResponse->setData(['error' => 'Oups pas su obtenir les catégories']);
@@ -139,9 +143,9 @@ class AjaxController extends AbstractController
         $i = 0;
         foreach ($this->categoryRepository->search($query) as $category) {
             $data[$i]['id'] = $category->getId();
-            $data[$i]['name'] = $category->getName();
-            $data[$i]['label'] = $category->getName();
-            $data[$i]['value'] = $category->getName();
+            $data[$i]['name'] = $category->name;
+            $data[$i]['label'] = $category->name;
+            $data[$i]['value'] = $category->name;
             ++$i;
         }
 
@@ -151,9 +155,9 @@ class AjaxController extends AbstractController
     #[Route(path: '/getcategory', name: 'bottin_ajax_fetch_category')]
     public function fetchCategory(Request $request): Response
     {
-        $categoryId = (int) $request->get('id');
+        $categoryId = (int)$request->get('id');
         $category = $this->categoryRepository->find($categoryId);
 
-        return new Response($category->getName());
+        return new Response($category->name);
     }
 }

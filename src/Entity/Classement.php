@@ -19,9 +19,11 @@ class Classement implements \Stringable
     #[Groups(groups: ['read', 'write'])]
     #[ORM\Column(type: 'boolean')]
     public bool $principal = false;
+
     #[ORM\ManyToOne(targetEntity: 'Fiche', inversedBy: 'classements')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Fiche $fiche;
+
     #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'classements')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Category $category;
@@ -34,7 +36,7 @@ class Classement implements \Stringable
 
     public function __toString(): string
     {
-        return $this->getCategory()->getName();
+        return $this->category->name;
     }
 
     public function __get($prop)
@@ -47,39 +49,4 @@ class Classement implements \Stringable
         return property_exists($this, 'prop') && $this->$prop !== null;
     }
 
-    public function getPrincipal(): bool
-    {
-        return $this->principal;
-    }
-
-    public function setPrincipal(bool $principal): self
-    {
-        $this->principal = $principal;
-
-        return $this;
-    }
-
-    public function getFiche(): ?Fiche
-    {
-        return $this->fiche;
-    }
-
-    public function setFiche(?Fiche $fiche): self
-    {
-        $this->fiche = $fiche;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
 }

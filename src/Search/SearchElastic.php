@@ -97,7 +97,7 @@ class SearchElastic implements SearchEngineInterface
         $query->setQuery($boolQuery);
 
         $params = [
-            'index' => $this->index->getName(),
+            'index' => $this->index->name,
             'body' => $query->toArray(),
         ];
         $client = ClientBuilder::create()->build();

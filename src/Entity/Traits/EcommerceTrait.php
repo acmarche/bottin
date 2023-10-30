@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait EcommerceTrait
 {
     #[ORM\Column(type: 'boolean', nullable: false)]
-    protected bool $click_collect = false;
+    public bool $click_collect = false;
 
     #[ORM\Column(type: 'boolean', nullable: false)]
-    protected bool $ecommerce = false;
+    public bool $ecommerce = false;
 
     public function isClickCollect(): bool
     {
@@ -22,13 +22,4 @@ trait EcommerceTrait
         $this->click_collect = $click_collect;
     }
 
-    public function isEcommerce(): bool
-    {
-        return $this->ecommerce;
-    }
-
-    public function setEcommerce(bool $ecommerce): void
-    {
-        $this->ecommerce = $ecommerce;
-    }
 }

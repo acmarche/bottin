@@ -91,8 +91,8 @@ class FicheController extends AbstractController
             }
 
             $fiche = new Fiche();
-            $fiche->setSociete($societe);
-            $fiche->setCp($this->getParameter('bottin.cp_default'));
+            $fiche->societe = $societe;
+            $fiche->cp = $this->getParameter('bottin.cp_default');
             $this->ficheRepository->insert($fiche);
             $this->historyUtils->newFiche($fiche);
 
@@ -129,12 +129,6 @@ class FicheController extends AbstractController
     #[Route(path: '/{id}/edit', name: 'bottin_admin_fiche_edit', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {
-        if ($fiche->getFtlb()) {
-            $this->addFlash('warning', 'Vous ne pouvez pas éditer cette fiche car elle provient de la ftlb');
-
-            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
-        }
-
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $this->horaireService->initHoraires($fiche);
 
@@ -181,7 +175,7 @@ class FicheController extends AbstractController
     public function delete(Request $request, Fiche $fiche): RedirectResponse
     {
         if ($this->isCsrfTokenValid('delete'.$fiche->getId(), $request->request->get('_token'))) {
-            $nomFiche = $fiche->getSociete();
+            $nomFiche = $fiche->societe;
             $id = $fiche->getId();
             $this->messageBus->dispatch(new FicheDeleted($id));
             $this->ficheRepository->remove($fiche);

@@ -235,11 +235,11 @@ class ApiController extends AbstractController
         if ($category = $this->categoryRepository->find($id)) {
 
             $children = $this->categoryRepository->getDirectChilds($id);
-            $category->setEnfants($children);
+            $category->enfants = $children;
 
             $data = $this->apiUtils->serializeCategoryForAndroid($category);
             $enfantsSerialized = [];
-            foreach ($category->getEnfants() as $enfant) {
+            foreach ($category->enfants as $enfant) {
                 $dataEnfant = $this->apiUtils->categorySerializer->serializeCategory2($enfant);
                 $enfantsSerialized[] = $dataEnfant;
             }
@@ -257,11 +257,11 @@ class ApiController extends AbstractController
         if ($category = $this->categoryRepository->findOneBySlug($slug)) {
 
             $children = $this->categoryRepository->getDirectChilds($category->getId());
-            $category->setEnfants($children);
+            $category->enfants = $children;
 
             $data = $this->apiUtils->serializeCategoryForAndroid($category);
             $enfantsSerialized = [];
-            foreach ($category->getEnfants() as $enfant) {
+            foreach ($category->enfants as $enfant) {
                 $dataEnfant = $this->apiUtils->categorySerializer->serializeCategory2($enfant);
                 $enfantsSerialized[] = $dataEnfant;
             }

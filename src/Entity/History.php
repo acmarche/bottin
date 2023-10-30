@@ -19,49 +19,32 @@ class History implements TimestampableInterface
 
     #[ORM\ManyToOne(targetEntity: Fiche::class, inversedBy: 'histories')]
     #[ORM\JoinColumn(nullable: true)]
-    protected ?Fiche $fiche = null;
-    #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $old_value = null;
+    public ?Fiche $fiche = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $new_value = null;
+    public ?string $old_value = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    public ?string $new_value = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    public ?string $made_by;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    public ?string $property;
 
     public function __construct(
         ?Fiche $fiche,
-        #[ORM\Column(type: 'string', nullable: true)]
-        protected ?string $made_by,
-        #[ORM\Column(type: 'string', nullable: true)]
-        protected ?string $property,
+        ?string $made_by,
+        ?string $property,
         ?string $old_value,
         ?string $new_value
     ) {
         $this->fiche = $fiche;
         $this->old_value = substr($old_value, 0, 250);
         $this->new_value = substr($new_value, 0, 250);
-    }
-
-    public function getMadeBy(): ?string
-    {
-        return $this->made_by;
-    }
-
-    public function setMadeBy(?string $made_by): self
-    {
         $this->made_by = $made_by;
-
-        return $this;
-    }
-
-    public function getProperty(): ?string
-    {
-        return $this->property;
-    }
-
-    public function setProperty(?string $property): self
-    {
         $this->property = $property;
-
-        return $this;
     }
 
     public function getOldValue(): ?string
@@ -69,22 +52,14 @@ class History implements TimestampableInterface
         return $this->old_value;
     }
 
-    public function setOldValue(?string $old_value): self
-    {
-        $this->old_value = $old_value;
-
-        return $this;
-    }
-
     public function getNewValue(): ?string
     {
         return $this->new_value;
     }
 
-    public function setNewValue(?string $new_value): self
+    public function getMadeBy(): ?string
     {
-        $this->new_value = $new_value;
-
-        return $this;
+        return $this->made_by;
     }
+
 }

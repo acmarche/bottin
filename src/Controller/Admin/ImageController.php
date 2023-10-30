@@ -19,8 +19,10 @@ use Vich\UploaderBundle\Handler\UploadHandler;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ImageController extends AbstractController
 {
-    public function __construct(private readonly ImageRepository $imageRepository, private readonly UploadHandler $uploadHandler)
-    {
+    public function __construct(
+        private readonly ImageRepository $imageRepository,
+        private readonly UploadHandler $uploadHandler
+    ) {
     }
 
     #[Route(path: '/new/{id}', name: 'bottin_admin_image_new', methods: ['GET', 'POST'])]
@@ -63,9 +65,9 @@ class ImageController extends AbstractController
         );
         $fileName = $orignalName.'-'.uniqid().'.'.$file->guessClientExtension();
 
-        $ficheImage->setMime($file->getMimeType());
-        $ficheImage->setImageName($fileName);
-        $ficheImage->setImage($file);
+        $ficheImage->mime = $file->getMimeType();
+        $ficheImage->imageName = $fileName;
+        $ficheImage->image = $file;
         try {
             $this->uploadHandler->upload($ficheImage, 'image');
         } catch (\Exception $exception) {
@@ -83,7 +85,7 @@ class ImageController extends AbstractController
             '@AcMarcheBottin/admin/image/show.html.twig',
             [
                 'image' => $ficheImage,
-                'fiche' => $ficheImage->getFiche(),
+                'fiche' => $ficheImage->fiche,
             ]
         );
     }
@@ -91,7 +93,7 @@ class ImageController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_image_delete', methods: ['POST'])]
     public function delete(Request $request, FicheImage $ficheImage): RedirectResponse
     {
-        $fiche = $ficheImage->getFiche();
+        $fiche = $ficheImage->fiche;
         if ($this->isCsrfTokenValid('delete'.$ficheImage->getId(), $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
             $this->imageRepository->flush();

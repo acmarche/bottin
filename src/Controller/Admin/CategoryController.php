@@ -41,7 +41,7 @@ class CategoryController extends AbstractController
         $data = [];
         $categoryRoot = null;
         if ($session->has('category_search')) {
-            $args = json_decode((string) $session->get('category_search'), true, 512, \JSON_THROW_ON_ERROR);
+            $args = json_decode((string)$session->get('category_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         $form = $this->createForm(
@@ -93,7 +93,7 @@ class CategoryController extends AbstractController
     {
         $category = new Category();
         if ($parent instanceof Category) {
-            $category->setParent($parent);
+            $category->parent = $parent;
         }
 
         $form = $this->createForm(CategoryType::class, $category);
@@ -180,7 +180,7 @@ class CategoryController extends AbstractController
         $editForm = $this->createForm(CategoryMoveType::class, $category);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $category->setChildNodeOf($category->getParent());
+            $category->setChildNodeOf($category->parent);
 
             $this->categoryRepository->flush();
             $this->addFlash('success', 'La catégorie a bien été modifiée');
@@ -202,7 +202,7 @@ class CategoryController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $this->messageBus->dispatch(new CategoryDeleted($category->getId()));
-            $parent = $category->getParent();
+            $parent = $category->parent;
             $this->categoryRepository->remove($category);
             $this->categoryRepository->flush();
 

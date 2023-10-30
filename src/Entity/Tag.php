@@ -25,7 +25,10 @@ class Tag implements \Stringable
     #[ORM\Column(type: 'string', unique: true, nullable: true)]
     protected $slug;
 
-    public $fiches = [];
+    /**
+     * @var Fiche[]
+     */
+    public array $fiches = [];
 
     public function __toString(): string
     {

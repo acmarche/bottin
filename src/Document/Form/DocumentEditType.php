@@ -13,7 +13,7 @@ class DocumentEditType extends AbstractType
             ->remove('file');
     }
 
-    public function getParent(): ?string
+    public function getParent(): string
     {
         return DocumentType::class;
     }

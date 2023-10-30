@@ -57,7 +57,7 @@ class DemandeController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_demande_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Demande $demande): RedirectResponse|Response|NotFoundHttpException
     {
-        $fiche = $this->ficheRepository->find($demande->getFiche());
+        $fiche = $this->ficheRepository->find($demande->fiche);
         if (!$fiche instanceof Fiche) {
             return $this->createNotFoundException('Fiche non trouvée');
         }
@@ -65,7 +65,7 @@ class DemandeController extends AbstractController
         $editForm = $this->createForm(DemandeType::class, $demande);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            if ($demande->getTraiter()) {
+            if ($demande->traiter) {
                 $this->addFlash('warning', 'Cette demande a déjà été traitée');
 
                 return $this->redirectToRoute('bottin_admin_demande_show', ['id' => $demande->getId()]);
@@ -83,8 +83,8 @@ class DemandeController extends AbstractController
                 $fiche->$set($value);
             }
 
-            $demande->setTraiter(true);
-            $demande->setTraiterBy($this->getUser()->getUserIdentifier());
+            $demande->traiter =true;
+            $demande->traiter_by = $this->getUser()->getUserIdentifier();
 
             $this->demandeRepository->flush();
             $this->ficheRepository->flush();

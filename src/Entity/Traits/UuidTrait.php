@@ -8,17 +8,7 @@ use Symfony\Component\Uid\Uuid;
 trait UuidTrait
 {
     #[ORM\Column(type: 'uuid', unique: true, nullable: false)]
-    protected ?string $uuid = null;
-
-    public function getUuid(): ?string
-    {
-        return $this->uuid;
-    }
-
-    public function setUuid(?string $uuid): void
-    {
-        $this->uuid = $uuid;
-    }
+    public ?string $uuid = null;
 
     public function generateUuid(): string
     {

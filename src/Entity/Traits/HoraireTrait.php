@@ -13,21 +13,13 @@ trait HoraireTrait
      */
     #[ORM\OneToMany(targetEntity: 'Horaire', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     #[ORM\OrderBy(value: ['day' => 'ASC'])]
-    protected iterable $horaires;
-
-    /**
-     * @return Collection|Horaire[]
-     */
-    public function getHoraires(): Collection
-    {
-        return $this->horaires;
-    }
+    public iterable $horaires;
 
     public function addHoraire(Horaire $horaire): self
     {
         if (!$this->horaires->contains($horaire)) {
             $this->horaires[] = $horaire;
-            $horaire->setFiche($this);
+            $horaire->fiche = $this;
         }
 
         return $this;
@@ -38,16 +30,11 @@ trait HoraireTrait
         if ($this->horaires->contains($horaire)) {
             $this->horaires->removeElement($horaire);
             // set the owning side to null (unless already changed)
-            if ($horaire->getFiche() === $this) {
+            if ($horaire->fiche === $this) {
                 //   $horaire->setFiche(null);
             }
         }
 
         return $this;
-    }
-
-    public function setHoraires(array $horaires)
-    {
-        $this->horaires = $horaires;
     }
 }

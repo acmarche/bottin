@@ -61,7 +61,7 @@ class ClassementHandler
     {
         foreach (Bottin::ROOTS as $root) {
             $eco = $this->categoryRepository->find($root);
-            if ($classement->getCategory()->isIndirectChildNodeOf($eco)) {
+            if ($classement->category->isIndirectChildNodeOf($eco)) {
                 return $root;
             }
         }

@@ -12,21 +12,13 @@ trait DemandeTrait
      * @var Demande[]|iterable|Collection
      */
     #[ORM\OneToMany(targetEntity: Demande::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
-    protected iterable $demandes;
-
-    /**
-     * @return Collection|Demande[]
-     */
-    public function getDemandes(): Collection
-    {
-        return $this->demandes;
-    }
+    public iterable $demandes;
 
     public function addDemande(Demande $demande): self
     {
         if (!$this->demandes->contains($demande)) {
             $this->demandes[] = $demande;
-            $demande->setFiche($this);
+            $demande->fiche = $this;
         }
 
         return $this;
@@ -37,8 +29,8 @@ trait DemandeTrait
         if ($this->demandes->contains($demande)) {
             $this->demandes->removeElement($demande);
             // set the owning side to null (unless already changed)
-            if ($demande->getFiche() === $this) {
-                $demande->setFiche(null);
+            if ($demande->fiche === $this) {
+                $demande->fiche = null;
             }
         }
 

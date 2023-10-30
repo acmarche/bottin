@@ -38,7 +38,7 @@ class ExportUtils
         $selections = $this->selectionRepository->findByUser($username);
         $categories = [];
         foreach ($selections as $selection) {
-            $categories[] = $selection->getCategory();
+            $categories[] = $selection->category;
         }
 
         if ([] !== $categories) {

@@ -13,17 +13,17 @@ class ClassementSerializer
 
     public function serializeClassementForApi(Classement $classement): array
     {
-        $category = $classement->getCategory();
-        $parentId = $category->getParent() instanceof Category ? $category->getParent()->getId() : 0;
+        $category = $classement->category;
+        $parentId = $category->parent instanceof Category ? $category->parent->getId() : 0;
         $data = [];
         $data['id'] = $category->getId();
-        $data['name'] = $category->getName();
+        $data['name'] = $category->name;
         $data['lvl'] = $category->getNodeLevel() - 1;
         $data['lft'] = '';
         $data['rgt'] = '';
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
-        $data['description'] = $category->getDescription();
-        $data['logo'] = $category->getLogo();
+        $data['description'] = $category->description;
+        $data['logo'] = $category->logo;
         $data['slugname'] = $category->getSlug();
         $data['slug'] = $category->getSlug();
         $data['parent'] = $parentId;
@@ -33,6 +33,6 @@ class ClassementSerializer
 
     public function serializeClassementForApiAndroid(Classement $classement): array
     {
-        return ['id' => $classement->getId(), 'fiche_id' => $classement->getFiche()->getId(), 'category_id' => $classement->getCategory()->getId(), 'principal' => (bool) $classement->getPrincipal()];
+        return ['id' => $classement->getId(), 'fiche_id' => $classement->fiche->getId(), 'category_id' => $classement->category->getId(), 'principal' => (bool) $classement->principal];
     }
 }

@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Situation controller.
- */
 #[Route(path: '/admin/situation')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class SituationController extends AbstractController
@@ -23,9 +20,6 @@ class SituationController extends AbstractController
     {
     }
 
-    /**
-     * Lists all Situation entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_situation', methods: ['GET'])]
     public function index(): Response
     {
@@ -39,9 +33,6 @@ class SituationController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Situation entity.
-     */
     #[Route(path: '/new', name: 'bottin_admin_situation_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -66,13 +57,10 @@ class SituationController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Situation entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_situation_show', methods: ['GET'])]
     public function show(Situation $situation): Response
     {
-        $fiches = $situation->getFiches();
+        $fiches = $situation->fiches;
 
         return $this->render(
             '@AcMarcheBottin/admin/situation/show.html.twig',
@@ -83,9 +71,6 @@ class SituationController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Situation entity.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_situation_edit', methods: ['GET', 'POST'])]
     public function edit(Situation $situation, Request $request): Response
     {

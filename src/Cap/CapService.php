@@ -16,7 +16,7 @@ class CapService
         $classements = $fiche->getClassements();
         if (\count($classements) > 0) {
             $first = $classements[0];
-            $secteur = $first->getCategory()->getSlug();
+            $secteur = $first->category->getSlug();
         }
 
         return $urlBase.$secteur.'/'.$fiche->getSlug();

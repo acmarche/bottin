@@ -29,16 +29,16 @@ class HoraireService
     public function initHoraires(Fiche $fiche): void
     {
         $allDays = $this->getAllDays();
-        $horairesOld = $fiche->getHoraires();
+        $horairesOld = $fiche->horaires;
         foreach ($horairesOld as $horaireOld) {
-            $day = $horaireOld->getDay();
+            $day = $horaireOld->day;
             unset($allDays[$day]);
         }
 
         foreach ($allDays as $day) {
             $horaire = new Horaire();
-            $horaire->setFiche($fiche);
-            $horaire->setDay($day);
+            $horaire->fiche = $fiche;
+            $horaire->day=$day;
             $fiche->addHoraire($horaire);
         }
 
@@ -48,8 +48,8 @@ class HoraireService
     public function sortHoraires(Fiche $fiche)
     {
         $horaires = [];
-        foreach ($fiche->getHoraires() as $horaire) {
-            $horaires[$horaire->getDay()] = $horaire;
+        foreach ($fiche->horaires as $horaire) {
+            $horaires[$horaire->day] = $horaire;
         }
 
         $this->horaires = new ArrayCollection();
@@ -57,7 +57,7 @@ class HoraireService
             $fiche->addHoraire($horaire);
         }
 
-        return $fiche->getHoraires();
+        return $fiche->horaires;
     }
 
     /**

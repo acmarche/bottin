@@ -9,8 +9,10 @@ use AcMarche\Bottin\Repository\TokenRepository;
 
 class TokenUtils
 {
-    public function __construct(private readonly FicheRepository $ficheRepository, private readonly TokenRepository $tokenRepository)
-    {
+    public function __construct(
+        private readonly FicheRepository $ficheRepository,
+        private readonly TokenRepository $tokenRepository
+    ) {
     }
 
     public function generateForAll(): void
@@ -26,18 +28,18 @@ class TokenUtils
 
     public function generateForOneFiche(Fiche $fiche, bool $flush = false): void
     {
-        if (!($token = $fiche->getToken()) instanceof Token) {
+        if (!($token = $fiche->token) instanceof Token) {
             $token = new Token($fiche);
             $this->tokenRepository->persist($token);
         }
 
-        $token->setUuid($token->generateUuid());
-        $token->setPassword($this->generatePassword());
+        $token->uuid = $token->generateUuid();
+        $token->password = $this->generatePassword();
 
         $date = new \DateTime();
         $date->modify('+30days');
 
-        $token->setExpireAt($date);
+        $token->expireAt = $date;
         if ($flush) {
             $this->tokenRepository->flush();
         }

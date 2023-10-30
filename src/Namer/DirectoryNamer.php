@@ -33,7 +33,7 @@ class DirectoryNamer implements DirectoryNamerInterface
      */
     public function directoryName($object, PropertyMapping $propertyMapping): string
     {
-        $fiche = $object->getFiche();
+        $fiche = $object->fiche;
 
         return (string) $fiche->getId();
     }

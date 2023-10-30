@@ -16,14 +16,14 @@ class Situation implements \Stringable
     use IdTrait;
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
-    protected string $name;
+    public string $name;
 
     /**
      * @var Fiche[]
      */
     #[ORM\ManyToMany(targetEntity: Fiche::class, mappedBy: 'situations')]
     #[ORM\OrderBy(value: ['societe' => 'ASC'])]
-    protected iterable $fiches = [];
+    public iterable $fiches = [];
 
     public function __construct()
     {
@@ -33,26 +33,6 @@ class Situation implements \Stringable
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Fiche[]
-     */
-    public function getFiches(): iterable
-    {
-        return $this->fiches;
     }
 
     public function addFiche(Fiche $fiche): self
@@ -75,23 +55,4 @@ class Situation implements \Stringable
         return $this;
     }
 
-    public function addFich(Fiche $fich): self
-    {
-        if (!$this->fiches->contains($fich)) {
-            $this->fiches[] = $fich;
-            $fich->addSituation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFich(Fiche $fich): self
-    {
-        if ($this->fiches->contains($fich)) {
-            $this->fiches->removeElement($fich);
-            $fich->removeSituation($this);
-        }
-
-        return $this;
-    }
 }

@@ -66,7 +66,7 @@ class AdresseController extends AbstractController
     #[Route(path: '/{id}', name: 'bottin_admin_adresse_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Adresse $adresse): Response
     {
-        $fiches = $adresse->getFiches();
+        $fiches = $adresse->fiches;
         $form = $this->createForm(LocalisationType::class, $adresse);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

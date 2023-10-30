@@ -12,16 +12,16 @@ class FicheUtils
     public function extractEmailsFromFiche(Fiche $fiche): array
     {
         $emails = [];
-        if (filter_var($fiche->getEmail(), \FILTER_VALIDATE_EMAIL)) {
-            $emails[] = $fiche->getEmail();
+        if (filter_var($fiche->email, \FILTER_VALIDATE_EMAIL)) {
+            $emails[] = $fiche->email;
         }
 
-        if (filter_var($fiche->getContactEmail(), \FILTER_VALIDATE_EMAIL)) {
-            $emails[] = $fiche->getContactEmail();
+        if (filter_var($fiche->contact_email, \FILTER_VALIDATE_EMAIL)) {
+            $emails[] = $fiche->contact_email;
         }
 
-        if (filter_var($fiche->getAdminEmail(), \FILTER_VALIDATE_EMAIL)) {
-            $emails[] = $fiche->getAdminEmail();
+        if (filter_var($fiche->admin_email, \FILTER_VALIDATE_EMAIL)) {
+            $emails[] = $fiche->admin_email;
         }
 
         return $emails;
@@ -33,8 +33,8 @@ class FicheUtils
     public function getTagsForElastic(Fiche $fiche): array
     {
         $tags = [];
-        foreach ($fiche->getClassements() as $classement) {
-            $tags[] = $classement->getCategory()->getName();
+        foreach ($fiche->classements as $classement) {
+            $tags[] = $classement->category->name;
         }
 
         return $tags;

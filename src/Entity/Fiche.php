@@ -59,76 +59,76 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $societe = null;
+    public ?string $societe = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $rue = null;
+    public ?string $rue = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $numero = null;
+    public ?string $numero = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    protected ?int $cp = null;
+    public ?int $cp = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $localite = null;
+    public ?string $localite = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $telephone = null;
+    public ?string $telephone = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $telephone_autre = null;
+    public ?string $telephone_autre = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $fax = null;
+    public ?string $fax = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $gsm = null;
+    public ?string $gsm = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $website = null;
+    public ?string $website = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $email = null;
+    public ?string $email = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $longitude = null;
+    public ?string $longitude = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $latitude = null;
+    public ?string $latitude = null;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected bool $centreville = false;
+    public bool $centreville = false;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected bool $midi = false;
+    public bool $midi = false;
 
     #[ORM\Column(type: 'boolean', options: ['default' => 0])]
-    protected bool $pmr = false;
+    public bool $pmr = false;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    protected ?int $ftlb = null;
+    public ?int $ftlb = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $user = null;
+    public ?string $user = null;
 
     /**
      * Utiliser lors de l'ajout d'un classement.
      */
-    protected ?int $categoryId = null;
+    public ?int $categoryId = null;
 
     #[ORM\ManyToOne(targetEntity: Adresse::class, inversedBy: 'fiches')]
-    protected ?Adresse $adresse = null;
+    public ?Adresse $adresse = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $numero_tva = null;
+    public ?string $numero_tva = null;
 
     /**
      * Pour cascade.
      */
     #[ORM\OneToMany(targetEntity: History::class, mappedBy: 'fiche', cascade: ['remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?iterable $histories;
+    public ?iterable $histories;
 
     public array $classementsFull = [];
     public array $metas = [];
@@ -144,18 +144,6 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         $this->demandes = new ArrayCollection();
         $this->situations = new ArrayCollection();
         $this->histories = new ArrayCollection();
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->categoryId;
-    }
-
-    public function setCategoryId($categoryId): self
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
     }
 
     public function getSluggableFields(): array
@@ -202,28 +190,34 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this->societe;
     }
 
-    public function getSociete(): ?string
+    public function getAdresse(): ?Adresse
     {
-        return $this->societe;
+        return $this->adresse;
     }
 
-    public function setSociete(string $societe): self
+    public function getNumero(): ?string
     {
-        $this->societe = $societe;
-
-        return $this;
+        return $this->numero;
     }
 
-    public function getTelephone(): ?string
+    public function getCp(): ?int
     {
-        return $this->telephone;
+        return $this->cp;
     }
 
-    public function setTelephone(?string $telephone): self
+    public function getLocalite()
     {
-        $this->telephone = $telephone;
+        return $this->localite;
+    }
 
-        return $this;
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
     }
 
     public function getTelephoneAutre(): ?string
@@ -231,142 +225,9 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         return $this->telephone_autre;
     }
 
-    public function setTelephoneAutre(?string $telephone_autre): self
-    {
-        $this->telephone_autre = $telephone_autre;
-
-        return $this;
-    }
-
-    public function getFax(): ?string
-    {
-        return $this->fax;
-    }
-
-    public function setFax(?string $fax): self
-    {
-        $this->fax = $fax;
-
-        return $this;
-    }
-
-    public function getGsm(): ?string
-    {
-        return $this->gsm;
-    }
-
-    public function setGsm(?string $gsm): self
-    {
-        $this->gsm = $gsm;
-
-        return $this;
-    }
-
-    public function getWebsite(): ?string
-    {
-        return $this->website;
-    }
-
-    public function setWebsite(?string $website): self
-    {
-        $this->website = $website;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getCentreville(): bool
-    {
-        return $this->centreville;
-    }
-
-    public function setCentreville(bool $centreville): self
-    {
-        $this->centreville = $centreville;
-
-        return $this;
-    }
-
-    public function getMidi(): bool
-    {
-        return $this->midi;
-    }
-
-    public function setMidi(bool $midi): self
-    {
-        $this->midi = $midi;
-
-        return $this;
-    }
-
-    public function getPmr(): bool
-    {
-        return $this->pmr;
-    }
-
-    public function setPmr(bool $pmr): self
-    {
-        $this->pmr = $pmr;
-
-        return $this;
-    }
-
-    public function getFtlb(): ?int
-    {
-        return $this->ftlb;
-    }
-
-    public function setFtlb(?int $ftlb): self
-    {
-        $this->ftlb = $ftlb;
-
-        return $this;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(?string $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?Adresse
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(?Adresse $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
     public function getNumeroTva(): ?string
     {
         return $this->numero_tva;
     }
 
-    public function setNumeroTva(?string $numero_tva): self
-    {
-        $this->numero_tva = $numero_tva;
-
-        return $this;
-    }
 }

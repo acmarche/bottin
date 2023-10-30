@@ -17,8 +17,8 @@ class SortUtils
         usort(
             $fiches,
             static function ($a, $b) {
-                $ad = $a->getSociete();
-                $bd = $b->getSociete();
+                $ad = $a->societe;
+                $bd = $b->societe;
 
                 return $ad <=> $bd;
             }
@@ -35,8 +35,8 @@ class SortUtils
         usort(
             $categories,
             static function ($a, $b) {
-                $ad = $a->getName();
-                $bd = $b->getName();
+                $ad = $a->name;
+                $bd = $b->name;
 
                 return $ad <=> $bd;
             }

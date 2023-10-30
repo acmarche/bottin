@@ -42,7 +42,9 @@ class GeolocalisationGoogleService
                 ]
             );
         } catch (TransportExceptionInterface $transportException) {
-            throw new \Exception($transportException->getMessage(), $transportException->getCode(), $transportException);
+            throw new \Exception(
+                $transportException->getMessage(), $transportException->getCode(), $transportException
+            );
         }
 
         try {
@@ -68,8 +70,8 @@ class GeolocalisationGoogleService
             $geometry = $results[0]['geometry'];
 
             $location = $geometry['location'];
-            $fiche->setLatitude($location['lat']);
-            $fiche->setLongitude($location['lng']);
+            $fiche->latitude = $location['lat'];
+            $fiche->longitude = $location['lng'];
         }
 
         return $location;

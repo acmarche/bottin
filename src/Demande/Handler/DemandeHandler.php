@@ -14,8 +14,13 @@ use Symfony\Component\Mailer\MailerInterface;
 
 class DemandeHandler
 {
-    public function __construct(private readonly FicheRepository $ficheRepository, private readonly DemandeRepository $demandeRepository, private readonly DemandeMetaRepository $demandeMetaRepository, private readonly MailFactory $mailFactory, private readonly MailerInterface $mailer)
-    {
+    public function __construct(
+        private readonly FicheRepository $ficheRepository,
+        private readonly DemandeRepository $demandeRepository,
+        private readonly DemandeMetaRepository $demandeMetaRepository,
+        private readonly MailFactory $mailFactory,
+        private readonly MailerInterface $mailer
+    ) {
     }
 
     public function handle(array $data): array
@@ -30,8 +35,7 @@ class DemandeHandler
             return ['error' => 404];
         }
 
-        $demande = new Demande();
-        $demande->setFiche($fiche);
+        $demande = new Demande($fiche);
 
         $this->demandeRepository->persist($demande);
         foreach ($data as $key => $value) {

@@ -14,28 +14,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     use IdTrait;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $username = null;
+    public ?string $username = null;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private ?string $email = null;
+    public ?string $email = null;
 
     #[ORM\Column(type: 'string', length: 180, nullable: false)]
-    private ?string $nom = null;
+    public ?string $nom = null;
 
     #[ORM\Column(type: 'string', length: 180, nullable: true)]
-    private ?string $prenom = null;
+    public ?string $prenom = null;
 
     #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    public array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    private string $password;
+    public string $password;
 
-    protected ?string $plainPassword = null;
+    public ?string $plainPassword = null;
 
     public function getUserIdentifier(): string
     {
-        return $this->getUsername();
+        return $this->username;
     }
 
     public function __toString(): string
@@ -63,50 +63,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return \in_array($role, $this->getRoles(), true);
     }
 
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(?string $plainPassword): void
-    {
-        $this->plainPassword = $plainPassword;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
     public function getRoles(): array
     {
         return $this->roles;
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
     }
 
     /**
@@ -116,46 +80,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): self
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getSalt(): ?string
-    {
-        return null;
     }
 }

@@ -102,7 +102,7 @@ class HistoryUtils
     public function addImage(Fiche $fiche, FicheImage $ficheImage)
     {
         $username = $this->getUsername();
-        $this->createForFiche($fiche, $username, 'ajout image', '', $ficheImage->getImageName());
+        $this->createForFiche($fiche, $username, 'ajout image', '', $ficheImage->imageName);
         $this->historyRepository->flush();
     }
 }

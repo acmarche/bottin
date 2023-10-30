@@ -21,13 +21,13 @@ class Token implements TimestampableInterface
 
     #[ORM\OneToOne(targetEntity: Fiche::class, inversedBy: 'token')]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?Fiche $fiche = null;
+    public ?Fiche $fiche = null;
 
     #[ORM\Column(type: 'date', nullable: false)]
-    protected \DateTimeInterface $expireAt;
+    public \DateTimeInterface $expireAt;
 
     #[ORM\Column(type: 'string', length: 50, nullable: false, unique: true)]
-    protected ?string $password = null;
+    public ?string $password = null;
 
     public function __construct(?Fiche $fiche)
     {
@@ -35,31 +35,4 @@ class Token implements TimestampableInterface
         $this->uuid = $this->generateUuid();
     }
 
-    public function getExpireAt(): \DateTimeInterface
-    {
-        return $this->expireAt;
-    }
-
-    public function setExpireAt(\DateTimeInterface $expireAt): self
-    {
-        $this->expireAt = $expireAt;
-
-        return $this;
-    }
-
-    public function generatePassword(): void
-    {
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
 }

@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Entity;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Repository\PdvRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,14 +16,14 @@ class Pdv implements \Stringable
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $intitule = null;
+    public ?string $intitule = null;
 
+    #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'pdv')]
+    #[ORM\OrderBy(value: ['societe' => 'ASC'])]
     /**
      * @var Fiche[]
      */
-    #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'pdv')]
-    #[ORM\OrderBy(value: ['societe' => 'ASC'])]
-    protected iterable $fiches = [];
+    public iterable $fiches = [];
 
     public function __construct()
     {
@@ -33,46 +32,26 @@ class Pdv implements \Stringable
 
     public function __toString(): string
     {
-        return $this->getIntitule();
-    }
-
-    public function getIntitule(): ?string
-    {
         return $this->intitule;
     }
 
-    public function setIntitule(string $intitule): self
-    {
-        $this->intitule = $intitule;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Fiche[]
-     */
-    public function getFiches(): iterable
-    {
-        return $this->fiches;
-    }
-
-    public function addFich(Fiche $fiche): self
+    public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
             $this->fiches[] = $fiche;
-            $fiche->setPdv($this);
+            $fiche->pdv = $this;
         }
 
         return $this;
     }
 
-    public function removeFich(Fiche $fich): self
+    public function removeFiche(Fiche $fiche): self
     {
-        if ($this->fiches->contains($fich)) {
-            $this->fiches->removeElement($fich);
+        if ($this->fiches->contains($fiche)) {
+            $this->fiches->removeElement($fiche);
             // set the owning side to null (unless already changed)
-            if ($fich->getPdv() === $this) {
-                $fich->setPdv(null);
+            if ($fiche->pdv === $this) {
+                $fiche->pdv = null;
             }
         }
 

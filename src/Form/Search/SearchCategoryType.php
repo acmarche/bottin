@@ -22,7 +22,7 @@ class SearchCategoryType extends AbstractType
         $roots = $this->categoryRepository->getRootNodes();
         $roots = SortUtils::sortCategories($roots);
         foreach ($roots as $root) {
-            $categories[$root->getName()] = $root->getId();
+            $categories[$root->name] = $root->getId();
         }
 
         $formBuilder

@@ -29,7 +29,7 @@ class TokenVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        if (!$subject->getFiche() instanceof Fiche) {
+        if (!$subject->fiche instanceof Fiche) {
             return false;
         }
 

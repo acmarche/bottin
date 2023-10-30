@@ -31,7 +31,7 @@ class ClassementController extends AbstractController
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
     public function edit(Token $token, Request $request): Response
     {
-        $fiche = $token->getFiche();
+        $fiche = $token->fiche;
         $form = $this->createForm(ClassementSimpleType::class);
         $classements = $this->classementRepository->getByFiche($fiche);
         $classements = $this->pathUtils->setPathForClassements($classements);

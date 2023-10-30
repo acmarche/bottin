@@ -7,7 +7,6 @@ use AcMarche\Bottin\Entity\Traits\LocationTrait;
 use AcMarche\Bottin\Location\LocationAbleInterface;
 use AcMarche\Bottin\Repository\AdresseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -21,32 +20,33 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     use LocationTrait;
     use SluggableTrait;
     use TimestampableTrait;
+
     #[ORM\Column(type: 'string', length: 150, nullable: false)]
-    private ?string $nom = null;
+    public ?string $nom = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $rue = null;
+    public ?string $rue = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $numero = null;
+    public ?string $numero = null;
 
     #[ORM\Column(type: 'integer', nullable: false)]
-    protected ?int $cp = null;
+    public ?int $cp = null;
 
     #[ORM\Column(type: 'string', nullable: false)]
-    protected ?string $localite = null;
+    public ?string $localite = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $longitude = null;
+    public ?string $longitude = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $latitude = null;
+    public ?string $latitude = null;
 
     /**
      * @var Fiche[]
      */
     #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'adresse')]
-    protected iterable $fiches = [];
+    public iterable $fiches = [];
 
     public function __construct()
     {
@@ -76,31 +76,36 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         return null;
     }
 
-    public function getNom(): ?string
+    public function getNumero(): ?string
     {
-        return $this->nom;
+        return $this->numero;
     }
 
-    public function setNom(string $nom): self
+    public function getCp(): ?int
     {
-        $this->nom = $nom;
-
-        return $this;
+        return $this->cp;
     }
 
-    /**
-     * @return Collection|Fiche[]
-     */
-    public function getFiches(): iterable
+    public function getLocalite()
     {
-        return $this->fiches;
+        return $this->localite;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
     }
 
     public function addFiche(Fiche $fiche): self
     {
         if (!$this->fiches->contains($fiche)) {
             $this->fiches[] = $fiche;
-            $fiche->setAdresse($this);
+            $fiche->adresse = $this;
         }
 
         return $this;
@@ -111,29 +116,9 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
         if ($this->fiches->contains($fiche)) {
             $this->fiches->removeElement($fiche);
             // set the owning side to null (unless already changed)
-            if ($fiche->getAdresse() === $this) {
-                $fiche->setAdresse(null);
+            if ($fiche->adresse === $this) {
+                $fiche->adresse = null;
             }
-        }
-
-        return $this;
-    }
-
-    public function addFich(Fiche $fich): self
-    {
-        if (!$this->fiches->contains($fich)) {
-            $this->fiches[] = $fich;
-            $fich->setAdresse($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFich(Fiche $fich): self
-    {
-        // set the owning side to null (unless already changed)
-        if ($this->fiches->removeElement($fich) && $fich->getAdresse() === $this) {
-            $fich->setAdresse(null);
         }
 
         return $this;
