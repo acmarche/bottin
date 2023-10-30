@@ -1,0 +1,24 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Vérification de l'intégrité des données</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_secteur_principal') }}">Sans catégorie principal</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_categories_empty') }}">Catégories sans fiches</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_checkup_classement_empty') }}">Fiches sans classement</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

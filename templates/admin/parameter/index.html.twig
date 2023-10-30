@@ -1,0 +1,29 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h3>Paramètres</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_tag') }}">Les tags</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_adresse') }}">Adresses</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_localite_index') }}">Localités</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_pdv') }}"> Points de vente</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('bottin_admin_meta_field') }}">Les champs</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
