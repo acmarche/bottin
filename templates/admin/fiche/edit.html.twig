@@ -4,17 +4,13 @@
     <div class="card">
         <div class="card-header">
             <h3>{{ fiche }}</h3>
-            {% if fiche.ftlb %}
-                <img src="{{ asset('bundles/acmarchebottin/images/ftlb.png') }}" title="Fiche provenant de la Ftlb"
-                     alt="ftlb"/>
-            {% endif %}
         </div>
         <div class="card-body">
-
             {% include '@AcMarcheBottin/admin/fiche/_form.html.twig' %}
-
+        </div>
+        <div class="card-footer">
             <a href="{{ bottin_url_fiche_show(fiche) }}" class="btn btn-secondary">
-             <i class="fas fa-long-arrow-alt-left"></i> Annuler
+                <i class="fas fa-long-arrow-alt-left"></i> Annuler
             </a>
         </div>
     </div>

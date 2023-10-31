@@ -243,7 +243,7 @@ class CsvGenerator
 
     protected function addClassements(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
     {
-        $classements = $fiche->getClassements();
+        $classements = $fiche->classements;
 
         foreach ($classements as $classement) {
             $category = $classement->category;

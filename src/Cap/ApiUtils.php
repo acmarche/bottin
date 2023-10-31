@@ -56,7 +56,7 @@ class ApiUtils
     public function serializeCategory(Category $category): array
     {
         $enfantsSerialized = [];
-        foreach ($category->getEnfants() as $enfant) {
+        foreach ($category->enfants as $enfant) {
             $dataEnfant = $this->categorySerializer->serializeCategory2($enfant);
             $dataEnfant['path'] = $this->getSerializedPath($enfant);
             $enfantsSerialized[] = $dataEnfant;
@@ -126,7 +126,7 @@ class ApiUtils
     {
         $images = [];
 
-        foreach ($fiche->getImages() as $ficheImage) {
+        foreach ($fiche->images as $ficheImage) {
             $images[] = $this->ficheImageSerializer->serializeFicheImage($ficheImage);
         }
 

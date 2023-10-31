@@ -30,10 +30,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FicheType extends AbstractType
 {
-    public function __construct(private readonly MetaFieldRepository $metaFieldRepository)
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -55,6 +51,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -62,6 +59,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -69,6 +67,7 @@ class FicheType extends AbstractType
                 IntegerType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -83,6 +82,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -90,6 +90,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -97,6 +98,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -104,6 +106,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -111,6 +114,7 @@ class FicheType extends AbstractType
                 UrlType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -118,6 +122,7 @@ class FicheType extends AbstractType
                 EmailType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -126,6 +131,7 @@ class FicheType extends AbstractType
                 [
                     'required' => false,
                     'label' => 'Numéro de Tva',
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -133,6 +139,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -140,6 +147,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -147,6 +155,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -199,6 +208,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -213,6 +223,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -220,6 +231,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -227,6 +239,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -234,6 +247,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -241,6 +255,7 @@ class FicheType extends AbstractType
                 IntegerType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -248,6 +263,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -255,6 +271,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -262,6 +279,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -269,6 +287,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -276,6 +295,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -290,6 +310,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -297,6 +318,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -304,6 +326,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -311,6 +334,7 @@ class FicheType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -318,6 +342,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -325,6 +350,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -332,6 +358,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -339,6 +366,7 @@ class FicheType extends AbstractType
                 TelType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -346,6 +374,7 @@ class FicheType extends AbstractType
                 EmailType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(

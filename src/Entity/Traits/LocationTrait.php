@@ -18,8 +18,8 @@ trait LocationTrait
 
     public function getRue(): ?string
     {
-        if (null != $this->adresse) {
-            return $this->adresse->getRue();
+        if (null != $this->getAdresse()) {
+            return $this->getAdresse()->getRue();
         }
 
         return $this->rue;

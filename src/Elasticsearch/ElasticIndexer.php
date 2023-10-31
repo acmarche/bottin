@@ -24,7 +24,7 @@ class ElasticIndexer
         $this->connect($elasticIndexName);
     }
 
-    public function updateFiche(Fiche $fiche): Response
+    public function updateFiche(Fiche $fiche)
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
@@ -35,7 +35,6 @@ class ElasticIndexer
         }
 
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
-        // $data['id'] = 'fiche_'.$fiche->getId();
 
         $content = $this->serializer->serialize($data, 'json');
         $doc = new Document($fiche->getId(), $content);

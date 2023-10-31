@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Entity;
 
-use AcMarche\Bottin\Doctrine\LogoTrait;
 use AcMarche\Bottin\Entity\Traits\IdTrait;
+use AcMarche\Bottin\Entity\Traits\LogoTrait;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;

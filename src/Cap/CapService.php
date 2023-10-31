@@ -13,7 +13,7 @@ class CapService
     {
         $urlBase = 'https://cap.marche.be/commerces-et-entreprises/';
         $secteur = '';
-        $classements = $fiche->getClassements();
+        $classements = $fiche->classements;
         if (\count($classements) > 0) {
             $first = $classements[0];
             $secteur = $first->category->getSlug();

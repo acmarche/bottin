@@ -19,7 +19,11 @@ class FicheCreatedHandler
     public function __invoke(FicheCreated $ficheCreated): void
     {
         $fiche = $this->ficheRepository->find($ficheCreated->getFicheId());
-        $this->elasticIndexer->updateFiche($fiche);
+        try {
+            $this->elasticIndexer->updateFiche($fiche);
+        } catch (\Exception $exception) {
+
+        }
         $this->ficheRepository->flush();
     }
 }

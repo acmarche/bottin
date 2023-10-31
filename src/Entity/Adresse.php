@@ -48,6 +48,14 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     #[ORM\OneToMany(targetEntity: Fiche::class, mappedBy: 'adresse')]
     public iterable $fiches = [];
 
+    /**
+     * Fake pour location convert.
+     */
+    public function getAdresse(): ?self
+    {
+        return null;
+    }
+
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
@@ -66,14 +74,6 @@ class Adresse implements SluggableInterface, TimestampableInterface, LocationAbl
     public function shouldGenerateUniqueSlugs(): bool
     {
         return true;
-    }
-
-    /**
-     * Fake pour location convert.
-     */
-    public function getAdresse(): ?self
-    {
-        return null;
     }
 
     public function getNumero(): ?string

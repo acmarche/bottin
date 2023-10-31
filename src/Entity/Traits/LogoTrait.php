@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Doctrine;
+namespace AcMarche\Bottin\Entity\Traits;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -9,10 +9,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 trait LogoTrait
 {
     #[Vich\UploadableField(mapping: 'bottin_category_logo', fileNameProperty: 'logo')]
-    protected ?File $logoFile = null;
+    public ?File $logoFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $logo = null;
+    public ?string $logo = null;
 
     public function setLogoFile(File $file = null)
     {
@@ -24,19 +24,11 @@ trait LogoTrait
         }
     }
 
-    public function getLogoFile(): ?File
-    {
-        return $this->logoFile;
-    }
-
-    /**
-     * LOGO BLANC.
-     */
     #[Vich\UploadableField(mapping: 'bottin_category_logo', fileNameProperty: 'logo_blanc')]
-    protected ?File $logoBlancFile = null;
+    public ?File $logoBlancFile = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
-    protected ?string $logo_blanc = null;
+    public ?string $logo_blanc = null;
 
     public function setLogoBlancFile(File $file = null)
     {
@@ -48,8 +40,4 @@ trait LogoTrait
         }
     }
 
-    public function getLogoBlancFile(): ?File
-    {
-        return $this->logoBlancFile;
-    }
 }

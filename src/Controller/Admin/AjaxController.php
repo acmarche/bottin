@@ -70,7 +70,7 @@ class AjaxController extends AbstractController
         } else {
             $fiche = $classementSelect->fiche;
 
-            $classements = $fiche->getClassements();
+            $classements = $fiche->classements;
 
             foreach ($classements as $classement) {
                 if ($classement->getId() === $classementSelect->getId()) {

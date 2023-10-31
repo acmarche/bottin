@@ -20,14 +20,14 @@ class FicheUpdatedHandler
         private readonly FicheRepository $ficheRepository,
         private readonly LocationUpdater $locationUpdater,
         private readonly ElasticIndexer $elasticIndexer,
-        RequestStack $requestStack
+        private readonly RequestStack $requestStack
     ) {
-        $this->flashBag = $requestStack->getSession()->getFlashBag();
     }
 
     public function __invoke(FicheUpdated $ficheUpdated): void
     {
         $fiche = $this->ficheRepository->find($ficheUpdated->getFicheId());
+        $this->flashBag = $this->requestStack->getSession()->getFlashBag();
         if ($this->hasChangeAddress($ficheUpdated, $fiche)) {
             try {
                 $this->locationUpdater->convertAddressToCoordinates($fiche);
@@ -37,13 +37,11 @@ class FicheUpdatedHandler
                 $this->flashBag->add('danger', $e->getMessage());
             }
         }
-
-        $this->updateSearchEngine($fiche);
-    }
-
-    private function updateSearchEngine(Fiche $fiche): void
-    {
-        $this->elasticIndexer->updateFiche($fiche);
+        try {
+            $this->elasticIndexer->updateFiche($fiche);
+        } catch (\Exception $e) {
+            $this->flashBag->add('danger', 'Erreur indexation moteur de recherche: '.$e->getMessage());
+        }
     }
 
     private function hasChangeAddress(FicheUpdated $ficheUpdated, Fiche $fiche): bool

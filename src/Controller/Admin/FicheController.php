@@ -144,8 +144,8 @@ class FicheController extends AbstractController
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $data = $editForm->getData();
 
-            dd($data);
-            $horaires = $data->getHoraires();
+
+            $horaires = $data->horaires;
             $this->horaireService->handleEdit($fiche, $horaires);
 
             try {
@@ -157,7 +157,11 @@ class FicheController extends AbstractController
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La fiche a bien été modifiée');
 
-            $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
+            try {
+                $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
+            } catch (Exception $exception) {
+                $this->addFlash('danger', $exception->getMessage());
+            }
 
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
