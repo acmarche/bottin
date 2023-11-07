@@ -13,9 +13,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Class DefaultController.
- */
 #[Route(path: '/backend')]
 class DefaultController extends AbstractController
 {
@@ -49,7 +46,7 @@ class DefaultController extends AbstractController
                 $this->addFlash('danger', "Erreur lors de l'envoie du message: ".$e->getMessage());
             }
 
-            return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);
+            return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->uuid]);
         }
 
         return $this->render(

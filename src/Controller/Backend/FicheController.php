@@ -84,7 +84,7 @@ class FicheController extends AbstractController
 
             return $this->redirectToRoute(
                 'bottin_backend_fiche_edit',
-                ['uuid' => $token->getUuid(), 'etape' => $etape]
+                ['uuid' => $token->uuid, 'etape' => $etape]
             );
         }
 
@@ -101,8 +101,10 @@ class FicheController extends AbstractController
 
     #[Route(path: '/{id}', name: 'bottin_backend_fiche_delete', methods: ['POST'])]
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
-    public function delete(Request $request, Fiche $fiche): RedirectResponse
+    public function delete(Fiche $fiche): RedirectResponse
     {
+        $this->addFlash('warning', 'Suppression non autorisée');
+
         return $this->redirectToRoute('bottin_front_home');
     }
 }

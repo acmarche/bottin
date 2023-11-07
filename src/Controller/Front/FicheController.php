@@ -10,19 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Fiche controller.
- */
 #[Route(path: '/fiche')]
 class FicheController extends AbstractController
 {
-    public function __construct(private readonly PathUtils $pathUtils, private readonly ClassementRepository $classementRepository, private readonly FicheRepository $ficheRepository)
-    {
+    public function __construct(
+        private readonly PathUtils $pathUtils,
+        private readonly ClassementRepository $classementRepository,
+        private readonly FicheRepository $ficheRepository
+    ) {
     }
 
-    /**
-     * Finds and displays a Fiche fiche.
-     */
     #[Route(path: '/{slug}', name: 'bottin_front_fiche_show', methods: ['GET'])]
     public function show(Fiche $fiche): Response
     {

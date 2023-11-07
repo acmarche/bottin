@@ -17,9 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Vich\UploaderBundle\Handler\UploadHandler;
 
-/**
- * Image controller.
- */
 #[Route(path: '/backend/image')]
 class ImageController extends AbstractController
 {
@@ -40,7 +37,7 @@ class ImageController extends AbstractController
             FicheImageType::class,
             $ficheImage,
             [
-                'action' => $this->generateUrl('bottin_backend_image_upload', ['uuid' => $token->getUuid()]),
+                'action' => $this->generateUrl('bottin_backend_image_upload', ['uuid' => $token->uuid]),
             ]
         );
 
@@ -90,7 +87,7 @@ class ImageController extends AbstractController
     public function show(FicheImage $ficheImage): Response
     {
         $fiche = $ficheImage->fiche;
-        $token = $fiche->getToken();
+        $token = $fiche->token;
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
 
         return $this->render(
@@ -120,7 +117,7 @@ class ImageController extends AbstractController
         }
 
         $fiche = $ficheImage->fiche;
-        $token = $fiche->getToken();
+        $token = $fiche->token;
         $this->isGranted(TokenVoter::TOKEN_EDIT, $token);
         if ($this->isCsrfTokenValid('deleteimage', $request->request->get('_token'))) {
             $this->imageRepository->remove($ficheImage);
@@ -128,6 +125,6 @@ class ImageController extends AbstractController
             $this->addFlash('success', "L'image a bien été supprimée");
         }
 
-        return $this->redirectToRoute('bottin_backend_image_edit', ['uuid' => $token->getUuid()]);
+        return $this->redirectToRoute('bottin_backend_image_edit', ['uuid' => $token->uuid]);
     }
 }

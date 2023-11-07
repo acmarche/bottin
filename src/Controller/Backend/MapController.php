@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Map controller.
- */
 #[Route(path: '/backend/map')]
 class MapController extends AbstractController
 {
@@ -32,7 +29,7 @@ class MapController extends AbstractController
             $this->ficheRepository->flush();
             $this->addFlash('success', 'La localisation a bien été modifiée');
 
-            return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);
+            return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->uuid]);
         }
 
         return $this->render(

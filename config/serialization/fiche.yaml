@@ -74,6 +74,8 @@ AcMarche\Bottin\Entity\Fiche:
       groups: ['group1']
     latitude:
       groups: ['group1']
+    numero_tva:
+      groups: ['group1']
     updated_at:
       groups: ['group1']
     created_at:

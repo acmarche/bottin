@@ -12,19 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Category controller.
- */
 #[Route(path: '/category')]
 class CategoryController extends AbstractController
 {
-    public function __construct(private readonly CategoryRepository $categoryRepository, private readonly CategoryService $categoryService, private readonly PathUtils $pathUtils)
-    {
+    public function __construct(
+        private readonly CategoryRepository $categoryRepository,
+        private readonly CategoryService $categoryService,
+        private readonly PathUtils $pathUtils
+    ) {
     }
 
-    /**
-     * Lists all Category entities.
-     */
     #[Route(path: '/', name: 'bottin_front_category_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
@@ -42,9 +39,6 @@ class CategoryController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Category entity.
-     */
     #[Route(path: '/{slug}', name: 'bottin_front_category_show', methods: ['GET'])]
     public function show(Category $category): Response
     {

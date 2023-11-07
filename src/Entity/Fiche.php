@@ -112,27 +112,18 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     #[ORM\Column(type: 'string', nullable: true)]
     public ?string $user = null;
 
-    /**
-     * Utiliser lors de l'ajout d'un classement.
-     */
-    public ?int $categoryId = null;
-
     #[ORM\ManyToOne(targetEntity: Adresse::class, inversedBy: 'fiches')]
     public ?Adresse $adresse = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     public ?string $numero_tva = null;
 
-    /**
-     * Pour cascade.
-     */
     #[ORM\OneToMany(targetEntity: History::class, mappedBy: 'fiche', cascade: ['remove'])]
     #[ORM\JoinColumn(nullable: false)]
     public ?iterable $histories;
 
     public array $classementsFull = [];
     public array $metas = [];
-
     public int $root = 511;
 
     public function __construct()

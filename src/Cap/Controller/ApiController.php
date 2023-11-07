@@ -135,7 +135,7 @@ class ApiController extends AbstractController
     {
         $fiche = $this->ficheRepository->find($id);
         if (!$fiche instanceof Fiche) {
-            return $this->json(['error' => 'Fiche not found']);
+            return $this->json(['error' => 'Fiche not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         return $this->json($this->apiUtils->prepareFiche($fiche));
@@ -167,7 +167,7 @@ class ApiController extends AbstractController
     {
         $fiche = $this->ficheRepository->findOneBy(['slug' => $slugname]);
         if (!$fiche instanceof Fiche) {
-            return $this->json(['error' => 'Fiche not found']);
+            return $this->json(['error' => 'Fiche not found'], JsonResponse::HTTP_NOT_FOUND);
         }
 
         return $this->json($this->apiUtils->prepareFiche($fiche));

@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class TokenController.
- */
 #[Route(path: '/token')]
 class TokenController extends AbstractController
 {

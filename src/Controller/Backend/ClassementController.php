@@ -17,14 +17,16 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Classement controller.
- */
 #[Route(path: '/backend/classement')]
 class ClassementController extends AbstractController
 {
-    public function __construct(private readonly ClassementRepository $classementRepository, private readonly ClassementHandler $classementHandler, private readonly CategoryRepository $categoryRepository, private readonly PathUtils $pathUtils, private readonly MessageBusInterface $messageBus)
-    {
+    public function __construct(
+        private readonly ClassementRepository $classementRepository,
+        private readonly ClassementHandler $classementHandler,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly PathUtils $pathUtils,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
     #[Route(path: '/edit/{uuid}', name: 'bottin_backend_classement_edit', methods: ['GET', 'POST'])]
@@ -42,7 +44,7 @@ class ClassementController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $categoryId = (int) $data['categorySelected'];
+            $categoryId = (int)$data['categorySelected'];
 
             try {
                 $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
@@ -51,7 +53,7 @@ class ClassementController extends AbstractController
                 $this->addFlash('danger', $e->getMessage());
             }
 
-            return $this->redirectToRoute('bottin_backend_classement_edit', ['uuid' => $token->getUuid()]);
+            return $this->redirectToRoute('bottin_backend_classement_edit', ['uuid' => $token->uuid]);
         }
 
         return $this->render(
