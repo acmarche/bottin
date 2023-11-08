@@ -110,7 +110,7 @@ class CategoryRepository extends ServiceEntityRepository
                 $enfants[] = $this->find(Cap::idPharmacies);
             }
 
-            $rubrique->setEnfants($enfants);
+            $rubrique->enfants = $enfants;
 
             $rubriques[] = $rubrique;
         }
@@ -119,7 +119,7 @@ class CategoryRepository extends ServiceEntityRepository
          * ajout des professions liberales.
          */
         $category = $this->find(Cap::idLiberales);
-        $category->setEnfants($this->getDirectChilds(Cap::idLiberales));
+        $category->enfants = $this->getDirectChilds(Cap::idLiberales);
         $rubriques[] = $category;
 
         return $rubriques;
