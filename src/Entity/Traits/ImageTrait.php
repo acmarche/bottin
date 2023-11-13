@@ -11,7 +11,7 @@ trait ImageTrait
     /**
      * @var FicheImage[]|iterable|Collection
      */
-    #[ORM\OneToMany(targetEntity: 'FicheImage', mappedBy: 'fiche', cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(targetEntity: FicheImage::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     public iterable $images;
 
     public function addImage(FicheImage $image): self

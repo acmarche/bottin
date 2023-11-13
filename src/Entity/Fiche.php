@@ -150,7 +150,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     public function image(): ?string
     {
         if ((is_countable($this->images) ? \count($this->images) : 0) > 0) {
-            return $this->images[0]->getImageName();
+            return $this->images[0]->imageName;
         }
 
         return null;
