@@ -167,7 +167,7 @@ class CsvGenerator
 
         ++$ligne;
         foreach ($fiches as $fiche) {
-            $pdv = $fiche->getPdv() instanceof Pdv ? $fiche->pdv->intitule : '';
+            $pdv = $fiche->pdv instanceof Pdv ? $fiche->pdv->intitule : '';
 
             $lettre = 'A';
             $worksheet->setCellValue($lettre++.$ligne, $fiche->societe);
