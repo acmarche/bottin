@@ -18,9 +18,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class ApiController.
- */
 class ApiController extends AbstractController
 {
     public function __construct(
