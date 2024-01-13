@@ -3,24 +3,26 @@
 namespace AcMarche\Bottin\Twig;
 
 use AcMarche\Bottin\Entity\Fiche;
-use AcMarche\Bottin\Repository\TokenRepository;
 use Elastica\Result;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class BottinExtension extends AbstractExtension
 {
-    public function __construct(private readonly Security $security, private readonly RouterInterface $router, private readonly RequestStack $requestStack, private readonly TokenRepository $tokenRepository)
-    {
+    public function __construct(
+        private readonly Security $security,
+        private readonly RouterInterface $router,
+        private readonly RequestStack $requestStack,
+    ) {
     }
 
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('bottin_url_fiche_show', fn ($fiche): string => $this->urlFiche($fiche)),
+            new TwigFunction('bottin_url_fiche_show', fn($fiche): string => $this->urlFiche($fiche)),
         ];
     }
 

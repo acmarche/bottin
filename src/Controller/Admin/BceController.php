@@ -8,7 +8,7 @@ use AcMarche\Bce\Repository\CbeRepository;
 use AcMarche\Bottin\Entity\Fiche;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 

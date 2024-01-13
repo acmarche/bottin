@@ -9,7 +9,7 @@ use AcMarche\Bottin\Entity\History;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\HistoryRepository;
 use AcMarche\Bottin\Utils\PathUtils;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
