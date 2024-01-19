@@ -26,6 +26,7 @@ class AcMarcheBottinBundle extends AbstractBundle
         $container->import('../config/packages/liip_imagine.php');
         $container->import('../config/packages/security.php');
         $container->import('../config/packages/twig.php');
+        $container->import('../config/packages/twig_component.php');
         $container->import('../config/packages/vich_uploader.php');
     }
 }
