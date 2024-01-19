@@ -7,9 +7,9 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('bundles/acmarchebottin/favicon.ico') }}"/>
     {% block stylesheets %}{% endblock %}
 
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_script_tags('app') }}
-
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
 </head>
 <body class="d-flex flex-column h-100">
 {% set action = app.request.attributes.get("_route") %}
