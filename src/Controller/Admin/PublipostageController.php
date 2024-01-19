@@ -58,7 +58,9 @@ class PublipostageController extends AbstractController
         $form = $this->createForm(MessageType::class, [
             'from' => $this->getParameter('bottin.email_from'),
         ]);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 

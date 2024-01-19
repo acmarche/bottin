@@ -5,11 +5,12 @@
     <div class="card">
         <div class="card-header">
             <h3>Publipostage</h3>
-            <span class="text-muted">({{ fiches|length }} fiches)</span>
         </div>
         <div class="card-body">
             <p>
-                <a href="{{ path('bottin_admin_export_select') }}"><i class="fas fa-check-square"></i> Suivant la sélection que vous avez effectué</a> :
+                <a href="{{ path('bottin_admin_export_select') }}"><i class="fas fa-check-square"></i>
+                    Suivant la sélection que vous avez effectué</a> :
+                ({{ fiches|length }} fiches)
             </p>
 
             <ul class="list-group">

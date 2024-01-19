@@ -25,7 +25,7 @@ class ExportUtils
     {
         return $this->router->generate(
             'bottin_backend_fiche_show',
-            ['uuid' => $token->getUuid()],
+            ['uuid' => $token->uuid],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
     }
@@ -57,7 +57,7 @@ class ExportUtils
         }
 
         $url = '';
-        if (($token = $fiche->getToken()) instanceof Token) {
+        if (($token = $fiche->token) instanceof Token) {
             $url = $this->generateUrlToken($token);
         }
 

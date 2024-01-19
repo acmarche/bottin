@@ -14,8 +14,14 @@ use Twig\Environment;
 
 class PdfFactory
 {
-    public function __construct(private readonly CategoryService $categoryService, public Pdf $pdf, private readonly ClassementRepository $classementRepository, private readonly PathUtils $pathUtils, private readonly Environment $environment, private readonly ClassementHandler $classementHandler)
-    {
+    public function __construct(
+        private readonly CategoryService $categoryService,
+        public readonly Pdf $pdf,
+        private readonly ClassementRepository $classementRepository,
+        private readonly PathUtils $pathUtils,
+        private readonly Environment $environment,
+        private readonly ClassementHandler $classementHandler
+    ) {
     }
 
     public function fiche(Fiche $fiche): string
