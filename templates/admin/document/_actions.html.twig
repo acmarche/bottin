@@ -1,13 +1,13 @@
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
     <a href="{{ path('bottin_admin_document_edit', { 'id': document.id }) }}" class="btn btn-primary"
-       role="button"><i class="far fa-edit"></i> Editer</a>
+       role="button"><i class="ti ti-pencil"></i> Editer</a>
 
     <a href="{{ bottin_url_fiche_show(fiche) }}" class="btn btn-primary">
-        <i class="fas fa-long-arrow-alt-left"></i> Retour à la fiche
+        <i class="ti ti-arrow-back"></i> Retour à la fiche
     </a>
 
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="fas fa-trash"></i> Supprimer le document
+        <i class="ti ti-trash"></i> Supprimer le document
     </button>
 
     <br/><br/>

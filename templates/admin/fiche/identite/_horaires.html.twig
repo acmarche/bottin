@@ -17,12 +17,12 @@
             <td>{{ ("jour"~horaire.day) | trans }}</td>
             <td>
                 {% if horaire.isClosed %}
-                    <span class="fas fa-check"></span>
+                    <span class="ti ti-check"></span>
                 {% endif %}
             </td>
             <td>
                 {% if horaire.isOpenAtLunch %}
-                    <span class="fas fa-check"></span>
+                    <span class="ti ti-check"></span>
                 {% endif %}
             </td>
             <td>
@@ -47,7 +47,7 @@
             </td>
             <td>
                 {% if not horaire.isClosed and horaire.isRdv %}
-                    <span class="fas fa-check"></span>
+                    <span class="ti ti-check"></span>
                 {% endif %}
             </td>
         </tr>

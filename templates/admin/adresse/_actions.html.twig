@@ -1,18 +1,18 @@
 
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
     <a href="{{ path('bottin_admin_adresse_edit', { 'id': adresse.id }) }}" class="btn btn-primary"
-       role="button"><i class="far fa-edit"></i> Modifier</a>
+       role="button"><i class="ti ti-pencil"></i> Modifier</a>
 {% endif %}
 
 <a href="{{ path('bottin_admin_adresse', { 'id': adresse.id }) }}"
    class="btn btn-primary" role="button">
-    <i class="fas fa-long-arrow-alt-left"></i> Retour à la liste
+    <i class="ti ti-arrow-back"></i> Retour à la liste
 </a>
 
 {% if is_granted('ROLE_BOTTIN_ADMIN') %}
 
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="fas fa-trash"></i> Supprimer l'adresse
+        <i class="ti ti-trash"></i> Supprimer l'adresse
     </button>
 
 {% endif %}

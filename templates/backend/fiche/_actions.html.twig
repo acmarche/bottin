@@ -1,17 +1,17 @@
 <div class="d-grid gap-2 d-md-block mb-3">
     <a href="{{ path('bottin_backend_fiche_edit', { 'uuid': token.uuid }) }}" class="btn btn-primary"
-       role="button"><i class="far fa-edit"></i> Mettre à jour</a>
+       role="button"><i class="ti ti-pencil"></i> Mettre à jour</a>
 
     <a href="{{ path('bottin_backend_classement_edit', { 'uuid': token.uuid }) }}" class="btn btn-primary"
        role="button">
         <i class="fas fa-th-list"></i> Catégories</a>
 
     <a href="{{ path('bottin_backend_image_edit', { 'uuid': token.uuid }) }}" class="btn btn-primary" role="button">
-        <i class="far fa-images"></i> Images</a>
+        <i class="ti ti-photo"></i> Images</a>
 
     <a href="{{ path('bottin_backend_map_edit', { 'uuid': token.uuid }) }}" class="btn btn-primary" role="button">
         <i class="fas fa-map-marker-alt"></i> Localisation</a>
 
     <a href="{{ path('bottin_backend_contact', { 'uuid': token.uuid }) }}" class="btn btn-primary" role="button">
-        <i class="far fa-paper-plane"></i> Nous contacter</a>
+        <i class="ti ti-address-book"></i> Nous contacter</a>
 </div>

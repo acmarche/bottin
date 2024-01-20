@@ -2,7 +2,7 @@
     <div class="row gy-2 gx-1 align-items-center d-print-none">
         <div class="col-auto">
             <a href="{{ path('bottin_admin_fiche_edit', { 'id': fiche.id }) }}" class="btn btn-primary"
-               role="button"><i class="far fa-edit"></i> Editer</a>
+               role="button"><i class="ti ti-pencil"></i> Editer</a>
         </div>
 
         <div class="col-auto">
@@ -13,12 +13,12 @@
 
         <div class="col-auto">
             <a href="{{ path('bottin_admin_image_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-                <i class="far fa-images"></i> Images</a>
+                <i class="ti ti-photo"></i> Images</a>
         </div>
 
         <div class="col-auto">
             <a href="{{ path('bottin_admin_document_new', { 'id': fiche.id }) }}" class="btn btn-primary" role="button">
-                <i class="far fa-folder"></i> Document</a>
+                <i class="ti ti-folder"></i> Document</a>
         </div>
 
         <div class="col-auto">
@@ -66,7 +66,7 @@
         </div>
         <div class="col-auto">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fas fa-trash"></i> Supprimer la fiche
+                <i class="ti ti-trash"></i> Supprimer la fiche
             </button>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <table class='table table-bordered table-hover'>
     <tr>
-        <th><i class="fas fa-church"></i> Situation(s)</th>
+        <th><i class="ti ti-building-church"></i> Situation(s)</th>
         <td>
             {% for situation in fiche.situations %}
                 {{ situation }}
@@ -11,7 +11,7 @@
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-church"></i> Centre ville</th>
+        <th><i class="ti ti-building-church"></i> Centre ville</th>
         <td>{{ fiche.centreville }}</td>
     </tr>
     <tr>
@@ -29,7 +29,7 @@
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-church"></i> Ecommerce</th>
+        <th><i class="ti ti-building-church"></i> Ecommerce</th>
         <td>
             {% if fiche.ecommerce %}
                 Oui
@@ -39,7 +39,7 @@
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-church"></i> Click and collect</th>
+        <th><i class="ti ti-building-church"></i> Click and collect</th>
         <td>
             {% if fiche.clickCollect %}
                 Oui
@@ -49,11 +49,11 @@
         </td>
     </tr>
     <tr>
-        <th><i class="fas fa-user-shield"></i> Identifiant</th>
+        <th><i class="ti ti-user-shield"></i> Identifiant</th>
         <td>{{ fiche.id }}</td>
     </tr>
     <tr>
-        <th><i class="fas fa-user-shield"></i> Slug</th>
+        <th><i class="ti ti-user-shield"></i> Slug</th>
         <td>{{ fiche.slug }}</td>
     </tr>
 </table>
