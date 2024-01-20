@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header">
             <h3>
-                <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche }}</a>
+                <a href="{{ path('bottin_backend_fiche_show',{'uuid':token.uuid}) }}">{{ fiche }}</a>
             </h3>
         </div>
         <div class="card-body">
@@ -20,11 +20,12 @@
                 </a>
             {% endif %}
             {% if etape < 4 %}
-                <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i>
+                <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy"
+                                                                           aria-hidden="true"></i>
                     Suivant
                 </button>
             {% else %}
-                <a href="{{ bottin_url_fiche_show(fiche) }}"
+                <a href="{{ path('bottin_backend_fiche_show',{'uuid':token.uuid}) }}"
                    class="btn btn-primary mr-1 mb-2"
                    type="submit"><i class="ti ti-check" aria-hidden="true"></i>
                     Terminer

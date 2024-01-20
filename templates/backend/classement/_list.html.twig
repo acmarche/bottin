@@ -22,17 +22,19 @@
                         </nav>
                     </td>
                     <td class="text-center">
-                        <button title="Définir en principal"
-                           data-action="classement#principalClassement"
-                           data-classement-id="{{ classement.id }}"
-                           class="btn btn-primary btn-sm"><i class="ti ti-check"></i>
-                        </button>
+                        {% if not classement.principal %}
+                            <button title="Définir en principal"
+                                    data-action="classement#principalClassement"
+                                    data-classement-id="{{ classement.id }}"
+                                    class="btn btn-primary btn-sm"><i class="ti ti-check"></i>
+                            </button>
+                        {% endif %}
                     </td>
                     <td class="text-center">
                         <button title="supprimer ce classement"
-                           data-action="classement#deleteClassement"
-                           data-classement-id="{{ classement.id }}"
-                           class="btn btn-danger btn-sm"> <i class="ti ti-trash"></i>
+                                data-action="classement#deleteClassement"
+                                data-classement-id="{{ classement.id }}"
+                                class="btn btn-danger btn-sm"><i class="ti ti-trash"></i>
                         </button>
                     </td>
                 </tr>

@@ -14,7 +14,7 @@ class FormUtils
 
     public function createFormByEtape(Fiche $fiche): FormInterface
     {
-        $etape = $fiche->getEtape();
+        $etape = $fiche->etape;
 
         return match ($etape) {
             2 => $this->formFactory->create(FicheContactType::class, $fiche),

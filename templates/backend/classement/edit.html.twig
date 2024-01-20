@@ -6,7 +6,7 @@
         <div class="card-header">
             <h3>
                 Sélectionnez vos secteurs d'activités
-                <a href="{{ bottin_url_fiche_show(fiche) }}">
+                <a href="{{ path('bottin_backend_fiche_show',{'uuid':token.uuid}) }}">
                     {{ fiche }}
                 </a>
             </h3>

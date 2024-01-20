@@ -5,9 +5,11 @@ namespace AcMarche\Bottin\Controller\Backend;
 use AcMarche\Bottin\Entity\FicheImage;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Fiche\Form\FicheImageType;
+use AcMarche\Bottin\Form\ImageDropZoneType;
 use AcMarche\Bottin\History\HistoryUtils;
 use AcMarche\Bottin\Repository\ImageRepository;
 use AcMarche\Bottin\Security\Voter\TokenVoter;
+use AcMarche\Bottin\Upload\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,31 +17,40 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Vich\UploaderBundle\Handler\UploadHandler;
 
 #[Route(path: '/backend/image')]
 class ImageController extends AbstractController
 {
     public function __construct(
         private readonly ImageRepository $imageRepository,
-        private readonly UploadHandler $uploadHandler,
+        private readonly UploadHelper $uploadHelper,
         private readonly HistoryUtils $historyUtils
     ) {
     }
 
     #[Route(path: '/new/{uuid}', name: 'bottin_backend_image_edit', methods: ['GET', 'POST'])]
     #[IsGranted('TOKEN_EDIT', subject: 'token')]
-    public function new(Token $token): Response
+    public function new(Request $request, Token $token): Response
     {
         $fiche = $token->fiche;
-        $ficheImage = new FicheImage($fiche);
-        $form = $this->createForm(
-            FicheImageType::class,
-            $ficheImage,
-            [
-                'action' => $this->generateUrl('bottin_backend_image_upload', ['uuid' => $token->uuid]),
-            ]
-        );
+        $form = $this->createForm(ImageDropZoneType::class);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var UploadedFile[] $data
+             */
+            $data = $form->getData();
+            foreach ($data['file'] as $file) {
+                if ($file instanceof UploadedFile) {
+                    try {
+                        $this->uploadHelper->treatmentFile($file, $fiche);
+                    } catch (\Exception $exception) {
+                        $this->addFlash('danger', 'Erreur upload image: '.$exception->getMessage());
+                    }
+                }
+            }
+        }
 
         return $this->render(
             '@AcMarcheBottin/backend/image/edit.html.twig',
