@@ -53,10 +53,8 @@
 
         </div>
         <div class="card-footer text-muted">
-
-            {#
-            Crée le {{ fiche.createdAt|date('d-m-Y H:i:s') }} par {{ fiche.user }}. Mis à jour le {{ fiche|date('d-m-Y H:i:s') }}
-            #}
+            Crée le {{ fiche.createdAt|format_date('full') }} par {{ fiche.user }}. Mis à jour
+            le {{ fiche.updatedAt|format_date('full') }}
         </div>
     </div>
 

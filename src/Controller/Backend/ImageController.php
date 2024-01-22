@@ -52,6 +52,8 @@ class ImageController extends AbstractController
             }
         }
 
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
+
         return $this->render(
             '@AcMarcheBottin/backend/image/edit.html.twig',
             [
@@ -59,6 +61,7 @@ class ImageController extends AbstractController
                 'token' => $token,
                 'form' => $form->createView(),
             ]
+            , $response
         );
     }
 

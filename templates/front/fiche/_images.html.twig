@@ -1,5 +1,5 @@
 {% if fiche.images | length > 0 %}
-    <div id="lightgallery" data-controller="lightbox">
+    <div data-controller="lightbox">
         {% for image in fiche.images %}
             <a href="{{ vich_uploader_asset(image, 'image') }}">
                 <img class="img-thumbnail"
