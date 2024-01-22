@@ -49,18 +49,4 @@ class ExportUtils
 
         return SortUtils::sortFiche($fiches);
     }
-
-    public function replaceUrlToken(Fiche $fiche, ?string $message): ?string
-    {
-        if (null == $message) {
-            return null;
-        }
-
-        $url = '';
-        if (($token = $fiche->token) instanceof Token) {
-            $url = $this->generateUrlToken($token);
-        }
-
-        return preg_replace('#{urltoken}#', $url, $message);
-    }
 }

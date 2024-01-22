@@ -67,7 +67,6 @@ class PublipostageController extends AbstractController
             foreach ($fiches as $fiche) {
                 ++$i;
                 $content = $data['message'];
-                $content = $this->exportUtils->replaceUrlToken($fiche, $content);
 
                 try {
                     $html = $this->pdfFactory->fiche($fiche);
@@ -105,8 +104,6 @@ class PublipostageController extends AbstractController
                 $noEmails[] = $fiche;
             }
         }
-
-     //   $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
 
         return $this->render(
             '@AcMarcheBottin/admin/publipostage/by_mail.html.twig',

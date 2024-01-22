@@ -10,9 +10,7 @@
         <div class="card-body">
 
             <div class="alert alert-info">
-                Publipostage par email avec un lien pour mettre à jour sa fiche sans authentification
-                <br/>
-                Insérez {urltoken} si vous voulez mettre l'url permettant de modifier sa fiche
+                Dans l'email sera intégré avec un lien permettant de mettre à jour sa fiche sans authentification.
             </div>
 
             {{ form_start(form) }}
@@ -23,7 +21,8 @@
                 </div>
             </div>
             {{ form_widget(form) }}
-            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i>
+            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy"
+                                                                       aria-hidden="true"></i>
                 Envoyer
             </button>
 
