@@ -45,7 +45,7 @@ class DefaultController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->get('password')->getData();
             if (($token = $this->tokenRepository->findOneByPassword($data)) instanceof Token) {
-                return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->getUuid()]);
+                return $this->redirectToRoute('bottin_backend_fiche_show', ['uuid' => $token->uuid]);
             }
 
             $this->addFlash('danger', 'Fiche non trouvée');

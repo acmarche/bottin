@@ -10,6 +10,9 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class PdfFactory
 {
@@ -43,7 +46,11 @@ class PdfFactory
     }
 
     /**
-     * @param array|Fiche[] $fiches
+     * @param Fiche[] $fiches
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function fichesPublipostage(array $fiches): string
     {

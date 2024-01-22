@@ -129,6 +129,6 @@ class PublipostageController extends AbstractController
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
         // return new Response($html);
-        return $this->pdfFactory->downloadPdf($html, 'Fiches-publipostage');
+        return $this->pdfFactory->downloadPdf($html, 'Fiches-publipostage.pdf');
     }
 }
