@@ -444,10 +444,10 @@ class FicheType extends AbstractType
                 ]
             )
             ->add('tags', TagsAutocompleteField::class)
-            ->add('metas', CollectionType::class, [
+            /*->add('metas', CollectionType::class, [
                 'entry_type' => MetaDataType::class,
                 'entry_options' => ['label' => false],
-            ]);
+            ])*/;
         // ->addEventSubscriber(new AddFieldsMetaSubscriber($this->metaFieldRepository));
 
         $builder->addEventListener(

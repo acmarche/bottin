@@ -63,23 +63,35 @@ class PublipostageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
             $i = 0;
             foreach ($fiches as $fiche) {
-                $message = $data['message'];
-                $message = $this->exportUtils->replaceUrlToken($fiche, $message);
-                $email = $this->mailFactory->mailMessageToFiche($data['subject'], $message, $fiche);
-                try {
-                    $this->mailer->send($email);
-                } catch (TransportExceptionInterface|\Exception $e) {
-                    $this->addFlash('danger', "Erreur lors de l'envoie du message: ".$e->getMessage());
-                }
-
-                if (15 == $i) {
-                    break;
-                }
-
                 ++$i;
+                $content = $data['message'];
+                $content = $this->exportUtils->replaceUrlToken($fiche, $content);
+
+                try {
+                    $html = $this->pdfFactory->fiche($fiche);
+                    $pdf = $this->pdfFactory->pdf->getOutputFromHtml($html);
+                } catch (\Exception $exception) {
+                    $this->addFlash('danger', "Erreur lors de la création du pdf: ".$exception->getMessage());
+                    continue;
+                }
+
+                try {
+                    $message = $this->mailFactory->mailMessageToFiche($data['subject'], $content, $fiche, $pdf);
+                } catch (\Exception $e) {
+                    $this->addFlash('danger', "Erreur lors de la création du message: ".$e->getMessage());
+                    continue;
+                }
+
+                try {
+                    $this->mailer->send($message);
+                } catch (TransportExceptionInterface|\Exception $e) {
+                    $this->addFlash('danger', "Erreur lors de l'envoi du message: ".$e->getMessage());
+                }
+
+                break;
+
             }
 
             $this->addFlash('success', 'Les mails ont bien été envoyés');
@@ -93,6 +105,8 @@ class PublipostageController extends AbstractController
                 $noEmails[] = $fiche;
             }
         }
+
+     //   $response = new Response(null, $form->isSubmitted() ? Response::HTTP_UNPROCESSABLE_ENTITY : Response::HTTP_OK);
 
         return $this->render(
             '@AcMarcheBottin/admin/publipostage/by_mail.html.twig',
@@ -118,6 +132,6 @@ class PublipostageController extends AbstractController
         $html = $this->pdfFactory->fichesPublipostage($fiches);
 
         // return new Response($html);
-        return $this->pdfFactory->sendResponse($html, 'Fiches-publipostage');
+        return $this->pdfFactory->downloadPdf($html, 'Fiches-publipostage');
     }
 }

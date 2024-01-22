@@ -17,12 +17,18 @@ class MailFactory
     public function __construct(
         private readonly FicheUtils $ficheUtils,
         private readonly ClassementHandler $classementHandler,
-        private readonly PdfFactory $pdfFactory,
         private readonly ParameterBagInterface $parameterBag
     ) {
     }
 
-    public function mailMessageToFiche(string $subject, ?string $body, Fiche $fiche): TemplatedEmail
+    /**
+     * @param string $subject
+     * @param string|null $body
+     * @param Fiche $fiche
+     * @return TemplatedEmail
+     * @throws \Exception
+     */
+    public function mailMessageToFiche(string $subject, ?string $body, Fiche $fiche, string $pdf): TemplatedEmail
     {
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
@@ -52,12 +58,9 @@ class MailFactory
                 ]
             );
 
-        $html = $this->pdfFactory->fiche($fiche);
-        $invoicepdf = $this->pdfFactory->pdf->getOutputFromHtml($html);
-
         $logo = $this->parameterBag->get('kernel.project_dir').'/src/AcMarche/Bottin/public/images/marche.jpg';
 
-        $templatedEmail->attach($invoicepdf, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
+        $templatedEmail->attach($pdf, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
         $templatedEmail->embedFromPath($logo, 'logomarche', 'image/jpeg');
 
         return $templatedEmail;

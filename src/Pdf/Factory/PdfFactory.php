@@ -8,15 +8,15 @@ use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
-use Knp\Snappy\Pdf;
+use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use Twig\Environment;
 
 class PdfFactory
 {
+    use PdfDownloaderTrait;
+
     public function __construct(
         private readonly CategoryService $categoryService,
-        public readonly Pdf $pdf,
         private readonly ClassementRepository $classementRepository,
         private readonly PathUtils $pathUtils,
         private readonly Environment $environment,
@@ -78,15 +78,5 @@ class PdfFactory
         );
 
         // return new Response($html);
-    }
-
-    public function sendResponse(string $html, string $name): PdfResponse
-    {
-        $this->pdf->setTimeout(3000);
-
-        return new PdfResponse(
-            $this->pdf->getOutputFromHtml($html),
-            'bottin_'.$name.'.pdf'
-        );
     }
 }
