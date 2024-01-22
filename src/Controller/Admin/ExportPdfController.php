@@ -24,7 +24,7 @@ class ExportPdfController extends AbstractController
     {
         $html = $this->pdfFactory->fiche($fiche);
         //   return new Response($html);
-        return $this->pdfFactory->downloadPdf($html, $fiche->getSlug());
+        return $this->pdfFactory->downloadPdf($html, $fiche->getSlug().'.pdf');
     }
 
     #[Route(path: '/category/{category}', name: 'bottin_admin_export_fiches_by_category_pdf', methods: ['GET'])]
@@ -33,6 +33,6 @@ class ExportPdfController extends AbstractController
         $html = $this->pdfFactory->fichesByCategory($category);
         $this->pdfFactory->pdf->setOption('footer-right', '[page]/[toPage]');
 
-        return $this->pdfFactory->downloadPdf($html, $category->getSlug());
+        return $this->pdfFactory->downloadPdf($html, $category->getSlug().'.pdf');
     }
 }
