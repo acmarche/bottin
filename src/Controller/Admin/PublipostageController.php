@@ -67,13 +67,16 @@ class PublipostageController extends AbstractController
             foreach ($fiches as $fiche) {
                 ++$i;
                 $content = $data['message'];
+                $fileName = $this->pdfFactory->getFileName($fiche);
 
-                try {
-                    $html = $this->pdfFactory->fiche($fiche);
-                    $pdf = $this->pdfFactory->pdf->getOutputFromHtml($html);
-                } catch (\Exception $exception) {
-                    $this->addFlash('danger', "Erreur lors de la création du pdf: ".$exception->getMessage());
-                    continue;
+                if (!is_readable($fileName)) {
+                    try {
+                        $html = $this->pdfFactory->fiche($fiche);
+                        $this->pdfFactory->getPdf()->generateFromHtml($html, $fileName);
+                    } catch (\Exception $exception) {
+                        $this->addFlash('danger', "Erreur lors de la création du pdf: ".$exception->getMessage());
+                        continue;
+                    }
                 }
 
                 try {

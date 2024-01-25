@@ -9,6 +9,7 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Utils\PathUtils;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -19,6 +20,8 @@ class PdfFactory
     use PdfDownloaderTrait;
 
     public function __construct(
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $project_dir,
         private readonly CategoryService $categoryService,
         private readonly ClassementRepository $classementRepository,
         private readonly PathUtils $pathUtils,
@@ -85,5 +88,15 @@ class PdfFactory
         );
 
         // return new Response($html);
+    }
+
+    public function getFileName(Fiche $fiche): string
+    {
+        return $this->getPath().$fiche->getSlug().'.pdf';
+    }
+
+    public function getBasePath(): string
+    {
+        return $this->project_dir.'/var/pdf/';
     }
 }
