@@ -92,7 +92,7 @@ class PdfFactory
 
     public function getFileName(Fiche $fiche): string
     {
-        return $this->getPath().$fiche->getSlug().'.pdf';
+        return $this->getBasePath().$fiche->getSlug().'.pdf';
     }
 
     public function getBasePath(): string

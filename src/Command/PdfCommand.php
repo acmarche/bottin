@@ -52,7 +52,6 @@ class PdfCommand extends Command
             }
         }
 
-
         return Command::SUCCESS;
     }
 }
