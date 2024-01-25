@@ -50,7 +50,6 @@ class PdfCommand extends Command
                 );
                 continue;
             }
-            break;
         }
 
 
