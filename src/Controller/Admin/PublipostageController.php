@@ -80,7 +80,7 @@ class PublipostageController extends AbstractController
                 }
 
                 try {
-                    $message = $this->mailFactory->mailMessageToFiche($data['subject'], $content, $fiche, $pdf);
+                    $message = $this->mailFactory->mailMessageToFiche($data['subject'], $content, $fiche, $fileName);
                 } catch (\Exception $e) {
                     $this->addFlash('danger', "Erreur lors de la création du message: ".$e->getMessage());
                     continue;

@@ -28,7 +28,7 @@ class MailFactory
      * @return TemplatedEmail
      * @throws \Exception
      */
-    public function mailMessageToFiche(string $subject, ?string $body, Fiche $fiche, string $pdf): TemplatedEmail
+    public function mailMessageToFiche(string $subject, ?string $body, Fiche $fiche, string $pdfPath): TemplatedEmail
     {
         $classements = $this->classementHandler->getClassements($fiche);
         $from = Bottin::EMAILS[Bottin::ECONOMIE];
@@ -60,7 +60,7 @@ class MailFactory
 
         $logo = $this->parameterBag->get('kernel.project_dir').'/src/AcMarche/Bottin/public/images/marche.jpg';
 
-        $templatedEmail->attach($pdf, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
+        $templatedEmail->attachFromPath($pdfPath, 'fiche_'.$fiche->getSlug().'.pdf', 'application/pdf');
         $templatedEmail->embedFromPath($logo, 'logomarche', 'image/jpeg');
 
         return $templatedEmail;

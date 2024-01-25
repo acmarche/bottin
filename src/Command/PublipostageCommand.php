@@ -37,7 +37,7 @@ class PublipostageCommand extends Command
         foreach ($fiches as $fiche) {
             $message = null;
             $subject = 'Mise à jour de vos données';
-            $email = $this->mailFactory->mailMessageToFiche($subject, $message, $fiche);
+            $email = $this->mailFactory->mailMessageToFiche($subject, $message, $pdfPath);
             try {
                 //  $this->mailer->send($email);
             } catch (TransportExceptionInterface|\Exception $e) {
