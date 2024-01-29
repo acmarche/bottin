@@ -32,9 +32,6 @@
                     <tr>
                         <th>Societe</th>
                         <th>Localité</th>
-                        <th>Pmr</th>
-                        <th>Midi</th>
-                        <th>Centre</th>
                         <th>Comment1</th>
                         <th>Score</th>
                     </tr>
@@ -51,15 +48,6 @@
                             </td>
                             <td>
                                 {{ fiche.localite }}
-                            </td>
-                            <td>
-                                {{ fiche.pmr }}
-                            </td>
-                            <td>
-                                {{ fiche.midi }}
-                            </td>
-                            <td>
-                                {{ fiche.centreville }}
                             </td>
                             <td>
                                 {{ fiche.comment1|u.truncate(50,'...') }}

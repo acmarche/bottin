@@ -159,39 +159,6 @@ class FicheType extends AbstractType
                 ]
             )
             ->add(
-                'centreville',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label_attr' => [
-                        'class' => 'switch-custom',
-                    ],
-                    'help' => 'Obsolète, utilisez les tags',
-                ]
-            )
-            ->add(
-                'midi',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label_attr' => [
-                        'class' => 'switch-custom',
-                    ],
-                    'help' => 'Obsolète, utilisez les tags',
-                ]
-            )
-            ->add(
-                'pmr',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label_attr' => [
-                        'class' => 'switch-custom',
-                    ],
-                    'help' => 'Obsolète, utilisez les tags',
-                ]
-            )
-            ->add(
                 'situations',
                 EntityType::class,
                 [

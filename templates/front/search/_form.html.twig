@@ -1,7 +1,7 @@
 <!--<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
     <input name="keyword" type="search" class="form-control" placeholder="Rechercher..." aria-label="Search">
 </form>-->
-<div {{ stimulus_controller('autocomplete', {url: path('bottin_front_search_ajax2')}) }}>
+<div {{ stimulus_controller('autocomplete', {url: path('bottin_front_search_ajax')}) }}>
     {{ form_start(form, {'attr':{'class': 'col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3'}}) }}
     {{ form_errors(form.nom) }}
     {{ form_widget(form.nom) }}
