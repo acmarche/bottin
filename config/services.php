@@ -1,17 +1,15 @@
 <?php
 
-use AcMarche\Bottin\Elasticsearch\ElasticServer;
+use AcMarche\Bce\Search\SearchElastic;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
-use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Security\LdapBottin;
-use Elasticsearch\Client;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Ldap\LdapInterface;
-
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -32,8 +30,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->defaults()
         ->autowire()
         ->autoconfigure()
-        ->private()
-        ->bind('$elasticIndexName', ElasticServer::INDEX_NAME);
+        ->private();
 
     $services->load('AcMarche\Bottin\\', __DIR__.'/../src/*')
         ->exclude([__DIR__.'/../src/{Entity,Tests}']);
@@ -41,10 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DirectoryNamer::class)
         ->public();
 
-    $services->set(Client::class)
-        ->factory('@Elasticsearch\ClientBuilder::fromConfig')
-        ->args(['%es_config%']);
-
+    //$services->alias(SearchEngineInterface::class, SearchMeili::class);
     $services->alias(SearchEngineInterface::class, SearchElastic::class);
 
     if (interface_exists(LdapInterface::class)) {
