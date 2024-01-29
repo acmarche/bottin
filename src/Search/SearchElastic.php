@@ -16,6 +16,7 @@ use Elastica\Suggest;
 use Elastica\Suggest\Term as SuggestTerm;
 use Elasticsearch\ClientBuilder;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class SearchElastic implements SearchEngineInterface
 {
@@ -23,8 +24,10 @@ class SearchElastic implements SearchEngineInterface
 
     private ?BoolQuery $boolQuery = null;
 
-    public function __construct(string $elasticIndexName, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        #[Autowire(env: 'BOTTIN_INDEX_NAME')] string $elasticIndexName,
+        LoggerInterface $logger = null
+    ) {
         $this->connect($elasticIndexName);
         if ($logger instanceof LoggerInterface) {
             $this->client->setLogger($logger);
