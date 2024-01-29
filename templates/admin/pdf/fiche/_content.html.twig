@@ -5,8 +5,11 @@
     <div class="col-6 ms-3">
         <h6 class="text-success">Contact</h6>
         <hr>
-        {{ include('@AcMarcheBottin/admin/fiche/identite/_contact.html.twig') }}
+        {{ include('@AcMarcheBottin/front/fiche/_contact.html.twig') }}
     </div>
 </div>
-{{ include('@AcMarcheBottin/admin/fiche/identite/_sociaux.html.twig') }}
+<h4 class="text-success">Contact complémentaire</h4>
+{% include '@AcMarcheBottin/front/fiche/_contact.html.twig' %}
+{% include '@AcMarcheBottin/front/fiche/_complements.html.twig' %}
+{{ include('@AcMarcheBottin/front/fiche/_sociaux.html.twig') }}
 {{ include('@AcMarcheBottin/admin/pdf/fiche/_classement.html.twig') }}

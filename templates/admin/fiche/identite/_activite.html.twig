@@ -2,12 +2,12 @@
     <div class="col-6">
         <table class='table table-bordered table-hover'>
             <tr>
-                <th><i class="fas fa-map-marked-alt"></i> Adresse</th>
+                <th><i class="ti ti-map"></i> Adresse</th>
                 <td>
                     {% include '@AcMarcheBottin/admin/fiche/_adresse.html.twig' %}
                 </td>
             <tr>
-                <th><i class="fas fa-globe-europe"></i> Site web</th>
+                <th><i class="ti ti-link"></i> Site web</th>
                 <td>
                     <a href="{{ fiche.website }}">{{ fiche.website }}</a>
                 </td>
@@ -39,13 +39,13 @@
                 <td>{{ fiche.fax }}</td>
             </tr>
             <tr>
-                <th><i class="fas fa-mobile-alt"></i> Gsm</th>
+                <th><i class="ti ti-device-mobile"></i> Gsm</th>
                 <td>
                     {{ fiche.gsm }}
                 </td>
             </tr>
             <tr>
-                <th><i class="fas fa-barcode"></i> Numéro de tva</th>
+                <th><i class="ti ti-barcode"></i> Numéro de tva</th>
                 <td>
                     {{ fiche.numeroTva }}
                 </td>

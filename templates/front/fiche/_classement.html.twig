@@ -1,15 +1,27 @@
+<h4 class="text-success">Classé dans</h4>
 {% if classements | length > 0 %}
-    <h4 class="text-success">Classés dans</h4>
     {% for classement in classements %}
         {% set category = classement.category %}
         {% set paths =  category.path %}
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                {% for cat in paths %}
-                    <li class="breadcrumb-item"><a
-                                href="{{ path('bottin_front_category_show', {'slug': cat.slug}) }}">{{ cat }}</a></li>
+        <nav aria-label="breadcrumb">
+            <ol class='breadcrumb'>
+                {% for path in paths %}
+                    {% if loop.last %}
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <a href="{{ path('bottin_front_category_show', {'slug': path.slug}) }}">
+                                {{ path }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="breadcrumb-item" aria-current="page">
+                            {{ path }}
+                        </li>
+                    {% endif %}
                 {% endfor %}
             </ol>
         </nav>
     {% endfor %}
+
+{% else %}
+    <p class="text-warning">Aucun classement</p>
 {% endif %}

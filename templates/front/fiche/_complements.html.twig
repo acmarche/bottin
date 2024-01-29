@@ -1,0 +1,22 @@
+{% if fiche.comment1 %}
+    <p class="text-muted">
+        {{ fiche.comment1 | nl2br }}
+    </p>
+{% endif %}
+{% if fiche.comment2 %}
+    <p class="text-muted">
+        {{ fiche.comment2 | nl2br }}
+    </p>
+{% endif %}
+{% if fiche.comment3 %}
+    <p class="text-muted">
+        {{ fiche.comment3 | nl2br }}
+    </p>
+{% endif %}
+
+{% for tag in fiche.tags %}
+    <span class="btn btn-outline-success mx-2">
+        {{ tag }}
+    </span>
+{% endfor %}
+<hr class="my-2">
