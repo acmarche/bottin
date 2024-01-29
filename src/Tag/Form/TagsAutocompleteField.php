@@ -17,6 +17,7 @@ class TagsAutocompleteField extends AbstractType
             'required' => false,
             'class' => Tag::class,
             'label' => 'Tags',
+            'help' => 'Cliquez pour voir la liste des tags',
             'choice_label' => 'name',
             'multiple' => true,
             'tom_select_options' => [
