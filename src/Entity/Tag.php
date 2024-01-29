@@ -2,27 +2,27 @@
 
 namespace AcMarche\Bottin\Entity;
 
+use AcMarche\Bottin\Entity\Traits\IdTrait;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'tag')]
 #[ORM\Entity(repositoryClass: TagRepository::class)]
-class Tag implements \Stringable
+#[ORM\UniqueConstraint(columns: ['name'])]
+#[UniqueEntity(fields: ['name'], message: 'Le nom doit être unique')]
+class Tag implements \Stringable, SluggableInterface
 {
-    use SluggableTrait;
-
-    #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    public int $id;
+    use IdTrait, SluggableTrait;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(nullable: false, unique: true)]
     public ?string $name = null;
 
-    #[ORM\Column(type: 'string', unique: true, nullable: true)]
+    #[ORM\Column(unique: true, nullable: true)]
     protected $slug;
 
     /**
@@ -32,17 +32,12 @@ class Tag implements \Stringable
 
     public function __toString(): string
     {
-        return (string) $this->name;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
+        return (string)$this->name;
     }
 
     public function getSluggableFields(): array
     {
-        return ['name', 'id'];
+        return ['name'];
     }
 
     public function shouldGenerateUniqueSlugs(): bool
