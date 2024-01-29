@@ -1,11 +1,4 @@
-<div class="row">
-    <div class='col-md-2'>
-        {{ form_row(form.clickCollect) }}
-    </div>
-    <div class='col-md-2'>
-        {{ form_row(form.ecommerce) }}
-    </div>
-</div>
+{{ form_row(form.tags) }}
 <div class="row">
     <div class='col-md-6'>
         {{ form_row(form.situations) }}
@@ -17,4 +10,3 @@
     </div>
 </div>
 {#  % include '@AcMarcheBottin/admin/fiche/form/_meta.html.twig' %#}
-{{ form_row(form.tags) }}

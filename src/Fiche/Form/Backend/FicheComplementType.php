@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Fiche\Form\Backend;
 
 use AcMarche\Bottin\Entity\Fiche;
+use AcMarche\Bottin\Tag\Form\TagsAutocompleteField;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,6 +14,7 @@ class FicheComplementType extends AbstractType
     public function buildForm(FormBuilderInterface $formBuilder, array $options): void
     {
         $formBuilder
+            ->add('tags', TagsAutocompleteField::class)
             ->add(
                 'comment1',
                 TextareaType::class,
