@@ -8,6 +8,7 @@ use AcMarche\Bottin\Serializer\CategorySerializer;
 use AcMarche\Bottin\Serializer\FicheSerializer;
 use Elastica\Document;
 use Elastica\Response;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ElasticIndexer
@@ -15,6 +16,7 @@ class ElasticIndexer
     use ElasticClientTrait;
 
     public function __construct(
+        #[Autowire(env: 'BOTTIN_INDEX_NAME')]
         string $elasticIndexName,
         private readonly SerializerInterface $serializer,
         private readonly FicheSerializer $ficheSerializer,

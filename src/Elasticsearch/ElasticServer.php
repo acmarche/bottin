@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Elasticsearch;
 
 use AcMarche\Bottin\Utils\FileUtils;
 use Elastica\Mapping;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
@@ -14,10 +15,10 @@ class ElasticServer
 {
     use ElasticClientTrait;
 
-    final public const INDEX_NAME = 'bottin';
-
-    public function __construct(string $elasticIndexName, private readonly FileUtils $fileUtils)
-    {
+    public function __construct(
+        #[Autowire(env: 'BOTTIN_INDEX_NAME')] string $elasticIndexName,
+        private readonly FileUtils $fileUtils
+    ) {
         $this->connect($elasticIndexName);
     }
 
