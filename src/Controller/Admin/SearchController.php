@@ -14,8 +14,11 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SearchController extends AbstractController
 {
-    public function __construct(private readonly SearchEngineInterface $searchEngine, private readonly AggregationUtils $aggregationUtils, private readonly SuggestUtils $suggestUtils)
-    {
+    public function __construct(
+        private readonly SearchEngineInterface $searchEngine,
+        private readonly AggregationUtils $aggregationUtils,
+        private readonly SuggestUtils $suggestUtils
+    ) {
     }
 
     #[Route(path: '/searchadvanced', name: 'bottin_admin_fiche_search_advanced', methods: ['GET'])]
@@ -32,7 +35,7 @@ class SearchController extends AbstractController
         $midi = [];
         $count = 0;
         if ($session->has('fiche_search')) {
-            $args = json_decode((string) $session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
+            $args = json_decode((string)$session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
         }
 
         if ($keyword) {
