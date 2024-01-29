@@ -7,10 +7,7 @@
         </div>
         <div class="card-body">
 
-            {% if is_granted('ROLE_BOTTIN_ADMIN') %}
-                <a href="{{ path('bottin_admin_tag_edit', { 'id': tag.id }) }}" class="btn btn-primary"
-                   role="button"><i class="ti ti-pencil"></i> Editer</a>
-            {% endif %}
+            {% include '@AcMarcheBottin/admin/tag/_actions.html.twig' %}
 
             <br/><br/>
             {% set count = fiches | length %}
@@ -47,5 +44,7 @@
                 <p class="text-info">Aucune</p>
             {% endif %}
         </div>
+
+        {% include '@AcMarcheBottin/admin/tag/_delete_modal.html.twig' %}
     </div>
 {% endblock %}

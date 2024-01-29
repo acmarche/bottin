@@ -1,0 +1,10 @@
+{% if is_granted('ROLE_BOTTIN_ADMIN') %}
+
+    <a href="{{ path('bottin_admin_tag_edit', { 'id': tag.id }) }}" class="btn btn-primary"
+       role="button"><i class="ti ti-pencil"></i> Modifier</a>
+
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="ti ti-trash"></i> Supprimer
+    </button>
+    <br/>
+{% endif %}
