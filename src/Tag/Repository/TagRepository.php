@@ -56,6 +56,17 @@ class TagRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param string $name
+     * @return Tag[]
+     */
+    public function findByName(string $name): QueryBuilder
+    {
+        return $this->createQb()
+            ->andWhere('tag.name LIKE :name')
+            ->setParameter('name', '%'.$name.'%');
+    }
+
     public function createQb(): QueryBuilder
     {
         return $this->createQueryBuilder('tag')
