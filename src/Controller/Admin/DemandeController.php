@@ -19,9 +19,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Demande controller.
- */
+
 #[Route(path: '/admin/demande')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class DemandeController extends AbstractController
@@ -35,9 +33,6 @@ class DemandeController extends AbstractController
     ) {
     }
 
-    /**
-     * Lists all Demande entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_demande', methods: ['GET'])]
     public function index(): Response
     {
@@ -51,9 +46,6 @@ class DemandeController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Demande entity.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_demande_show', methods: ['GET', 'POST'])]
     public function show(Request $request, Demande $demande): RedirectResponse|Response|NotFoundHttpException
     {
