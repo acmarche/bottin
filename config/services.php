@@ -1,8 +1,8 @@
 <?php
 
-use AcMarche\Bce\Search\SearchElastic;
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
+use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Security\LdapBottin;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
