@@ -34,9 +34,8 @@ class MigrationCommand extends Command
         $symfonyStyle = new SymfonyStyle($input, $output);
 
         $types = [
-            'centreville' => 'Centre ville',
+            'centreville' => 'Centre-ville',
             'click_collect' => 'Click and collect',
-            'ecommerce' => 'Ecommerce',
             'pmr' => 'Pmr',
             'midi' => 'Temps de midi',
         ];
@@ -50,11 +49,13 @@ class MigrationCommand extends Command
 
             foreach ($this->ficheRepository->findBy([$key => 1]) as $fiche) {
                 $symfonyStyle->writeln($fiche->societe);
+
+            $tag = $this->tagRepository->findOneByName($item);
                 $fiche->addTag($tag);
             }
         }
 
-        //   $this->tagRepository->flush();
+        $this->tagRepository->flush();
 
         return Command::SUCCESS;
     }
