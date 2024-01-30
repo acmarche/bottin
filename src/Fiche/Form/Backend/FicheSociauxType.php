@@ -33,6 +33,13 @@ class FicheSociauxType extends AbstractType
                 [
                     'required' => false,
                 ]
+            )
+            ->add(
+                'tiktok',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
             );
     }
 

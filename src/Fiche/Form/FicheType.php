@@ -159,6 +159,14 @@ class FicheType extends AbstractType
                 ]
             )
             ->add(
+                'tiktok',
+                TextType::class,
+                [
+                    'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
+                ]
+            )
+            ->add(
                 'situations',
                 EntityType::class,
                 [
