@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Pdv;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\SelectionRepository;
+use AcMarche\Bottin\Tag\Repository\TagRepository;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -15,6 +16,7 @@ class CsvGenerator
     public function __construct(
         private readonly CategoryRepository $categoryRepository,
         private readonly SelectionRepository $selectionRepository,
+        private readonly TagRepository $tagRepository,
         private readonly Security $security,
         private readonly ExportUtils $exportUtils
     ) {
@@ -114,15 +116,10 @@ class CsvGenerator
             'telephone',
             'telephoneAutre',
             'gsm',
-            'Fax',
+            'fax',
             'email',
             'site',
-            'centreVille',
-            'midi',
-            'pmr',
-            'ecommerce',
             'tva/bce',
-            'ClickAndCollect',
             'pdv',
             'Contactnom',
             'Contactprenom',
@@ -148,13 +145,19 @@ class CsvGenerator
             'facebook',
             'twitter',
             'Instagram',
+            'TikTok',
             'Comment1',
             'Comment2',
             'Comment3',
             'Note',
             'Updated',
-            'Classements',
         ];
+
+        foreach ($this->tagRepository->findAllOrdered() as $tag) {
+            $colonnes[] = $tag->name;
+        }
+
+        $colonnes[] = 'Classements';
 
         $ligne = 1;
         $lettre = 'A';
@@ -184,12 +187,7 @@ class CsvGenerator
             /*
              * Infos
              */
-            $worksheet->setCellValue($lettre++.$ligne, $fiche->centreville);
-            $worksheet->setCellValue($lettre++.$ligne, $fiche->midi);
-            $worksheet->setCellValue($lettre++.$ligne, $fiche->pmr);
-            $worksheet->setCellValue($lettre++.$ligne, $fiche->ecommerce);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->numero_tva);
-            $worksheet->setCellValue($lettre++.$ligne, $fiche->click_collect);
             $worksheet->setCellValue($lettre++.$ligne, $pdv);
             /*
              * CONTACT
@@ -224,6 +222,7 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->facebook);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->twitter);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->instagram);
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->tiktok);
             /*
              * Commentaires
              */
@@ -233,12 +232,25 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->note);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->getUpdatedAt()->format('d-m-Y'));
 
+            $this->addTags($fiche, $worksheet, $lettre, $ligne);
             $this->addClassements($fiche, $worksheet, $lettre, $ligne);
 
             ++$ligne;
         }
 
         return $spreadsheet;
+    }
+
+    protected function addTags(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
+    {
+        foreach ($this->tagRepository->findAllOrdered() as $tag) {
+            $value = 0;
+            if ($fiche->tags->contains($tag)) {
+                $value = 1;
+            }
+            $worksheet->setCellValue($lettre++.$ligne, $value);
+            ++$lettre;
+        }
     }
 
     protected function addClassements(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
