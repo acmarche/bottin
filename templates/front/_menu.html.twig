@@ -4,7 +4,7 @@
         {% include '@AcMarcheBottin/admin/_menu_admin.html.twig' %}
     {% else %}
         <li>
-            <a href="{{ path('bottin_front_search') }}" class="nav-link px-2 link-dark"><i class="fa fa-search"></i>
+            <a href="{{ path('bottin_front_search') }}" class="nav-link px-2 link-dark"><i class="ti ti-search"></i>
                 Rechercher</a>
         </li>
         <li>
@@ -25,11 +25,11 @@
 <ul class="navbar-nav mb-2 mb-lg-0">
     {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
         <li class="nav-item">
-            <a href="{{ path('app_login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i>
+            <a href="{{ path('app_login') }}" class="nav-link"><i class="ti ti-login-2"></i>
                 Se connecter</a>
         </li>
     {% else %}
-        <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i>
+        <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link"><i class="ti ti-logout-2"></i>
                 Déconnexion</a>
         </li>
     {% endif %}
