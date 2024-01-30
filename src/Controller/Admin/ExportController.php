@@ -16,9 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Export controller.
- */
 #[Route(path: '/admin/export')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class ExportController extends AbstractController
