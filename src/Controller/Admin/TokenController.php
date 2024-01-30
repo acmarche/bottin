@@ -30,7 +30,7 @@ class TokenController extends AbstractController
         $fiches = $this->ficheRepository->findAllWithJoins();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->tokenUtils->generateForAll();
+          //  $this->tokenUtils->generateForAll();
             $this->addFlash('success', 'Tokens générés');
 
             return $this->redirectToRoute('bottin_admin_token_generate_for_all');
