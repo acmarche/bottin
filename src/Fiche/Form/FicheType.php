@@ -387,29 +387,6 @@ class FicheType extends AbstractType
                     'query_builder' => static fn(PdvRepository $cr) => $cr->getForList(),
                 ]
             )
-            ->add(
-                'clickCollect',
-                CheckboxType::class,
-                [
-                    'label' => 'Click and collect',
-                    'required' => false,
-                    'label_attr' => [
-                        'class' => 'switch-custom',
-                    ],
-                    'help' => 'Obsolète, utilisez les tags',
-                ]
-            )
-            ->add(
-                'ecommerce',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label_attr' => [
-                        'class' => 'switch-custom',
-                    ],
-                    'help' => 'Obsolète, utilisez les tags',
-                ]
-            )
             ->add('tags', TagsAutocompleteField::class)
             /*->add('metas', CollectionType::class, [
                 'entry_type' => MetaDataType::class,
