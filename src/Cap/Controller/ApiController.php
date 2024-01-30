@@ -18,6 +18,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * https://api.marche.be/bottin/fichebyids
+ * https://api.marche.be/bottin/fichebyslugname/
+ * https://api.marche.be/bottin/fiche/1234
+ * https://api.marche.be/bottin/fiches
+ * https://api.marche.be/bottin/fiches/rubrique/1234
+ * https://api.marche.be/search/bottin/fiches/_search
+ * https://api.marche.be/bottin/commerces
+ * https://api.marche.be/admin/updatefiche
+ */
 class ApiController extends AbstractController
 {
     public function __construct(
