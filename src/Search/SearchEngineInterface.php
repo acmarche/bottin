@@ -8,5 +8,4 @@ interface SearchEngineInterface
 
     public function doSearchAdvanced(string $keyword, string $localite = null): iterable;
 
-    public function getFiches(iterable $hits): iterable;
 }

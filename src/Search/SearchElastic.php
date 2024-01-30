@@ -169,19 +169,6 @@ class SearchElastic implements SearchEngineInterface
         // $query->addSuggest($suggest);
     }
 
-    /**
-     * @return Fiche[]
-     */
-    public function getFiches(iterable $hits): iterable
-    {
-        $fiches = [];
-        foreach ($hits['hits']['hits'] as $hit) {
-            $fiches[] = $hit['_source'];
-        }
-
-        return $fiches;
-    }
-
     protected function location(string $latitude, string $longitude, string $distance): GeoDistance
     {
         $geoQuery = new GeoDistance('point', ['lat' => $longitude, 'lon' => $longitude], $distance);
