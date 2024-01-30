@@ -12,15 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Class TokenController.
- */
 #[Route(path: '/admin/token')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class TokenController extends AbstractController
 {
-    public function __construct(private readonly TokenUtils $tokenUtils, private readonly FicheRepository $ficheRepository)
-    {
+    public function __construct(
+        private readonly TokenUtils $tokenUtils,
+        private readonly FicheRepository $ficheRepository
+    ) {
     }
 
     #[Route(path: '/generate/all', name: 'bottin_admin_token_generate_for_all', methods: ['GET', 'POST'])]
@@ -30,7 +29,7 @@ class TokenController extends AbstractController
         $fiches = $this->ficheRepository->findAllWithJoins();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-          //  $this->tokenUtils->generateForAll();
+            //  $this->tokenUtils->generateForAll();
             $this->addFlash('success', 'Tokens générés');
 
             return $this->redirectToRoute('bottin_admin_token_generate_for_all');
