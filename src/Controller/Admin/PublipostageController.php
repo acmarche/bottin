@@ -90,6 +90,9 @@ class PublipostageController extends AbstractController
                 } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', "Erreur lors de l'envoi du message: ".$e->getMessage());
                 }
+                unset($fiche);
+                unset($message);
+                unset($html);
             }
 
             $this->addFlash('success', 'Les mails ont bien été envoyés');

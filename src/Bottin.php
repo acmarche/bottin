@@ -19,6 +19,7 @@ class Bottin
         self::CULTURE,
         self::ECONOMIE,
         self::ENFANCE,
+        self::PETITE_ENFANCE,
         self::SANTE,
         self::SOCIAL,
         self::SPORT,
@@ -30,6 +31,7 @@ class Bottin
     public const CULTURE = 663;
     public const ECONOMIE = 511;
     public const ENFANCE = 671;
+    public const PETITE_ENFANCE = 694;
     public const SANTE = 488;
     public const SOCIAL = 487;
     public const SPORT = 486;
@@ -41,6 +43,7 @@ class Bottin
         self::CULTURE => 'animation@marche.be',
         self::ECONOMIE => 'adl@marche.be',
         self::ENFANCE => 'epe@marche.be',
+        self::PETITE_ENFANCE => 'epe@marche.be',
         self::SANTE => 'sante@marche.be',
         self::SOCIAL => 'pssp@marche.be',
         self::SPORT => 'csl@marche.be',
