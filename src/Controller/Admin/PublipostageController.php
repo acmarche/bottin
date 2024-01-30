@@ -63,9 +63,8 @@ class PublipostageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $i = 0;
+
             foreach ($fiches as $fiche) {
-                ++$i;
                 $content = $data['message'];
                 $fileName = $this->pdfFactory->getFileName($fiche);
 
@@ -91,9 +90,6 @@ class PublipostageController extends AbstractController
                 } catch (TransportExceptionInterface|\Exception $e) {
                     $this->addFlash('danger', "Erreur lors de l'envoi du message: ".$e->getMessage());
                 }
-
-                break;
-
             }
 
             $this->addFlash('success', 'Les mails ont bien été envoyés');
