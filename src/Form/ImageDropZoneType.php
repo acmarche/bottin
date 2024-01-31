@@ -17,15 +17,7 @@ class ImageDropZoneType extends AbstractType
             ],
             'label' => false,
             'multiple' => true,
-            'constraints' => [
-                 new File([
-                    'maxSize' => '8000k',
-                    'mimeTypes' => [
-                        'image/*',
-                    ],
-                    'mimeTypesMessage' => 'Veuillez télécharger une image valide',
-                ]),
-            ],
+
         ]);
     }
 }
