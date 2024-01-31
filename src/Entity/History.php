@@ -41,8 +41,16 @@ class History implements TimestampableInterface
         ?string $new_value
     ) {
         $this->fiche = $fiche;
-        $this->old_value = substr($old_value, 0, 250);
-        $this->new_value = substr($new_value, 0, 250);
+        if ($old_value) {
+            $this->old_value = substr($old_value, 0, 250);
+        } else {
+            $this->old_value = null;
+        }
+        if ($new_value) {
+            $this->new_value = substr($new_value, 0, 250);
+        } else {
+            $this->new_value = null;
+        }
         $this->made_by = $made_by;
         $this->property = $property;
     }
