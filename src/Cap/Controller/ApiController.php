@@ -11,7 +11,8 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchElastic;
+use Meilisearch\Search\SearchResult;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +37,7 @@ class ApiController extends AbstractController
         private readonly CategoryService $categoryService,
         private readonly CategoryRepository $categoryRepository,
         private readonly FicheRepository $ficheRepository,
-        private readonly SearchEngineInterface $searchEngine,
+        private readonly SearchElastic $searchElastic,
         private readonly ClassementRepository $classementRepository,
         private readonly LoggerInterface $logger
     ) {
@@ -205,7 +206,7 @@ class ApiController extends AbstractController
             return $this->json(['error' => 'Pas de mot clef']);
         }
 
-        $result = $this->searchEngine->doSearchForCap($keyword);
+        $result = $this->searchElastic->doSearchForCap($keyword);
 
         return $this->json($result);
     }
