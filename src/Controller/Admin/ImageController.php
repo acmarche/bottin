@@ -48,12 +48,15 @@ class ImageController extends AbstractController
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
+
         return $this->render(
             '@AcMarcheBottin/admin/image/new.html.twig',
             [
                 'fiche' => $fiche,
                 'form' => $form->createView(),
             ]
+            , $response
         );
     }
 
