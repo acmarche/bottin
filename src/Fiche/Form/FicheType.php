@@ -126,7 +126,7 @@ class FicheType extends AbstractType
                 ]
             )
             ->add(
-                'numeroTva',
+                'numero_tva',
                 TextType::class,
                 [
                     'required' => false,
