@@ -2,8 +2,8 @@
 
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
-use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Security\LdapBottin;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -21,7 +21,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set('bottin.url_update_category', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
     $parameters->set('bottin.email_from', '%env(EMAIL_FROM)%');
     $parameters->set('es_config', ['hosts' => 'http://localhost:9200']);
-    $parameters->set('bootcdn', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css');
+    $parameters->set('bootcdn', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
 
     $services = $containerConfigurator->services();
 
@@ -37,8 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DirectoryNamer::class)
         ->public();
 
-    //$services->alias(SearchEngineInterface::class, SearchMeili::class);
-    $services->alias(SearchEngineInterface::class, SearchElastic::class);
+    $services->alias(SearchEngineInterface::class, SearchMeili::class);
 
     if (interface_exists(LdapInterface::class)) {
         $services

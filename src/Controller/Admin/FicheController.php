@@ -17,7 +17,6 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Utils\PathUtils;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -47,23 +46,19 @@ class FicheController extends AbstractController
     #[Route(path: '/', name: 'bottin_admin_fiche_index', methods: ['GET'])]
     public function index(Request $request): Response
     {
-        $session = $request->getSession();
-        $args = [];
-        $fiches = [];
-        if ($session->has('fiche_search')) {
-            $args = json_decode((string)$session->get('fiche_search'), true, 512, \JSON_THROW_ON_ERROR);
-        }
-
+        $args = $fiches = [];
+        $count = 0;
         $form = $this->createForm(SearchFicheType::class, $args, ['method' => 'GET']);
+
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $args = $form->getData();
-            $session->set('fiche_search', json_encode($args, \JSON_THROW_ON_ERROR));
-
             try {
                 $response = $this->searchEngine->doSearch($args['nom'], $args['localite']);
-                $fiches = $response->getResults();
-            } catch (BadRequest400Exception $e) {
+                $fiches = $response->getHits();
+                $count = $response->getHitsCount();
+            } catch (\Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
             }
         }
@@ -72,7 +67,9 @@ class FicheController extends AbstractController
             '@AcMarcheBottin/admin/fiche/index.html.twig',
             [
                 'search_form' => $form->createView(),
+                'isSubmitted' => $form->isSubmitted(),
                 'fiches' => $fiches,
+                'count' => $count,
             ]
         );
     }
@@ -141,15 +138,15 @@ class FicheController extends AbstractController
 
         $editForm = $this->createForm(FicheType::class, $fiche);
         $editForm->handleRequest($request);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $data = $editForm->getData();
-
 
             $horaires = $data->horaires;
             $this->horaireService->handleEdit($fiche, $horaires);
 
             try {
-                $this->historyUtils->diffFiche($fiche);
+               $this->historyUtils->diffFiche($fiche);
             } catch (Exception) {
                 $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique");
             }

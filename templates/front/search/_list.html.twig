@@ -1,5 +1,4 @@
-{% for hit in hits %}
-    {% set fiche = hit.data %}
+{% for fiche in hits %}
     <li class="list-group-item" role="option" data-autocomplete-valu22e="{{ fiche.id }}" style="cursor: pointer;">
         <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche.societe }} {{ fiche.localite }}</a>
     </li>

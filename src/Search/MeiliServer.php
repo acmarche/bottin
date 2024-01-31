@@ -21,9 +21,9 @@ class MeiliServer
     private array $skips = [705];
 
     public function __construct(
-        #[Autowire(env: 'BOTTIN_INDEX_NAME')]
+        #[Autowire(env: 'MEILI_INDEX_NAME')]
         private string $indexName,
-        #[Autowire(env: 'BOTTIN_INDEX_KEY')]
+        #[Autowire(env: 'MEILI_MASTER_KEY')]
         private string $masterKey,
         private readonly FicheRepository $ficheRepository,
         private readonly CategoryRepository $categoryRepository,
@@ -62,6 +62,15 @@ class MeiliServer
         ]);*/
 
         return $this->client->index($this->indexName)->updateFilterableAttributes($this->facetFields);
+    }
+
+    /**
+     * https://github.com/yooper/stop-words/blob/master/data/stop-words_french_1_fr.txt
+     * @return void
+     */
+    public function stopWords(): void
+    {
+        $this->client->index($this->indexName)->updateStopWords(['the', 'of', 'to']);
     }
 
     public function addContent(): void

@@ -17,13 +17,12 @@
             </div>
             {{ form_end(form) }}
 
-            {% if count > 0 %}
+            {% if isSubmitted %}
 
                 <h4 class="text-success">{{ count }} trouvé(s)</h4>
 
                 <ul class="list-group">
-                    {% for hit in hits %}
-                        {% set fiche = hit.data %}
+                    {% for fiche in hits %}
                         <li class="list-group-item">
                             <a href="{{ bottin_url_fiche_show(fiche) }}">
                                 <div class="d-flex align-items-center justify-content-between">

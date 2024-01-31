@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Search;
 
 use Meilisearch\Contracts\FacetSearchQuery;
+use Meilisearch\Search\SearchResult;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class SearchMeili implements SearchEngineInterface
@@ -10,9 +11,9 @@ class SearchMeili implements SearchEngineInterface
     use MeiliTrait;
 
     public function __construct(
-        #[Autowire(env: 'BOTTIN_INDEX_NAME')]
+        #[Autowire(env: 'MEILI_INDEX_NAME')]
         private string $indexName,
-        #[Autowire(env: 'BOTTIN_INDEX_KEY')]
+        #[Autowire(env: 'MEILI_MASTER_KEY')]
         private string $masterKey,
     ) {
     }
@@ -35,36 +36,59 @@ class SearchMeili implements SearchEngineInterface
             ]);
     }
 
-    public function doSearch(string $keyword, string $localite = null): iterable
+    /**
+     * https://www.meilisearch.com/docs/learn/fine_tuning_results/filtering
+     * @param string $keyword
+     * @param string|null $localite
+     * @return iterable|SearchResult
+     */
+    public function doSearch(string $keyword, string $localite = null): iterable|SearchResult
     {
         $this->init();
         $index = $this->client->index($this->indexName);
+        $filters = ['filter' => ['type = fiche']];
+        if ($localite) {
+            $filters['filter'] = ['localite = '.$localite];
+        }
 
-        return $index->search($keyword, [
-            'filter' => ['localite = aye'],
-            'facets' => $this->facetFields,
-        ]);
+        return $index->search($keyword, $filters);
+    }
 
+    /**
+     * L'exemple de code suivant recherche dans la localite facette les valeurs $keyword :
+     */
+    public function doSearchFacet(string $keyword, string $localite = null): iterable
+    {
         return $this->client->index($this->indexName)->facetSearch(
             (new FacetSearchQuery())
                 ->setFacetQuery($keyword)
                 ->setFacetName('localite')
         //  ->setFilter(['rating > 3'])
         );
-
-        //$facetSearch = new FacetSearchQuery();
-
-
     }
 
-    public function doSearchAdvanced(string $keyword, string $localite = null): iterable
+    public function doSearchAdvanced(string $keyword, string $localite = null): iterable|SearchResult
     {
-        return [];
+        $this->init();
+        $index = $this->client->index($this->indexName);
+        $args = ['facets' => $this->facetFields];
+        $filter = 'type = fiche';
+        if ($localite) {
+            $filter .= ' AND localite = '.$localite;
+        }
+
+        $args['filter'] = [$filter];
+
+        return $index->search($keyword, $args);
     }
 
-    public function getFiches(iterable $hits): iterable
+    public function doSearchForCap(string $keyword): array|SearchResult
     {
-        return [];
+        $this->init();
+        $index = $this->client->index($this->indexName);
+        $filters = ['filter' => ['type = fiche' and 'cap = true']];
+
+        return $index->search($keyword, $filters);
     }
 
 }

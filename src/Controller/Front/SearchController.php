@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Controller\Front;
 
 use AcMarche\Bottin\Form\Search\SearchSimpleType;
 use AcMarche\Bottin\Search\SearchEngineInterface;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +29,7 @@ class SearchController extends AbstractController
 
             try {
                 $response = $this->searchEngine->doSearch($keyword);
-                $hits = $response->getResults();
+                $hits = $response->getHits();
                 $count = $response->count();
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
@@ -41,9 +40,30 @@ class SearchController extends AbstractController
             '@AcMarcheBottin/front/search/index.html.twig',
             [
                 'form' => $form->createView(),
+                'isSubmitted' => $form->isSubmitted(),
                 'hits' => $hits,
                 'keyword' => $keyword,
                 'count' => $count,
+            ]
+        );
+    }
+
+    #[Route(path: '/search/ajax2', name: 'bottin_front_search_ajax')]
+    public function searchAjax2(Request $request): Response
+    {
+        $hits = [];
+        $q = $request->query->get('q');
+        try {
+            $response = $this->searchEngine->doSearch($q);
+            $hits = $response->getHits();
+        } catch (\Exception $badRequest400Exception) {
+            $this->addFlash('danger', 'Erreur dans la recherche: '.$badRequest400Exception->getMessage());
+        }
+
+        return $this->render(
+            '@AcMarcheBottin/front/search/_list.html.twig',
+            [
+                'hits' => $hits,
             ]
         );
     }
@@ -64,48 +84,6 @@ class SearchController extends AbstractController
             '@AcMarcheBottin/front/search/_form.html.twig',
             [
                 'form' => $form->createView(),
-            ]
-        );
-    }
-
-    #[Route(path: '/search/ajax2', name: 'bottin_front_search_ajax2')]
-    public function searchAjax2(Request $request): Response
-    {
-        $hits = [];
-        $q = $request->query->get('q');
-        try {
-            $response = $this->searchEngine->doSearch($q);
-            $hits = $response->getResults();
-            $count = $response->count();
-        } catch (BadRequest400Exception $badRequest400Exception) {
-            $this->addFlash('danger', 'Erreur dans la recherche: '.$badRequest400Exception->getMessage());
-        }
-
-        return $this->render(
-            '@AcMarcheBottin/front/search/_list.html.twig',
-            [
-                'hits' => $hits,
-            ]
-        );
-    }
-
-    #[Route(path: '/search/ajax', name: 'bottin_front_search_ajax')]
-    public function searchAjax(Request $request): Response
-    {
-        $hits = [];
-        $q = $request->query->get('q');
-        try {
-            $response = $this->searchEngine->doSearch($q);
-            $hits = $response->getResults();
-            $count = $response->count();
-        } catch (BadRequest400Exception $badRequest400Exception) {
-            $this->addFlash('danger', 'Erreur dans la recherche: '.$badRequest400Exception->getMessage());
-        }
-
-        return $this->render(
-            '@AcMarcheBottin/front/search/_ajax.html.twig',
-            [
-                'hits' => $hits,
             ]
         );
     }
