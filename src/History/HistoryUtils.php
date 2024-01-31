@@ -48,7 +48,11 @@ class HistoryUtils
     {
         $data = $this->serializer->serialize($fiche, 'json', ['groups' => 'group1']);
 
-        return json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
+        try {
+            return json_decode($data, true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            return [];
+        }
     }
 
     private function getUsername(): string
@@ -82,27 +86,36 @@ class HistoryUtils
         $path = $this->pathUtils->getPath($category);
         $classementPath = implode(' > ', $path);
         $this->createForFiche($fiche, $username, 'classement', $action, $classementPath);
-        $this->historyRepository->flush();
+        $this->flush();
     }
 
     public function newFiche(Fiche $fiche): void
     {
         $username = $this->getUsername();
         $this->createForFiche($fiche, $username, 'nouvelle fiche', '', '');
-        $this->historyRepository->flush();
+        $this->flush();
     }
 
     public function deleteFiche(string $nomFiche): void
     {
         $username = $this->getUsername();
         $this->createForFiche(null, $username, 'suppression de fiche', $nomFiche, '');
-        $this->historyRepository->flush();
+        $this->flush();
     }
 
-    public function addImage(Fiche $fiche, FicheImage $ficheImage)
+    public function addImage(Fiche $fiche, FicheImage $ficheImage): void
     {
         $username = $this->getUsername();
         $this->createForFiche($fiche, $username, 'ajout image', '', $ficheImage->imageName);
-        $this->historyRepository->flush();
+        $this->flush();
+    }
+
+    private function flush(): void
+    {
+        try {
+            $this->historyRepository->flush();
+        } catch (\Exception $exception) {
+
+        }
     }
 }

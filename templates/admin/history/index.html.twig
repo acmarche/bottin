@@ -49,10 +49,10 @@
                                 Fiche inexistante
                             {% endif %}
                         </td>
-                        <td>{{ history.madeBy }}</td>
+                        <td>{{ history.made_by }}</td>
                         <td>{{ history.property }}</td>
-                        <td>{{ history.oldValue|u.truncate(100,'...') }}</td>
-                        <td>{{ history.newValue|u.truncate(100,'...') }}</td>
+                        <td>{{ history.old_value|u.truncate(100,'...') }}</td>
+                        <td>{{ history.new_value|u.truncate(100,'...') }}</td>
                         <td>{{ history.createdAt | format_date('short') }}</td>
                     </tr>
                 {% endfor %}

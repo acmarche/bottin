@@ -24,10 +24,10 @@
                 <tbody>
                 {% for history in histories %}
                     <tr>
-                        <td>{{ history.madeBy }}</td>
+                        <td>{{ history.made_by }}</td>
                         <td>{{ history.property }}</td>
-                        <td>{{ history.oldValue }}</td>
-                        <td>{{ history.newValue }}</td>
+                        <td>{{ history.old_value }}</td>
+                        <td>{{ history.new_value }}</td>
                         <td>{{ history.createdAt | format_datetime('full', 'short') }}</td>
                     </tr>
                 {% endfor %}

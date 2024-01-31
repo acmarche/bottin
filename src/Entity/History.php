@@ -46,20 +46,4 @@ class History implements TimestampableInterface
         $this->made_by = $made_by;
         $this->property = $property;
     }
-
-    public function getOldValue(): ?string
-    {
-        return $this->old_value;
-    }
-
-    public function getNewValue(): ?string
-    {
-        return $this->new_value;
-    }
-
-    public function getMadeBy(): ?string
-    {
-        return $this->made_by;
-    }
-
 }
