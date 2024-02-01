@@ -16,7 +16,7 @@ class ElasticServer
     use ElasticClientTrait;
 
     public function __construct(
-        #[Autowire(env: 'BOTTIN_INDEX_NAME')] string $elasticIndexName,
+        #[Autowire(env: 'MEILI_INDEX_NAME')] string $elasticIndexName,
         private readonly FileUtils $fileUtils
     ) {
         $this->connect($elasticIndexName);
