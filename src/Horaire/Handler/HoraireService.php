@@ -38,7 +38,7 @@ class HoraireService
         foreach ($allDays as $day) {
             $horaire = new Horaire();
             $horaire->fiche = $fiche;
-            $horaire->day=$day;
+            $horaire->day = $day;
             $fiche->addHoraire($horaire);
         }
 
@@ -71,7 +71,9 @@ class HoraireService
                 continue;
             }
 
-            $this->horaireRepository->persist($horaire);
+            if (!$horaire->getId()) {
+                $this->horaireRepository->persist($horaire);
+            }
         }
     }
 }
