@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Search;
 
+use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Elasticsearch\ClassementElastic;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
@@ -18,7 +19,6 @@ class MeiliServer
     use MeiliTrait;
 
     private string $primaryKey = 'id';
-    private array $skips = [705];
 
     public function __construct(
         #[Autowire(env: 'MEILI_INDEX_NAME')]
@@ -79,7 +79,6 @@ class MeiliServer
         $this->addCategories();
     }
 
-
     /**
      * @return void
      */
@@ -88,13 +87,13 @@ class MeiliServer
         $this->init();
         $documents = [];
         foreach ($this->ficheRepository->findAllWithJoins() as $fiche) {
-            $documents[] = $this->updateFiche($fiche);
+            $documents[] = $this->createDocumentFiche($fiche);
         }
         $index = $this->client->index($this->indexName);
         $index->addDocuments($documents, $this->primaryKey);
     }
 
-    private function updateFiche(Fiche $fiche): array
+    private function createDocumentFiche(Fiche $fiche): array
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
@@ -112,15 +111,23 @@ class MeiliServer
         return $data;
     }
 
+    public function updateFiche(Fiche $fiche): void
+    {
+        $this->init();
+        $documents = [$this->createDocumentFiche($fiche)];
+        $index = $this->client->index($this->indexName);
+        $index->addDocuments($documents, $this->primaryKey);
+    }
+
     public function addCategories(): void
     {
         $documents = [];
         foreach ($this->categoryRepository->findAll() as $category) {
-            if (\in_array($category->getId(), $this->skips, true)) {
+            if (\in_array($category->getId(), Bottin::SEARCH_SKIP, true)) {
                 continue;
             }
 
-            $documents[] = $this->updateCategory($category);
+            $documents[] = $this->createDocumentCategory($category);
         }
 
         $index = $this->client->index($this->indexName);
@@ -130,7 +137,7 @@ class MeiliServer
     /**
      * @throws \JsonException
      */
-    private function updateCategory(Category $category): array
+    private function createDocumentCategory(Category $category): array
     {
         $data = $this->categorySerializer->serializeCategory($category);
         $data['type'] = 'category';

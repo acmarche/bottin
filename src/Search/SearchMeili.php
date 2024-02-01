@@ -78,6 +78,8 @@ class SearchMeili implements SearchEngineInterface
         }
 
         $args['filter'] = [$filter];
+       // $args['attributesToHighlight'] = ['*'];
+      //  $args['showRankingScore'] = true;
 
         return $index->search($keyword, $args);
     }
