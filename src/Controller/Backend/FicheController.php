@@ -78,8 +78,15 @@ class FicheController extends AbstractController
 
             $this->ficheRepository->flush();
             $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
-
             $this->addFlash('success', 'La fiche a bien été modifiée');
+
+            if ($etape === 4) {
+                return $this->redirectToRoute(
+                    'bottin_backend_fiche_show',
+                    ['uuid' => $token->uuid]
+                );
+            }
+
             $etape = $fiche->etape + 1;
 
             return $this->redirectToRoute(

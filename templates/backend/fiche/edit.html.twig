@@ -19,18 +19,10 @@
                     Précédent
                 </a>
             {% endif %}
-            {% if etape < 4 %}
-                <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy"
-                                                                           aria-hidden="true"></i>
+                <button class="btn btn-primary mr-1 mb-2" type="submit">
+                    <i class="ti ti-device-floppy" aria-hidden="true"></i>
                     Suivant
                 </button>
-            {% else %}
-                <a href="{{ path('bottin_backend_fiche_show',{'uuid':token.uuid}) }}"
-                   class="btn btn-primary mr-1 mb-2"
-                   type="submit"><i class="ti ti-check" aria-hidden="true"></i>
-                    Terminer
-                </a>
-            {% endif %}
 
             {{ form_end(form) }}
         </div>
