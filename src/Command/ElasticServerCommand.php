@@ -24,12 +24,6 @@ class ElasticServerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('Raz. Êtes vous sur ? (Y,N) ', false);
-
-        if (!$helper->ask($input, $output, $question)) {
-            return Command::SUCCESS;
-        }
 
         $this->elasticServer->createIndex();
         $this->elasticServer->setMapping();
