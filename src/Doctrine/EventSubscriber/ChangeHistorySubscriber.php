@@ -9,7 +9,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-#[AsDoctrineListener(event: Events::preUpdate)]
+//#[AsDoctrineListener(event: Events::preUpdate)]
 class ChangeHistorySubscriber
 {
     public function __construct(private readonly HistoryUtils $historyUtils)
