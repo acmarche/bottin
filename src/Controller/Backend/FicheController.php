@@ -69,6 +69,7 @@ class FicheController extends AbstractController
         $oldAdresse = $fiche->getRue().' '.$fiche->getNumero().' '.$fiche->getLocalite();
         $form = $this->formUtils->createFormByEtape($fiche);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->historyUtils->diffFiche($fiche);
