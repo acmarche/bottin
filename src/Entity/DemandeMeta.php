@@ -14,11 +14,13 @@ class DemandeMeta
     use IdTrait;
 
     #[ORM\ManyToOne(targetEntity: Demande::class, inversedBy: 'metas')]
+    #[ORM\JoinColumn(nullable: false)]
     public Demande $demande;
 
     #[Assert\NotBlank()]
     #[ORM\Column(type: 'string', nullable: false)]
     public ?string $champ;
+
     #[ORM\Column(type: 'string', nullable: true)]
     public ?string $value;
 
