@@ -71,10 +71,13 @@ class FicheController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $this->historyUtils->diffFiche($fiche);
-            } catch (Exception) {
-                //  $this->addFlash('danger', 'error '.$e->getMessage());
+
+            if ($etape !== 4) {
+                try {
+                    $this->historyUtils->diffFiche($fiche);
+                } catch (Exception) {
+                    //  $this->addFlash('danger', 'error '.$e->getMessage());
+                }
             }
 
             $this->ficheRepository->flush();
