@@ -25,23 +25,12 @@ trait OrmCrudTrait
         $this->_em->flush();
     }
 
-    public function reset(): void
-    {
-        $cmd = $this->_em->getClassMetadata($this->getClassName());
-        $connection = $this->_em->getConnection();
-        $dbPlatform = $connection->getDatabasePlatform();
-        $connection->executeQuery('SET FOREIGN_KEY_CHECKS=0');
-        $q = $dbPlatform->getTruncateTableSql($cmd->getTableName());
-        $connection->executeStatement($q);
-        $connection->executeQuery('SET FOREIGN_KEY_CHECKS=1');
-    }
-
     public function remove(object $object): void
     {
         $this->_em->remove($object);
     }
 
-    public function getOriginalEntityData(object $object)
+    public function getOriginalEntityData(object $object): array
     {
         return $this->_em->getUnitOfWork()->getOriginalEntityData($object);
     }

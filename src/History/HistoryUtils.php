@@ -15,6 +15,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class HistoryUtils
 {
+    private array $skip = ['createdAt', 'updatedAt', 'id'];
+
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly FicheRepository $ficheRepository,
@@ -22,6 +24,16 @@ class HistoryUtils
         private readonly HistoryRepository $historyRepository,
         private readonly PathUtils $pathUtils
     ) {
+    }
+
+    public function diffFicheNew(Fiche $fiche, array $changes): void
+    {
+        $username = $this->getUsername();
+        foreach ($changes as $propertyName => $values) {
+            if (!in_array($propertyName, $this->skip)) {
+                $this->createForFiche($fiche, $username, $propertyName, $values[0], $values[1]);
+            }
+        }
     }
 
     public function diffFiche(Fiche $fiche): void
