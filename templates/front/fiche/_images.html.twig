@@ -1,10 +1,16 @@
 {% if fiche.images | length > 0 %}
     <div data-controller="lightbox">
         {% for image in fiche.images %}
-            <a href="{{ vich_uploader_asset(image, 'image') }}">
-                <img class="img-thumbnail"
-                     src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
-            </a>
+            {% if image.mime|u.containsAny('image') %}
+                <a href="{{ vich_uploader_asset(image, 'image') }}">
+                    <img class="img-thumbnail"
+                         src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
+                </a>
+            {% else %}
+                <a href="{{ vich_uploader_asset(image, 'image') }}">
+                    <i class="ti ti-device-floppy"></i>Télécharger
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
 {% endif %}

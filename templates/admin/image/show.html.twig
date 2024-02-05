@@ -3,16 +3,22 @@
 {% block body -%}
     <div class="card">
         <div class="card-header">
-            <h3>Image de <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche }}</a></h3>
+            <h3>Média de <a href="{{ bottin_url_fiche_show(fiche) }}">{{ fiche }}</a></h3>
         </div>
         <div class="card-body">
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="ti ti-trash"></i> Supprimer l'image
+                <i class="ti ti-trash"></i> Supprimer le média
             </button>
 
             <br/> <br/>
-            <img class="img-thumbnail"
-                 src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
+            {% if image.mime|u.containsAny('image') %}
+                <img class="img-thumbnail"
+                     src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
+            {% else %}
+                <a href="{{ vich_uploader_asset(image, 'image') }}">
+                    <i class="ti ti-device-floppy"></i>Télécharger
+                </a>
+            {% endif %}
             <br/>
 
         </div>

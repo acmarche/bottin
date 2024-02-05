@@ -1,13 +1,20 @@
-<h4 class="text-success">Images</h4>
+<h4 class="text-success">Médias</h4>
 {% if fiche.images | length > 0 %}
     <table class='table table-bordered table-hover'>
         <tr>
             {% for image in fiche.images %}
             <td>
+                <span class="badge">{{ image.mime }}</span><br/>
                 <a href="{{ path('bottin_admin_image_show', { 'id': image.id }) }}">
-                    <img class="img-thumbnail"
-                         src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}" alt="img"/>
+                    {% if image.mime|u.containsAny('image') %}
+                        <img class="img-thumbnail"
+                             src="{{ vich_uploader_asset(image, 'image') | imagine_filter('acbottin_thumb') }}"
+                             alt="img"/>
+                    {% else %}
+                        Consulter
+                    {% endif %}
                 </a>
+
                 {% if image.principale %}
                     <i class="ti ti-check"></i>
                 {% endif %}
