@@ -11,7 +11,7 @@
                         </a>
                     {% else %}
                         <a href="{{ vich_uploader_asset(image, 'image') }}">
-                            <i class="ti ti-device-floppy"></i>Télécharger
+                         <span class="badge text-bg-success">{{ image.mime }}</span>  <i class="ti ti-device-floppy"></i>Télécharger
                         </a>
                     {% endif %}
                 </td>
