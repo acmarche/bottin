@@ -4,7 +4,7 @@
         <tr>
             {% for image in fiche.images %}
             <td>
-                <span class="badge">{{ image.mime }}</span><br/>
+                <span class="badge text-bg-success">{{ image.mime }}</span><br/>
                 <a href="{{ path('bottin_admin_image_show', { 'id': image.id }) }}">
                     {% if image.mime|u.containsAny('image') %}
                         <img class="img-thumbnail"
