@@ -26,9 +26,6 @@ class UtilisateurController extends AbstractController
     ) {
     }
 
-    /**
-     * Lists all Utilisateur entities.
-     */
     #[Route(path: '/', name: 'bottin_admin_utilisateur', methods: ['GET'])]
     public function index(): Response
     {
@@ -42,9 +39,6 @@ class UtilisateurController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to create a new Utilisateur utilisateur.
-     */
     #[Route(path: '/new', name: 'bottin_admin_utilisateur_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -53,7 +47,7 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user->password =
-                $this->userPasswordHasher->hashPassword($user, $form->getData()->getPlainPassword());
+                $this->userPasswordHasher->hashPassword($user, $form->getData()->plainPassword);
             $this->userRepository->insert($user);
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté");
@@ -70,9 +64,6 @@ class UtilisateurController extends AbstractController
         );
     }
 
-    /**
-     * Finds and displays a Utilisateur utilisateur.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_utilisateur_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -84,9 +75,6 @@ class UtilisateurController extends AbstractController
         );
     }
 
-    /**
-     * Displays a form to edit an existing Utilisateur utilisateur.
-     */
     #[Route(path: '/{id}/edit', name: 'bottin_admin_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user): Response
     {
@@ -108,9 +96,6 @@ class UtilisateurController extends AbstractController
         );
     }
 
-    /**
-     * Deletes a Utilisateur utilisateur.
-     */
     #[Route(path: '/{id}', name: 'bottin_admin_utilisateur_delete', methods: ['POST'])]
     public function delete(Request $request, User $user): RedirectResponse
     {
