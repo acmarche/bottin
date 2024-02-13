@@ -146,9 +146,9 @@ class FicheController extends AbstractController
             $this->horaireService->handleEdit($fiche, $horaires);
 
             try {
-                $this->historyUtils->diffFiche($fiche);
-            } catch (Exception) {
-                $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique");
+                //  $this->historyUtils->diffFiche($fiche);
+            } catch (Exception $exception) {
+                $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique ".$exception->getMessage());
             }
 
             $this->ficheRepository->flush();
