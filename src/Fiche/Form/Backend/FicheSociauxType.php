@@ -18,6 +18,7 @@ class FicheSociauxType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -25,6 +26,7 @@ class FicheSociauxType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -32,6 +34,7 @@ class FicheSociauxType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             )
             ->add(
@@ -39,6 +42,23 @@ class FicheSociauxType extends AbstractType
                 TextType::class,
                 [
                     'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
+                ]
+            )
+            ->add(
+                'youtube',
+                TextType::class,
+                [
+                    'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
+                ]
+            )
+            ->add(
+                'linkedin',
+                TextType::class,
+                [
+                    'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
                 ]
             );
     }

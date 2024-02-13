@@ -146,6 +146,8 @@ class CsvGenerator
             'twitter',
             'Instagram',
             'TikTok',
+            'Youtube',
+            'Linkedin',
             'Comment1',
             'Comment2',
             'Comment3',
@@ -223,6 +225,8 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->twitter);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->instagram);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->tiktok);
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->youtube);
+            $worksheet->setCellValue($lettre++.$ligne, $fiche->linkedin);
             /*
              * Commentaires
              */

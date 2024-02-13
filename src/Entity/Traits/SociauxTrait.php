@@ -17,4 +17,10 @@ trait SociauxTrait
 
     #[ORM\Column(nullable: true)]
     public ?string $tiktok = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?string $youtube = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?string $linkedin = null;
 }

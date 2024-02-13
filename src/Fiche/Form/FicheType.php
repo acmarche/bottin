@@ -167,6 +167,22 @@ class FicheType extends AbstractType
                 ]
             )
             ->add(
+                'youtube',
+                TextType::class,
+                [
+                    'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
+                ]
+            )
+            ->add(
+                'linkedin',
+                TextType::class,
+                [
+                    'required' => false,
+                    'attr' => ['autocomplete' => 'off'],
+                ]
+            )
+            ->add(
                 'situations',
                 EntityType::class,
                 [
