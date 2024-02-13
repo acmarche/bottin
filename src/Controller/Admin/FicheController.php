@@ -136,17 +136,17 @@ class FicheController extends AbstractController
         }
         $fiche->metas = $metas;
 
-        $editForm = $this->createForm(FicheType::class, $fiche);
-        $editForm->handleRequest($request);
+        $form = $this->createForm(FicheType::class, $fiche);
+        $form->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $data = $editForm->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
 
             $horaires = $data->horaires;
             $this->horaireService->handleEdit($fiche, $horaires);
 
             try {
-               $this->historyUtils->diffFiche($fiche);
+                $this->historyUtils->diffFiche($fiche);
             } catch (Exception) {
                 $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique");
             }
@@ -163,12 +163,15 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
+
         return $this->render(
             '@AcMarcheBottin/admin/fiche/edit.html.twig',
             [
                 'fiche' => $fiche,
-                'form' => $editForm->createView(),
+                'form' => $form->createView(),
             ]
+            , $response
         );
     }
 
