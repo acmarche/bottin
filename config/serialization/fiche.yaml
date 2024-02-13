@@ -70,6 +70,12 @@ AcMarche\Bottin\Entity\Fiche:
       groups: ['group1']
     instagram:
       groups: ['group1']
+    tiktok:
+      groups: ['group1']
+    youtube:
+      groups: ['group1']
+    linkedin:
+      groups: ['group1']
     longitude:
       groups: ['group1']
     latitude:
