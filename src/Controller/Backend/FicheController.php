@@ -74,8 +74,8 @@ class FicheController extends AbstractController
 
             try {
                 $this->historyUtils->diffFiche($fiche);
-            } catch (Exception) {
-                $this->addFlash('danger', 'error '.$e->getMessage());
+            } catch (Exception $exception) {
+                $this->addFlash('danger', 'error '.$exception->getMessage());
             }
 
             $this->ficheRepository->flush();
