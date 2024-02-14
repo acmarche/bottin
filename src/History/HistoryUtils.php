@@ -88,6 +88,15 @@ class HistoryUtils
         ?string $oldValue,
         ?string $newValue
     ): void {
+        if (strlen($oldValue) > 255) {
+            $oldValue = substr($oldValue, 0, 250).'...';
+        }
+        if (strlen($newValue) > 255) {
+            $newValue = substr($newValue, 0, 250).'...';
+        }
+        if (!mb_check_encoding($oldValue, 'UTF-8')) {
+            $oldValue = iconv("UTF-8", "UTF-8//IGNORE", $oldValue);
+        }
         $history = new History($fiche, $made_by, $property, $oldValue, $newValue);
         $this->historyRepository->persist($history);
     }
