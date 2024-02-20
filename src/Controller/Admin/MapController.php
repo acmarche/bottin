@@ -11,9 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * Map controller.
- */
 #[Route(path: '/admin/map')]
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class MapController extends AbstractController
