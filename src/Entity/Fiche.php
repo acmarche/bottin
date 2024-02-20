@@ -131,6 +131,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
         $this->classements = new ArrayCollection();
         $this->horaires = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->tags = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->demandes = new ArrayCollection();
         $this->situations = new ArrayCollection();
