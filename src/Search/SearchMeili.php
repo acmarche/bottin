@@ -96,6 +96,29 @@ class SearchMeili implements SearchEngineInterface
         ]);
     }
 
+    public function doSearchMap(
+        ?string $localite = null,
+        array $filters = []
+    ): iterable|SearchResult {
+        $this->init();
+        $index = $this->client->index($this->indexName);
+        $filter = ['type = fiche'];
+        if ($localite) {
+            $filter[] = 'localite = '.$localite;
+        }
+
+        if (count($filters) > 0) {
+            foreach ($filters as $tag) {
+                $filter[] = 'tags = "'.$tag.'"';
+            }
+        }
+
+        return $index->search('', [
+            'filter' => $filter,
+            'facets' => $this->facetFields,
+        ]);
+    }
+
     public function doSearchForCap(string $keyword): array|SearchResult
     {
         $this->init();

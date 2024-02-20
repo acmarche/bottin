@@ -60,47 +60,50 @@ class SearchController extends AbstractController
         );
     }
 
-    #[Route(path: '/searchadvanced/update/{keyword}', name: 'bottin_admin_fiche_search_update', methods: [
-        'GET',
+    #[Route(path: '/searchadvanced/update', name: 'bottin_admin_fiche_search_update', methods: [
         'POST',
     ])]
-    public function searchUp(Request $request, ?string $keyword = ''): Response
+    public function searchUp(Request $request, ?string $keyword = ''): ?Response
     {
-        $localites = $request->request->all('localite');
-        $tags = $request->request->all('tags');
-        $hits = $selected = [];
-        $localite = null;
-        if (count($localites) > 0) {
-            $localite = $localites[0];
-            $selected[] = $localite;
-        }
-        if (count($tags) > 0) {
-            $selected = array_merge($selected, $tags);
-        }
+        if ($request->isXmlHttpRequest()) {
+            $localites = $request->request->all('localite');
+            $tags = $request->request->all('tags');
+            $hits = $selected = [];
+            $localite = null;
+            if (count($localites) > 0) {
+                $localite = $localites[0];
+                $selected[] = $localite;
+            }
+            if (count($tags) > 0) {
+                $selected = array_merge($selected, $tags);
+            }
 
-        try {
-            $response = $this->searchEngine->doSearchAdvanced($keyword, $localite, $tags);
-            $hits = $response->getHits();
-            $count = $response->count();
-            $facetDistribution = $response->getFacetDistribution();
+            try {
+                $response = $this->searchEngine->doSearchAdvanced($keyword, $localite, $tags);
+                $hits = $response->getHits();
+                $count = $response->count();
+                $facetDistribution = $response->getFacetDistribution();
 
-        } catch (\Exception $e) {
-            $this->addFlash(
-                'danger',
-                'Erreur dans la recherche: '.$e->getMessage().' line '.$e->getLine().' file '.$e->getFile()
+            } catch (\Exception $e) {
+                $this->addFlash(
+                    'danger',
+                    'Erreur dans la recherche: '.$e->getMessage().' line '.$e->getLine().' file '.$e->getFile()
+                );
+                $hits['error'] = $e->getMessage();
+            }
+
+            return $this->render(
+                '@AcMarcheBottin/admin/search/_content.html.twig',
+                [
+                    'hits' => $hits,
+                    'count' => $count,
+                    'facetDistribution' => $facetDistribution,
+                    'selected' => $selected,
+                ]
             );
-            $hits['error'] = $e->getMessage();
+
         }
 
-        return $this->render(
-            '@AcMarcheBottin/admin/search/_content.html.twig',
-            [
-                'hits' => $hits,
-                'count' => $count,
-                'facetDistribution' => $facetDistribution,
-                'selected' => $selected,
-            ]
-        );
-
+        return null;
     }
 }

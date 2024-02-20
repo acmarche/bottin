@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Bottin{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('bundles/acmarchebottin/favicon.ico') }}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+    <meta name="view-transition" content="same-origin"/>
+    {% block stylesheets %}
+
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app_tailwind') }}{% endblock %}
+    {% endblock %}
+</head>
+<body id="app">
+<header class="relative z-20">
+    <nav class="bg-red-100 shadow">
+        Carto
+    </nav>
+</header>
+<main class="container mt-12 mx-auto sm:px-6 lg:px-8 max-w-7xl" id="maincontent">
+    <div class="row" id="content-result">
+        <h4 class="text-success">{{ count }} trouvé</h4>
+        <div class="flex flex-row gap-2">
+            {{ include('@AcMarcheBottin/tailwind/_aggregations.html.twig') }}
+
+            <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+                {% include '@AcMarcheBottin/tailwind/_result.html.twig' %}
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="bg-white mt-24" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="sr-only">Footer</h2>
+</footer>
+</body>
