@@ -1,19 +1,19 @@
 <div class="relative h-96 overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75 lg:h-full">
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 class="sr-only">Commerces</h2>
-        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
+        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-2 lg:gap-x-4">
             {% for fiche in hits %}
                 <div class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white45">
-                    <div class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-                        {% set img = 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg' %}
+                    <div class="aspect-square bg-gray-200 sm:aspect-none group-hover:opacity-75  h-80 sm:h-96">
+                        {% set img = 'https://picsum.photos/1280' %}
                         {% if fiche.image %}
                             {% set img = 'https://bottin.marche.be' ~ fiche.image %}
                         {% endif %}
                         <img src="{{ img }}"
-                             alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green."
+                             alt="xx"
                              class="h-full w-full object-cover object-center sm:h-full sm:w-full">
                     </div>
-                    <div class="flex flex-1 flex-col space-y-2 p-4">
+                    <div class="flex flex-1 flex-col space-y-2 p-4 h-36">
                         <h3 class="text-sm font-medium text-gray-900">
                             <a href="#">
                                 <span aria-hidden="true" class="absolute inset-0"></span>
