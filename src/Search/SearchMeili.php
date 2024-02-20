@@ -67,21 +67,33 @@ class SearchMeili implements SearchEngineInterface
         );
     }
 
-    public function doSearchAdvanced(string $keyword, string $localite = null): iterable|SearchResult
-    {
+    public function doSearchAdvanced(
+        string $keyword,
+        ?string $localite = null,
+        array $filters = []
+    ): iterable|SearchResult {
         $this->init();
         $index = $this->client->index($this->indexName);
-        $args = ['facets' => $this->facetFields];
-        $filter = 'type = fiche';
+        $filter = ['type = fiche'];
         if ($localite) {
-            $filter .= ' AND localite = '.$localite;
+            $filter[] = 'localite = '.$localite;
         }
 
-        $args['filter'] = [$filter];
-       // $args['attributesToHighlight'] = ['*'];
-      //  $args['showRankingScore'] = true;
+        if (count($filters) > 0) {
+            foreach ($filters as $tag) {
+                $filter[] = 'tags = "'.$tag.'"';
+            }
+        }
 
-        return $index->search($keyword, $args);
+        //$args['attributesToHighlight'] = ['*'];
+        //$args['showRankingScore'] = true;
+
+        return $index->search($keyword, [
+            //'filter' => [['tags = "Temps de Midi"', 'tags = Pmr'], 'localite = Marche-en-Famenne'], => OR
+            //'filter' => ['type = fiche', 'tags = "Temps de Midi"', 'tags = Pmr', 'localite = Marche-en-Famenne'],// => AND
+            'filter' => $filter,
+            'facets' => $this->facetFields,
+        ]);
     }
 
     public function doSearchForCap(string $keyword): array|SearchResult

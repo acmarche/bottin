@@ -5,8 +5,14 @@
                 <i class="ti ti-filter" title="Village"></i> <strong>{{ facetName|title }}</strong>
                 {% for name,nb in data %}
                     <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="{{ name }}" name="{{ facetName }}"
-                               value="{{ name }}">
+                        <input type="checkbox" class="custom-control-input"
+                               id="{{ name }}"
+                               name="{{ facetName }}[]"
+                               value="{{ name }}"
+                               hx-post="{{ path('bottin_admin_fiche_search_update') }}"
+                               hx-trigger="change"
+                               hx-target="#search-results"
+                        >
                         <label class="custom-control-label" for="{{ name }}">
                             {{ name }} ({{ nb }})
                         </label>

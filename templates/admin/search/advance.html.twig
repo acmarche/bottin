@@ -1,0 +1,35 @@
+{% extends '@AcMarcheBottin/front/layout.html.twig' %}
+
+{% block main_class %}class="container-fluid pt-3"{% endblock %}
+
+{% block body -%}
+
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+
+    <div class="card">
+        <h3 class="card-header">Rechercher une fiche</h3>
+
+        <div class="card-body">
+            {% include '@AcMarcheBottin/admin/search/_fiche.html.twig' %}
+        </div>
+    </div>
+
+    {% if isSubmitted %}
+
+        <div class="row">
+            <div class="offset-2 col-10 mt-2">
+                <h4 class="text-success">{{ count }} trouvé</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-3" id="search-aggregations">
+                {{ include('@AcMarcheBottin/admin/fiche/_aggregations.html.twig') }}
+            </div>
+            <div class="col-9" id="search-results">
+                {% include '@AcMarcheBottin/admin/search/_result.html.twig' %}
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

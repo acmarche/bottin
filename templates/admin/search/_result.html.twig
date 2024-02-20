@@ -1,0 +1,31 @@
+{% if hits['error'] is defined %}
+    <div class="alert alert-danger">{{ hits['error'] }}</div>
+{% elseif count > 0 %}
+    <table class='table table-bordered table-hover'>
+        <thead>
+        <tr>
+            <th>Societe</th>
+            <th>Localité</th>
+            <th>Téléphone</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fiche in hits %}
+            <tr>
+                <td>
+                    <a href="{{ bottin_url_fiche_show(fiche) }}"
+                       title="Détail de la fiche">
+                        {{ fiche.societe }}
+                    </a>
+                </td>
+                <td>
+                    {{ fiche.localite }}
+                </td>
+                <td>
+                    {{ fiche.telephone }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
