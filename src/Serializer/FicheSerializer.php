@@ -21,6 +21,10 @@ class FicheSerializer
         $data['url_cap'] = CapService::generateUrlCap($fiche);
         $data['image'] = $this->firstImage($fiche);
         $data['slugname'] = $fiche->getSlug(); // @deprecated
+        $data['tags'] = [];
+        foreach ($fiche->tags as $tag) {
+            $data['tags'][] = $tag->name;
+        }
 
         return $data;
     }
@@ -53,18 +57,12 @@ class FicheSerializer
         $data['newsletter_date'] = ''; // @deprecated
         $data['photos'] = [];
         $data['logo'] = '';
-
-        return $data;
-    }
-
-    public function serialize(Fiche $fiche)
-    {
-        $std = [];
-        $data = json_decode($this->serializeBaseFiche($fiche), true, 512, \JSON_THROW_ON_ERROR);
-        if ($fiche->getLatitude() && $fiche->getLongitude()) {
-            $std['location'] = ['lat' => $fiche->getLatitude(), 'lon' => $fiche->getLongitude()];
+        $data['tags'] = [];
+        foreach ($fiche->tags as $tag) {
+            $data['tags'][$tag->getSlug()] = $tag->name;
         }
 
         return $data;
     }
+
 }
