@@ -22,6 +22,12 @@ class Tag implements \Stringable, SluggableInterface
     #[ORM\Column(nullable: false, unique: true)]
     public ?string $name = null;
 
+    #[ORM\Column( nullable: true)]
+    public ?string $color = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?string $icon = null;
+
     #[ORM\Column(unique: true, nullable: true)]
     protected $slug;
 

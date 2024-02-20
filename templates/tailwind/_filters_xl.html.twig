@@ -15,7 +15,9 @@
             {% if not facetName|u.startsWith('_') %}
                 <div class="{% if not loop.first %}pt-10{% endif %}">
                     <fieldset>
-                        <legend class="block text-sm font-medium text-gray-900">{{ facetName|title }}</legend>
+                        <legend class="block text-sm font-medium text-gray-900">
+                            {{ facetName|title }}
+                        </legend>
                         <div class="space-y-3 pt-6">
                             {% if data|length > 0 %}
                                 {% for name,nb in data %}
@@ -25,6 +27,8 @@
                                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                         <label for="color-0"
                                                class="ml-3 text-sm text-gray-600">
+                                            <i class="{{ icons[name].icon }}"
+                                               style="color:{{ icons[name].color }}; font-size: 1rem;"></i>
                                             {{ name }} ({{ nb }})
                                         </label>
                                     </div>

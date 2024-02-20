@@ -2,9 +2,9 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
+use AcMarche\Bottin\Tag\TagUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class MapController extends AbstractController
 {
     public function __construct(
         private readonly TagRepository $tagRepository,
-        private readonly FicheRepository $ficheRepository,
+        private readonly TagUtils $tagUtils,
         private readonly SearchEngineInterface $searchEngine,
     ) {
     }
@@ -25,11 +25,12 @@ class MapController extends AbstractController
         $tag = $this->tagRepository->findOneByName('Circuit-Court');
 
         try {
-            $response = $this->searchEngine->doSearchMap(null,  [$tag]);
+            $response = $this->searchEngine->doSearchMap(null, [$tag]);
             //dd($response);
             $hits = $response->getHits();
             $count = $response->count();
             $facetDistribution = $response->getFacetDistribution();
+            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
 
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
@@ -40,6 +41,7 @@ class MapController extends AbstractController
             [
                 'hits' => $hits,
                 'tag' => $tag,
+                'icons' => $icons,
                 'count' => $count,
                 'facetDistribution' => $facetDistribution,
                 'selected' => [],
@@ -58,6 +60,7 @@ class MapController extends AbstractController
                 $hits = $response->getHits();
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
+                $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
 
             } catch (\Exception $e) {
                 $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
@@ -68,6 +71,7 @@ class MapController extends AbstractController
             '@AcMarcheBottin/tailwind/map.html.twig',
             [
                 'hits' => $hits,
+                'icons' => $icons,
                 'count' => $count,
                 'facetDistribution' => $facetDistribution,
                 'selected' => [],
