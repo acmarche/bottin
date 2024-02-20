@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Form\Search\SearchFicheType;
 use AcMarche\Bottin\Search\SearchEngineInterface;
-use AcMarche\Bottin\Tag\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +13,6 @@ class SearchController extends AbstractController
 {
     public function __construct(
         private readonly SearchEngineInterface $searchEngine,
-        private readonly TagRepository $tagRepository
     ) {
     }
 
@@ -56,24 +54,32 @@ class SearchController extends AbstractController
                 'hits' => $hits,
                 'count' => $count,
                 'facetDistribution' => $facetDistribution,
+                'selected' => [],
+                'keyword' => $keyword,
             ]
         );
     }
 
-    #[Route(path: '/searchadvanced/update', name: 'bottin_admin_fiche_search_update', methods: ['GET', 'POST'])]
-    public function searchUp(Request $request, ?string $keyword): Response
+    #[Route(path: '/searchadvanced/update/{keyword}', name: 'bottin_admin_fiche_search_update', methods: [
+        'GET',
+        'POST',
+    ])]
+    public function searchUp(Request $request, ?string $keyword = ''): Response
     {
-        $keyword = 'boulanger';
         $localites = $request->request->all('localite');
         $tags = $request->request->all('tags');
-        $hits = [];
+        $hits = $selected = [];
         $localite = null;
         if (count($localites) > 0) {
             $localite = $localites[0];
+            $selected[] = $localite;
         }
+        if (count($tags) > 0) {
+            $selected = array_merge($selected, $tags);
+        }
+
         try {
             $response = $this->searchEngine->doSearchAdvanced($keyword, $localite, $tags);
-            //dd($response);
             $hits = $response->getHits();
             $count = $response->count();
             $facetDistribution = $response->getFacetDistribution();
@@ -87,10 +93,12 @@ class SearchController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/admin/search/_result.html.twig',
+            '@AcMarcheBottin/admin/search/_content.html.twig',
             [
                 'hits' => $hits,
                 'count' => $count,
+                'facetDistribution' => $facetDistribution,
+                'selected' => $selected,
             ]
         );
 

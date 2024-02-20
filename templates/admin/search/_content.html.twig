@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="offset-2 col-10 mt-2">
+        <h4 class="text-success">{{ count }} trouvé</h4>
+    </div>
+</div>
+
+<div class="col-3" id="search-aggregations">
+    {{ include('@AcMarcheBottin/admin/search/_aggregations.html.twig') }}
+</div>
+<div class="col-9" id="search-results">
+    {% include '@AcMarcheBottin/admin/search/_result.html.twig' %}
+</div>
