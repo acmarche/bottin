@@ -15,7 +15,7 @@ class SearchSql implements SearchEngineInterface
         return $this->ficheRepository->searchByNameAndCity($keyword, $localite);
     }
 
-    public function doSearchAdvanced(string $keyword, string $localite = null): iterable
+    public function doSearchAdvanced(string $keyword, string $localite = null, array $filters = []): iterable
     {
         return $this->ficheRepository->searchByNameAndCity($keyword, $localite);
     }

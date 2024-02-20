@@ -108,7 +108,7 @@ class SearchElastic implements SearchEngineInterface
         return $client->search($params);
     }
 
-    public function doSearchAdvanced(string $keyword, string $localite = null): iterable
+    public function doSearchAdvanced(string $keyword, string $localite = null, array $filters = []): iterable
     {
         $boolQuery = $this->createQueryForFiche($keyword);
 
