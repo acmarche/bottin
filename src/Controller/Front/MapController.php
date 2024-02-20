@@ -30,8 +30,8 @@ class MapController extends AbstractController
             $hits = $response->getHits();
             $count = $response->count();
             $facetDistribution = $response->getFacetDistribution();
+            unset($facetDistribution['type']);
             $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
-
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
         }
@@ -54,12 +54,24 @@ class MapController extends AbstractController
     {
         if ($request->isXmlHttpRequest()) {
 
+            $localites = $request->request->all('localite');
+            $tags = $request->request->all('tags');
+            $hits = $selected = [];
+            $localite = null;
+            if (count($localites) > 0) {
+                $localite = $localites[0];
+                $selected[] = $localite;
+            }
+            if (count($tags) > 0) {
+                $selected = array_merge($selected, $tags);
+            }
             try {
-                $response = $this->searchEngine->doSearchMap($args['localite']);
+                $response = $this->searchEngine->doSearchMap($localite, $tags);
                 //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
+                unset($facetDistribution['type']);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
 
             } catch (\Exception $e) {
