@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait TagTrait
 {
     #[ORM\ManyToMany(targetEntity: Tag::class, cascade: ['persist', 'remove'])]
-    public array|Collection $tags;
+    public array|Collection $tags = [];
 
     public function addTag(Tag $tag): self
     {
