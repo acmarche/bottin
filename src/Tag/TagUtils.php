@@ -24,9 +24,9 @@ class TagUtils
             }
         }
         foreach ($facets['localite'] as $name => $count) {
-            $icons[$name] = ['icon' => 'ti ti-cat', 'color' => '#EB4544'];
+            $icons[$name] = ['icon' => 'ti ti-building-church', 'color' => '#EB4544'];
         }
-        $icons['fiche'] = ['icon' => 'ti ti - cat', 'color' => '#133290'];
+        //$icons['fiche'] = ['icon' => 'ti ti - cat', 'color' => '#133290'];
         return $icons;
     }
 }
