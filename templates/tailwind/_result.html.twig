@@ -1,14 +1,35 @@
-<x-placeholder>
-    <div class="relative h-96 overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75 lg:h-full">
-        <svg class="absolute inset-0 h-full w-full stroke-gray-900/10" fill="none">
-            <defs>
-                <pattern id="pattern-77afb5fb-70f0-4a74-ac84-19e28e9abf06" x="0" y="0" width="10" height="10"
-                         patternUnits="userSpaceOnUse">
-                    <path d="M-3 13 15-5M-5 5l18-18M-1 21 17 3"></path>
-                </pattern>
-            </defs>
-            <rect stroke="none" fill="url(#pattern-77afb5fb-70f0-4a74-ac84-19e28e9abf06)" width="100%"
-                  height="100%"></rect>
-        </svg>
+<div class="relative h-96 overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75 lg:h-full">
+    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 class="sr-only">Commerces</h2>
+        <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
+            {% for fiche in hits %}
+                <div class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white45">
+                    <div class="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
+                        {% set img = 'https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg' %}
+                        {% if fiche.image %}
+                            {% set img = 'https://bottin.marche.be' ~ fiche.image %}
+                        {% endif %}
+                        <img src="{{ img }}"
+                             alt="Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green."
+                             class="h-full w-full object-cover object-center sm:h-full sm:w-full">
+                    </div>
+                    <div class="flex flex-1 flex-col space-y-2 p-4">
+                        <h3 class="text-sm font-medium text-gray-900">
+                            <a href="#">
+                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                {{ fiche.societe }}
+                            </a>
+                        </h3>
+                        <p class="text-sm text-gray-500">
+                            {{ fiche.comment1 }}
+                        </p>
+                        <div class="flex flex-1 flex-col justify-end">
+                            <p class="text-base font-medium text-gray-900">{{ fiche.localite }}</p>
+                            <p class="text-sm italic text-gray-500">{{ fiche.telephone }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</x-placeholder>
+</div>

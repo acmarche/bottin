@@ -24,7 +24,11 @@
                                     <div class="flex items-center">
                                         <input id="color-0" name="color[]" value="white"
                                                type="checkbox"
-                                               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                               class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                               hx-swap="innerHTML scroll:top"
+                                               hx-post="{{ path('bottin_map_update') }}"
+                                               hx-trigger="change"
+                                               hx-target="#content-result">
                                         <label for="color-0"
                                                class="ml-3 text-sm text-gray-600">
                                             <i class="{{ icons[name].icon }}"

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Bottin{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('bundles/acmarchebottin/favicon.ico') }}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+    <meta name="view-transition" content="same-origin"/>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    {% block stylesheets %}
+
+    {% endblock %}
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app_tailwind') }}{% endblock %}
+    {% endblock %}
+</head>
+<body id="app">
+<header class="relative z-20">
+    <nav class="bg-orange-500 shadow h-32 text-white">
+        Carto
+    </nav>
+</header>
+{% include '@AcMarcheBottin/front/_flash_messages.html.twig' %}
+{% block body %}
+
+{% endblock %}
+<footer class="bg-white mt-24" aria-labelledby="footer-heading">
+    <h2 id="footer-heading" class="sr-only">AcMarche</h2>
+</footer>
+</body>
