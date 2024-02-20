@@ -1,30 +1,14 @@
-{% if hits['error'] is defined %}
-    <div class="alert alert-danger">{{ hits['error'] }}</div>
-{% elseif count > 0 %}
-    <table class="min-w-full divide-y divide-gray-300">
-        <thead class="bg-gray-50">
-        <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Nom</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Localité</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Téléphone</th>
-            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Pmr</th>
-        </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 bg-white">
-
-        {% for fiche in hits %}
-            <tr>
-                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                    <a href="{{ bottin_url_fiche_show(fiche) }}"
-                       class="text-indigo-600 hover:text-indigo-900"> {{ fiche.societe }}</a>
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ fiche.localite }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ fiche.telephone }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"> {{ fiche.tags|join('') }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-
-{% endif %}
+<x-placeholder>
+    <div class="relative h-96 overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75 lg:h-full">
+        <svg class="absolute inset-0 h-full w-full stroke-gray-900/10" fill="none">
+            <defs>
+                <pattern id="pattern-77afb5fb-70f0-4a74-ac84-19e28e9abf06" x="0" y="0" width="10" height="10"
+                         patternUnits="userSpaceOnUse">
+                    <path d="M-3 13 15-5M-5 5l18-18M-1 21 17 3"></path>
+                </pattern>
+            </defs>
+            <rect stroke="none" fill="url(#pattern-77afb5fb-70f0-4a74-ac84-19e28e9abf06)" width="100%"
+                  height="100%"></rect>
+        </svg>
+    </div>
+</x-placeholder>
