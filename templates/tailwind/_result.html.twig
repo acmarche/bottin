@@ -11,7 +11,7 @@
                         {% endif %}
                         <img src="{{ img }}"
                              alt="xx"
-                             class="h-full w-full object-cover object-center sm:h-full sm:w-full">
+                             class="h-full w-full object-cover object-center sm:h-full sm:w-full transition-transform duration-500 ease-in-out group-hover:scale-105">
                     </div>
                     <div class="flex flex-1 flex-col space-y-2 p-4 h-36">
                         <h3 class="text-sm font-medium text-gray-900">
@@ -21,7 +21,9 @@
                             </a>
                         </h3>
                         <p class="text-sm text-gray-500">
-                            {{ fiche.comment1 }}
+                            {% for secteur in fiche.secteurs %}
+                                {{ secteur }} {% if not loop.last %} - {% endif %}
+                            {% endfor %}
                         </p>
                         <div class="flex flex-1 flex-col justify-end">
                             <p class="text-base font-medium text-gray-900">{{ fiche.localite }}</p>

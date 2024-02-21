@@ -34,6 +34,8 @@ class MapController extends AbstractController
             $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Erreur dans la recherche: '.$e->getMessage());
+            $hits = $icons = $facetDistribution = [];
+            $count = 0;
         }
 
         return $this->render(
