@@ -119,6 +119,13 @@ class MeiliServer
         $index->addDocuments($documents, $this->primaryKey);
     }
 
+    public function removeFiche(int $ficheId): void
+    {
+        $this->init();
+        $index = $this->client->index($this->indexName);
+        $index->deleteDocument($ficheId);
+    }
+
     public function addCategories(): void
     {
         $documents = [];
