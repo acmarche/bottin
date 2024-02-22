@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Search;
 
 use Meilisearch\Contracts\FacetSearchQuery;
 use Meilisearch\Search\SearchResult;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class SearchMeili implements SearchEngineInterface
@@ -15,6 +16,7 @@ class SearchMeili implements SearchEngineInterface
         private string $indexName,
         #[Autowire(env: 'MEILI_MASTER_KEY')]
         private string $masterKey,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -112,6 +114,8 @@ class SearchMeili implements SearchEngineInterface
                 $filter[] = 'tags = "'.$tag.'"';
             }
         }
+
+        $this->logger->error('MEILI: '.join(',', $filter).' END');
 
         return $index->search('', [
             'filter' => $filter,

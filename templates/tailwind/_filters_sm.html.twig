@@ -88,7 +88,7 @@
                                         {% if data|length > 0 %}
                                             {% for name,nb in data %}
                                                 <div class="flex items-center">
-                                                    <input id="color-0-mobile" name="color[]" value="white"
+                                                    <input id="color-0-mobile" name="{{ facetName }}[]" value="{{ name }}"
                                                            type="checkbox"
                                                            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
                                                     <label for="color-0-mobile" class="ml-3 text-sm text-gray-500">

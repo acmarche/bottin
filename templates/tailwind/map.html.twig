@@ -5,7 +5,7 @@
             crossorigin="anonymous"></script>
 {% endblock %}
 {% block body %}
-    <div class="bg-whi45te">
+    <div class="bg-whi45te" id="content-result">
         <div x-data="{ menuOpen: false }" @keydown.window.escape="open = false">
             {% include '@AcMarcheBottin/tailwind/_filters_sm.html.twig' %}
             <main class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -33,7 +33,7 @@
                         {% include '@AcMarcheBottin/tailwind/_filters_xl.html.twig' %}
                     </aside>
                     <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
-                        {% include '@AcMarcheBottin/tailwind/_result.html.twig' %}
+                        {% include '@AcMarcheBottin/tailwind/_list.html.twig' %}
                         {% include '@AcMarcheBottin/tailwind/_carto.html.twig' %}
                     </div>
                 </div>

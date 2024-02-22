@@ -5,6 +5,7 @@ namespace AcMarche\Bottin\Controller\Front;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class MapController extends AbstractController
         private readonly TagRepository $tagRepository,
         private readonly TagUtils $tagUtils,
         private readonly SearchEngineInterface $searchEngine,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -54,24 +56,30 @@ class MapController extends AbstractController
     #[Route(path: '/map/search', name: 'bottin_map_update')]
     public function upsearch(Request $request): Response
     {
-        if ($request->isXmlHttpRequest()) {
-
+        $hits = $selected = $icons = $facetDistribution = [];
+        $count = 0;
+        if ($request->getMethod() == 'POST') {
+            $tag = $this->tagRepository->findOneByName('Circuit-Court');
+            $tags = [$tag->name];
             $localites = $request->request->all('localite');
-            $tags = $request->request->all('tags');
-            $hits = $selected = [];
+            $this->logger->error('MEILI loc '.join(',',$localites));
+            $tagsSelected = $request->request->all('tags');
             $localite = null;
             if (count($localites) > 0) {
                 $localite = $localites[0];
                 $selected[] = $localite;
             }
-            if (count($tags) > 0) {
-                $selected = array_merge($selected, $tags);
+            if (count($tagsSelected) > 0) {
+                //$tags = [$tag];
+                $selected = array_merge($selected, $tagsSelected);
             }
             try {
                 $response = $this->searchEngine->doSearchMap($localite, $tags);
                 //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();
+                $this->logger->error('MEILI count: '.$count);
+
                 $facetDistribution = $response->getFacetDistribution();
                 unset($facetDistribution['type']);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
@@ -82,7 +90,7 @@ class MapController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/tailwind/map.html.twig',
+            '@AcMarcheBottin/tailwind/_list.html.twig',
             [
                 'hits' => $hits,
                 'icons' => $icons,
