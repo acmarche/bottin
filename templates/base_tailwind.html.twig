@@ -19,13 +19,16 @@
 <body id="app" x-data="{cartoOpen: false, listOpen: true}">
 <header class="relative z-20 bg-orange-500 h-16">
     <nav class="shadow h-16 text-white flex items-center gap-3 justify-between">
-        <span>Carto</span>
-        <div class="mr-6">
+        <h1 class="text-3xl ml-3">Cartographie</h1>
+        <div class="mx-auto flex flex-row gap-4">
             <button type="button" title="Carte" @click="cartoOpen = true; listOpen = false"><i
-                        class="ti ti-map mr-2 text-xl"></i></button>
+                        class="ti ti-map mr-2 text-2xl hover:text-pink-950"></i></button>
             <button type="button" title="Liste" @click="listOpen = true; cartoOpen = false"><i
-                        class="ti ti-list text-xl"></i></button>
-            <span>about</span></div>
+                        class="ti ti-list text-2xl hover:text-pink-950"></i></button>
+            <button type="button" title="Localisation" @click="listOpen = true; cartoOpen = false"><i
+                        class="ti ti-current-location text-2xl hover:text-pink-950"></i></button>
+        </div>
+        <a href="https://www.marche.be" target="_blank" class="mr-12" title="Site de la Ville">Marche.be</a>
     </nav>
 </header>
 {% include '@AcMarcheBottin/front/_flash_messages.html.twig' %}
