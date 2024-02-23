@@ -17,7 +17,7 @@
         bg-clip-text text-transparent
         bg-[length:250px_100%] bg-no-repeat
         px-10 py-1 text-center text-4xl font-bold
-        animate-shimmer"                    >
+        animate-shimmer"               >
                         Can't take your eyes off
                     </h1>
                     <h1 class="text-4xl font-bold tracking-tight text-gray-900">Circuit-Court</h1>
@@ -28,7 +28,8 @@
                         intervient au maximum un intermédiaire entre le producteur et le consommateur.
                     </p>
                 </div>
-                <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+                <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4"
+                        {{ stimulus_controller('carto', { 'latitude': '', 'longitude': ''}) }}>
                     <aside>
                         {% include '@AcMarcheBottin/tailwind/_filters_xl.html.twig' %}
                     </aside>
@@ -40,4 +41,10 @@
             </main>
         </div>
     </div>
+    <script>
+
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+           console.log('stimu')
+        });
+    </script>
 {% endblock %}
