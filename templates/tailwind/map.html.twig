@@ -34,7 +34,9 @@
                         {% include '@AcMarcheBottin/tailwind/_filters_xl.html.twig' %}
                     </aside>
                     <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
-                        {% include '@AcMarcheBottin/tailwind/_list.html.twig' %}
+                        <div x-show="listOpen">
+                            {% include '@AcMarcheBottin/tailwind/_list.html.twig' %}
+                        </div>
                         {% include '@AcMarcheBottin/tailwind/_carto.html.twig' %}
                     </div>
                 </div>
