@@ -18,7 +18,7 @@
         bg-[length:250px_100%] bg-no-repeat
         px-10 py-1 text-center text-4xl font-bold
         animate-shimmer">
-                        Can't take your eyes off
+                        Du bio, du local, du solidaire...
                     </h1>
                     <h1 class="text-4xl font-bold tracking-tight text-carto-pink">Circuit-Court</h1>
                     <p class="mt-4 text-base text-carto-main">
@@ -28,12 +28,12 @@
                         intervient au maximum un intermédiaire entre le producteur et le consommateur.
                     </p>
                 </div>
-                <div class="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4"
-                        {{ stimulus_controller('carto', { 'latitude': '', 'longitude': ''}) }}>
+                <div class="pt-12 grid grid-cols-1 lg:gap-x-8 lg:grid-cols-[auto_minmax(0,1fr)]"
+                        {{ stimulus_controller('carto') }}>
                     <aside>
                         {% include '@AcMarcheBottin/tailwind/_filters_xl.html.twig' %}
                     </aside>
-                    <div class="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+                    <div class="mt-6 lg:mt-0">
                         <div x-show="listOpen">
                             {% include '@AcMarcheBottin/tailwind/_list.html.twig' %}
                         </div>

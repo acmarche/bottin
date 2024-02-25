@@ -25,14 +25,32 @@
     <nav class="shadow h-16 text-white flex items-center gap-3 justify-between">
         <h1 class="text-3xl ml-3">Cartographie</h1>
         <div class="mx-auto flex flex-row gap-4">
-            <button type="button" title="Carte" @click="cartoOpen = true; listOpen = false"><i
-                        class="ti ti-map mr-2 text-2xl hover:text-carto-pink"></i></button>
-            <button type="button" title="Liste" @click="listOpen = true; cartoOpen = false"><i
-                        class="ti ti-list text-2xl hover:text-carto-main"></i></button>
-            <button type="button" title="Localisation" @click="listOpen = true; cartoOpen = false"><i
-                        class="ti ti-current-location text-2xl hover:text-carto-gray300"></i></button>
+            <button class="flex flex-col flex-wrap justify-center items-center hover:text-carto-pink" type="button"
+                    title="Carte"
+                    @click="cartoOpen = true; listOpen = false">
+                <i class="ti ti-map mr-2 text-2xl"></i>
+                <span class="">Carte</span>
+            </button>
+            <button class="flex flex-col flex-wrap justify-center items-center hover:text-carto-pink" type="button"
+                    title="Liste" @click="listOpen = true; cartoOpen = false"><i
+                        class="ti ti-list text-2xl hover:text-carto-main"></i>
+                <span class="">
+                Liste
+            </span>
+            </button>
+            <button class="flex flex-col flex-wrap justify-center items-center hover:text-carto-pink" type="button"
+                    title="Localisation" @click="listOpen = true; cartoOpen = false"><i
+                        class="ti ti-current-location text-2xl hover:text-carto-gray300"></i>
+                <span class="">
+                Autour de moi
+            </span>
+            </button>
         </div>
-        <a href="https://www.marche.be" target="_blank" class="mr-12 hover:text-carto-main" title="Site de la Ville">Marche.be</a>
+        <a href="https://www.marche.be" target="_blank" class="mr-12 hover:text-carto-main flex flex-row gap-2"
+           title="Site de la Ville">
+            <img class="w-24 hover:opacity-70"
+                 src="{{ asset('assets/bundles/acmarchebottin/images/Marche_logo_transparent_pt-5d79edb04794352da212d14a7495c8a7.png') }}">
+        </a>
     </nav>
 </header>
 {% include '@AcMarcheBottin/front/_flash_messages.html.twig' %}

@@ -13,7 +13,7 @@
     <form class="space-y-10 divide-y divide-gray-200">
         {% for facetName,data in facetDistribution %}
             {% if not facetName|u.startsWith('_') %}
-                <div class="{% if not loop.first %}pt-10{% endif %}">
+                <div class="[&:not(:first-child)]:pt-10">
                     <fieldset>
                         <legend class="block text-sm font-medium text-gray-900">
                             {{ facetName|title }}
