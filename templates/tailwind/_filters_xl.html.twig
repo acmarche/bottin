@@ -22,7 +22,7 @@
                             {% if data|length > 0 %}
                                 {% for name,nb in data %}
                                     <div class="flex items-center">
-                                        <input id="color-0" name="{{ facetName }}[]" value="{{ name }}"
+                                        <input id="color-{{ name|slug }}" name="{{ facetName }}[]" value="{{ name }}"
                                                type="checkbox"
                                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                                hx-swap="outerHTML scroll:top"
@@ -30,7 +30,7 @@
                                                hx-trigger="change"
                                                hx-target="#list-result"
                                                >
-                                        <label for="color-0"
+                                        <label for="color-{{ name|slug }}"
                                                class="ml-3 text-sm text-gray-600">
                                             <i class="{{ icons[name].icon }}"
                                                style="color:{{ icons[name].color }}; font-size: 1rem;"></i>
