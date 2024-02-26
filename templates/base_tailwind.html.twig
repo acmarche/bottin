@@ -9,8 +9,8 @@
     <meta name="view-transition" content="same-origin"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <script src="//unpkg.com/alpinejs" defer></script>
 
     {% block stylesheets %}
@@ -20,11 +20,11 @@
         {% block importmap %}{{ importmap('app_tailwind') }}{% endblock %}
     {% endblock %}
 </head>
-<body id="app" x-data="{cartoOpen: true, listOpen: false}">
+<body id="app" x-data="{cartoOpen: false, listOpen: true}">
 <header class="relative z-20 bg-carto-green h-16">
     <nav class="shadow h-16 text-white flex items-center gap-3 justify-between">
         <h1 class="text-3xl ml-3">Cartographie</h1>
-        <div class="mx-auto flex flex-row gap-4">
+        <div class="mx-auto flex flex-row gap-4 roboto-medium">
             <button class="flex flex-col flex-wrap justify-center items-center hover:text-carto-pink" type="button"
                     title="Carte"
                     @click="cartoOpen = true; listOpen = false">
