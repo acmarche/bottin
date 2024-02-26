@@ -6,8 +6,9 @@
 {% endblock %}
 {% block body %}
     <div class="bg-white" id="content-result">
-        <div x-data="{ menuOpen: false }" @keydown.window.escape="open = false">
+        <div x-data="{ menuOpen: false, detailOpen: false }" @keydown.window.escape="menuOpen = false">
             {% include '@AcMarcheBottin/tailwind/_filters_sm.html.twig' %}
+            {% include '@AcMarcheBottin/tailwind/_details.html.twig' %}
             <main class="mx-auto max-w-full px-0 py-8 sm:px-6 sm:py-12 lg:px-8">
                 <div class="border-b border-gray-200 pb-10 px-4 sm:px-0">
                     <h1 class="lobster-two-bold
@@ -34,6 +35,9 @@
                         {% include '@AcMarcheBottin/tailwind/_filters_xl.html.twig' %}
                     </aside>
                     <div class="mt-6 lg:mt-0">
+                        <button type="button" @click="detailOpen = true">
+                            hjhjhjhjhj
+                        </button>
                         <h2 class="text-xl lg:text-3xl text-carto-pink py-3 px-3" id="count-result">
                             {{ count }} commerces trouvés
                         </h2>
