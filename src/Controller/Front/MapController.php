@@ -39,7 +39,7 @@ class MapController extends AbstractController
         }
 
         return $this->render(
-            '@AcMarcheBottin/tailwind/map.html.twig',
+            '@AcMarcheBottin/tailwind/index.html.twig',
             [
                 'hits' => $hits,
                 'tag' => $tag,
