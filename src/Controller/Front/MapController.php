@@ -5,7 +5,6 @@ namespace AcMarche\Bottin\Controller\Front;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,6 @@ class MapController extends AbstractController
         private readonly TagRepository $tagRepository,
         private readonly TagUtils $tagUtils,
         private readonly SearchEngineInterface $searchEngine,
-        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -62,7 +60,6 @@ class MapController extends AbstractController
             $tag = $this->tagRepository->findOneByName('Circuit-Court');
             $tags = [$tag->name];
             $localites = $request->request->all('localite');
-            $this->logger->error('MEILI loc '.join(',',$localites));
             $tagsSelected = $request->request->all('tags');
             $localite = null;
             if (count($localites) > 0) {
@@ -78,7 +75,6 @@ class MapController extends AbstractController
                 //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();
-                $this->logger->error('MEILI count: '.$count);
 
                 $facetDistribution = $response->getFacetDistribution();
                 unset($facetDistribution['type']);
