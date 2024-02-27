@@ -12,7 +12,9 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchElastic;
-use Meilisearch\Search\SearchResult;
+use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Tag\Repository\TagRepository;
+use AcMarche\Bottin\Tag\TagUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,6 +41,9 @@ class ApiController extends AbstractController
         private readonly FicheRepository $ficheRepository,
         private readonly SearchElastic $searchElastic,
         private readonly ClassementRepository $classementRepository,
+        private readonly TagRepository $tagRepository,
+        private readonly TagUtils $tagUtils,
+        private readonly SearchEngineInterface $searchEngine,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -326,5 +331,35 @@ class ApiController extends AbstractController
         }
 
         return $this->json($categories);
+    }
+
+    #[Route(path: '/map/search')]
+    public function mapSearch(): JsonResponse
+    {
+        $tag = $this->tagRepository->findOneByName('Circuit-Court');
+        $data = [];
+        $error = null;
+
+        try {
+            $response = $this->searchEngine->doSearchMap(null, [$tag]);
+            //dd($response);
+            $hits = $response->getHits();
+            $count = $response->count();
+            $facetDistribution = $response->getFacetDistribution();
+            unset($facetDistribution['type']);
+            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
+        } catch (\Exception $e) {
+            $error = 'Erreur dans la recherche: '.$e->getMessage();
+            $hits = $icons = $facetDistribution = [];
+            $count = 0;
+        }
+
+        $data['hits'] = $hits;
+        $data['icons'] = $icons;
+        $data['count'] = $count;
+        $data['error'] = $error;
+        $data['facetDistribution'] = $facetDistribution;
+
+        return $this->json($data);
     }
 }
