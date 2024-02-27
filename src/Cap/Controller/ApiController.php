@@ -362,4 +362,37 @@ class ApiController extends AbstractController
 
         return $this->json($data);
     }
+
+    #[Route(path: '/map/update')]
+    public function mapUpdate(Request $request): JsonResponse
+    {
+        $tag = $this->tagRepository->findOneByName('Circuit-Court');
+        $data = [];
+        $error = null;    $tags = [$tag->name];
+            $localites = $request->request->all();
+
+        return $this->json($localites);
+
+        try {
+            $response = $this->searchEngine->doSearchMap(null, [$tag]);
+            //dd($response);
+            $hits = $response->getHits();
+            $count = $response->count();
+            $facetDistribution = $response->getFacetDistribution();
+            unset($facetDistribution['type']);
+            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
+        } catch (\Exception $e) {
+            $error = 'Erreur dans la recherche: '.$e->getMessage();
+            $hits = $icons = $facetDistribution = [];
+            $count = 0;
+        }
+
+        $data['hits'] = $hits;
+        $data['icons'] = $icons;
+        $data['count'] = $count;
+        $data['error'] = $error;
+        $data['facetDistribution'] = $facetDistribution;
+
+        return $this->json($data);
+    }
 }
