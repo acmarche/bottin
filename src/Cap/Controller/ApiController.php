@@ -368,10 +368,10 @@ class ApiController extends AbstractController
     {
         $tag = $this->tagRepository->findOneByName('Circuit-Court');
         $data = [];
-        $error = null;    $tags = [$tag->name];
-            $localites = $request->request->all();
-
-        return $this->json($localites);
+        $error = null;
+        $tags = [$tag->name];
+        $post_body = $request->getContent();
+        return $this->json(json_decode($post_body));
 
         try {
             $response = $this->searchEngine->doSearchMap(null, [$tag]);
