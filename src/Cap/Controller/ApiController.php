@@ -371,10 +371,18 @@ class ApiController extends AbstractController
         $error = null;
         $tags = [$tag->name];
         $post_body = $request->getContent();
-        return $this->json(json_decode($post_body));
+        try {
+            $args = json_decode($post_body, flags: JSON_THROW_ON_ERROR);
+        } catch (\Exception $exception) {
+            return $this->json(['error' => 'args not json']);
+        }
+
+        if (count($args) === 0) {
+
+        }
 
         try {
-            $response = $this->searchEngine->doSearchMap(null, [$tag]);
+            $response = $this->searchEngine->doSearchMap(null, $tags);
             //dd($response);
             $hits = $response->getHits();
             $count = $response->count();
