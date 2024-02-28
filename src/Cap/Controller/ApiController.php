@@ -377,7 +377,7 @@ class ApiController extends AbstractController
             return $this->json(['error' => 'args not json']);
         }
 
-        if (count($args['args']) === 0) {
+        if (count($args->args) === 0) {
 
         }
 
