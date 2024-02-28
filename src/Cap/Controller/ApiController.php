@@ -360,7 +360,6 @@ class ApiController extends AbstractController
                 }
             }
 
-            //$this->logger->warning('MEILI tags'.json_encode($tags));
             try {
                 $response = $this->searchEngine->doSearchMap($localite, $tags);
                 //dd($response);
@@ -375,7 +374,7 @@ class ApiController extends AbstractController
                 $count = 0;
             }
 
-            $this->logger->warning('MEILI count '.$count);
+            $this->logger->info('MEILI count '.$count);
             $data['hits'] = $hits;
             $data['icons'] = $icons;
             $data['count'] = $count;
