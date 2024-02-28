@@ -19,6 +19,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -333,73 +334,54 @@ class ApiController extends AbstractController
         return $this->json($categories);
     }
 
-    #[Route(path: '/map/search')]
-    public function mapSearch(): JsonResponse
-    {
-        $tag = $this->tagRepository->findOneByName('Circuit-Court');
-        $data = [];
-        $error = null;
-
-        try {
-            $response = $this->searchEngine->doSearchMap(null, [$tag]);
-            //dd($response);
-            $hits = $response->getHits();
-            $count = $response->count();
-            $facetDistribution = $response->getFacetDistribution();
-            unset($facetDistribution['type']);
-            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
-        } catch (\Exception $e) {
-            $error = 'Erreur dans la recherche: '.$e->getMessage();
-            $hits = $icons = $facetDistribution = [];
-            $count = 0;
-        }
-
-        $data['hits'] = $hits;
-        $data['icons'] = $icons;
-        $data['count'] = $count;
-        $data['error'] = $error;
-        $data['facetDistribution'] = $facetDistribution;
-
-        return $this->json($data);
-    }
-
     #[Route(path: '/map/update')]
-    public function mapUpdate(Request $request): JsonResponse
+    public function mapSearch(Request $request): JsonResponse
     {
         $tag = $this->tagRepository->findOneByName('Circuit-Court');
         $data = [];
-        $error = null;
+        $error = $localite = null;
         $tags = [$tag->name];
-        $post_body = $request->getContent();
-        try {
-            $args = json_decode($post_body, flags: JSON_THROW_ON_ERROR);
-        } catch (\Exception $exception) {
-            return $this->json(['error' => 'args not json']);
+        if ($request->getMethod() == Request::METHOD_POST) {
+            $post_body = $request->getContent();
+            try {
+                $this->logger->error($post_body);
+                $args = json_decode($post_body, flags: JSON_THROW_ON_ERROR);
+            } catch (\Exception $exception) {
+                return $this->json(['error' => 'args not json'], Response::HTTP_BAD_REQUEST);
+            }
+
+            if ($args->args->localite) {
+                $localite = $args->args->localite;
+            }
+
+            if ($args->args->tags) {
+                foreach ($args->args->tags as $tag) {
+                    $tags[] = $tag;
+                }
+            }
+
+            //$this->logger->warning('MEILI tags'.json_encode($tags));
+            try {
+                $response = $this->searchEngine->doSearchMap($localite, $tags);
+                //dd($response);
+                $hits = $response->getHits();
+                $count = $response->count();
+                $facetDistribution = $response->getFacetDistribution();
+                unset($facetDistribution['type']);
+                $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
+            } catch (\Exception $e) {
+                $error = 'Erreur dans la recherche: '.$e->getMessage();
+                $hits = $icons = $facetDistribution = [];
+                $count = 0;
+            }
+
+            $this->logger->warning('MEILI count '.$count);
+            $data['hits'] = $hits;
+            $data['icons'] = $icons;
+            $data['count'] = $count;
+            $data['error'] = $error;
+            $data['facetDistribution'] = $facetDistribution;
         }
-
-        if (count($args->args) === 0) {
-
-        }
-
-        try {
-            $response = $this->searchEngine->doSearchMap(null, $tags);
-            //dd($response);
-            $hits = $response->getHits();
-            $count = $response->count();
-            $facetDistribution = $response->getFacetDistribution();
-            unset($facetDistribution['type']);
-            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
-        } catch (\Exception $e) {
-            $error = 'Erreur dans la recherche: '.$e->getMessage();
-            $hits = $icons = $facetDistribution = [];
-            $count = 0;
-        }
-
-        $data['hits'] = $hits;
-        $data['icons'] = $icons;
-        $data['count'] = $count;
-        $data['error'] = $error;
-        $data['facetDistribution'] = $facetDistribution;
 
         return $this->json($data);
     }
