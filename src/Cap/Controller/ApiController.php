@@ -344,7 +344,7 @@ class ApiController extends AbstractController
         if ($request->getMethod() == Request::METHOD_POST) {
             $post_body = $request->getContent();
             try {
-                $this->logger->error($post_body);
+                $this->logger->notice($post_body);
                 $args = json_decode($post_body, flags: JSON_THROW_ON_ERROR);
             } catch (\Exception $exception) {
                 return $this->json(['error' => 'args not json'], Response::HTTP_BAD_REQUEST);
