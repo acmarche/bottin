@@ -374,7 +374,7 @@ class ApiController extends AbstractController
                 $count = 0;
             }
 
-            $this->logger->info('MEILI count '.$count);
+            $this->logger->notice('MEILI count '.$count);
             $data['hits'] = $hits;
             $data['icons'] = $icons;
             $data['count'] = $count;

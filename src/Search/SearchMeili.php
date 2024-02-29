@@ -115,7 +115,7 @@ class SearchMeili implements SearchEngineInterface
             }
         }
 
-        $this->logger->info('MEILI: '.join(',', $filter).' END');
+        $this->logger->notice('MEILI: '.join(',', $filter).' END');
 
         return $index->search('', [
             'filter' => $filter,
