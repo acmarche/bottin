@@ -3,6 +3,9 @@
     <a href="{{ path('bottin_admin_tag_edit', { 'id': tag.id }) }}" class="btn btn-primary"
        role="button"><i class="ti ti-pencil"></i> Modifier</a>
 
+    <a href="{{ path('bottin_admin_export_fiches_xls_by_tag', { 'id': tag.id }) }}" class="btn btn-primary"
+       role="button"><i class="ti ti-file-type-csv"></i> Export Csv</a>
+
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
         <i class="ti ti-trash"></i> Supprimer
     </button>

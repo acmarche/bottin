@@ -85,14 +85,15 @@ class CsvGenerator
         return $spreadsheet;
     }
 
-    public function ficheXSLObject(): Spreadsheet
+    /**
+     * @param Fiche[] $fiches
+     * @return Spreadsheet
+     */
+    public function ficheXSLObject(array $fiches): Spreadsheet
     {
         $spreadsheet = new Spreadsheet();
         $worksheet = $spreadsheet->getActiveSheet();
         $worksheet->getDefaultRowDimension()->setRowHeight(15);
-
-        $user = $this->security->getUser();
-        $fiches = $this->exportUtils->getFichesBySelection($user->getUserIdentifier());
 
         $font = [
             'font' => [
@@ -218,7 +219,7 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->admin_fax);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->admin_gsm);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->admin_email);
-            /*
+            /**
              * Sociaux
              */
             $worksheet->setCellValue($lettre++.$ligne, $fiche->facebook);
@@ -227,7 +228,7 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->tiktok);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->youtube);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->linkedin);
-            /*
+            /**
              * Commentaires
              */
             $worksheet->setCellValue($lettre++.$ligne, $fiche->comment1);
@@ -236,7 +237,7 @@ class CsvGenerator
             $worksheet->setCellValue($lettre++.$ligne, $fiche->note);
             $worksheet->setCellValue($lettre++.$ligne, $fiche->getUpdatedAt()->format('d-m-Y'));
 
-            $this->addTags($fiche, $worksheet, $lettre, $ligne);
+            $lettre = $this->addTags($fiche, $worksheet, $lettre, $ligne);
             $this->addClassements($fiche, $worksheet, $lettre, $ligne);
 
             ++$ligne;
@@ -245,7 +246,7 @@ class CsvGenerator
         return $spreadsheet;
     }
 
-    protected function addTags(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
+    protected function addTags(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): string
     {
         foreach ($this->tagRepository->findAllOrdered() as $tag) {
             $value = 0;
@@ -253,8 +254,9 @@ class CsvGenerator
                 $value = 1;
             }
             $worksheet->setCellValue($lettre++.$ligne, $value);
-            ++$lettre;
         }
+
+        return $lettre;
     }
 
     protected function addClassements(Fiche $fiche, Worksheet $worksheet, $lettre, $ligne): void
@@ -264,7 +266,7 @@ class CsvGenerator
         foreach ($classements as $classement) {
             $category = $classement->category;
             $worksheet->setCellValue($lettre++.$ligne, $category->name);
-            ++$lettre;
+            $lettre++;
         }
     }
 }

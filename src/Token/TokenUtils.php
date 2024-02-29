@@ -6,13 +6,24 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\Token;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\TokenRepository;
+use Symfony\Component\Routing\RouterInterface;
 
 class TokenUtils
 {
     public function __construct(
+        private readonly RouterInterface $router,
         private readonly FicheRepository $ficheRepository,
         private readonly TokenRepository $tokenRepository
     ) {
+    }
+
+    public function generateUrlToken(Token $token): string
+    {
+        return $this->router->generate(
+            'bottin_backend_fiche_show',
+            ['uuid' => $token->uuid],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
     }
 
     public function generateForAll(): void
