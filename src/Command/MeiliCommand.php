@@ -7,6 +7,7 @@ use AcMarche\Bottin\Search\SearchMeili;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,12 +33,18 @@ class MeiliCommand extends Command
         $this->addOption('tasks', "tasks", InputOption::VALUE_NONE, 'Display tasks');
         $this->addOption('reset', "reset", InputOption::VALUE_NONE, 'Search engine reset');
         $this->addOption('update', "update", InputOption::VALUE_NONE, 'Update data');
+        $this->addArgument('latitude', InputArgument::OPTIONAL);
+        $this->addArgument('longitude', InputArgument::OPTIONAL);
+        $this->addArgument('distance', InputArgument::OPTIONAL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
+        $latitude = $input->getArgument('latitude');
+        $longitude = $input->getArgument('longitude');
+        $disance = (int)$input->getArgument('distance');
         $key = (bool)$input->getOption('key');
         $tasks = (bool)$input->getOption('tasks');
         $reset = (bool)$input->getOption('reset');
@@ -66,6 +73,13 @@ class MeiliCommand extends Command
             $this->meiliServer->addContent();
         }
 
+        if ($latitude && $longitude) {
+            $result = $this->meilSearch->searchGeo2((float)$latitude, (float)$longitude, $disance);
+            $this->displayResult($output, $result->getHits());
+
+            return Command::SUCCESS;
+        }
+
         return Command::SUCCESS;
     }
 
@@ -89,6 +103,24 @@ class MeiliCommand extends Command
         $table = new Table($output);
         $table
             ->setHeaders(['Uid', 'status', 'Type', 'Date', 'Error', 'Url'])
+            ->setRows($data);
+        $table->render();
+    }
+
+    private function displayResult(OutputInterface $output, array $result): void
+    {
+        $data = [];
+        foreach ($result as $hit) {
+            $data[] = [
+                'id' => $hit['id'],
+                'name' => $hit['societe'],
+                'localite' => $hit['localite'],
+                'rue' => $hit['rue'],
+            ];
+        }
+        $table = new Table($output);
+        $table
+            ->setHeaders(['Id', 'Name', 'Localité', 'Rue'])
             ->setRows($data);
         $table->render();
     }

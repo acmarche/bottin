@@ -339,7 +339,7 @@ class ApiController extends AbstractController
     {
         $tag = $this->tagRepository->findOneByName('Circuit-Court');
         $data = [];
-        $error = $localite = null;
+        $error = $localite = $coordinates = null;
         $tags = [$tag->name];
         if ($request->getMethod() == Request::METHOD_POST) {
             $post_body = $request->getContent();
@@ -360,8 +360,12 @@ class ApiController extends AbstractController
                 }
             }
 
+            if ($args->args->coordinates) {
+                $coordinates = $args->args->coordinates;
+            }
+
             try {
-                $response = $this->searchEngine->doSearchMap($localite, $tags);
+                $response = $this->searchEngine->doSearchMap($localite, $tags, $coordinates);
                 //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();
@@ -370,11 +374,12 @@ class ApiController extends AbstractController
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
                 $error = 'Erreur dans la recherche: '.$e->getMessage();
+                $this->logger->notice('MEILI error '.$e->getMessage());
+
                 $hits = $icons = $facetDistribution = [];
                 $count = 0;
             }
 
-            $this->logger->notice('MEILI count '.$count);
             $data['hits'] = $hits;
             $data['icons'] = $icons;
             $data['count'] = $count;

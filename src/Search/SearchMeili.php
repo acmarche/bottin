@@ -93,6 +93,7 @@ class SearchMeili implements SearchEngineInterface
         return $index->search($keyword, [
             //'filter' => [['tags = "Temps de Midi"', 'tags = Pmr'], 'localite = Marche-en-Famenne'], => OR
             //'filter' => ['type = fiche', 'tags = "Temps de Midi"', 'tags = Pmr', 'localite = Marche-en-Famenne'],// => AND
+            'limit' => 500,
             'filter' => $filter,
             'facets' => $this->facetFields,
         ]);
@@ -100,27 +101,50 @@ class SearchMeili implements SearchEngineInterface
 
     public function doSearchMap(
         ?string $localite = null,
-        array $filters = []
+        array $tags = [],
+        ?\stdClass $coordinates = null
     ): iterable|SearchResult {
         $this->init();
         $index = $this->client->index($this->indexName);
-        $filter = ['type = fiche'];
+        $filters = ['type = fiche'];
         if ($localite) {
-            $filter[] = 'localite = '.$localite;
+            $filters[] = 'localite = '.$localite;
         }
 
-        if (count($filters) > 0) {
-            foreach ($filters as $tag) {
-                $filter[] = 'tags = "'.$tag.'"';
+        if (count($tags) > 0) {
+            foreach ($tags as $tag) {
+                $this->logger->notice('MEILI loop '.$tag);
+                $filters[] = 'tags = "'.$tag.'"';
             }
         }
 
-        $this->logger->notice('MEILI: '.join(',', $filter).' END');
+        if ($coordinates) {
+            $this->logger->notice('MEILI coord '.$coordinates->latitude);
+            $distance = 5000;//meters
+            $filters[] = "_geoRadius($coordinates->latitude, $coordinates->longitude, $distance)";
+        }
+
+        $this->logger->notice('MEILI searching: '.join(' AND ', $filters).' END');
 
         return $index->search('', [
-            'filter' => $filter,
+            'limit' => 500,
+            'filter' => $filters,
             'facets' => $this->facetFields,
         ]);
+    }
+
+
+    public function searchGeo2(float $latitude, float $longitude, int $distance = 25): SearchResult
+    {
+        $this->init();
+        $geo = "_geoRadius($latitude, $longitude, $distance)";
+
+        return $this->client
+            ->index($this->indexName)
+            ->search('', [
+                'limit' => 500,
+                'filter' => "type = fiche AND tags = Circuit-Court AND ".$geo,
+            ]);
     }
 
     public function doSearchForCap(string $keyword): array|SearchResult
