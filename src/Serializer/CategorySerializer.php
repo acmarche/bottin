@@ -35,6 +35,7 @@ class CategorySerializer
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
         $data['slugname'] = $category->getSlug();
         $data['logo'] = Bottin::url.$category->logo;
+        $data['icon'] = Bottin::url.$category->icon;
         $data['logo_blanc'] = Bottin::url.$category->logo_blanc;
         $data['parent'] = $parentId;
 
@@ -55,7 +56,8 @@ class CategorySerializer
         $data['rgt'] = '';
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
         $data['mobile'] = '';
-        $data['logo'] = $category->logo;
+        $data['logo'] = Bottin::url.$category->logo;
+        $data['icon'] = Bottin::url.$category->icon;
         $data['description'] = $category->description;
         $data['logo_blanc'] = $category->logo_blanc;
         $data['created'] = $category->getCreatedAt();

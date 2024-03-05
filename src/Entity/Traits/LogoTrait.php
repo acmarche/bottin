@@ -40,4 +40,20 @@ trait LogoTrait
         }
     }
 
+    #[Vich\UploadableField(mapping: 'bottin_category_icon', fileNameProperty: 'icon')]
+    public ?File $iconFile = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    public ?string $icon = null;
+
+    public function setIconFile(File $file = null)
+    {
+        $this->logoFile = $file;
+        if ($file instanceof File) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updated = new \DateTime('now');
+        }
+    }
+
 }

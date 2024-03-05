@@ -24,6 +24,7 @@ class ClassementSerializer
         $data['root'] = preg_replace('#/#', '', $category->getRootMaterializedPath());
         $data['description'] = $category->description;
         $data['logo'] = $category->logo;
+        $data['icon'] = $category->icon;
         $data['slugname'] = $category->getSlug();
         $data['slug'] = $category->getSlug();
         $data['parent'] = $parentId;
