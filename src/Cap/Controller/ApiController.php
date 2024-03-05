@@ -371,6 +371,7 @@ class ApiController extends AbstractController
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
                 unset($facetDistribution['type']);
+                krsort($facetDistribution);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
                 $error = 'Erreur dans la recherche: '.$e->getMessage();
