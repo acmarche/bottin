@@ -20,7 +20,7 @@ trait LogoTrait
         if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updated = new \DateTime('now');
+            $this->setUpdatedAt(new \DateTime('now'));
         }
     }
 
@@ -36,7 +36,7 @@ trait LogoTrait
         if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updated = new \DateTime('now');
+            $this->setUpdatedAt(new \DateTime('now'));
         }
     }
 
@@ -48,11 +48,11 @@ trait LogoTrait
 
     public function setIconFile(File $file = null)
     {
-        $this->logoFile = $file;
+        $this->iconFile = $file;
         if ($file instanceof File) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
-            $this->updated = new \DateTime('now');
+            $this->setUpdatedAt(new \DateTime('now'));
         }
     }
 

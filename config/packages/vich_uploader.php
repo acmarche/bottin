@@ -21,6 +21,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'namer' => 'vich_uploader.namer_uniqid',
                     'inject_on_load' => false,
                 ],
+                'bottin_category_icon' => [
+                    'uri_prefix' => '/bottin/icons',
+                    'upload_destination' => '%kernel.project_dir%/public/bottin/icons',
+                    'namer' => 'vich_uploader.namer_uniqid',
+                    'inject_on_load' => false,
+                ],
                 'bottin_fiche_document' => [
                     'uri_prefix' => '/bottin/documents',
                     'upload_destination' => '%kernel.project_dir%/public/bottin/documents',

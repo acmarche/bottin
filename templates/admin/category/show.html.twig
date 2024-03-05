@@ -4,7 +4,12 @@
 
     <div class="card">
         <div class="card-header">
-            <h3>{{ category }} </h3>
+            <h3 class="d-flex items-center gap-2">
+                {% if category.icon %}
+                    <img src="{{ vich_uploader_asset(category,'iconFile') }}" alt="icon" style="color: #eaf736;">
+                {% endif %}
+                {{ category.name }}
+            </h3>
             {% include '@AcMarcheBottin/admin/category/_breadcrumb_light.html.twig' %}
             <span class="float-end text-muted">Slug: {{ category.slug }}</span>
             <span class="float-end text-muted">Id: {{ category.id }} / </span>

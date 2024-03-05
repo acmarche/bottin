@@ -47,6 +47,9 @@ class Category implements SluggableInterface, TimestampableInterface, TreeNodeIn
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $description = null;
 
+    #[ORM\Column( nullable: true)]
+    public ?string $color = null;
+
     /**
      * Utiliser pour afficher le classement.
      */

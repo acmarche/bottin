@@ -6,7 +6,11 @@
                 {% for child in category.getChildNodes %}
                 <li class="list-group-item d-flex justify-content-between">
                     <a href="{{ path('bottin_admin_category_show', { 'id': child.id }) }}">{{ child }}</a>
-                    <div>
+                    <div class="d-flex items-center gap-2">
+                        {% if child.icon %}
+                            <img src="{{ vich_uploader_asset(child,'iconFile') }}" alt="icon"
+                                 style="color: #eaf736;">
+                        {% endif %}
                         {% if child.mobile %}
                             <img class="float-2end" src="{{ asset('bundles/acmarchebottin/images/mobile.png') }}"
                                  alt='mobile' title="Visible sur l'appli mobile"/>
