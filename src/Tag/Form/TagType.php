@@ -47,7 +47,7 @@ class TagType extends AbstractType
                     'label' => 'Icône',
                     'required' => false,
                     'constraints' => [
-                        new Image(maxSize: 1000, maxWidth: 1000, mimeTypes: ['image/png', 'image/svg+xml']),
+                       // new Image(maxWidth: 1000, mimeTypes: ['image/png', 'image/svg+xml']),
                     ],
                 ]
             );
