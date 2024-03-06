@@ -17,8 +17,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_BOTTIN_ADMIN')]
 class TagController extends AbstractController
 {
-    public function __construct(private readonly TagRepository $tagRepository, private readonly FicheRepository $ficheRepository)
-    {
+    public function __construct(
+        private readonly TagRepository $tagRepository,
+        private readonly FicheRepository $ficheRepository
+    ) {
     }
 
     #[Route(path: '/', name: 'bottin_admin_tag', methods: ['GET'])]
@@ -78,21 +80,24 @@ class TagController extends AbstractController
     #[Route(path: '/{id}/edit', name: 'bottin_admin_tag_edit', methods: ['GET', 'POST'])]
     public function edit(Tag $tag, Request $request): Response
     {
-        $editForm = $this->createForm(TagType::class, $tag);
-        $editForm->handleRequest($request);
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+        $form = $this->createForm(TagType::class, $tag);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->tagRepository->flush();
             $this->addFlash('success', 'Le point de vente a bien été modifié');
 
             return $this->redirectToRoute('bottin_admin_tag');
         }
 
+        $response = new Response(null, $form->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
+
         return $this->render(
             '@AcMarcheBottin/admin/tag/edit.html.twig',
             [
                 'tag' => $tag,
-                'form' => $editForm->createView(),
+                'form' => $form->createView(),
             ]
+            , $response
         );
     }
 
