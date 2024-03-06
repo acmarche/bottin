@@ -41,13 +41,13 @@ class TagType extends AbstractType
                 ]
             )
             ->add(
-                'icon',
+                'iconFile',
                 VichImageType::class,
                 [
                     'label' => 'Icône',
                     'required' => false,
                     'constraints' => [
-                        new Image(maxSize: '1mb', maxWidth: 1000, mimeTypes: ['image/png','image/svg']),
+                        new Image(maxSize: 1000, maxWidth: 1000, mimeTypes: ['image/png','image/svg']),
                     ],
                 ]
             );
