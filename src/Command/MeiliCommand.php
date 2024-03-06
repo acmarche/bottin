@@ -4,6 +4,7 @@ namespace AcMarche\Bottin\Command;
 
 use AcMarche\Bottin\Search\MeiliServer;
 use AcMarche\Bottin\Search\SearchMeili;
+use AcMarche\Bottin\Tag\TagUtils;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -22,9 +23,9 @@ class MeiliCommand extends Command
     public function __construct(
         private readonly MeiliServer $meiliServer,
         private readonly SearchMeili $meilSearch,
-        string $name = null
+        private readonly TagUtils $tagUtils
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -74,8 +75,10 @@ class MeiliCommand extends Command
         }
 
         if ($latitude && $longitude) {
-            $result = $this->meilSearch->searchGeo2((float)$latitude, (float)$longitude, $disance);
-            $this->displayResult($output, $result->getHits());
+            $response = $this->meilSearch->searchGeo2((float)$latitude, (float)$longitude, $disance);
+            $facetDistribution = $response->getFacetDistribution();
+
+            $this->displayResult($output, $response->getHits());
 
             return Command::SUCCESS;
         }

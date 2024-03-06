@@ -23,7 +23,9 @@ class FicheSerializer
         $data['slugname'] = $fiche->getSlug(); // @deprecated
         $data['tags'] = [];
         foreach ($fiche->tags as $tag) {
-            $data['tags'][] = $tag->name;
+            if (!$tag->private) {
+                $data['tags'][] = $tag->name;
+            }
         }
 
         return $data;

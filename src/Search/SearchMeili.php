@@ -144,6 +144,7 @@ class SearchMeili implements SearchEngineInterface
             ->search('', [
                 'limit' => 500,
                 'filter' => "type = fiche AND tags = Circuit-Court AND ".$geo,
+                'facets' => $this->facetFields,
             ]);
     }
 

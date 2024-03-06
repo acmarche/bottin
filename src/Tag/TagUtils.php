@@ -30,4 +30,23 @@ class TagUtils
 
         return $icons;
     }
+
+    /**
+     * @param string[] $tags
+     * @return Tag[]
+     */
+    public function removePrivate(array $tags): array
+    {
+        $icons = [];
+        foreach ($tags as $name => $count) {
+            if ($tag = $this->tagRepository->findOneByName($name)) {
+                if($tag->private) {
+                    continue;
+                }
+                $icons[$name] = $count;
+            }
+        }
+
+        return $icons;
+    }
 }
