@@ -21,6 +21,7 @@ class TagUtils
         $icons = [];
         foreach ($facets['tags'] as $name => $facet) {
             if ($tag = $this->tagRepository->findOneByName($name)) {
+                $tag->icon = '/bottin/tags/'.$tag->icon;
                 $icons[$name] = $tag;
             }
         }
@@ -40,7 +41,7 @@ class TagUtils
         $icons = [];
         foreach ($tags as $name => $count) {
             if ($tag = $this->tagRepository->findOneByName($name)) {
-                if($tag->private) {
+                if ($tag->private) {
                     continue;
                 }
                 $icons[$name] = $count;
