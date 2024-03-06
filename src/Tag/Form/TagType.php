@@ -46,6 +46,8 @@ class TagType extends AbstractType
                 [
                     'label' => 'Icône',
                     'required' => false,
+                    'help_html' => true,
+                    'help' => 'Vous pouvez en trouvez sur https://tabler.io/icons, https://icon-sets.iconify.design, https://thenounproject.com/search/icons',
                 ]
             );
     }
