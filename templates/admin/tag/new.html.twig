@@ -7,16 +7,7 @@
             <h3>Nouveau tag</h3>
         </div>
         <div class="card-body">
-
-            {{ form_start(form) }}
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-
-            <button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i>
-                Sauvegarder
-            </button>
-
-            {{ form_end(form) }}
+            {% include '@AcMarcheBottin/admin/tag/_form.html.twig' %}
         </div>
         <div class="card-footer">
             <a href="{{ path('bottin_admin_tag') }}">

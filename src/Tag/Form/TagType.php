@@ -4,10 +4,13 @@ namespace AcMarche\Bottin\Tag\Form;
 
 use AcMarche\Bottin\Entity\Tag;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class TagType extends AbstractType
 {
@@ -29,14 +32,23 @@ class TagType extends AbstractType
                 ]
             )
             ->add(
-                'icon',
-                TextType::class,
+                'private',
+                CheckboxType::class,
                 [
-                    'label' => 'Icone',
-                    'attr' => ['placeholder' => 'ti ti-food'],
                     'required' => false,
-                    'help_html' => true,
-                    'help' => 'Format: ti ti-xxx. Liste des balises est disponible sur <a href="https://tabler.io/icons" target="_blank">Tabler.io</a>',
+                    'label' => 'Rendre ce tag privé',
+                    'help' => 'Ce tag n\'apparaîtra pas sur la carte',
+                ]
+            )
+            ->add(
+                'icon',
+                VichImageType::class,
+                [
+                    'label' => 'Icône',
+                    'required' => false,
+                    'constraints' => [
+                        new Image(maxSize: '1mb', maxWidth: 1000, mimeTypes: ['image/png','image/svg']),
+                    ],
                 ]
             );
     }

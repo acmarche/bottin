@@ -18,15 +18,16 @@ class TagUtils
      */
     public function getIconsFromFacet(array $facets): array
     {
+        $icons = [];
         foreach ($facets['tags'] as $name => $facet) {
             if ($tag = $this->tagRepository->findOneByName($name)) {
                 $icons[$name] = $tag;
             }
         }
         foreach ($facets['localite'] as $name => $count) {
-            $icons[$name] = ['icon' => 'ti ti-building-church', 'color' => '#EB4544'];
+            $icons[$name] = ['icon' => '/bundles/acmarchebottin/images/map-pin.svg', 'color' => '#EB4544'];
         }
-        //$icons['fiche'] = ['icon' => 'ti ti - cat', 'color' => '#133290'];
+
         return $icons;
     }
 }

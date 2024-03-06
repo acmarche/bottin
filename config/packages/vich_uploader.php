@@ -33,6 +33,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'namer' => 'vich_uploader.namer_uniqid',
                     'inject_on_load' => false,
                 ],
+                'bottin_tag_icon' => [
+                    'uri_prefix' => '/bottin/tags',
+                    'upload_destination' => '%kernel.project_dir%/public/bottin/tags',
+                    'namer' => 'vich_uploader.namer_uniqid',
+                    'inject_on_load' => false,
+                ],
             ],
         ]
     );

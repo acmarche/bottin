@@ -27,18 +27,6 @@ class TagRepository extends ServiceEntityRepository
     /**
      * @return Tag[]
      */
-    public function search(iterable $args): array
-    {
-        $nom = $args['name'] ?? null;
-
-        $qb = $this->createQb();
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @return Tag[]
-     */
     public function findAllOrdered(): array
     {
         return $this->createQb()->getQuery()->getResult();

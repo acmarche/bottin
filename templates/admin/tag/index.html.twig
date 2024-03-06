@@ -15,6 +15,7 @@
                 <tr>
                     <th>Intitule</th>
                     <th>Icône</th>
+                    <th>Privé</th>
                     <th>Fiches</th>
                 </tr>
                 </thead>
@@ -28,7 +29,12 @@
                         </td>
                         <td>
                             {% if tag.icon %}
-                                <i class="{{ tag.icon }}" style="color:{{ tag.color }}; font-size: 1.5rem;"></i>
+                                <img src="{{ vich_uploader_asset(tag,'iconFile') }}" alt="icon">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if tag.private %}
+                                <i class="ti ti-check"></i>
                             {% endif %}
                         </td>
                         <td>{{ tag.fiches | length }}</td>
