@@ -3,6 +3,7 @@
 namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Bottin;
+use AcMarche\Bottin\Cap\CapApi;
 use AcMarche\Bottin\Elasticsearch\ClassementElastic;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
@@ -30,6 +31,7 @@ class MeiliServer
         private readonly FicheSerializer $ficheSerializer,
         private readonly CategorySerializer $categorySerializer,
         private readonly ClassementElastic $classementElastic,
+        private readonly CapApi $capApi
     ) {
     }
 
@@ -87,13 +89,13 @@ class MeiliServer
         $this->init();
         $documents = [];
         foreach ($this->ficheRepository->findAllWithJoins() as $fiche) {
-            $documents[] = $this->createDocumentFiche($fiche);
+            $documents[] = $this->createDocumentFiche($fiche, true);
         }
         $index = $this->client->index($this->indexName);
         $index->addDocuments($documents, $this->primaryKey);
     }
 
-    private function createDocumentFiche(Fiche $fiche): array
+    private function createDocumentFiche(Fiche $fiche, bool $addCap = false): array
     {
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
@@ -107,6 +109,9 @@ class MeiliServer
         }
 
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
+        if ($addCap) {
+            $data['cap'] = $this->addCapInfo($data);
+        }
 
         return $data;
     }
@@ -163,5 +168,30 @@ class MeiliServer
             'indexes' => [$this->indexName],
             'expiresAt' => '2042-04-02T00:42:42Z',
         ]);
+    }
+
+    private function addCapInfo(array $data): \stdClass|null
+    {
+        $cap = null;
+
+        try {
+            $cap = json_decode($this->capApi->find($data['id']));
+        } catch (\Exception $exception) {
+            dump($exception->getMessage());
+        }
+
+        $capFiche = null;
+        if ($cap && $cap->commercantId) {
+            try {
+                $capFiche = json_decode($this->capApi->shop($cap->commercantId));
+                if ($capFiche) {
+                    dump($capFiche->legalEntity);
+                }
+            } catch (\Exception $exception) {
+                dump($exception->getMessage());
+            }
+        }
+
+        return $capFiche;
     }
 }
