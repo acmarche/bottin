@@ -322,7 +322,6 @@ class ApiController extends AbstractController
                 foreach ($level1->getChildNodes() as $level2) {
                     $levels2[] = $this->apiUtils->serializeCategoryForAndroid($level2);
                 }
-
                 $levels1['children'] = $levels2;
             }
 
