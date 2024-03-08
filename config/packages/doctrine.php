@@ -1,22 +1,20 @@
 <?php
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\DoctrineConfig;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->extension(
-        'doctrine',
-        [
-            'orm' => [
-                'mappings' => [
-                    'AcMarche\Bottin' => [
-                        'is_bundle' => false,
-                        'type' => 'attribute',
-                        'dir' => '%kernel.project_dir%/src/AcMarche/Bottin/src/Entity',
-                        'prefix' => 'AcMarche\Bottin',
-                        'alias' => 'AcMarche\Bottin',
-                    ],
-                ],
-            ],
-        ]
-    );
+return static function (DoctrineConfig $doctrine) {
+    $doctrine->dbal()
+        ->connection('default')
+        ->url(env('DATABASE_URL')->resolve());
+    $em = $doctrine->orm()->entityManager('default');
+    $doctrine->dbal()->defaultConnection('default');
+    $em->connection('default');
+
+    $em->mapping('AcMarcheBottin')
+        ->isBundle(false)
+        ->type('attribute')
+        ->dir('%kernel.project_dir%/src/AcMarche/Bottin/src/Entity')
+        ->prefix('AcMarche\Bottin')
+        ->alias('AcMarcheBottin');
 };
