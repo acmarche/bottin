@@ -11,6 +11,10 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Serializer\CategorySerializer;
 use AcMarche\Bottin\Serializer\FicheSerializer;
+use AcMarche\Cap\Entity\Commercant;
+use AcMarche\Cap\Repository\CommercantRepository;
+use AcMarche\Cap\Repository\CommercioBottinRepository;
+use AcMarche\Cap\Repository\GalleryRepository;
 use Meilisearch\Contracts\DeleteTasksQuery;
 use Meilisearch\Endpoints\Keys;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -31,6 +35,9 @@ class MeiliServer
         private readonly FicheSerializer $ficheSerializer,
         private readonly CategorySerializer $categorySerializer,
         private readonly ClassementElastic $classementElastic,
+        private readonly CommercioBottinRepository $commercioBottinRepository,
+        private readonly CommercantRepository $commercantRepository,
+        private readonly GalleryRepository $galleryRepository,
         private readonly CapApi $capApi
     ) {
     }
@@ -170,25 +177,32 @@ class MeiliServer
         ]);
     }
 
-    private function addCapInfo(array $data): \stdClass|null
+    private function addCapInfo(array $data): Commercant|null
     {
-        $cap = null;
-
-        try {
-            $cap = json_decode($this->capApi->find($data['id']));
-        } catch (\Exception $exception) {
-            dump($exception->getMessage());
-        }
-
         $capFiche = null;
-        if ($cap && $cap->commercantId) {
-            try {
-                $capFiche = json_decode($this->capApi->shop($cap->commercantId));
-                if ($capFiche) {
-                    dump($capFiche->legalEntity);
+        if ($cap = $this->commercioBottinRepository->findByFicheId($data['id'])) {
+            if ($cap->commercantId) {
+                if ($capFiche = $this->commercantRepository->findByIdCommercant($cap->commercantId)) {
+                    $galleries = $this->galleryRepository->findByCommercant($capFiche);
+                    $images = [];
+                    foreach ($galleries as $gallery) {
+                        $img = [
+                            'id' => $gallery->getId(),
+                            'name' => $gallery->name,
+                            'path' => $gallery->mediaPath,
+                            'alt' => $gallery->alt,
+                        ];
+                        $images[] = $img;
+                    }
+                    $capFiche->images = $images;
+                    if ($images !== []) {
+                        if (!$capFiche->profileMediaPath) {
+                            $capFiche->profileMediaPath = $images[0]['path'];
+                        }
+                    } else {
+                        $capFiche->profileMediaPath = null;
+                    }
                 }
-            } catch (\Exception $exception) {
-                dump($exception->getMessage());
             }
         }
 
