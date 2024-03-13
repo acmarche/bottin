@@ -6,6 +6,8 @@
         <div class="card-header">
             <h3>{{ fiches|length }} fiches sans classement</h3></div>
         <div class="card-body">
+            <div class="alert alert-warning">Une fiche sans classement ne sera visible nulle part!</div>
+
             <table class="table table-bordered">
                 {% for fiche in fiches %}
                     <tr>
