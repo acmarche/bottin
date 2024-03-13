@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait ClassementTrait
 {
     /**
-     * @var Classement[]|iterable|Collection
+     * @var Classement[]|Collection
      */
     #[ORM\OneToMany(targetEntity: Classement::class, mappedBy: 'fiche', cascade: ['persist', 'remove'])]
     public iterable $classements;

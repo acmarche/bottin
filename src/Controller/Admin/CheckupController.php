@@ -74,7 +74,7 @@ class CheckupController extends AbstractController
             $classements = $fiche->classements;
             $principaux = array_filter(
                 $classements->toArray(),
-                static fn($classement) => (bool)$classement->getPrincipal()
+                static fn($classement) => $classement->principal
             );
             if (0 == \count($principaux)) {
                 $data[] = $fiche;
