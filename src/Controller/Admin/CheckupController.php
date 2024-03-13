@@ -88,4 +88,17 @@ class CheckupController extends AbstractController
             ]
         );
     }
+
+    #[Route(path: '/doublon', name: 'bottin_admin_checkup_doublon')]
+    public function doublon(): Response
+    {
+        $fiches = $this->ficheRepository->findDoublon();
+
+        return $this->render(
+            '@AcMarcheBottin/admin/checkup/doublon.html.twig',
+            [
+                'fiches' => $fiches,
+            ]
+        );
+    }
 }

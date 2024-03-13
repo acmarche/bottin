@@ -87,6 +87,14 @@ class FicheRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
+    public function findDoublon(): array
+    {
+        return $this->createQueryBuilder('fiche')
+            ->select('count(fiche.societe) as lignes, fiche.id, fiche.societe')
+            ->addGroupBy('fiche.societe')
+            ->getQuery()->getResult();
+    }
+
     /**
      * @return Fiche[]
      */
