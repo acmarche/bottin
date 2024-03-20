@@ -336,7 +336,7 @@ class ApiController extends AbstractController
     #[Route(path: '/map/update')]
     public function mapSearch(Request $request): JsonResponse
     {
-        $tag = $this->tagRepository->findOneByName('Circuit-Court');
+        $tag = $this->tagRepository->find(14);
         $data = [];
         $error = $localite = $coordinates = null;
         $tags = [$tag->name];
