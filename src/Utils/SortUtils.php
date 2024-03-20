@@ -27,6 +27,21 @@ class SortUtils
         return $fiches;
     }
 
+    public static function sortArrayFiche($fiches): array
+    {
+        usort(
+            $fiches,
+            static function ($a, $b) {
+                $ad = $a['societe'];
+                $bd = $b['societe'];
+
+                return $ad <=> $bd;
+            }
+        );
+
+        return $fiches;
+    }
+
     /**
      * @return Category[]
      */

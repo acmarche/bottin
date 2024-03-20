@@ -15,6 +15,7 @@ use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
+use AcMarche\Bottin\Utils\SortUtils;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -380,7 +381,7 @@ class ApiController extends AbstractController
                 $count = 0;
             }
 
-            $data['hits'] = $hits;
+            $data['hits'] = SortUtils::sortArrayFiche($hits);
             $data['icons'] = $icons;
             $data['count'] = $count;
             $data['error'] = $error;
