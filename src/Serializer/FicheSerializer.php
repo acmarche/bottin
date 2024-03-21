@@ -26,8 +26,6 @@ class FicheSerializer
         foreach ($fiche->tags as $tag) {
             if (!$tag->private) {
                 $data['tags'][] = $tag->name;
-            }
-            if (!$tag->private) {
                 $data['tagsObject'][] = $tag;
             }
         }
