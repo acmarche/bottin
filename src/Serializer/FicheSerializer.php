@@ -22,9 +22,13 @@ class FicheSerializer
         $data['image'] = $this->firstImage($fiche);
         $data['slugname'] = $fiche->getSlug(); // @deprecated
         $data['tags'] = [];
+        $data['tagsObject'] = [];
         foreach ($fiche->tags as $tag) {
             if (!$tag->private) {
                 $data['tags'][] = $tag->name;
+            }
+            if (!$tag->private) {
+                $data['tags2'][] = $tag;
             }
         }
 
