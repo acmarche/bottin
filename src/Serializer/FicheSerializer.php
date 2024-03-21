@@ -62,8 +62,12 @@ class FicheSerializer
         $data['photos'] = [];
         $data['logo'] = '';
         $data['tags'] = [];
+        $data['tagsObject'] = [];
         foreach ($fiche->tags as $tag) {
-            $data['tags'][$tag->getSlug()] = $tag->name;
+            if (!$tag->private) {
+                $data['tags'][$tag->getSlug()] = $tag->name;
+                $data['tagsObject'][$tag->getSlug()] = $tag;
+            }
         }
 
         return $data;
