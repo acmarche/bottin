@@ -6,10 +6,11 @@ use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use AcMarche\Bottin\Utils\SortUtils;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class ExportController
+class ExportController extends AbstractController
 {
     use PdfDownloaderTrait;
 
@@ -39,7 +40,7 @@ class ExportController
 
         $html = 'pdf avec liste';
 
-      //  return new Response($html);
+        //  return new Response($html);
 
         return $this->downloadPdf($html, 'circuit-court.pdf');
     }
