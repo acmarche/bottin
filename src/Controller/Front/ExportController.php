@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use AcMarche\Bottin\Search\SearchMeili;
+use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use AcMarche\Bottin\Utils\SortUtils;
@@ -16,7 +16,7 @@ class ExportController extends AbstractController
 
     public function __construct(
         private readonly TagRepository $tagRepository,
-        private readonly SearchMeili $meilisearch
+        private readonly SearchEngineInterface $meilisearch
     ) {
     }
 
