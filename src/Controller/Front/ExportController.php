@@ -8,6 +8,7 @@ use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use AcMarche\Bottin\Utils\SortUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,6 +17,8 @@ class ExportController extends AbstractController
     use PdfDownloaderTrait;
 
     public function __construct(
+        #[Autowire('%kernel.project_dir%')]
+        private string $project_dir,
         private readonly TagRepository $tagRepository,
         private readonly SearchEngineInterface $meilisearch
     ) {
@@ -44,7 +47,13 @@ class ExportController extends AbstractController
             return $fiche;
         }, $hits);
 
-        $html = $this->renderView('@AcMarcheBottin/front/circuit-court/index.html.twig', ['hits' => $hits]);
+        $path = $this->project_dir.'/public/bottin.css';
+        //$css = file_get_contents($path);
+        $css = '';
+        $html = $this->renderView(
+            '@AcMarcheBottin/front/circuit-court/index.html.twig',
+            ['hits' => $hits, 'css' => $css]
+        );
 
         //return new Response($html);
 
