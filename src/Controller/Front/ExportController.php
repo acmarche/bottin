@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
+use AcMarche\Bottin\Cap\CapService;
 use AcMarche\Bottin\Search\SearchEngineInterface;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
@@ -33,14 +34,19 @@ class ExportController extends AbstractController
             $hits = $response->getHits();
 
         } catch (\Exception $e) {
-
+            $hits = [];
         }
 
         $hits = SortUtils::sortArrayFiche($hits);
+        $hits = array_map(function ($fiche) {
+            $fiche['url'] = CapService::generateUrlCapFromArray($fiche);
 
-        $html = 'pdf avec liste';
+            return $fiche;
+        }, $hits);
 
-        //  return new Response($html);
+        $html = $this->renderView('@AcMarcheBottin/front/circuit-court/index.html.twig', ['hits' => $hits]);
+
+        //return new Response($html);
 
         return $this->downloadPdf($html, 'circuit-court.pdf');
     }

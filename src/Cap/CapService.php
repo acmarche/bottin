@@ -21,4 +21,16 @@ class CapService
 
         return $urlBase.$secteur.'/'.$fiche->getSlug();
     }
+    public static function generateUrlCapFromArray(array $fiche): string
+    {
+        $urlBase = 'https://cap.marche.be/commerces-et-entreprises/';
+        $secteur = '';
+        $classements = $fiche['classements'];
+        if (\count($classements) > 0) {
+            $first = $classements[0];
+            $secteur = $first['slug'];
+        }
+
+        return $urlBase.$secteur.'/'.$fiche['slug'];
+    }
 }

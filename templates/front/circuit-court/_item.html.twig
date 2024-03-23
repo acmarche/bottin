@@ -1,0 +1,25 @@
+<article>
+    <div class="aspect-square w-full bg-gray-200 group-hover:opacity-75 h-80 md:h-96">
+        <img src="{{ fiche.image }}"
+             alt="{{ fiche.societe }}"
+             class="h-full w-full object-cover object-center transition-transform duration-500 ease-in-out group-hover:scale-105">
+    </div>
+    <div class="flex flex-1 flex-col space-y-2 p-2 h-72">
+        <h3 class="text-xl text-carto-gray300 roboto-bold flex flex-col">
+            <a href="{{ fiche.url }}" target="_blank">
+                <span aria-hidden="true" class="absolute inset-0"></span>
+                {{ fiche.societe }}
+            </a>
+            <span class="text-base text-gray-600">{{ fiche.localite }} - {{ fiche.rue }} {{ fiche.numero }}</span>
+            <span class="text-sm italic text-gray-500">{{ fiche.telephone }} {% if fiche.gsm %} - {{ fiche.gsm }} {% endif %}</span>
+        </h3>
+        <p class="text-base text-carto-gray200 mr-2">
+            {{ fiche.comment1 }}
+        </p>
+        <p class="block mt-2">
+            {% for secteur in fiche.secteurs %}
+                <span class="text-base text-carto-gray200 mr-2">{{ secteur }}</span>
+            {% endfor %}
+        </p>
+    </div>
+</article>
