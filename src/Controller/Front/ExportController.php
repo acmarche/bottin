@@ -55,7 +55,7 @@ class ExportController extends AbstractController
             ['hits' => $hits, 'css' => $css]
         );
 
-        //return new Response($html);
+        return new Response($html);
 
         return $this->downloadPdf($html, 'circuit-court.pdf');
     }
