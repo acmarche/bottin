@@ -64,16 +64,35 @@ class ExportController extends AbstractController
             ['hits' => $hits, 'css' => $css]
         );
 
-        $apiUrl = 'http://localhost:3000';
+        $apiUrl = 'http://localhost:3001';
         $urlPdf = 'https://bottin.marche.be/export/circuit-court';
+
+
+        $client = HttpClient::create();
+        $url = 'https://demo.gotenberg.dev/forms/chromium/convert/url';
+        $params = [
+            'url' => $urlPdf,
+        ];
+        $response = $client->request('POST', $url, [
+            'body' => $params,
+        ]);
+        $content = $response->getContent();
+        file_put_contents('my.pdf', $content);
+
+        $status = $response->getStatusCode();
+        if ($status !== Response::HTTP_OK) {
+            // Handle error
+        }
+
         $filesystem = new Filesystem();
         $filePath = $this->project_dir.'/var/cache/index.html';
         $filesystem->dumpFile($filePath, $html);
 
         $chromium = Gotenberg::chromium($apiUrl);
-        $request = $chromium->html(Stream::string('index.html', $html));
+        $request = $chromium->pdf()->html(Stream::string($filePath, $html));
         $response = $this->httpClient->sendRequest($request);
         $stream = $response->getBody();
+        dd($stream);
 
         $request = Gotenberg::chromium('http://localhost:3001')
             ->pdf()
