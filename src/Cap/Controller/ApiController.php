@@ -188,6 +188,18 @@ class ApiController extends AbstractController
         return $this->json($this->apiUtils->prepareFiche($fiche));
     }
 
+    #[Route(path: '/bottin/fichebyname/{name}', methods: ['GET'])]
+    public function ficheByName(string $name): JsonResponse
+    {
+        $data = [];
+        $fiches = $this->ficheRepository->findBy(['name' => $name]);
+        foreach ($fiches as $fiche) {
+            $data[] = $this->apiUtils->prepareFiche($fiche);
+        }
+
+        return $this->json($data);
+    }
+
     #[Route(path: '/updatefiche', name: 'bottin_admin_api_update_fiche', methods: ['POST'])]
     public function updatefiche(Request $request): JsonResponse
     {
