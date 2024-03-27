@@ -205,7 +205,7 @@ class ApiController extends AbstractController
     public function ficheByEmail(string $email): JsonResponse
     {
         $data = [];
-        $fiches = $this->ficheRepository->findBy(['societe' => $email]);
+        $fiches = $this->ficheRepository->findBy(['email' => $email]);
         foreach ($fiches as $fiche) {
             $data[] = $this->apiUtils->prepareFiche($fiche);
         }
