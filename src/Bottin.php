@@ -13,7 +13,7 @@ class Bottin
     public const ROLES = ['ROLE_BOTTIN_ADMIN', 'ROLE_BOTTIN'];
     public const url = 'https://www.marche.be/logo/adl/categories/';
 
-   public const SEARCH_SKIP = [705];
+    public const SEARCH_SKIP = [705];
 
     public const ROOTS = [
         self::ADMINISTRATION,
@@ -51,4 +51,6 @@ class Bottin
         self::SPORT => 'csl@marche.be',
         self::TOURISME => 'animation@marche.be',
     ];
+
+    public const GROUPS_TAG = ['Alimentation', 'Second main'];
 }

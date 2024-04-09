@@ -411,6 +411,23 @@ class ApiController extends AbstractController
             $data['count'] = $count;
             $data['error'] = $error;
             $data['facetDistribution'] = $facetDistribution;
+
+            foreach ($facetDistribution as $key => $facets) {
+                if (str_starts_with($key, '_')) {
+                    continue;
+                }
+                foreach ($facets as $name => $count) {
+                    if ($key === 'tags') {
+                        if ($tag = $this->tagRepository->findOneByName($name)) {
+                            $filters[$tag->groupe][] = ['name' => $name, 'count' => $count];
+                        }
+                        continue;
+                    }
+                    $filters[$key][] = ['name' => $name, 'count' => $count];
+                }
+            }
+
+            $data['filters'] = $filters;
         }
 
         return $this->json($data);

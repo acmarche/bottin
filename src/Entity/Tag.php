@@ -27,6 +27,10 @@ class Tag implements \Stringable, SluggableInterface, TimestampableInterface
     #[ORM\Column(nullable: false, unique: true)]
     public ?string $name = null;
 
+    #[Assert\NotBlank]
+    #[ORM\Column(nullable:  true)]
+    public ?string $groupe = null;
+
     #[ORM\Column(nullable: true)]
     public ?string $color = null;
 

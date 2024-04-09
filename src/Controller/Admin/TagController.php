@@ -6,6 +6,7 @@ use AcMarche\Bottin\Entity\Tag;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Tag\Form\TagType;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
+use AcMarche\Bottin\Tag\TagUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ class TagController extends AbstractController
 {
     public function __construct(
         private readonly TagRepository $tagRepository,
+        private readonly TagUtils $tagUtils,
         private readonly FicheRepository $ficheRepository
     ) {
     }
@@ -31,10 +33,12 @@ class TagController extends AbstractController
             $tag->fiches = $this->ficheRepository->findByTag($tag);
         }
 
+        $tags = $this->tagUtils->grouped($tags);
+
         return $this->render(
             '@AcMarcheBottin/admin/tag/index.html.twig',
             [
-                'tags' => $tags,
+                'data' => $tags,
             ]
         );
     }

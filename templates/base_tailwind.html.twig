@@ -20,6 +20,17 @@
     {% block javascripts %}
         {% block importmap %}{{ importmap('app_tailwind') }}{% endblock %}
     {% endblock %}
+<script>
+     document.addEventListener('alpine:init', () => {
+            Alpine.data(null,  () => ({
+                detailOpen: false,
+                menuOpen: false,
+                toggle() {
+                    this.detailOpen = !this.detailOpen
+                }
+            }))
+        })
+</script>
 </head>
 <body id="app" x-data="{cartoOpen: true, listOpen: false}">
 <header class="relative z-20 bg-carto-green h-16">

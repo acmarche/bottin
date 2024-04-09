@@ -33,6 +33,22 @@ class TagUtils
     }
 
     /**
+     * @param Tag[] $tags
+     * @return Tag[]
+     */
+    public function grouped(array $tags): array
+    {
+        $data = [];
+        foreach ($tags as $tag) {
+
+            $data[$tag->groupe][] = $tag;
+
+        }
+
+        return $data;
+    }
+
+    /**
      * @param string[] $tags
      * @return Tag[]
      */

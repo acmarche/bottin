@@ -2,14 +2,15 @@
 
 namespace AcMarche\Bottin\Tag\Form;
 
+use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Entity\Tag;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class TagType extends AbstractType
@@ -18,9 +19,18 @@ class TagType extends AbstractType
     {
         $builder
             ->add(
+                'groupe',
+                ChoiceType::class,
+                [
+                    'required' => true,
+                    'choices' => array_combine(Bottin::GROUPS_TAG, Bottin::GROUPS_TAG),
+                ]
+            )
+            ->add(
                 'name',
                 TextType::class,
                 [
+                    'label' => 'Nom',
                     'required' => true,
                 ]
             )

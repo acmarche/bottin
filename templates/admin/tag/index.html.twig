@@ -10,38 +10,41 @@
                         class="ti ti-pencil-plus"></i> Ajouter</a>
             <br/><br/>
 
-            <table class='table table-bordered table-hover'>
-                <thead>
-                <tr>
-                    <th>Intitule</th>
-                    <th>Icône</th>
-                    <th>Privé</th>
-                    <th>Fiches</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for tag in tags %}
+            {% for name,tags in data %}
+                <h4 class="text-success">{{ name }}</h4>
+                <table class='table table-bordered table-hover'>
+                    <thead>
                     <tr>
-                        <td>
-                            <a href="{{ path('bottin_admin_tag_show', { 'id': tag.id }) }}">
-                                {{ tag.name }}
-                            </a>
-                        </td>
-                        <td>
-                            {% if tag.icon %}
-                                <img src="{{ vich_uploader_asset(tag,'iconFile') }}" alt="icon">
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if tag.private %}
-                                <i class="ti ti-check"></i>
-                            {% endif %}
-                        </td>
-                        <td>{{ tag.fiches | length }}</td>
+                        <th>Intitule</th>
+                        <th>Icône</th>
+                        <th>Privé</th>
+                        <th>Fiches</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for tag in tags %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('bottin_admin_tag_show', { 'id': tag.id }) }}">
+                                    {{ tag.name }}
+                                </a>
+                            </td>
+                            <td>
+                                {% if tag.icon %}
+                                    <img src="{{ vich_uploader_asset(tag,'iconFile') }}" alt="icon">
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if tag.private %}
+                                    <i class="ti ti-check"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ tag.fiches | length }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
