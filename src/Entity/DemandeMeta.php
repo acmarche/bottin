@@ -29,6 +29,9 @@ class DemandeMeta
         ?string $champ,
         ?string $value
     ) {
+        $this->demande = $demande;
+        $this->champ = $champ;
+        $this->value = $value;
     }
 
 }
