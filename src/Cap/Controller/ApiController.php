@@ -238,7 +238,7 @@ class ApiController extends AbstractController
             return $this->json(['error' => 'Pas de mot clef']);
         }
 
-        $result = $this->searchElastic->doSearchForCap($keyword);
+        $result = $this->searchElastic->search($keyword);
 
         return $this->json($result);
     }
