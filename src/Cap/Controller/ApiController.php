@@ -241,7 +241,7 @@ class ApiController extends AbstractController
 
         $result = $this->searchElastic->search($keyword);
 
-        return $this->json($result);
+        return $this->json($result->asObject());
     }
 
     /**
