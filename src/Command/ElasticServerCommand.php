@@ -15,8 +15,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'bottin:server',
-    description: "Raz l'index",
+    name: 'bottin:elastic',
+    description: "Manage index",
 )]
 class ElasticServerCommand extends Command
 {
