@@ -32,10 +32,24 @@ class SearchElastic
                         'must' => [
                             ['term' => ['cap' => true]],
                             ['term' => ['type' => 'fiche']],
-                            ['match' => ['societe' => $keyword]],
-                        ],
-                        'should' => [
-                            ['match' => ['email' => $keyword]],
+                            [
+                                'multi_match' => [
+                                    'query' => $keyword,
+                                    'type' => 'best_fields',
+                                    'operator' => 'OR',
+                                    'fields' => [
+                                        'societe^1.2',
+                                        'societe.stemmed',
+                                        'societe.edgengram',
+                                        'email',
+                                        'contact_email',
+                                        'comment1',
+                                        'comment1.stemmed',
+                                        'secteurs',
+                                        'secteurs.stemmed',
+                                    ],
+                                ],
+                            ],
                         ],
                     ],
                 ],
@@ -43,38 +57,5 @@ class SearchElastic
         ];
 
         return $this->client->search($params);
-    }
-
-    private function createQueryForFiche(string $keyword, string $localite = null): BoolQuery
-    {
-        $this->boolQuery = new BoolQuery();
-
-        if ($localite) {
-            $match = new MatchQuery('localite', $localite);
-            $this->boolQuery->addMust($match);
-        }
-
-        $match = new MultiMatch();
-        $match->setFields(
-            [
-                'societe^1.2',
-                'societe.stemmed',
-                'societe.edgengram',
-                'email',
-                'contact_email',
-                'comment1',
-                'comment1.stemmed',
-                'secteurs',
-                'secteurs.stemmed',
-            ]
-        );
-        $match->setQuery($keyword);
-        $match->setType(MultiMatch::TYPE_MOST_FIELDS);
-
-        $this->boolQuery->addMust($match);
-
-        $ficheFilter = new MatchQuery('type', 'fiche');
-
-        return $this->boolQuery;
     }
 }

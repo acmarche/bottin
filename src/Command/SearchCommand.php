@@ -16,8 +16,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SearchCommand extends Command
 {
-    public function __construct(private readonly SearchElastic $searchEngine, string $name = null)
-    {
+    public function __construct(
+        private readonly SearchElastic $searchElastic,
+        string $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -32,12 +34,11 @@ class SearchCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $keyword = $input->getArgument('keyword');
-        $io->writeln($keyword);
-
+        $io->writeln('Keywword: '.$keyword);
         try {
-            $result = $this->searchEngine->search($keyword);
+            $result = $this->searchElastic->search($keyword);
             $count = $result->asObject()->hits->total->value;
-            dump($count);
+            $io->writeln('count '.$count);
             foreach ($result->asObject()->hits->hits as $hit) {
                 $io->writeln($hit->_source->societe);
                 if ($hit->_source->email) {
