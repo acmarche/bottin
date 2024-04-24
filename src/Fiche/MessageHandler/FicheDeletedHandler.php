@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
+use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\MeiliServer;
@@ -13,7 +13,7 @@ final class FicheDeletedHandler
 {
     public function __construct(
         private readonly FicheRepository $ficheRepository,
-        private readonly ElasticIndexer $elasticIndexer,
+        private readonly ElasticServer $elasticIndexer,
         private readonly MeiliServer $meiliServer
     ) {
     }

@@ -2,7 +2,7 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elasticsearch\ElasticIndexer;
+use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Fiche\Message\FicheCreated;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\MeiliServer;
@@ -14,7 +14,7 @@ class FicheCreatedHandler
     public function __construct(
         private readonly FicheRepository $ficheRepository,
         private readonly MeiliServer $meiliServer,
-        private readonly ElasticIndexer $elasticIndexer
+        private readonly ElasticServer $elasticIndexer
     ) {
     }
 
