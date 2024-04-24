@@ -15,7 +15,7 @@ use AcMarche\Bottin\Meta\Repository\MetaDataRepository;
 use AcMarche\Bottin\Meta\Repository\MetaFieldRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Utils\PathUtils;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +35,7 @@ class FicheController extends AbstractController
         private readonly ClassementRepository $classementRepository,
         private readonly FicheRepository $ficheRepository,
         private readonly HoraireService $horaireService,
-        private readonly SearchEngineInterface $searchEngine,
+        private readonly SearchMeili $searchEngine,
         private readonly HistoryUtils $historyUtils,
         private readonly MetaFieldRepository $metaFieldRepository,
         private readonly MetaDataRepository $metaDataRepository,
@@ -146,7 +146,7 @@ class FicheController extends AbstractController
             $this->horaireService->handleEdit($fiche, $horaires);
 
             try {
-                  $this->historyUtils->diffFiche($fiche);
+                $this->historyUtils->diffFiche($fiche);
             } catch (Exception $exception) {
                 $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique ".$exception->getMessage());
             }

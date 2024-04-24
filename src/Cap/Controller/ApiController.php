@@ -12,7 +12,7 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchElastic;
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
 use AcMarche\Bottin\Utils\SortUtils;
@@ -44,8 +44,8 @@ class ApiController extends AbstractController
         private readonly SearchElastic $searchElastic,
         private readonly ClassementRepository $classementRepository,
         private readonly TagRepository $tagRepository,
+        private readonly SearchMeili $searchMeili,
         private readonly TagUtils $tagUtils,
-        private readonly SearchEngineInterface $searchEngine,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -390,7 +390,7 @@ class ApiController extends AbstractController
             }
 
             try {
-                $response = $this->searchEngine->doSearchMap($localite, $tags, $coordinates);
+                $response = $this->searchMeili->doSearchMap($localite, $tags, $coordinates);
                 //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();

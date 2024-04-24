@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Front;
 
 use AcMarche\Bottin\Cap\CapService;
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Utils\PdfDownloaderTrait;
 use AcMarche\Bottin\Utils\SortUtils;
@@ -21,8 +21,8 @@ class ExportController extends AbstractController
         #[Autowire('%kernel.project_dir%')]
         private string $project_dir,
         private readonly TagRepository $tagRepository,
-        private readonly SearchEngineInterface $meilisearch,
-        private ClientInterface $httpClient,
+        private readonly SearchMeili $meilisearch,
+        private readonly ClientInterface $httpClient,
     ) {
     }
 

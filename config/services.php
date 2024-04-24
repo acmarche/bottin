@@ -2,8 +2,7 @@
 
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
-use AcMarche\Bottin\Search\SearchEngineInterface;
-use AcMarche\Bottin\Search\SearchMeili;
+use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Security\LdapBottin;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
@@ -36,8 +35,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DirectoryNamer::class)
         ->public();
-
-    $services->alias(SearchEngineInterface::class, SearchMeili::class);
 
     if (interface_exists(LdapInterface::class)) {
         $services

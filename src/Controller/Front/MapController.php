@@ -2,9 +2,10 @@
 
 namespace AcMarche\Bottin\Controller\Front;
 
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
+use Gotenberg\Gotenberg;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,21 @@ class MapController extends AbstractController
     public function __construct(
         private readonly TagRepository $tagRepository,
         private readonly TagUtils $tagUtils,
-        private readonly SearchEngineInterface $searchEngine,
+        private readonly SearchMeili $searchEngine,
     ) {
+    }
+
+    #[Route(path: '/tt', name: 'bottin_map_tt')]
+    public function tt(): Response
+    {
+        $apiUrl = 'https://bottin.marche.be/export/circuit-court';
+        $pathToSavingDirectory = '/var/www/bottin/public/';
+
+        $filename = Gotenberg::save(
+            Gotenberg::chromium($apiUrl)->pdf()->url($url),
+            $pathToSavingDirectory
+        );
+
     }
 
     #[Route(path: '/map', name: 'bottin_map_home')]

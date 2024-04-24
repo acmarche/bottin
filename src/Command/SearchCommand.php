@@ -2,8 +2,7 @@
 
 namespace AcMarche\Bottin\Command;
 
-use AcMarche\Bottin\Search\SearchEngineInterface;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
+use AcMarche\Bottin\Search\SearchElastic;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class SearchCommand extends Command
 {
-    public function __construct(private readonly SearchEngineInterface $searchEngine, string $name = null)
+    public function __construct(private readonly SearchElastic $searchEngine, string $name = null)
     {
         parent::__construct($name);
     }
@@ -33,15 +32,21 @@ class SearchCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $keyword = $input->getArgument('keyword');
+        $io->writeln($keyword);
 
         try {
-            $response = $this->searchEngine->doSearch($keyword);
-            $hits = $response->getResults();
-            foreach ($hits as $hit) {
-                $fiche = $hit->getData();
-                $io->writeln($fiche['societe']);
+            $result = $this->searchEngine->search($keyword);
+            $count = $result->asObject()->hits->total->value;
+            dump($count);
+            foreach ($result->asObject()->hits->hits as $hit) {
+                $io->writeln($hit->_source->societe);
+                if ($hit->_source->email) {
+                    $io->writeln($hit->_source->email);
+                }
             }
-        } catch (BadRequest400Exception $badRequest400Exception) {
+
+            return Command::SUCCESS;
+        } catch (\Exception $badRequest400Exception) {
             $io->error('Erreur dans la recherche: '.$badRequest400Exception->getMessage());
         }
 

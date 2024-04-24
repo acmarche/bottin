@@ -7,7 +7,7 @@ use Meilisearch\Search\SearchResult;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class SearchMeili implements SearchEngineInterface
+class SearchMeili
 {
     use MeiliTrait;
 

@@ -3,7 +3,7 @@
 namespace AcMarche\Bottin\Controller\Admin;
 
 use AcMarche\Bottin\Form\Search\SearchFicheType;
-use AcMarche\Bottin\Search\SearchEngineInterface;
+use AcMarche\Bottin\Search\SearchMeili;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SearchController extends AbstractController
 {
     public function __construct(
-        private readonly SearchEngineInterface $searchEngine,
+        private readonly SearchMeili $searchEngine,
     ) {
     }
 
