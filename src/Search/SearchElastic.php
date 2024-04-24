@@ -32,9 +32,9 @@ class SearchElastic
                         'must' => [
                             ['term' => ['cap' => true]],
                             ['term' => ['type' => 'fiche']],
+                            ['match' => ['societe' => $keyword]],
                         ],
                         'should' => [
-                            ['match' => ['societe' => $keyword]],
                             ['match' => ['email' => $keyword]],
                         ],
                     ],
