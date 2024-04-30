@@ -468,18 +468,18 @@ class ElasticServer
     }
 
     /**
-     * @param Fiche $fiche
+     * @param int $ficheId
      * @return Elasticsearch|Promise
+     * @throws AuthenticationException
      * @throws ClientResponseException
      * @throws MissingParameterException
      * @throws ServerResponseException
-     * @throws AuthenticationException
      */
-    public function deleteFiche(Fiche $fiche): Elasticsearch|Promise
+    public function deleteFiche(int $ficheId): Elasticsearch|Promise
     {
         $this->connect();
 
-        return $this->client->delete([$fiche->getId()]);
+        return $this->client->delete([$ficheId]);
     }
 
     /**
