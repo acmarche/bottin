@@ -441,6 +441,7 @@ class ElasticServer
             'id' => $fiche->id,
             'body' => $data,
         ];
+        $this->connect();
 
         return $this->client->index($params);
     }
@@ -472,9 +473,12 @@ class ElasticServer
      * @throws ClientResponseException
      * @throws MissingParameterException
      * @throws ServerResponseException
+     * @throws AuthenticationException
      */
     public function deleteFiche(Fiche $fiche): Elasticsearch|Promise
     {
+        $this->connect();
+
         return $this->client->delete([$fiche->getId()]);
     }
 
