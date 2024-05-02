@@ -6,6 +6,7 @@ use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Fiche\Message\FicheDeleted;
 use AcMarche\Bottin\Search\MeiliServer;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\String\ByteString;
 
 #[AsMessageHandler]
 final class FicheDeletedHandler
