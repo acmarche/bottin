@@ -419,7 +419,11 @@ class ApiController extends AbstractController
                 foreach ($facets as $name => $count) {
                     if ($key === 'tags') {
                         if ($tag = $this->tagRepository->findOneByName($name)) {
-                            $filters[$tag->groupe][] = ['name' => $name, 'count' => $count];
+                            $filters[$tag->groupe][] = [
+                                'name' => $name,
+                                'count' => $count,
+                                'description' => $tag->description,
+                            ];
                         }
                         continue;
                     }
