@@ -31,7 +31,7 @@ class Tag implements \Stringable, SluggableInterface, TimestampableInterface
     public ?string $description = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(nullable:  true)]
+    #[ORM\Column(nullable: true)]
     public ?string $groupe = null;
 
     #[ORM\Column(nullable: true)]
@@ -78,4 +78,12 @@ class Tag implements \Stringable, SluggableInterface, TimestampableInterface
             $this->setUpdatedAt(new \DateTime('now'));
         }
     }
+
+    //bug sf
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+
 }
