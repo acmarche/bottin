@@ -85,5 +85,9 @@ class Tag implements \Stringable, SluggableInterface, TimestampableInterface
         return $this->description;
     }
 
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
 
 }
