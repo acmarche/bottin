@@ -9,7 +9,10 @@
 
             {% include '@AcMarcheBottin/admin/tag/_actions.html.twig' %}
 
-            <br/><br/>
+            {% if tag.description %}
+                <p class="text-muted mt-3">{{ tag.description }}</p>
+            {% endif %}
+            <br/>
             {% set count = fiches | length %}
 
             <h3 class="text-success">{% if  count > 0 %} {{ count }} {% endif %}Fiches avec ce tag</h3>
