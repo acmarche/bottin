@@ -2,7 +2,6 @@
 
 use AcMarche\Bottin\Namer\DirectoryNamer;
 use AcMarche\Bottin\Parameter\Option;
-use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Security\LdapBottin;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
