@@ -85,6 +85,7 @@ class Fiche implements SluggableInterface, TimestampableInterface, LocationAbleI
     #[ORM\Column(type: 'string', nullable: true)]
     public ?string $gsm = null;
 
+    #[Assert\Url]
     #[ORM\Column(type: 'string', nullable: true)]
     public ?string $website = null;
 
