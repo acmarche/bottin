@@ -52,10 +52,9 @@ class ExportController extends AbstractController
             return $fiche;
         }, $hits);
 
-        $css = '';
-        $html = $this->renderView(
-            '@AcMarcheBottin/front/circuit-court/index.html.twig',
-            ['hits' => $hits, 'css' => $css]
+        $html = $this->renderView('@AcMarcheBottin/front/circuit-court/index.html.twig', [
+                'hits' => $hits,
+            ]
         );
 
         return new Response($html);
