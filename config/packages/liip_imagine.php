@@ -14,6 +14,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                     'quality' => 100,
                     'filters' => ['thumbnail' => ['size' => [250, 188], 'mode' => 'inset']],
                 ],
+                'circuitcourt_thumb' => [
+                    'quality' => 95,
+                    'filters' => ['thumbnail' => ['size' => [1200], 'mode' => 'inset']],
+                ],
             ],
         ]
     );
