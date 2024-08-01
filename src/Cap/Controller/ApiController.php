@@ -326,6 +326,12 @@ class ApiController extends AbstractController
         return $this->json([]);
     }
 
+    #[Route(path: '/bottin/tagbyslug/{slug}', name: 'bottin_admin_api_tagbyslug', methods: ['GET'])]
+    public function tagBySlug(string $slug): JsonResponse
+    {
+        return $this->json($this->tagRepository->findOneByslug($slug));
+    }
+
     /**
      * Toutes les categories sous forme d'arbre.
      *

@@ -45,6 +45,18 @@ class TagRepository extends ServiceEntityRepository
     }
 
     /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByslug(string $name): ?Tag
+    {
+        return $this->createQb()
+            ->andWhere('tag.name = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * @param string $name
      * @return Tag[]
      */
