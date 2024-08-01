@@ -421,6 +421,7 @@ class ApiController extends AbstractController
                         if ($tag = $this->tagRepository->findOneByName($name)) {
                             $filters[$tag->groupe][] = [
                                 'name' => $name,
+                                'slug' => $tag->getSlug(),
                                 'count' => $count,
                                 'description' => $tag->description,
                             ];
