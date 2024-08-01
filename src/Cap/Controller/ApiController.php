@@ -398,7 +398,6 @@ class ApiController extends AbstractController
 
             try {
                 $response = $this->searchMeili->doSearchMap($localite, $tags, $coordinates);
-                //dd($response);
                 $hits = $response->getHits();
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
@@ -408,7 +407,6 @@ class ApiController extends AbstractController
             } catch (\Exception $e) {
                 $error = 'Erreur dans la recherche: ' . $e->getMessage();
                 $this->logger->notice('MEILI error ' . $e->getMessage());
-
                 $hits = $icons = $facetDistribution = [];
                 $count = 0;
             }
