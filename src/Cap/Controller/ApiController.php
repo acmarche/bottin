@@ -36,18 +36,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class ApiController extends AbstractController
 {
     public function __construct(
-        private readonly ApiUtils $apiUtils,
-        private readonly DemandeHandler $demandeHandler,
-        private readonly CategoryService $categoryService,
-        private readonly CategoryRepository $categoryRepository,
-        private readonly FicheRepository $ficheRepository,
-        private readonly SearchElastic $searchElastic,
+        private readonly ApiUtils             $apiUtils,
+        private readonly DemandeHandler       $demandeHandler,
+        private readonly CategoryService      $categoryService,
+        private readonly CategoryRepository   $categoryRepository,
+        private readonly FicheRepository      $ficheRepository,
+        private readonly SearchElastic        $searchElastic,
         private readonly ClassementRepository $classementRepository,
-        private readonly TagRepository $tagRepository,
-        private readonly SearchMeili $searchMeili,
-        private readonly TagUtils $tagUtils,
-        private readonly LoggerInterface $logger
-    ) {
+        private readonly TagRepository        $tagRepository,
+        private readonly SearchMeili          $searchMeili,
+        private readonly TagUtils             $tagUtils,
+        private readonly LoggerInterface      $logger
+    )
+    {
     }
 
 
@@ -219,7 +220,7 @@ class ApiController extends AbstractController
         try {
             $data = $request->request->all();
             $result = $this->demandeHandler->handle($data);
-            $this->logger->info('api update fiche result'.json_encode($result, \JSON_THROW_ON_ERROR));
+            $this->logger->info('api update fiche result' . json_encode($result, \JSON_THROW_ON_ERROR));
 
             return $this->json($result);
         } catch (\Exception $exception) {
@@ -399,8 +400,8 @@ class ApiController extends AbstractController
                 krsort($facetDistribution);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
-                $error = 'Erreur dans la recherche: '.$e->getMessage();
-                $this->logger->notice('MEILI error '.$e->getMessage());
+                $error = 'Erreur dans la recherche: ' . $e->getMessage();
+                $this->logger->notice('MEILI error ' . $e->getMessage());
 
                 $hits = $icons = $facetDistribution = [];
                 $count = 0;
@@ -428,7 +429,7 @@ class ApiController extends AbstractController
                         }
                         continue;
                     }
-                    $filters[$key][] = ['name' => $name, 'count' => $count];
+                    $filters[$key][] = ['name' => $name, 'count' => $count, 'slug' => null];
                 }
             }
 
