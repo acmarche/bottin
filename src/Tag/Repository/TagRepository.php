@@ -50,7 +50,7 @@ class TagRepository extends ServiceEntityRepository
     public function findOneByslug(string $name): ?Tag
     {
         return $this->createQb()
-            ->andWhere('tag.name = :name')
+            ->andWhere('tag.slug = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();
