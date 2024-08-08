@@ -27,19 +27,20 @@ class MeiliServer
 
     public function __construct(
         #[Autowire(env: 'MEILI_INDEX_NAME')]
-        private string $indexName,
+        private string                             $indexName,
         #[Autowire(env: 'MEILI_MASTER_KEY')]
-        private string $masterKey,
-        private readonly FicheRepository $ficheRepository,
-        private readonly CategoryRepository $categoryRepository,
-        private readonly FicheSerializer $ficheSerializer,
-        private readonly CategorySerializer $categorySerializer,
-        private readonly ClassementElastic $classementElastic,
+        private string                             $masterKey,
+        private readonly FicheRepository           $ficheRepository,
+        private readonly CategoryRepository        $categoryRepository,
+        private readonly FicheSerializer           $ficheSerializer,
+        private readonly CategorySerializer        $categorySerializer,
+        private readonly ClassementElastic         $classementElastic,
         private readonly CommercioBottinRepository $commercioBottinRepository,
-        private readonly CommercantRepository $commercantRepository,
-        private readonly GalleryRepository $galleryRepository,
-        private readonly CapApi $capApi
-    ) {
+        private readonly CommercantRepository      $commercantRepository,
+        private readonly GalleryRepository         $galleryRepository,
+        private readonly CapApi                    $capApi
+    )
+    {
     }
 
     /**
@@ -107,14 +108,13 @@ class MeiliServer
         $data = $this->ficheSerializer->serializeFicheForElastic($fiche);
         $data['type'] = 'fiche';
         $data['classements'] = $this->classementElastic->getClassementsForApi($fiche);
-        $data['cap'] = false;
+        $data['capMember'] = false;
         if ((is_countable($data['classements']) ? \count($data['classements']) : 0) > 0) {
-            $data['cap'] = true;
+            $data['capMember'] = true;
         }
         if ($fiche->latitude && $fiche->longitude) {
             $data['_geo'] = ['lat' => $fiche->latitude, 'lng' => $fiche->longitude];
         }
-
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
         if ($addCap) {
             $data['cap'] = $this->addCapInfo($data);
@@ -160,7 +160,7 @@ class MeiliServer
     {
         $data = $this->categorySerializer->serializeCategory($category);
         $data['type'] = 'category';
-        $data['id'] = 'cat_'.$data['id'];
+        $data['id'] = 'cat_' . $data['id'];
 
         return $data;
     }

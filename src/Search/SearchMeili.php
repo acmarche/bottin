@@ -49,7 +49,10 @@ class SearchMeili
     {
         $this->init();
         $index = $this->client->index($this->indexName);
-        $filters = ['filter' => ['type = fiche']];
+        $filters = [
+            'filter' => ['type = fiche'],
+            'limit' => 500
+        ];
         if ($localite) {
             $filters['filter'] = ['localite = ' . $localite];
         }
@@ -157,7 +160,7 @@ class SearchMeili
         $index = $this->client->index($this->indexName);
 
         $filters = ['type = fiche'];
-        $filters[] = ['cap = true'];
+        $filters[] = ['capMember = true'];
 
         return $index->search($keyword, [
             'limit' => 50,
