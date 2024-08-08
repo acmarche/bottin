@@ -231,10 +231,14 @@ class ApiController extends AbstractController
     /**
      * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
      */
-    #[Route(path: '/bottin/search', name: 'bottin_admin_api_search', methods: ['POST'])]
+    #[Route(path: '/bottin/search', name: 'bottin_admin_api_search', methods: ['POST', 'GET'])]
     public function search(Request $request): JsonResponse
     {
         $keyword = $request->request->get('keyword');
+        if (!$keyword) {
+            $keyword = $request->query->get('keyword');
+        }
+
         if (!$keyword) {
             return $this->json(['error' => 'Pas de mot clef']);
         }
