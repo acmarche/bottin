@@ -23,21 +23,22 @@ class MeiliCommand extends Command
     public function __construct(
         private readonly MeiliServer $meiliServer,
         private readonly SearchMeili $meilSearch,
-        private readonly TagUtils $tagUtils
-    ) {
+        private readonly TagUtils    $tagUtils
+    )
+    {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this->addOption('key', "key", InputOption::VALUE_NONE, 'Create a key');
-        $this->addOption('keyword', "keyword", InputOption::VALUE_NONE, 'Search with keyword');
         $this->addOption('tasks', "tasks", InputOption::VALUE_NONE, 'Display tasks');
         $this->addOption('reset', "reset", InputOption::VALUE_NONE, 'Search engine reset');
         $this->addOption('update', "update", InputOption::VALUE_NONE, 'Update data');
         $this->addArgument('latitude', InputArgument::OPTIONAL);
         $this->addArgument('longitude', InputArgument::OPTIONAL);
         $this->addArgument('distance', InputArgument::OPTIONAL);
+        $this->addArgument('keyword', "keyword", InputArgument::OPTIONAL, 'Search with keyword');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,8 +48,8 @@ class MeiliCommand extends Command
         $latitude = $input->getArgument('latitude');
         $longitude = $input->getArgument('longitude');
         $disance = (int)$input->getArgument('distance');
+        $keyword = $input->getArgument('keyword');
         $key = (bool)$input->getOption('key');
-        $keyword = $input->getOption('keyword');
         $tasks = (bool)$input->getOption('tasks');
         $reset = (bool)$input->getOption('reset');
         $update = (bool)$input->getOption('update');
@@ -89,8 +90,9 @@ class MeiliCommand extends Command
             $response = $this->meilSearch->doSearch($keyword);
 
             $this->displayResult($output, $response->getHits());
-            $io->title($response->count(). ' results');
+            $io->title($response->count() . ' results');
             $io->writeln($response->getQuery());
+            $io->writeln($keyword . ' keyword given');
 
             return Command::SUCCESS;
         }
