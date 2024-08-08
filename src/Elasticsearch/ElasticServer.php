@@ -19,7 +19,7 @@ class ElasticServer
 {
     use ElasticClientTrait;
 
-    private array $skips = [705];
+    private array $skips = [705];//705 shop and go
 
     /**
      * @return Elasticsearch|Promise
