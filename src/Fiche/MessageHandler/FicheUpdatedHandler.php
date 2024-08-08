@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Fiche\MessageHandler;
 
-use AcMarche\Bottin\Elasticsearch\ElasticServer;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Fiche\Message\FicheUpdated;
 use AcMarche\Bottin\Location\LocationUpdater;
@@ -17,7 +16,6 @@ class FicheUpdatedHandler
     public function __construct(
         private readonly FicheRepository $ficheRepository,
         private readonly LocationUpdater $locationUpdater,
-        private readonly ElasticServer $elasticIndexer,
         private readonly MeiliServer $meiliServer,
         private readonly RequestStack $requestStack
     ) {
@@ -37,7 +35,6 @@ class FicheUpdatedHandler
             }
         }
         try {
-            $this->elasticIndexer->updateFiche($fiche);
             $this->meiliServer->updateFiche($fiche);
         } catch (\Exception $e) {
             $flashBag->add('danger', 'Erreur indexation moteur de recherche: '.$e->getMessage());
