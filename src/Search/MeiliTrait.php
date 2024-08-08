@@ -7,7 +7,7 @@ use Meilisearch\Client;
 trait MeiliTrait
 {
     public ?Client $client = null;
-    private array $facetFields = ['_geo', 'localite', 'type', 'tags'];
+    private array $facetFields = ['_geo', 'localite', 'type', 'tags', 'cap'];
 
     public function init(): void
     {
