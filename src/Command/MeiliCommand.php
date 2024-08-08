@@ -31,6 +31,7 @@ class MeiliCommand extends Command
     protected function configure(): void
     {
         $this->addOption('key', "key", InputOption::VALUE_NONE, 'Create a key');
+        $this->addOption('keyword', "keyword", InputOption::VALUE_NONE, 'Search with keyword');
         $this->addOption('tasks', "tasks", InputOption::VALUE_NONE, 'Display tasks');
         $this->addOption('reset', "reset", InputOption::VALUE_NONE, 'Search engine reset');
         $this->addOption('update', "update", InputOption::VALUE_NONE, 'Update data');
@@ -47,6 +48,7 @@ class MeiliCommand extends Command
         $longitude = $input->getArgument('longitude');
         $disance = (int)$input->getArgument('distance');
         $key = (bool)$input->getOption('key');
+        $keyword = $input->getOption('keyword');
         $tasks = (bool)$input->getOption('tasks');
         $reset = (bool)$input->getOption('reset');
         $update = (bool)$input->getOption('update');
@@ -77,6 +79,14 @@ class MeiliCommand extends Command
         if ($latitude && $longitude) {
             $response = $this->meilSearch->searchGeo2((float)$latitude, (float)$longitude, $disance);
             $facetDistribution = $response->getFacetDistribution();
+
+            $this->displayResult($output, $response->getHits());
+
+            return Command::SUCCESS;
+        }
+
+        if ($keyword) {
+            $response = $this->meilSearch->doSearch($keyword);
 
             $this->displayResult($output, $response->getHits());
 
