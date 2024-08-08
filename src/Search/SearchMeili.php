@@ -13,11 +13,12 @@ class SearchMeili
 
     public function __construct(
         #[Autowire(env: 'MEILI_INDEX_NAME')]
-        private string $indexName,
+        private string                   $indexName,
         #[Autowire(env: 'MEILI_MASTER_KEY')]
-        private string $masterKey,
+        private string                   $masterKey,
         private readonly LoggerInterface $logger
-    ) {
+    )
+    {
     }
 
     /**
@@ -50,7 +51,7 @@ class SearchMeili
         $index = $this->client->index($this->indexName);
         $filters = ['filter' => ['type = fiche']];
         if ($localite) {
-            $filters['filter'] = ['localite = '.$localite];
+            $filters['filter'] = ['localite = ' . $localite];
         }
 
         return $index->search($keyword, $filters);
@@ -70,20 +71,21 @@ class SearchMeili
     }
 
     public function doSearchAdvanced(
-        string $keyword,
+        string  $keyword,
         ?string $localite = null,
-        array $filters = []
-    ): iterable|SearchResult {
+        array   $filters = []
+    ): iterable|SearchResult
+    {
         $this->init();
         $index = $this->client->index($this->indexName);
         $filter = ['type = fiche'];
         if ($localite) {
-            $filter[] = 'localite = '.$localite;
+            $filter[] = 'localite = ' . $localite;
         }
 
         if (count($filters) > 0) {
             foreach ($filters as $tag) {
-                $filter[] = 'tags = "'.$tag.'"';
+                $filter[] = 'tags = "' . $tag . '"';
             }
         }
 
@@ -100,31 +102,32 @@ class SearchMeili
     }
 
     public function doSearchMap(
-        ?string $localite = null,
-        array $tags = [],
+        ?string    $localite = null,
+        array      $tags = [],
         ?\stdClass $coordinates = null
-    ): iterable|SearchResult {
+    ): iterable|SearchResult
+    {
         $this->init();
         $index = $this->client->index($this->indexName);
         $filters = ['type = fiche'];
         if ($localite) {
-            $filters[] = 'localite = '.$localite;
+            $filters[] = 'localite = ' . $localite;
         }
 
         if (count($tags) > 0) {
             foreach ($tags as $tag) {
-                $this->logger->notice('MEILI loop '.$tag);
-                $filters[] = 'tags = "'.$tag.'"';
+                $this->logger->notice('MEILI loop ' . $tag);
+                $filters[] = 'tags = "' . $tag . '"';
             }
         }
 
         if ($coordinates) {
-            $this->logger->notice('MEILI coord '.$coordinates->latitude);
+            $this->logger->notice('MEILI coord ' . $coordinates->latitude);
             $distance = 5000;//meters
             $filters[] = "_geoRadius($coordinates->latitude, $coordinates->longitude, $distance)";
         }
 
-        $this->logger->notice('MEILI searching: '.join(' AND ', $filters).' END');
+        $this->logger->notice('MEILI searching: ' . join(' AND ', $filters) . ' END');
 
         return $index->search('', [
             'limit' => 500,
@@ -143,7 +146,7 @@ class SearchMeili
             ->index($this->indexName)
             ->search('', [
                 'limit' => 500,
-                'filter' => "type = fiche AND tags = Circuit-Court AND ".$geo,
+                'filter' => "type = fiche AND tags = Circuit-Court AND " . $geo,
                 'facets' => $this->facetFields,
             ]);
     }
@@ -152,7 +155,9 @@ class SearchMeili
     {
         $this->init();
         $index = $this->client->index($this->indexName);
-        $filters = ['filter' => ['type = fiche' and 'cap = true']];
+
+        $filters = ['type = fiche'];
+        $filters[] = ['cap = true'];
 
         return $index->search($keyword, $filters);
     }
