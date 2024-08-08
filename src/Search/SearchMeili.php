@@ -159,7 +159,11 @@ class SearchMeili
         $filters = ['type = fiche'];
         $filters[] = ['cap = true'];
 
-        return $index->search($keyword, $filters);
+        return $index->search($keyword, [
+            'limit' => 50,
+            'filter' => $filters,
+            'facets' => $this->facetFields,
+        ]);
     }
 
 }
