@@ -35,10 +35,10 @@ class MeiliCommand extends Command
         $this->addOption('tasks', "tasks", InputOption::VALUE_NONE, 'Display tasks');
         $this->addOption('reset', "reset", InputOption::VALUE_NONE, 'Search engine reset');
         $this->addOption('update', "update", InputOption::VALUE_NONE, 'Update data');
+        $this->addArgument('keyword', InputArgument::OPTIONAL);
         $this->addArgument('latitude', InputArgument::OPTIONAL);
         $this->addArgument('longitude', InputArgument::OPTIONAL);
         $this->addArgument('distance', InputArgument::OPTIONAL);
-        $this->addOption('keyword', "keyword", InputOption::VALUE_OPTIONAL, 'Search with keyword');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
