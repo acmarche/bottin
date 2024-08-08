@@ -38,7 +38,7 @@ class MeiliCommand extends Command
         $this->addArgument('latitude', InputArgument::OPTIONAL);
         $this->addArgument('longitude', InputArgument::OPTIONAL);
         $this->addArgument('distance', InputArgument::OPTIONAL);
-        $this->addArgument('keyword',  InputArgument::OPTIONAL, 'Search with keyword');
+        $this->addOption('keyword', "keyword", InputOption::VALUE_OPTIONAL, 'Search with keyword');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
