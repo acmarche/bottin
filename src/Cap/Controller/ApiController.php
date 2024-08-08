@@ -231,8 +231,52 @@ class ApiController extends AbstractController
     /**
      * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
      */
-    #[Route(path: '/bottin/search', name: 'bottin_admin_api_search', methods: ['POST', 'GET'])]
+    #[Route(path: '/bottin/searchnew', methods: ['POST', 'GET'])]
     public function search(Request $request): JsonResponse
+    {
+        $keyword = $request->request->get('keyword');
+        if (!$keyword) {
+            $keyword = $request->query->get('keyword');
+        }
+
+        if (!$keyword) {
+            return $this->json(['error' => 'Pas de mot clef']);
+        }
+
+        try {
+            $response = $this->searchMeili->doSearch($keyword);
+            $hits = $response->getHits();
+            $count = $response->count();
+            $result = [
+                "hits" => [
+                    "total" => [
+                        "value" => $count,
+                    ],
+                    "hits" => []
+                ]
+            ];
+            $items = [];
+            foreach ($hits as $hit) {
+                $t = ["_index" => "bottin",
+                    "_id" => $hit['id'],
+                    "_source" => $hit];
+                $items[] = $t;
+            }
+            $result['hits'] ['hits'] = $items;
+        } catch (\Exception $e) {
+            $error = 'Erreur dans la recherche: ' . $e->getMessage();
+            $this->logger->notice('MEILI error ' . $e->getMessage());
+            $result = ['error' => $error];
+        }
+
+        return $this->json($result);
+    }
+
+    /**
+     * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
+     */
+    #[Route(path: '/bottin/search', name: 'bottin_admin_api_search', methods: ['POST', 'GET'])]
+    public function searchOld(Request $request): JsonResponse
     {
         $keyword = $request->request->get('keyword');
         if (!$keyword) {
