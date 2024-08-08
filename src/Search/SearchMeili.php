@@ -49,15 +49,16 @@ class SearchMeili
     {
         $this->init();
         $index = $this->client->index($this->indexName);
-        $filters = [
-            'filter' => ['type = fiche'],
-            'limit' => 500
-        ];
+        $filters = ['type = fiche'];
         if ($localite) {
-            $filters['filter'] = ['localite = ' . $localite];
+            $filters[] = 'localite = ' . $localite;
         }
 
-        return $index->search($keyword, $filters);
+        return $index->search($keyword, [
+            'limit' => 500,
+            'filter' => $filters,
+            'facets' => $this->facetFields,
+        ]);
     }
 
     /**

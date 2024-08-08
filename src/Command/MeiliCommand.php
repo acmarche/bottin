@@ -89,7 +89,7 @@ class MeiliCommand extends Command
             $response = $this->meilSearch->doSearch($keyword);
 
             $this->displayResult($output, $response->getHits());
-            $io->title($response->count(). 'results');
+            $io->title($response->count(). ' results');
             $io->writeln($response->getQuery());
 
             return Command::SUCCESS;
