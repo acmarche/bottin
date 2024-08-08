@@ -244,7 +244,7 @@ class ApiController extends AbstractController
         }
 
         try {
-            $response = $this->searchMeili->doSearch($keyword);
+            $response = $this->searchMeili->doSearchForCap($keyword);
             $hits = $response->getHits();
             $count = $response->count();
             $result = [
