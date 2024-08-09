@@ -14,7 +14,6 @@ class ClassementCreatedHandler
     public function __construct(
         private readonly ClassementRepository $classementRepository,
         private readonly HistoryUtils $historyUtils,
-        private readonly RequestStack $requestStack
     ) {
     }
 
@@ -23,9 +22,6 @@ class ClassementCreatedHandler
         $classement = $this->classementRepository->find($classementCreated->getClassementId());
         $fiche = $classement->fiche;
         $category = $classement->category;
-        $flashBag = $this->requestStack->getSession()->getFlashBag();
-        $flashBag->add('success', 'Le classement a bien été ajouté');
-
         $this->historyUtils->diffClassement($fiche, $category, 'ajout');
     }
 }
