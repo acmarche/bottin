@@ -12,6 +12,7 @@ return static function (SecurityConfig $security) {
     $security->provider('bottin_user_provider')
         ->entity()
         ->class(User::class)
+        ->managerName('default')
         ->property('username');
 
     // @see Symfony\Config\Security\FirewallConfig
