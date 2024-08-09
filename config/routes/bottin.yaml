@@ -1,8 +1,0 @@
-bottin:
-  resource: ../../src/AcMarche/Bottin/src/Controller/
-  type: annotation
-
-cap:
-  resource: ../../src/AcMarche/Bottin/src/Cap/Controller/
-  type: annotation
-  prefix: /capapi
