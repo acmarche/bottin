@@ -7,8 +7,8 @@ return static function (DoctrineConfig $doctrine) {
     $doctrine->dbal()
         ->connection('default')
         ->url(env('DATABASE_URL')->resolve());
+
     $em = $doctrine->orm()->entityManager('default');
-    $doctrine->dbal()->defaultConnection('default');
     $em->connection('default');
 
     $em->mapping('AcMarcheBottin')
