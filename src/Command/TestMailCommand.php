@@ -6,7 +6,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -38,6 +37,7 @@ class TestMailCommand extends Command
         $email = $input->getArgument('to');
 
         if ($email) {
+            $io->info(sprintf('Try from %s to %s', $from, $email));
             $message = (new Email())
                 ->from($from)
                 ->to($email)
@@ -47,8 +47,8 @@ class TestMailCommand extends Command
 
             try {
                 $this->mailer->send($message);
-                $io->note(sprintf('You passed an argument: %s', $email));
-            } catch (TransportExceptionInterface $e) {
+                $io->note(sprintf('Message sended: %s', $email));
+            } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error($e->getMessage());
             }
         }
