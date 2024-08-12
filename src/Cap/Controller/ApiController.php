@@ -31,26 +31,24 @@ use Symfony\Component\Routing\Attribute\Route;
  * https://api.marche.be/bottin/fiches/rubrique/1234
  * https://api.marche.be/search/bottin/fiches/_search
  * https://api.marche.be/bottin/commerces
- * https://api.marche.be/admin/updatefiche
+ * https://api.marche.be/admin/updatefiche.
  */
 class ApiController extends AbstractController
 {
     public function __construct(
-        private readonly ApiUtils             $apiUtils,
-        private readonly DemandeHandler       $demandeHandler,
-        private readonly CategoryService      $categoryService,
-        private readonly CategoryRepository   $categoryRepository,
-        private readonly FicheRepository      $ficheRepository,
-        private readonly SearchElastic        $searchElastic,
+        private readonly ApiUtils $apiUtils,
+        private readonly DemandeHandler $demandeHandler,
+        private readonly CategoryService $categoryService,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly FicheRepository $ficheRepository,
+        private readonly SearchElastic $searchElastic,
         private readonly ClassementRepository $classementRepository,
-        private readonly TagRepository        $tagRepository,
-        private readonly SearchMeili          $searchMeili,
-        private readonly TagUtils             $tagUtils,
-        private readonly LoggerInterface      $logger
-    )
-    {
+        private readonly TagRepository $tagRepository,
+        private readonly SearchMeili $searchMeili,
+        private readonly TagUtils $tagUtils,
+        private readonly LoggerInterface $logger
+    ) {
     }
-
 
     #[Route(path: '/bottin/cap/search/{id}/{noon}/{sunday}', methods: ['GET'])]
     public function searchCap(Category $category, bool $noon = false, bool $sunday = false): JsonResponse
@@ -220,7 +218,7 @@ class ApiController extends AbstractController
         try {
             $data = $request->request->all();
             $result = $this->demandeHandler->handle($data);
-            $this->logger->info('api update fiche result' . json_encode($result, \JSON_THROW_ON_ERROR));
+            $this->logger->info('api update fiche result'.json_encode($result, \JSON_THROW_ON_ERROR));
 
             return $this->json($result);
         } catch (\Exception $exception) {
@@ -248,24 +246,26 @@ class ApiController extends AbstractController
             $hits = $response->getHits();
             $count = $response->count();
             $result = [
-                "hits" => [
-                    "total" => [
-                        "value" => $count,
+                'hits' => [
+                    'total' => [
+                        'value' => $count,
                     ],
-                    "hits" => []
-                ]
+                    'hits' => [],
+                ],
             ];
             $items = [];
             foreach ($hits as $hit) {
-                $t = ["_index" => "bottin",
-                    "_id" => $hit['id'],
-                    "_source" => $hit];
+                $t = [
+                    '_index' => 'bottin',
+                    '_id' => $hit['id'],
+                    '_source' => $hit,
+                ];
                 $items[] = $t;
             }
-            $result['hits'] ['hits'] = $items;
+            $result['hits']['hits'] = $items;
         } catch (\Exception $e) {
-            $error = 'Erreur dans la recherche: ' . $e->getMessage();
-            $this->logger->notice('MEILI error ' . $e->getMessage());
+            $error = 'Erreur dans la recherche: '.$e->getMessage();
+            $this->logger->notice('MEILI error '.$e->getMessage());
             $result = ['error' => $error];
         }
 
@@ -322,7 +322,6 @@ class ApiController extends AbstractController
     public function category(int $id): JsonResponse
     {
         if ($category = $this->categoryRepository->find($id)) {
-
             $children = $this->categoryRepository->getDirectChilds($id);
             $category->enfants = $children;
 
@@ -344,7 +343,6 @@ class ApiController extends AbstractController
     public function categoryBySlug(string $slug): JsonResponse
     {
         if ($category = $this->categoryRepository->findOneBySlug($slug)) {
-
             $children = $this->categoryRepository->getDirectChilds($category->getId());
             $category->enfants = $children;
 
@@ -421,7 +419,7 @@ class ApiController extends AbstractController
         $data = [];
         $error = $localite = $coordinates = null;
         $tags = [$tag->name];
-        if ($request->getMethod() == Request::METHOD_POST) {
+        if (Request::METHOD_POST == $request->getMethod()) {
             $post_body = $request->getContent();
             try {
                 $this->logger->notice($post_body);
@@ -453,8 +451,8 @@ class ApiController extends AbstractController
                 krsort($facetDistribution);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
-                $error = 'Erreur dans la recherche: ' . $e->getMessage();
-                $this->logger->notice('MEILI error ' . $e->getMessage());
+                $error = 'Erreur dans la recherche: '.$e->getMessage();
+                $this->logger->notice('MEILI error '.$e->getMessage());
                 $hits = $icons = $facetDistribution = [];
                 $count = 0;
             }
@@ -469,11 +467,8 @@ class ApiController extends AbstractController
                 if (str_starts_with($key, '_')) {
                     continue;
                 }
-                if (str_contains($key, 'CapMember')) {
-                    continue;
-                }
                 foreach ($facets as $name => $count) {
-                    if ($key === 'tags') {
+                    if ('tags' === $key) {
                         if ($tag = $this->tagRepository->findOneByName($name)) {
                             $filters[$tag->groupe][] = [
                                 'name' => $name,
@@ -482,6 +477,9 @@ class ApiController extends AbstractController
                                 'description' => $tag->description,
                             ];
                         }
+                        continue;
+                    }
+                    if (str_contains($name, 'CapMember')) {
                         continue;
                     }
                     $filters[$key][] = ['name' => $name, 'count' => $count, 'slug' => null];
