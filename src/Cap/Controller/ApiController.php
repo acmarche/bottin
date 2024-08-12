@@ -469,6 +469,9 @@ class ApiController extends AbstractController
                 if (str_starts_with($key, '_')) {
                     continue;
                 }
+                if (str_contains($key, 'CapMember')) {
+                    continue;
+                }
                 foreach ($facets as $name => $count) {
                     if ($key === 'tags') {
                         if ($tag = $this->tagRepository->findOneByName($name)) {
