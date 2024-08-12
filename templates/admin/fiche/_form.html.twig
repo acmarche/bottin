@@ -1,7 +1,17 @@
+{% if errors|length > 0 %}
+    <ul class="list-group my-3">
+        {% for name,error in errors %}
+            <li class="list-group-item list-group-item-danger">{{ name|title }}: {{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {{ form_start(form) }}
 {{ form_errors(form) }}
 
-<button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i> Sauvegarder</button>
+<button class="btn btn-primary mr-1 mb-2" type="submit"><i class="ti ti-device-floppy" aria-hidden="true"></i>
+    Sauvegarder
+</button>
 
 {% include '@AcMarcheBottin/admin/fiche/_tabs.html.twig' %}
 

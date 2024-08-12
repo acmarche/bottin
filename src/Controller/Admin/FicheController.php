@@ -104,6 +104,7 @@ class FicheController extends AbstractController
         return $this->render(
             '@AcMarcheBottin/admin/fiche/new.html.twig',
             [
+
             ]
         );
     }
@@ -163,12 +164,20 @@ class FicheController extends AbstractController
             return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
+        $errors = [];
+        foreach ($form->all() as $child) {
+            if ($child->isSubmitted() && !$child->isValid()) {
+                $errors[$child->getName()] = $child->getErrors();
+            }
+        }
+
         $response = new Response(null, $form->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
 
         return $this->render(
             '@AcMarcheBottin/admin/fiche/edit.html.twig',
             [
                 'fiche' => $fiche,
+                'errors' => $errors,
                 'form' => $form->createView(),
             ]
             , $response
