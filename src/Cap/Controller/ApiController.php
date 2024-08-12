@@ -255,11 +255,9 @@ class ApiController extends AbstractController
             ];
             $items = [];
             foreach ($hits as $hit) {
-                $t = [
-                    '_index' => 'bottin',
+                $t = ['_index' => 'bottin',
                     '_id' => $hit['id'],
-                    '_source' => $hit,
-                ];
+                    '_source' => $hit];
                 $items[] = $t;
             }
             $result['hits']['hits'] = $items;
@@ -467,6 +465,9 @@ class ApiController extends AbstractController
                 if (str_starts_with($key, '_')) {
                     continue;
                 }
+                if (str_contains($key, 'CapMember')) {
+                    continue;
+                }
                 foreach ($facets as $name => $count) {
                     if ('tags' === $key) {
                         if ($tag = $this->tagRepository->findOneByName($name)) {
@@ -477,9 +478,6 @@ class ApiController extends AbstractController
                                 'description' => $tag->description,
                             ];
                         }
-                        continue;
-                    }
-                    if (str_contains($name, 'CapMember')) {
                         continue;
                     }
                     $filters[$key][] = ['name' => $name, 'count' => $count, 'slug' => null];
