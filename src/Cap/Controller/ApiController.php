@@ -465,4 +465,59 @@ class ApiController extends AbstractController
 
         return $this->json($data);
     }
+
+    #[Route(path: '/map/debug')]
+    public function mapSearchDebug(Request $request): JsonResponse
+    {
+        $tag = $this->tagRepository->find(14);
+        $data = [];
+        $error = $localite = $coordinates = null;
+        $tags = [$tag->name];
+
+        try {
+            $response = $this->searchMeili->doSearchMap($localite, $tags, $coordinates);
+            $hits = $response->getHits();
+            $count = $response->count();
+            $facetDistribution = $response->getFacetDistribution();
+            unset($facetDistribution['type']);
+            unset($facetDistribution['capMember']);
+            krsort($facetDistribution);
+            $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
+        } catch (\Exception $e) {
+            $error = 'Erreur dans la recherche: '.$e->getMessage();
+            $this->logger->notice('MEILI error '.$e->getMessage());
+            $hits = $icons = $facetDistribution = [];
+            $count = 0;
+        }
+
+        $data['hits'] = SortUtils::sortArrayFiche($hits);
+        $data['icons'] = $icons;
+        $data['count'] = $count;
+        $data['error'] = $error;
+        $data['facetDistribution'] = $facetDistribution;
+
+        foreach ($facetDistribution as $key => $facets) {
+            if (str_starts_with($key, '_')) {
+                continue;
+            }
+            foreach ($facets as $name => $count) {
+                if ('tags' === $key) {
+                    if ($tag = $this->tagRepository->findOneByName($name)) {
+                        $filters[$tag->groupe][] = [
+                            'name' => $name,
+                            'slug' => $tag->getSlug(),
+                            'count' => $count,
+                            'description' => $tag->description,
+                        ];
+                    }
+                    continue;
+                }
+                $filters[$key][] = ['name' => $name, 'count' => $count, 'slug' => null];
+            }
+        }
+
+        $data['filters'] = $filters;
+
+        return $this->json($data);
+    }
 }
