@@ -19,7 +19,7 @@ class ClassementElastic
      */
     public function getClassementsForApi(Fiche $fiche): array
     {
-        $classementsFiche = $this->classementRepository->getByFiche($fiche, true);
+        $classementsFiche = $this->classementRepository->getByFiche($fiche, false);
         $classements = [];
         foreach ($classementsFiche as $classement) {
             $classements[] = $this->classementSerializer->serializeClassementForApi($classement);
