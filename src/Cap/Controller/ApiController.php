@@ -424,7 +424,7 @@ class ApiController extends AbstractController
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
                 unset($facetDistribution['type']);
-                unset($facetDistribution['CapMember']);
+                unset($facetDistribution['capMember']);
                 krsort($facetDistribution);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
