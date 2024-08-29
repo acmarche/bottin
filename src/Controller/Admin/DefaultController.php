@@ -39,7 +39,7 @@ class DefaultController extends AbstractController
             $facetDistribution = $response->getFacetDistribution();
             dump($facetDistribution);
             unset($facetDistribution['type']);
-            unset($facetDistribution['CapMember']);
+            unset($facetDistribution['capMember']);
             krsort($facetDistribution);
             $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
         } catch (\Exception $e) {
