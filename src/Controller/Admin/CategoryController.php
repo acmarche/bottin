@@ -29,9 +29,8 @@ class CategoryController extends AbstractController
         private readonly CategoryRepository $categoryRepository,
         private readonly CategoryService $categoryService,
         private readonly PathUtils $pathUtils,
-        private readonly MessageBusInterface $messageBus
-    ) {
-    }
+        private readonly MessageBusInterface $messageBus,
+    ) {}
 
     #[Route(path: '/', name: 'bottin_admin_category', methods: ['GET'])]
     public function index(Request $request): Response
@@ -49,7 +48,7 @@ class CategoryController extends AbstractController
             $args,
             [
                 'method' => 'GET',
-            ]
+            ],
         );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,7 +82,7 @@ class CategoryController extends AbstractController
             [
                 'search_form' => $form->createView(),
                 'categories' => $data,
-            ]
+            ],
         );
     }
 
@@ -117,7 +116,7 @@ class CategoryController extends AbstractController
             [
                 'parent' => $parent,
                 'form' => $form->createView(),
-            ]
+            ],
         );
     }
 
@@ -142,7 +141,7 @@ class CategoryController extends AbstractController
                 'category' => $category,
                 'paths' => $paths,
                 'fiches' => $fiches,
-            ]
+            ],
         );
     }
 
@@ -167,7 +166,7 @@ class CategoryController extends AbstractController
             [
                 'category' => $category,
                 'form' => $editForm->createView(),
-            ]
+            ],
         );
     }
 
@@ -193,7 +192,7 @@ class CategoryController extends AbstractController
             [
                 'category' => $category,
                 'form' => $editForm->createView(),
-            ]
+            ],
         );
     }
 

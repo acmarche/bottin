@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Elasticsearch;
+namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\ClassementRepository;

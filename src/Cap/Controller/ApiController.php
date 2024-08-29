@@ -11,7 +11,6 @@ use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
-use AcMarche\Bottin\Search\SearchElastic;
 use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Tag\Repository\TagRepository;
 use AcMarche\Bottin\Tag\TagUtils;
@@ -41,7 +40,6 @@ class ApiController extends AbstractController
         private readonly CategoryService $categoryService,
         private readonly CategoryRepository $categoryRepository,
         private readonly FicheRepository $ficheRepository,
-        private readonly SearchElastic $searchElastic,
         private readonly ClassementRepository $classementRepository,
         private readonly TagRepository $tagRepository,
         private readonly SearchMeili $searchMeili,
@@ -271,26 +269,6 @@ class ApiController extends AbstractController
     }
 
     /**
-     * $urlCurl = "https://api.marche.be/search/bottin/fiches/_search";.
-     */
-    #[Route(path: '/bottin/searchOld', methods: ['POST', 'GET'])]
-    public function searchOld(Request $request): JsonResponse
-    {
-        $keyword = $request->request->get('keyword');
-        if (!$keyword) {
-            $keyword = $request->query->get('keyword');
-        }
-
-        if (!$keyword) {
-            return $this->json(['error' => 'Pas de mot clef']);
-        }
-
-        $result = $this->searchElastic->search($keyword);
-
-        return $this->json($result->asObject());
-    }
-
-    /**
      * Tous les classements pour android.
      */
     #[Route(path: '/bottin/classements', name: 'bottin_admin_api_classements', methods: ['GET'])]
@@ -446,6 +424,7 @@ class ApiController extends AbstractController
                 $count = $response->count();
                 $facetDistribution = $response->getFacetDistribution();
                 unset($facetDistribution['type']);
+                unset($facetDistribution['CapMember']);
                 krsort($facetDistribution);
                 $icons = $this->tagUtils->getIconsFromFacet($facetDistribution);
             } catch (\Exception $e) {
@@ -463,9 +442,6 @@ class ApiController extends AbstractController
 
             foreach ($facetDistribution as $key => $facets) {
                 if (str_starts_with($key, '_')) {
-                    continue;
-                }
-                if (str_contains($key, 'CapMember')) {
                     continue;
                 }
                 foreach ($facets as $name => $count) {

@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Twig;
 
 use AcMarche\Bottin\Entity\Fiche;
-use Elastica\Result;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;

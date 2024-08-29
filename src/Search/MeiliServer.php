@@ -4,7 +4,6 @@ namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Cap\CapApi;
-use AcMarche\Bottin\Elasticsearch\ClassementElastic;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -27,24 +26,22 @@ class MeiliServer
 
     public function __construct(
         #[Autowire(env: 'MEILI_INDEX_NAME')]
-        private string                             $indexName,
+        private string $indexName,
         #[Autowire(env: 'MEILI_MASTER_KEY')]
-        private string                             $masterKey,
-        private readonly FicheRepository           $ficheRepository,
-        private readonly CategoryRepository        $categoryRepository,
-        private readonly FicheSerializer           $ficheSerializer,
-        private readonly CategorySerializer        $categorySerializer,
-        private readonly ClassementElastic         $classementElastic,
+        private string $masterKey,
+        private readonly FicheRepository $ficheRepository,
+        private readonly CategoryRepository $categoryRepository,
+        private readonly FicheSerializer $ficheSerializer,
+        private readonly CategorySerializer $categorySerializer,
+        private readonly ClassementElastic $classementElastic,
         private readonly CommercioBottinRepository $commercioBottinRepository,
-        private readonly CommercantRepository      $commercantRepository,
-        private readonly GalleryRepository         $galleryRepository,
-        private readonly CapApi                    $capApi
-    )
-    {
+        private readonly CommercantRepository $commercantRepository,
+        private readonly GalleryRepository $galleryRepository,
+        private readonly CapApi $capApi
+    ) {
     }
 
     /**
-     *
      * @return array<'taskUid','indexUid','status','enqueuedAt'>
      */
     public function createIndex(): array
@@ -57,13 +54,12 @@ class MeiliServer
     }
 
     /**
-     * https://raw.githubusercontent.com/meilisearch/meilisearch/latest/config.toml
-     * @return array
+     * https://raw.githubusercontent.com/meilisearch/meilisearch/latest/config.toml.
      */
     public function settings(): array
     {
-        //don't return same fiches. Suppose you have numerous black jackets in different sizes in your costumes index
-        //$this->client->index($this->indexName)->updateDistinctAttribute('societe');
+        // don't return same fiches. Suppose you have numerous black jackets in different sizes in your costumes index
+        // $this->client->index($this->indexName)->updateDistinctAttribute('societe');
 
         /*$this->client->index($this->indexName)->updateSearchableAttributes([
             'title',
@@ -75,8 +71,7 @@ class MeiliServer
     }
 
     /**
-     * https://github.com/yooper/stop-words/blob/master/data/stop-words_french_1_fr.txt
-     * @return void
+     * https://github.com/yooper/stop-words/blob/master/data/stop-words_french_1_fr.txt.
      */
     public function stopWords(): void
     {
@@ -89,9 +84,6 @@ class MeiliServer
         $this->addCategories();
     }
 
-    /**
-     * @return void
-     */
     public function addFiches(): void
     {
         $this->init();
@@ -160,7 +152,7 @@ class MeiliServer
     {
         $data = $this->categorySerializer->serializeCategory($category);
         $data['type'] = 'category';
-        $data['id'] = 'cat_' . $data['id'];
+        $data['id'] = 'cat_'.$data['id'];
 
         return $data;
     }
@@ -177,7 +169,7 @@ class MeiliServer
         ]);
     }
 
-    private function addCapInfo(array $data): Commercant|null
+    private function addCapInfo(array $data): ?Commercant
     {
         $capFiche = null;
         if ($cap = $this->commercioBottinRepository->findByFicheId($data['id'])) {
@@ -195,7 +187,7 @@ class MeiliServer
                         $images[] = $img;
                     }
                     $capFiche->images = $images;
-                    if ($images !== []) {
+                    if ([] !== $images) {
                         if (!$capFiche->profileMediaPath) {
                             $capFiche->profileMediaPath = $images[0]['path'];
                         }

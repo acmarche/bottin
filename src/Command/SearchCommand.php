@@ -2,7 +2,6 @@
 
 namespace AcMarche\Bottin\Command;
 
-use AcMarche\Bottin\Search\SearchElastic;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,7 +16,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SearchCommand extends Command
 {
     public function __construct(
-        private readonly SearchElastic $searchElastic,
         string $name = null
     ) {
         parent::__construct($name);
