@@ -52,5 +52,5 @@ class Bottin
         self::TOURISME => 'animation@marche.be',
     ];
 
-    public const GROUPS_TAG = ['Alimentation', 'Centre ville', 'Seconde main'];
+    public const GROUPS_TAG = ['Alimentation', 'Localisation', 'Seconde main'];
 }
