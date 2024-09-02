@@ -16,6 +16,11 @@
         <div class="card-body">
 
             {% include '@AcMarcheBottin/admin/fiche/_actions.html.twig' %}
+            {% if classements|length ==0 %}
+            <div class="alert alert-danger m-3">
+                Attention aucun classement pour cette fiche, veuillez la classer dans au moins une catégorie.
+            </div>
+            {% endif %}
             {% include '@AcMarcheBottin/admin/fiche/_tabs.html.twig' %}
 
             <div class="tab-content">
