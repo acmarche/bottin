@@ -6,10 +6,10 @@
     <table class='table table-bordered table-hover'>
         <thead>
         <tr>
-            <th>Societe</th>
+            <th>Société</th>
+            <th>Localité</th>
             <th>Adresse</th>
             <th>Téléphone</th>
-            <th>Nom</th>
         </tr>
         </thead>
         <tbody>
@@ -19,9 +19,9 @@
                     <a href="{{ bottin_url_fiche_show(fiche) }}"
                        title="Détail de la fiche">{{ fiche.societe }}</a>
                 </td>
+                <td>{{ fiche.localite }}</td>
                 <td>{{ fiche.rue }}</td>
                 <td>{{ fiche.telephone }}</td>
-                <td>{{ fiche.nom }} {{ fiche.prenom }}</td>
             </tr>
         {% endfor %}
         </tbody>
