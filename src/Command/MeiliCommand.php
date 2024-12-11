@@ -23,7 +23,6 @@ class MeiliCommand extends Command
     public function __construct(
         private readonly MeiliServer $meiliServer,
         private readonly SearchMeili $meilSearch,
-        private readonly TagUtils    $tagUtils
     )
     {
         parent::__construct();
