@@ -169,7 +169,8 @@ class FicheController extends AbstractController
             } catch (Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-            //   return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+
+            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         $errors = [];
