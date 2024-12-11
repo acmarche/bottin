@@ -9,9 +9,11 @@ use AcMarche\Bottin\Entity\History;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Repository\HistoryRepository;
 use AcMarche\Bottin\Utils\PathUtils;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\String\ByteString;
 
 class HistoryUtils
 {
@@ -20,11 +22,11 @@ class HistoryUtils
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly FicheRepository $ficheRepository,
+        private readonly EntityManagerInterface $entityManager,
         private readonly Security $security,
         private readonly HistoryRepository $historyRepository,
-        private readonly PathUtils $pathUtils
-    ) {
-    }
+        private readonly PathUtils $pathUtils,
+    ) {}
 
     public function diffFicheNew(Fiche $fiche, array $changes): void
     {
@@ -52,7 +54,7 @@ class HistoryUtils
         }
 
         if ([] !== $changes) {
-            $this->historyRepository->flush();
+            $this->entityManager->flush();
         }
     }
 
@@ -86,17 +88,10 @@ class HistoryUtils
         ?string $made_by,
         ?string $property,
         ?string $oldValue,
-        ?string $newValue
+        ?string $newValue,
     ): void {
-        if (strlen($oldValue) > 255) {
-            $oldValue = substr($oldValue, 0, 250).'...';
-        }
-        if (strlen($newValue) > 255) {
-            $newValue = substr($newValue, 0, 250).'...';
-        }
-        if (!mb_check_encoding($oldValue, 'UTF-8')) {
-            $oldValue = iconv("UTF-8", "UTF-8//IGNORE", $oldValue);
-        }
+        $oldValue = $this->convertUtf8($oldValue);
+        $newValue = $this->convertUtf8($newValue);
         $history = new History($fiche, $made_by, $property, $oldValue, $newValue);
         $this->historyRepository->persist($history);
     }
@@ -131,12 +126,26 @@ class HistoryUtils
         $this->flush();
     }
 
+    private function convertUtf8(?string $text): ?string
+    {
+        if ($text) {
+            if (strlen($text) > 255) {
+                $text = substr($text, 0, 250).'...';
+            }
+            $textObject = (new ByteString($text));
+            if (!$textObject->isUtf8()) {
+                $text = iconv("UTF-8", "UTF-8//IGNORE", $text);
+            }
+        }
+
+        return $text;
+    }
+
     private function flush(): void
     {
         try {
             $this->historyRepository->flush();
         } catch (\Exception $exception) {
-
         }
     }
 }

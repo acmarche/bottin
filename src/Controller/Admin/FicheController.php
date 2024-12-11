@@ -17,6 +17,7 @@ use AcMarche\Bottin\Repository\ClassementRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Search\SearchMeili;
 use AcMarche\Bottin\Utils\PathUtils;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,14 +35,14 @@ class FicheController extends AbstractController
         private readonly PathUtils $pathUtils,
         private readonly ClassementRepository $classementRepository,
         private readonly FicheRepository $ficheRepository,
+        private readonly EntityManagerInterface $entityManager,
         private readonly HoraireService $horaireService,
         private readonly SearchMeili $searchEngine,
         private readonly HistoryUtils $historyUtils,
         private readonly MetaFieldRepository $metaFieldRepository,
         private readonly MetaDataRepository $metaDataRepository,
-        private readonly MessageBusInterface $messageBus
-    ) {
-    }
+        private readonly MessageBusInterface $messageBus,
+    ) {}
 
     #[Route(path: '/', name: 'bottin_admin_fiche_index', methods: ['GET'])]
     public function index(Request $request): Response
@@ -70,7 +71,7 @@ class FicheController extends AbstractController
                 'isSubmitted' => $form->isSubmitted(),
                 'fiches' => $fiches,
                 'count' => $count,
-            ]
+            ],
         );
     }
 
@@ -105,7 +106,7 @@ class FicheController extends AbstractController
             '@AcMarcheBottin/admin/fiche/new.html.twig',
             [
 
-            ]
+            ],
         );
     }
 
@@ -120,7 +121,7 @@ class FicheController extends AbstractController
             [
                 'fiche' => $fiche,
                 'classements' => $classements,
-            ]
+            ],
         );
     }
 
@@ -144,7 +145,11 @@ class FicheController extends AbstractController
             $data = $form->getData();
 
             $horaires = $data->horaires;
-            $this->horaireService->handleEdit($fiche, $horaires);
+            try {
+                $this->horaireService->handleEdit($fiche, $horaires);
+            } catch (Exception $exception) {
+                $this->addFlash('danger', "Erreur pour l'enregistrement ".$exception->getMessage());
+            }
 
             try {
                 $this->historyUtils->diffFiche($fiche);
@@ -152,16 +157,19 @@ class FicheController extends AbstractController
                 $this->addFlash('danger', "Erreur pour l'enregistrement dans l' historique ".$exception->getMessage());
             }
 
-            $this->ficheRepository->flush();
-            $this->addFlash('success', 'La fiche a bien été modifiée');
+            try {
+                $this->entityManager->flush();
+                $this->addFlash('success', 'La fiche a bien été modifiée');
+            } catch (Exception $exception) {
+                $this->addFlash('danger', "Erreur pour l'enregistrement ".$exception->getMessage());
+            }
 
             try {
                 $this->messageBus->dispatch(new FicheUpdated($fiche->getId(), $oldAdresse));
             } catch (Exception $exception) {
                 $this->addFlash('danger', $exception->getMessage());
             }
-
-            return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
+            //   return $this->redirectToRoute('bottin_admin_fiche_show', ['id' => $fiche->getId()]);
         }
 
         $errors = [];
@@ -180,7 +188,7 @@ class FicheController extends AbstractController
                 'errors' => $errors,
                 'form' => $form->createView(),
             ]
-            , $response
+            , $response,
         );
     }
 
