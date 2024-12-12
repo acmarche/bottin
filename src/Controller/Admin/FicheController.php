@@ -91,8 +91,7 @@ class FicheController extends AbstractController
             $fiche = new Fiche();
             $fiche->societe = $societe;
             $fiche->cp = $this->getParameter('bottin.cp_default');
-            $this->entityManager->persist($fiche);
-            $this->entityManager->flush();
+            $this->ficheRepository->insert($fiche);
             $this->historyUtils->newFiche($fiche);
 
             $this->messageBus->dispatch(new FicheCreated($fiche->getId()));
