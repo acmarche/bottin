@@ -144,7 +144,7 @@ class HistoryUtils
     private function flush(): void
     {
         try {
-            $this->historyRepository->flush();
+            $this->entityManager->flush();
         } catch (\Exception $exception) {
         }
     }
