@@ -2,6 +2,7 @@
 
 namespace AcMarche\Bottin\Controller\Admin;
 
+use AcMarche\Bottin\Classement\Form\ClassementByAutocompleteType;
 use AcMarche\Bottin\Classement\Form\ClassementType;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Classement\Message\ClassementCreated;
@@ -25,21 +26,34 @@ class ClassementController extends AbstractController
         private readonly ClassementHandler $classementHandler,
         private readonly CategoryRepository $categoryRepository,
         private readonly PathUtils $pathUtils,
-        private readonly MessageBusInterface $messageBus
-    ) {
-    }
+        private readonly MessageBusInterface $messageBus,
+    ) {}
 
     #[Route(path: '/edit/{id}', name: 'bottin_admin_classement_new', methods: ['GET', 'POST'])]
     public function edit(Fiche $fiche, Request $request): Response
     {
-        $form = $this->createForm(ClassementType::class);
-        $classements = $this->classementRepository->getByFiche($fiche);
-        $classements = $this->pathUtils->setPathForClassements($classements);
+        $formAutocomplete = $this->createForm(ClassementByAutocompleteType::class);
+        $formNavigation = $this->createForm(ClassementType::class);
 
-        $roots = $this->categoryRepository->getRootNodes();
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+        $formNavigation->handleRequest($request);
+        if ($formNavigation->isSubmitted() && $formNavigation->isValid()) {
+            $data = $formNavigation->getData();
+            $categoryId = (int)$data['categorySelected'];
+            try {
+                $classement = $this->classementHandler->handleNewClassement($fiche, $categoryId);
+                $this->messageBus->dispatch(new ClassementCreated($fiche->getId(), $classement->getId()));
+                $category = $this->categoryRepository->find($categoryId);
+                $this->addFlash('success', 'Ajouté dans '.$category->name);
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
+
+            return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
+        }
+
+        $formAutocomplete->handleRequest($request);
+        if ($formAutocomplete->isSubmitted() && $formAutocomplete->isValid()) {
+            $data = $formAutocomplete->getData();
             $categories = $data['categories'];
             foreach ($categories as $category) {
                 try {
@@ -54,14 +68,22 @@ class ClassementController extends AbstractController
             return $this->redirectToRoute('bottin_admin_classement_new', ['id' => $fiche->getId()]);
         }
 
+        $classements = $this->classementRepository->getByFiche($fiche);
+        $classements = $this->pathUtils->setPathForClassements($classements);
+
+        $roots = $this->categoryRepository->getRootNodes();
+        $response = new Response(null, $formNavigation->isSubmitted() ? Response::HTTP_ACCEPTED : Response::HTTP_OK);
+
         return $this->render(
             '@AcMarcheBottin/admin/classement/edit.html.twig',
             [
                 'fiche' => $fiche,
                 'classements' => $classements,
                 'roots' => $roots,
-                'form' => $form,
-            ]
+                'formNavigation' => $formNavigation,
+                'formAutocomplete' => $formAutocomplete,
+            ],
+            $response,
         );
     }
 }

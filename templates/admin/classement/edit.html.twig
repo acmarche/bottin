@@ -12,48 +12,26 @@
         </div>
 
         <div class="card-body">
-            <div {{ stimulus_controller('classement', {
-                categoryId: 0,
-                urlGetCategories: path('bottin_admin_ajax_get_categories_for_export'),
-                urlPrincipalClassement: path('bottin_admin_ajax_principal_classement'),
-                urlGetCategory: path('bottin_ajax_fetch_category'),
-                urlDeleteClassement: path('bottin_admin_ajax_remove_classement')}) }} >
-                {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
 
-                <h5 class="text-warning">Ajouter un secteur</h5>
-                <hr>
-                {{ form_start(form) }}
-                {{ form_errors(form) }}
-                <h6 class="text-success">Rechercher par mot clef</h6>
-                {{ form_row(form.categories) }}
-                <button  id="btnadd" class="btn btn-primary mr-1 mb-2" type="submit" data-classement-target="btn">
-                    <i class="ti ti-device-floppy" aria-hidden="true"></i>
-                    Ajouter
-                </button>
-                {{ form_end(form) }}
-                <h6 class="text-success">Rechercher par navigation</h6>
-                <div class="d-flex gap-2">
-                    <ul class="list-group">
-                        {% for category in roots %}
-                            <li class="list-group-item">
-                                <button
-                                        class="btn btn-sm btn-primary"
-                                        data-action="classement#selectCategory"
-                                        data-classement-target="categories"
-                                        data-category-id="{{ category.id }}"
-                                        data-category-level="1"
-                                >
-                                    {{ category }}
-                                </button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="d-flex" data-classement-target="result1"></div>
-                    <div class="d-flex" data-classement-target="result2"></div>
-                    <div class="d-flex" data-classement-target="result3"></div>
-                    <div class="d-flex" data-classement-target="result4"></div>
-                </div>
-            </div>
+            {% include '@AcMarcheBottin/backend/classement/_list.html.twig' %}
+
+            <h5 class="text-warning">Ajouter un secteur</h5>
+            <hr>
+            {{ form_start(formAutocomplete) }}
+            {{ form_errors(formAutocomplete) }}
+            <h6 class="text-success">Ajouter par mot clef</h6>
+            {{ form_row(formAutocomplete.categories) }}
+            <button id="btnadd" class="btn btn-primary mr-1 mb-2" type="submit">
+                <i class="ti ti-device-floppy" aria-hidden="true"></i>
+                Ajouter
+            </button>
+            {{ form_end(formAutocomplete) }}
+
+            <hr>
+            <hr>
+            <h6 class="text-success">Ajouter par navigation</h6>
+            {% include '@AcMarcheBottin/admin/classement/_add_by_navigation.html.twig' %}
+
         </div>
     </div>
 {% endblock %}

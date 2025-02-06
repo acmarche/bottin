@@ -1,0 +1,37 @@
+<div {{ stimulus_controller('classement', {
+    categoryId: 0,
+    urlGetCategories: path('bottin_admin_ajax_get_categories_for_export'),
+    urlGetCategory: path('bottin_ajax_fetch_category')}) }} >
+
+    {{ form_start(formNavigation) }}
+    {{ form_errors(formNavigation) }}
+
+    {{ form_row(formNavigation.categorySelected) }}
+    <button id="btnadd" class="btn btn-primary mr-1 mb-2"
+            type="submit">
+        <i class="ti ti-device-floppy" aria-hidden="true"></i>
+        Ajouter <span {{ stimulus_target('classement', 'btn') }}></span>
+    </button>
+    {{ form_end(formNavigation) }}
+
+    <div class="d-flex gap-2">
+        <ul class="list-group">
+            {% for category in roots %}
+                <li class="list-group-item">
+                    <button
+                            class="btn btn-sm btn-primary"
+                            {{ stimulus_action('classement', 'selectCategory', 'click') }}
+                            {{ stimulus_target('classement', 'categories') }}
+                            data-category-id="{{ category.id }}"
+                            data-category-level="1">
+                        {{ category }}
+                    </button>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex" {{ stimulus_target('classement', 'result1') }}></div>
+        <div class="d-flex" {{ stimulus_target('classement', 'result2') }}></div>
+        <div class="d-flex" {{ stimulus_target('classement', 'result3') }}></div>
+        <div class="d-flex" {{ stimulus_target('classement', 'result4') }}></div>
+    </div>
+</div>
