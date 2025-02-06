@@ -1,6 +1,6 @@
 <?php
 
-namespace AcMarche\Bottin\Security;
+namespace AcMarche\Bottin\Security\Authenticator;
 
 use AcMarche\Bottin\Repository\UserRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\PasswordUpgradeBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -22,17 +22,8 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-/**
- * Essayer de voir les events
- * Si reponse null en cas de failure le manager va essayer un autre authenticator.
- *
- * @see \Symfony\Component\Security\Http\Authentication\AuthenticatorManager
- * @see UserCheckerListener::postCheckCredentials
- * @see UserProviderListener::checkPassport
- * @see CheckCredentialsListener
- * bin/console debug:event-dispatcher --dispatcher=security.event_dispatcher.main
- */
-class BottinAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface, InteractiveAuthenticatorInterface
+class BottinAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface,
+                                                                   InteractiveAuthenticatorInterface
 {
     use TargetPathTrait;
 
@@ -41,9 +32,8 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly UserRepository $userRepository,
-        private readonly ParameterBagInterface $parameterBag
-    ) {
-    }
+        private readonly ParameterBagInterface $parameterBag,
+    ) {}
 
     public function supports(Request $request): bool
     {
@@ -52,8 +42,8 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('username', '');
-        $password = $request->request->get('password', '');
+        $email = $request->request->get('_username', '');
+        $password = $request->request->get('_password', '');
         $token = $request->request->get('_csrf_token', '');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
@@ -61,13 +51,13 @@ class BottinAuthenticator extends AbstractAuthenticator implements Authenticatio
         $badges =
             [
                 new CsrfTokenBadge('authenticate', $token),
-                new RememberMeBadge(),
+                new PasswordUpgradeBadge($password, $this->userRepository),
             ];
 
         return new Passport(
             new UserBadge($email),
             new PasswordCredentials($password),
-            $badges
+            $badges,
         );
     }
 

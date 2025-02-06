@@ -1,8 +1,7 @@
 <?php
 
 use AcMarche\Bottin\Namer\DirectoryNamer;
-use AcMarche\Bottin\Parameter\Option;
-use AcMarche\Bottin\Security\LdapBottin;
+use AcMarche\Bottin\Security\Ldap\LdapBottin;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Ldap\Adapter\ExtLdap\Adapter;
 use Symfony\Component\Ldap\Ldap;
@@ -12,13 +11,9 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::LDAP_DN, '%env(ACLDAP_DN)%');
-    $parameters->set(Option::LDAP_USER, '%env(ACLDAP_USER)%');
-    $parameters->set(Option::LDAP_PASSWORD, '%env(ACLDAP_PASSWORD)%');
     $parameters->set('bottin.cp_default', '6900');
     $parameters->set('bottin.url_update_category', '%env(BOTTIN_URL_UPDATE_CATEGORY)%');
     $parameters->set('bottin.email_from', '%env(EMAIL_FROM)%');
-    $parameters->set('es_config', ['hosts' => 'http://localhost:9200']);
     $parameters->set('bootcdn', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
 
     $services = $containerConfigurator->services();
