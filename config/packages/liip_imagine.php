@@ -13,8 +13,8 @@ return static function (LiipImagineConfig $liipImagineConfig): void {
     $thumbnailFilter->set('mode', 'outbound');
 
     // Define the rotate filter
-    $rotateFilter = $filterSet->filter('rotate');
-    $rotateFilter->set('angle', 90);
+    $rotateFilter = $filterSet->filter('auto_rotate');
+    //$rotateFilter->set('angle', 90);
 
     $liipImagineConfig
         ->filterSet('circuitcourt_thumb')
