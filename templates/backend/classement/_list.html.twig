@@ -1,47 +1,52 @@
-<div data-classement-target="classementList">
-    {% if classements | length > 0 %}
-        <table class='table table-bordered'>
-            <tbody>
-            {% for classement in classements %}
-                {% set category = classement.category %}
-                {% set paths =  category.path %}
-                <tr {% if classement.principal %}class="table-info"{% endif %}>
-                    <td>
-                        <nav aria-label="breadcrumb">
-                            <ol class='breadcrumb'>
-                                {% for path in paths %}
-                                    {% if loop.last %}
-                                        <li class="breadcrumb-item active" aria-current="page">{{ path }}</li>
-                                    {% else %}
-                                        <li class="breadcrumb-item" aria-current="page">
-                                            {{ path }}
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ol>
-                        </nav>
-                    </td>
-                    <td class="text-center">
-                        {% if not classement.principal %}
-                            <button title="Définir en principal"
-                                    data-action="classement#principalClassement"
-                                    data-classement-id="{{ classement.id }}"
-                                    class="btn btn-primary btn-sm"><i class="ti ti-check"></i>
+<div {{ stimulus_controller('classement_list', {
+    urlPrincipalClassement: path('bottin_admin_ajax_principal_classement'),
+    urlDeleteClassement: path('bottin_admin_ajax_remove_classement')}) }} >
+
+    <div {{ stimulus_target('classement_list', 'classementList') }} >
+        {% if classements | length > 0 %}
+            <table class='table table-bordered'>
+                <tbody>
+                {% for classement in classements %}
+                    {% set category = classement.category %}
+                    {% set paths =  category.path %}
+                    <tr {% if classement.principal %}class="table-info"{% endif %}>
+                        <td>
+                            <nav aria-label="breadcrumb">
+                                <ol class='breadcrumb'>
+                                    {% for path in paths %}
+                                        {% if loop.last %}
+                                            <li class="breadcrumb-item active" aria-current="page">{{ path }}</li>
+                                        {% else %}
+                                            <li class="breadcrumb-item" aria-current="page">
+                                                {{ path }}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ol>
+                            </nav>
+                        </td>
+                        <td class="text-center">
+                            {% if not classement.principal %}
+                                <button title="Définir en principal"
+                                        {{ stimulus_action('classement_list', 'principalClassement', 'click') }}
+                                        data-classement_list-id="{{ classement.id }}"
+                                        class="btn btn-primary btn-sm"><i class="ti ti-check"></i>
+                                </button>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <button title="supprimer ce classement"
+                                    {{ stimulus_action('classement_list', 'deleteClassement', 'click') }}
+                                    data-classement_list-id="{{ classement.id }}"
+                                    class="btn btn-danger btn-sm"><i class="ti ti-trash"></i>
                             </button>
-                        {% endif %}
-                    </td>
-                    <td class="text-center">
-                        <button title="supprimer ce classement"
-                                data-action="classement#deleteClassement"
-                                data-classement-id="{{ classement.id }}"
-                                class="btn btn-danger btn-sm"><i class="ti ti-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p class="text-warning">Aucun classement</p>
-    {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-warning">Aucun classement</p>
+        {% endif %}
+    </div>
 </div>
