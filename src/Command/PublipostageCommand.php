@@ -49,7 +49,7 @@ class PublipostageCommand extends Command
                 continue;
             }
             try {
-                $this->mailer->send($message);
+           //     $this->mailer->send($message);
 
             } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error("Erreur lors de l'envoie du message: ".$e->getMessage());
