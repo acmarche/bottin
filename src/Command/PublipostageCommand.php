@@ -35,30 +35,26 @@ class PublipostageCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $i = 0;
         foreach ($fiches as $fiche) {
-            $body = null;
+            $body = $message = null;
             $subject = 'Mise à jour de vos données';
             $fileName = $this->pdfFactory->getFileName($fiche);
             if (!is_readable($fileName)) {
                 $io->error("Pdf not found: ".$fiche->societe);
-                break;
+                continue;
             }
             try {
                 $message = $this->mailFactory->mailMessageToFiche($subject, $body, $fiche, $fileName);
             } catch (\Exception $e) {
                 $io->error('for email'.$fiche->societe.' '.$e->getMessage());
-                break;
+                continue;
             }
             try {
-                dump($message->getTo());
                 $this->mailer->send($message);
+
             } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error("Erreur lors de l'envoie du message: ".$e->getMessage());
             }
-
-            if (1 == $i) {
-                break;
-            }
-
+            $io->writeln($i);
             ++$i;
         }
 

@@ -6,12 +6,10 @@ use AcMarche\Bottin\Bottin;
 use AcMarche\Bottin\Classement\Handler\ClassementHandler;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Entity\History;
-use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Utils\FicheUtils;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mime\Address;
-use function Ramsey\Uuid\v1;
 
 class MailFactory
 {
@@ -44,9 +42,8 @@ class MailFactory
 
         $templatedEmail = (new TemplatedEmail())
             ->from(new Address('adl@marche.be', $from))
-        //    ->bcc(new Address('jf@marche.be', $email))
-            ->to(new Address('jf@marche.be'))
-            //->to(...$emails)
+            ->bcc(new Address('jf@marche.be', $email))
+            ->to(...$emails)
             ->subject($subject)
             ->htmlTemplate('@AcMarcheBottin/mail/_fiche.html.twig')
             ->context(
