@@ -67,7 +67,8 @@ class CreateUserCommand extends Command
         $user->password = $this->userPasswordEncoder->hashPassword($user, $password);
         $user->addRole('ROLE_BOTTIN_ADMIN');
 
-        $this->userRepository->insert($user);
+        dump($user->password);
+       // $this->userRepository->insert($user);
 
         $symfonyStyle->success('Utilisateur créé.');
 

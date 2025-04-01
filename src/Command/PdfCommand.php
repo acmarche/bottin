@@ -48,7 +48,7 @@ class PdfCommand extends Command
                 $io->error(
                     $fiche->getSlug()."Erreur lors de la création du pdf: ".$exception->getMessage()
                 );
-                continue;
+                break;
             }
         }
 

@@ -2,8 +2,8 @@
 
 namespace AcMarche\Bottin\Command;
 
-use AcMarche\Bottin\Export\ExportUtils;
 use AcMarche\Bottin\Mailer\MailFactory;
+use AcMarche\Bottin\Pdf\Factory\PdfFactory;
 use AcMarche\Bottin\Repository\FicheRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,7 +23,7 @@ class PublipostageCommand extends Command
         private readonly FicheRepository $ficheRepository,
         private readonly MailerInterface $mailer,
         private readonly MailFactory $mailFactory,
-        private readonly ExportUtils $exportUtils,
+        private readonly PdfFactory $pdfFactory,
         string $name = null
     ) {
         parent::__construct($name);
@@ -35,17 +35,28 @@ class PublipostageCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $i = 0;
         foreach ($fiches as $fiche) {
-            $message = null;
+            $body = null;
             $subject = 'Mise à jour de vos données';
-            $email = $this->mailFactory->mailMessageToFiche($subject, $message, $pdfPath);
+            $fileName = $this->pdfFactory->getFileName($fiche);
+            if (!is_readable($fileName)) {
+                $io->error("Pdf not found: ".$fiche->societe);
+                break;
+            }
             try {
-                //  $this->mailer->send($email);
+                $message = $this->mailFactory->mailMessageToFiche($subject, $body, $fiche, $fileName);
+            } catch (\Exception $e) {
+                $io->error('for email'.$fiche->societe.' '.$e->getMessage());
+                break;
+            }
+            try {
+                dump($message->getTo());
+                $this->mailer->send($message);
             } catch (TransportExceptionInterface|\Exception $e) {
                 $io->error("Erreur lors de l'envoie du message: ".$e->getMessage());
             }
 
             if (1 == $i) {
-                // break;
+                break;
             }
 
             ++$i;

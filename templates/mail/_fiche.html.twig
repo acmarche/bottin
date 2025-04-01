@@ -8,7 +8,9 @@
 
 {% block content %}
 
-    {{ body|nl2br }}
+    {% if body %}
+        {{ body|nl2br }}
+    {% endif %}
     {% include '@AcMarcheBottin/admin/publipostage/_lettre_mail.html.twig' %}
 
 {% endblock %}
