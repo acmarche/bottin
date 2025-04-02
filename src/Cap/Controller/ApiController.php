@@ -253,9 +253,11 @@ class ApiController extends AbstractController
             ];
             $items = [];
             foreach ($hits as $hit) {
-                $t = ['_index' => 'bottin',
+                $t = [
+                    '_index' => 'bottin',
                     '_id' => $hit['id'],
-                    '_source' => $hit];
+                    '_source' => $hit,
+                ];
                 $items[] = $t;
             }
             $result['hits']['hits'] = $items;
@@ -404,17 +406,17 @@ class ApiController extends AbstractController
                 return $this->json(['error' => 'args not json'], Response::HTTP_BAD_REQUEST);
             }
 
-            if ($args->args->localite) {
+            if (isset($args->args->localite)) {
                 $localite = $args->args->localite;
             }
 
-            if ($args->args->tags) {
+            if (isset($args->args->tags)) {
                 foreach ($args->args->tags as $tag) {
                     $tags[] = $tag;
                 }
             }
 
-            if ($args->args->coordinates) {
+            if (isset($args->args->coordinates)) {
                 $coordinates = $args->args->coordinates;
             }
 
@@ -439,7 +441,7 @@ class ApiController extends AbstractController
             $data['count'] = $count;
             $data['error'] = $error;
             $data['facetDistribution'] = $facetDistribution;
-
+            $filters = [];
             foreach ($facetDistribution as $key => $facets) {
                 if (str_starts_with($key, '_')) {
                     continue;
