@@ -40,8 +40,8 @@ class Bottin
     public const TOURISME = 485;
 
     public const EMAILS = [
-        self::ADMINISTRATION => 'cst@marche.be',
-        self::CITOYEN => 'cst@marche.be',
+        self::ADMINISTRATION => 'epn@marche.be',
+        self::CITOYEN => 'epn@marche.be',
         self::CULTURE => 'animation@marche.be',
         self::ECONOMIE => 'adl@marche.be',
         self::ENFANCE => 'epe@marche.be',
