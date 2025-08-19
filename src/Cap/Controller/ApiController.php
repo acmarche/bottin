@@ -108,6 +108,9 @@ class ApiController extends AbstractController
     #[Route(path: '/bottin/fiches', name: 'bottin_admin_api_fiches_commerces', methods: ['GET'])]
     public function fiches(): JsonResponse
     {
+        $data = iterator_to_array($this->getFichesGenerator());
+
+        return $this->json($data);
         $fiches = array_merge(
             $this->categoryService->getFichesByCategoryId(Cap::idEco),
             $this->categoryService->getFichesByCategoryId(Cap::idPharmacies)
@@ -122,6 +125,19 @@ class ApiController extends AbstractController
                });*/
 
         return $this->json($data);
+    }
+
+    private function getFichesGenerator(): \Generator
+    {
+        // Process first category
+        foreach ($this->categoryService->getFichesByCategoryId(Cap::idEco) as $fiche) {
+            yield $this->apiUtils->prepareFiche($fiche);
+        }
+
+        // Process second category
+        foreach ($this->categoryService->getFichesByCategoryId(Cap::idPharmacies) as $fiche) {
+            yield $this->apiUtils->prepareFiche($fiche);
+        }
     }
 
     /**
