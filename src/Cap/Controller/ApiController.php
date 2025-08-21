@@ -159,7 +159,7 @@ class ApiController extends AbstractController
      * Le detail de la fiche {id}.
      */
     #[Route(path: '/bottin/fichebyid/{id}', name: 'bottin_admin_api_fiche_by_id', methods: ['GET'])]
-    public function ficheById(int $id): JsonResponse
+    public function ficheById(int|string $id): JsonResponse
     {
         $fiche = $this->ficheRepository->find($id);
         if (!$fiche instanceof Fiche) {
