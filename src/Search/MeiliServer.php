@@ -3,7 +3,6 @@
 namespace AcMarche\Bottin\Search;
 
 use AcMarche\Bottin\Bottin;
-use AcMarche\Bottin\Cap\CapApi;
 use AcMarche\Bottin\Entity\Category;
 use AcMarche\Bottin\Entity\Fiche;
 use AcMarche\Bottin\Repository\CategoryRepository;
@@ -30,7 +29,6 @@ class MeiliServer
         private readonly FicheSerializer $ficheSerializer,
         private readonly CategorySerializer $categorySerializer,
         private readonly ClassementElastic $classementElastic,
-        private readonly CapApi $capApi
     ) {
     }
 
