@@ -10,10 +10,6 @@ use AcMarche\Bottin\Repository\CategoryRepository;
 use AcMarche\Bottin\Repository\FicheRepository;
 use AcMarche\Bottin\Serializer\CategorySerializer;
 use AcMarche\Bottin\Serializer\FicheSerializer;
-use AcMarche\Cap\Entity\Commercant;
-use AcMarche\Cap\Repository\CommercantRepository;
-use AcMarche\Cap\Repository\CommercioBottinRepository;
-use AcMarche\Cap\Repository\GalleryRepository;
 use Meilisearch\Contracts\DeleteTasksQuery;
 use Meilisearch\Endpoints\Keys;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -34,9 +30,6 @@ class MeiliServer
         private readonly FicheSerializer $ficheSerializer,
         private readonly CategorySerializer $categorySerializer,
         private readonly ClassementElastic $classementElastic,
-        private readonly CommercioBottinRepository $commercioBottinRepository,
-        private readonly CommercantRepository $commercantRepository,
-        private readonly GalleryRepository $galleryRepository,
         private readonly CapApi $capApi
     ) {
     }
@@ -108,9 +101,6 @@ class MeiliServer
             $data['_geo'] = ['lat' => $fiche->latitude, 'lng' => $fiche->longitude];
         }
         $data['secteurs'] = $this->classementElastic->getSecteursForApi($data['classements']);
-        if ($addCap) {
-            $data['cap'] = $this->addCapInfo($data);
-        }
 
         return $data;
     }
@@ -169,35 +159,4 @@ class MeiliServer
         ]);
     }
 
-    private function addCapInfo(array $data): ?Commercant
-    {
-        $capFiche = null;
-        if ($cap = $this->commercioBottinRepository->findByFicheId($data['id'])) {
-            if ($cap->commercantId) {
-                if ($capFiche = $this->commercantRepository->findByIdCommercant($cap->commercantId)) {
-                    $galleries = $this->galleryRepository->findByCommercant($capFiche);
-                    $images = [];
-                    foreach ($galleries as $gallery) {
-                        $img = [
-                            'id' => $gallery->getId(),
-                            'name' => $gallery->name,
-                            'path' => $gallery->mediaPath,
-                            'alt' => $gallery->alt,
-                        ];
-                        $images[] = $img;
-                    }
-                    $capFiche->images = $images;
-                    if ([] !== $images) {
-                        if (!$capFiche->profileMediaPath) {
-                            $capFiche->profileMediaPath = $images[0]['path'];
-                        }
-                    } else {
-                        $capFiche->profileMediaPath = null;
-                    }
-                }
-            }
-        }
-
-        return $capFiche;
-    }
 }

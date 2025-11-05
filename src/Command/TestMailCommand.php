@@ -43,7 +43,8 @@ class TestMailCommand extends Command
                 ->to($email)
                 ->subject('Time for Symfony Mailer!')
                 ->text('Sending emails is fun again!')
-                ->html('<p>See Twig integration for better HTML integration!</p>');
+                ->html('<p><a href="bankapp://transfer?amount=50.00&currency=EUR&iban=BE12345678901234&reference=Invoice123">qrcode</a>
+See Twig integration for better HTML integration!</p>');
 
             try {
                 $this->mailer->send($message);
