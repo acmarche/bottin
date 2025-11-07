@@ -108,6 +108,7 @@ class ApiUtils
             $dataFiche = $this->ficheSerializer->serializeFiche($fiche);
             $dataFiche['horaires'] = $this->getHorairesForApi($fiche);
             $dataFiche['images'] = $this->getImages($fiche);
+            $dataFiche['classements'] = $this->getAllClassementsForApi($fiche);
             $urls = [];
             foreach ($dataFiche['images'] as $image) {
                 $urls[] = 'https://bottin.marche.be/bottin/fiches/'.$fiche->getId().'/'.$image['image_name'];
@@ -146,6 +147,20 @@ class ApiUtils
     public function getClassementsForApi(Fiche $fiche): array
     {
         $classementsFiche = $this->classementRepository->getByFiche($fiche, true);
+        $classements = [];
+        foreach ($classementsFiche as $classement) {
+            $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
+            $category = $classement->category;
+            $dataClassement['path'] = $this->getPathsForApi($category);
+            $classements[] = $dataClassement;
+        }
+
+        return $classements;
+    }
+
+    public function getAllClassementsForApi(Fiche $fiche): array
+    {
+        $classementsFiche = $this->classementRepository->getByFiche($fiche, false);
         $classements = [];
         foreach ($classementsFiche as $classement) {
             $dataClassement = $this->classementSerializer->serializeClassementForApi($classement);
