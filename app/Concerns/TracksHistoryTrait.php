@@ -1,0 +1,101 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Concerns;
+
+use App\Models\History;
+use BackedEnum;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+
+// https://medium.com/sammich-shop/simple-record-history-tracking-with-laravel-observers-48a2e3c5698b
+// https://laravel.com/docs/12.x/eloquent#examining-attribute-changes
+trait TracksHistoryTrait
+{
+    protected function track(Model $model, ?callable $func = null, $table = null, $id = null): void
+    {
+        $id = $id ?: $model->id;
+        // Allow for customization of the history record if needed
+        $func = $func ?: [$this, 'getHistoryBody'];
+
+        // Get the dirty fields and run them through the custom function, then insert them into the history table
+        $this->getUpdated($model)
+            ->map(function ($value, $field) use ($func) {
+                return call_user_func_array($func, [$value, $field]);
+            })
+            ->each(function ($fields) use ($id) {
+                History::create(
+                    [
+                        'shop_id' => $id,
+                        'made_by' => auth()->user()?->username ?? 'import',
+                    ] + $fields
+                );
+            });
+    }
+
+    /**
+     * Track changes to BelongsToMany relationships.
+     *
+     * @param  array<string, array{old: array<int>, new: array<int>, label: string, getDisplayName: callable}>  $relationships
+     */
+    protected function trackRelationships(Model $model, array $relationships): void
+    {
+        foreach ($relationships as $relationName => $config) {
+            $oldIds = collect($config['old']);
+            $newIds = collect($config['new']);
+            $label = $config['label'];
+            $getDisplayName = $config['getDisplayName'];
+
+            $attached = $newIds->diff($oldIds);
+            $detached = $oldIds->diff($newIds);
+
+            foreach ($attached as $id) {
+                $displayName = $getDisplayName($id);
+                $body = Str::limit("Ajouté $label: $displayName", 150);
+                History::create([
+                    'shop_id' => $model->id,
+                    'made_by' => auth()->user()?->username ?? 'import',
+                    //  'body' => $body,
+                    'property' => $relationName,
+                    'new_value' => $displayName,
+                ]);
+            }
+
+            foreach ($detached as $id) {
+                $displayName = $getDisplayName($id);
+                $body = Str::limit("Retiré $label: $displayName", 150);
+                History::create([
+                    'shop_id' => $model->id,
+                    'made_by' => auth()->user()?->username ?? 'import',
+                    // 'body' => $body,
+                    'property' => $relationName,
+                    'old_value' => $displayName,
+                ]);
+            }
+        }
+    }
+
+    protected function getHistoryBody($value, $field): array
+    {
+        $displayValue = $value instanceof BackedEnum ? $value->value : $value;
+
+        return [
+            'property' => $field,
+            'new_value' => $displayValue,
+        ];
+    }
+
+    protected function getUpdated($model): Collection
+    {
+        return collect($model->getDirty())->filter(function ($value, $key) {
+            // We don't care if timestamps are dirty, we're not tracking those
+            return ! in_array($key, ['created_at', 'updated_at', 'slug']);
+        })->mapWithKeys(function ($value, $key) {
+            // Take the field names and convert them into human readable strings for the description of the action
+            // e.g. first_name -> first name
+            return [str_replace('_', ' ', $key) => $value];
+        });
+    }
+}

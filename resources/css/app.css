@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-stormy-teal-50: #e5fdff;
+    --color-stormy-teal-100: #ccfbff;
+    --color-stormy-teal-200: #99f7ff;
+    --color-stormy-teal-300: #66f2ff;
+    --color-stormy-teal-400: #33eeff;
+    --color-stormy-teal-500: #00eaff;
+    --color-stormy-teal-600: #00bbcc;
+    --color-stormy-teal-700: #008c99;
+    --color-stormy-teal-800: #005e66;
+    --color-stormy-teal-900: #002f33;
+    --color-stormy-teal-950: #002124;
+
+    --color-pearl-aqua-50: #eef7f6;
+    --color-pearl-aqua-100: #dcefed;
+    --color-pearl-aqua-200: #badedb;
+    --color-pearl-aqua-300: #97cec9;
+    --color-pearl-aqua-400: #74beb6;
+    --color-pearl-aqua-500: #52ada4;
+    --color-pearl-aqua-600: #418b83;
+    --color-pearl-aqua-700: #316863;
+    --color-pearl-aqua-800: #214542;
+    --color-pearl-aqua-900: #102321;
+    --color-pearl-aqua-950: #0b1817;
+
+    --color-alice-blue-50: #ecf5f9;
+    --color-alice-blue-100: #d9ecf2;
+    --color-alice-blue-200: #b3d9e6;
+    --color-alice-blue-300: #8cc6d9;
+    --color-alice-blue-400: #66b3cc;
+    --color-alice-blue-500: #409fbf;
+    --color-alice-blue-600: #338099;
+    --color-alice-blue-700: #266073;
+    --color-alice-blue-800: #19404d;
+    --color-alice-blue-900: #0d2026;
+    --color-alice-blue-950: #09161b;
+}
