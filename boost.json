@@ -5,6 +5,7 @@
     "guidelines": true,
     "herd_mcp": false,
     "mcp": true,
+    "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
         "spatie/laravel-pdf",
@@ -12,6 +13,7 @@
     ],
     "sail": false,
     "skills": [
+        "scout-development",
         "pest-testing",
         "tailwindcss-development",
         "laravel-pdf"
