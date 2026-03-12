@@ -75,7 +75,7 @@ final class MigrationCommand extends Command
         foreach ($propertiesToTag as $property => $tagName) {
             $tag = Tag::query()->where('name', $tagName)->first();
 
-            if (!$tag) {
+            if (! $tag) {
                 $this->error("Tag '{$tagName}' not found, skipping.");
 
                 continue;
@@ -83,7 +83,7 @@ final class MigrationCommand extends Command
 
             $shops = Shop::query()
                 ->where($property, true)
-                ->whereDoesntHave('tags', fn($query) => $query->where('tags.id', $tag->id))
+                ->whereDoesntHave('tags', fn ($query) => $query->where('tags.id', $tag->id))
                 ->get();
 
             $this->info("Property '{$property}' → Tag '{$tagName}': {$shops->count()} shops to update.");
@@ -96,15 +96,15 @@ final class MigrationCommand extends Command
         foreach ($situationToTag as $situationName => $tagName) {
             $tag = Tag::query()->where('name', $tagName)->first();
 
-            if (!$tag) {
+            if (! $tag) {
                 $this->error("Tag '{$tagName}' not found, skipping.");
 
                 continue;
             }
 
             $shops = Shop::query()
-                ->whereHas('situations', fn($query) => $query->where('name', $situationName))
-                ->whereDoesntHave('tags', fn($query) => $query->where('tags.id', $tag->id))
+                ->whereHas('situations', fn ($query) => $query->where('name', $situationName))
+                ->whereDoesntHave('tags', fn ($query) => $query->where('tags.id', $tag->id))
                 ->get();
 
             $this->info("Situation '{$situationName}' → Tag '{$tagName}': {$shops->count()} shops to update.");

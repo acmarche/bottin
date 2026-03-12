@@ -100,30 +100,31 @@ final class ShopsTable
                 ]),
             ]);
     }
+
     public static function inline(Table $table): Table
     {
-        return  $table->recordTitleAttribute('company')
-        ->columns([
-            TextColumn::make('company')
-                ->label('Société')
-                ->sortable()
-                ->searchable(),
-            TextColumn::make('city')
-                ->label('Ville')
-                ->sortable()
-                ->searchable(),
-            TextColumn::make('email')
-                ->label('Email')
-                ->searchable(),
-            TextColumn::make('phone')
-                ->label('Téléphone')
-                ->searchable(),
-        ])
-        ->recordAction(ViewAction::class)
-        ->recordActions([
-            ViewAction::make()
-                ->url(fn ($record): string => ShopResource::getUrl('view', ['record' => $record])),
-        ]);;
+        return $table->recordTitleAttribute('company')
+            ->columns([
+                TextColumn::make('company')
+                    ->label('Société')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('city')
+                    ->label('Ville')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->label('Téléphone')
+                    ->searchable(),
+            ])
+            ->recordAction(ViewAction::class)
+            ->recordActions([
+                ViewAction::make()
+                    ->url(fn ($record): string => ShopResource::getUrl('view', ['record' => $record])),
+            ]);
 
-            }
+    }
 }
