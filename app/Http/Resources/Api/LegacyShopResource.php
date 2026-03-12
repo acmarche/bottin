@@ -9,6 +9,7 @@ use App\Models\Media;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 
 /** @mixin Shop */
 final class LegacyShopResource extends JsonResource
@@ -76,7 +77,7 @@ final class LegacyShopResource extends JsonResource
             'photos' => $this->mapPhotos(),
             'logo' => $this->mapLogo(),
             'cap' => [],
-            'created_at' => $this->created_at?->toIso8601String(),
+            'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
     }
@@ -90,21 +91,44 @@ final class LegacyShopResource extends JsonResource
             return [];
         }
 
-        return $this->categories->map(fn (Category $category): array => [
-            'id' => $category->id,
-            'parent' => $category->parent_id,
-            'name' => $category->name,
-            'slug' => $category->slug,
-            'slugname' => $category->slug,
-            'logo' => $category->logo,
-            'logo_blanc' => $category->logo_white,
-            'color' => $category->color,
-            'icon' => $category->icon,
-            'lvl' => 0,
-            'lft' => 0,
-            'rgt' => 0,
-            'root' => 0,
-        ])->all();
+        return $this->categories->map(function (Category $category): array {
+            $ancestors = $this->getAncestors($category);
+            $root = $ancestors->first();
+            $lvl = $ancestors->count();
+
+            return [
+                'id' => $category->id,
+                'name' => $category->name,
+                'lvl' => $lvl,
+                'lft' => '',
+                'rgt' => '',
+                'root' => $root ? (string) $root->id : (string) $category->id,
+                'description' => $category->description,
+                'logo' => $category->logo ?? '',
+                'icon' => $category->icon,
+                'slugname' => $category->slug,
+                'slug' => $category->slug,
+                'parent' => $category->parent_id,
+                'path' => $ancestors->map(fn (Category $ancestor): array => [
+                    'id' => $ancestor->id,
+                    'parent_id' => $ancestor->parent_id ?? 0,
+                    'slugname' => $ancestor->slug,
+                    'slug' => $ancestor->slug,
+                    'name' => $ancestor->name,
+                    'lvl' => 0,
+                    'lft' => '',
+                    'rgt' => '',
+                    'root' => $root ? (string) $root->id : (string) $ancestor->id,
+                    'mobile' => '',
+                    'logo' => $ancestor->logo ? 'https://www.marche.be/logo/adl/categories/'.$ancestor->logo : 'https://www.marche.be/logo/adl/categories/',
+                    'icon' => $ancestor->icon ? 'https://www.marche.be/logo/adl/categories/'.$ancestor->icon : 'https://www.marche.be/logo/adl/categories/',
+                    'description' => $ancestor->description,
+                    'logo_blanc' => $ancestor->logo_white,
+                    'created_at' => $ancestor->created_at?->toIso8601String(),
+                    'updated_at' => $ancestor->updated_at?->toIso8601String(),
+                ])->values()->all(),
+            ];
+        })->all();
     }
 
     /**
@@ -118,16 +142,16 @@ final class LegacyShopResource extends JsonResource
 
         return $this->schedules->map(fn ($schedule): array => [
             'id' => $schedule->id,
-            'fiche_id' => $schedule->shop_id,
             'day' => $schedule->day,
-            'is_open_at_lunch' => $schedule->is_open_at_lunch,
-            'is_rdv' => $schedule->is_by_appointment,
-            'is_closed' => $schedule->is_closed,
+            'media_path' => $schedule->media_path,
+            'is_open_at_lunch' => (int) $schedule->is_open_at_lunch,
+            'is_rdv' => (int) $schedule->is_by_appointment,
             'morning_start' => $schedule->morning_start,
             'morning_end' => $schedule->morning_end,
             'noon_start' => $schedule->noon_start,
             'noon_end' => $schedule->noon_end,
-            'media_path' => $schedule->media_path,
+            'fiche_id' => $schedule->shop_id,
+            'is_closed' => (int) $schedule->is_closed,
         ])->all();
     }
 
@@ -143,10 +167,10 @@ final class LegacyShopResource extends JsonResource
         return $this->medias->map(fn (Media $image): array => [
             'id' => $image->id,
             'fiche_id' => $image->shop_id,
-            'image_name' => $image->file_name,
-            'mime' => $image->mime_type,
             'principale' => $image->is_main,
-            'updated_at' => $image->updated_at?->toIso8601String(),
+            'image_name' => basename($image->file_name),
+            'mime' => $image->mime_type,
+            'updated_at' => $image->updated_at?->format('Y-m-d H:i:s'),
         ])->all();
     }
 
@@ -203,9 +227,30 @@ final class LegacyShopResource extends JsonResource
         }
 
         return $this->medias
-            ->map(fn (Media $image): string => $image->file_name)
+            ->map(fn (Media $image): string => 'https://bottin.marche.be/'.$image->file_name)
             ->values()
             ->all();
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    private function getAncestors(Category $category): Collection
+    {
+        $ancestors = collect();
+        $current = $category;
+
+        while ($current->parent_id !== null && $current->parent_id !== 0) {
+            $current = Category::find($current->parent_id);
+
+            if ($current === null) {
+                break;
+            }
+
+            $ancestors->prepend($current);
+        }
+
+        return $ancestors;
     }
 
     private function mapLogo(): ?string
@@ -216,6 +261,12 @@ final class LegacyShopResource extends JsonResource
 
         $mainImage = $this->medias->first(fn (Media $image): bool => $image->is_main);
 
-        return $mainImage?->file_name;
+        if ($mainImage === null) {
+            return $this->medias->isNotEmpty()
+                ? 'https://bottin.marche.be/'.$this->medias->first()->file_name
+                : null;
+        }
+
+        return 'https://bottin.marche.be/'.$mainImage->file_name;
     }
 }

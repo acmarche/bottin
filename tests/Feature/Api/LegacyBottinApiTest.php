@@ -111,7 +111,7 @@ it('includes schedules with legacy field names', function (): void {
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
         ->assertJsonPath('data.horaires.0.fiche_id', $shop->id)
-        ->assertJsonPath('data.horaires.0.is_rdv', true)
+        ->assertJsonPath('data.horaires.0.is_rdv', 1)
         ->assertJsonPath('data.horaires.0.day', 1);
 });
 
@@ -128,8 +128,8 @@ it('includes images with legacy field names', function (): void {
         ->assertJsonPath('data.images.0.fiche_id', $shop->id)
         ->assertJsonPath('data.images.0.principale', true)
         ->assertJsonPath('data.images.0.image_name', 'photo.jpg')
-        ->assertJsonPath('data.logo', 'photo.jpg')
-        ->assertJsonPath('data.photos.0', 'photo.jpg');
+        ->assertJsonPath('data.logo', 'https://bottin.marche.be/photo.jpg')
+        ->assertJsonPath('data.photos.0', 'https://bottin.marche.be/photo.jpg');
 });
 
 it('includes tags and tagsObject', function (): void {
@@ -151,6 +151,6 @@ it('includes categories with legacy field names', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.classements.0.logo_blanc', 'white.png')
+        ->assertJsonPath('data.classements.0.description', $category->description)
         ->assertJsonPath('data.classements.0.slugname', $category->slug);
 });
