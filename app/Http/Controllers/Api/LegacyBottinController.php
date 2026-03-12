@@ -16,8 +16,10 @@ final class LegacyBottinController
     {
         $categories = Category::query()
             ->whereNull('parent_id')
-            ->with('children')
+            ->with('children.children')
             ->get();
+
+        LegacyCategoryResource::preloadCategories();
 
         return response()->json(LegacyCategoryResource::collection($categories)->resolve());
     }

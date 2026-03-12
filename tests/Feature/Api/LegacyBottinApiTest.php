@@ -8,17 +8,24 @@ use App\Models\Schedule;
 use App\Models\Shop;
 use App\Models\Tag;
 
-it('returns category tree with enfants', function (): void {
-    $parent = Category::factory()->create(['name' => 'Parent']);
+it('returns category tree with enfants, path and full logo URLs', function (): void {
+    $parent = Category::factory()->create(['name' => 'Parent', 'logo' => 'parent.png', 'logo_white' => 'parent_w.png']);
     $child = Category::factory()->create(['name' => 'Child', 'parent_id' => $parent->id]);
 
     $this->getJson('/api/bottin/commerces')
         ->assertSuccessful()
         ->assertJsonPath('0.name', 'Parent')
         ->assertJsonPath('0.slugname', $parent->slug)
-        ->assertJsonPath('0.logo_blanc', $parent->logo_white)
+        ->assertJsonPath('0.logo', 'https://www.marche.be/logo/adl/categories/parent.png')
+        ->assertJsonPath('0.logo_blanc', 'https://www.marche.be/logo/adl/categories/parent_w.png')
+        ->assertJsonPath('0.root', (string) $parent->id)
+        ->assertJsonPath('0.path.0.id', $parent->id)
+        ->assertJsonPath('0.path.0.name', 'Parent')
         ->assertJsonPath('0.enfants.0.name', 'Child')
-        ->assertJsonPath('0.enfants.0.parent', $parent->id);
+        ->assertJsonPath('0.enfants.0.parent', $parent->id)
+        ->assertJsonPath('0.enfants.0.path.0.id', $parent->id)
+        ->assertJsonPath('0.enfants.0.path.1.id', $child->id)
+        ->assertJsonPath('0.enfants.0.root', (string) $parent->id);
 });
 
 it('returns all enabled shops', function (): void {
