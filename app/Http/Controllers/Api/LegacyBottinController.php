@@ -8,21 +8,21 @@ use App\Http\Resources\Api\LegacyCategoryResource;
 use App\Http\Resources\Api\LegacyShopResource;
 use App\Models\Category;
 use App\Models\Shop;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 final class LegacyBottinController
 {
-    public function commerces(): AnonymousResourceCollection
+    public function commerces(): JsonResponse
     {
         $categories = Category::query()
             ->whereNull('parent_id')
             ->with('children')
             ->get();
 
-        return LegacyCategoryResource::collection($categories);
+        return response()->json(LegacyCategoryResource::collection($categories)->resolve());
     }
 
-    public function fiches(): AnonymousResourceCollection
+    public function fiches(): JsonResponse
     {
         $shops = Shop::query()
             ->where('enabled', true)
@@ -31,10 +31,10 @@ final class LegacyBottinController
 
         LegacyShopResource::preloadCategories();
 
-        return LegacyShopResource::collection($shops);
+        return response()->json(LegacyShopResource::collection($shops)->resolve());
     }
 
-    public function fichesByCategory(Category $category): AnonymousResourceCollection
+    public function fichesByCategory(Category $category): JsonResponse
     {
         $shops = $category->shops()
             ->where('enabled', true)
@@ -43,19 +43,19 @@ final class LegacyBottinController
 
         LegacyShopResource::preloadCategories();
 
-        return LegacyShopResource::collection($shops);
+        return response()->json(LegacyShopResource::collection($shops)->resolve());
     }
 
-    public function ficheById(Shop $shop): LegacyShopResource
+    public function ficheById(Shop $shop): JsonResponse
     {
         $shop->load(['categories', 'schedules', 'medias', 'tags']);
 
         LegacyShopResource::preloadCategories();
 
-        return new LegacyShopResource($shop);
+        return response()->json((new LegacyShopResource($shop))->resolve());
     }
 
-    public function ficheBySlug(string $slug): LegacyShopResource
+    public function ficheBySlug(string $slug): JsonResponse
     {
         $shop = Shop::query()
             ->where('slug', $slug)
@@ -64,6 +64,6 @@ final class LegacyBottinController
 
         LegacyShopResource::preloadCategories();
 
-        return new LegacyShopResource($shop);
+        return response()->json((new LegacyShopResource($shop))->resolve());
     }
 }

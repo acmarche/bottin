@@ -14,11 +14,11 @@ it('returns category tree with enfants', function (): void {
 
     $this->getJson('/api/bottin/commerces')
         ->assertSuccessful()
-        ->assertJsonPath('data.0.name', 'Parent')
-        ->assertJsonPath('data.0.slugname', $parent->slug)
-        ->assertJsonPath('data.0.logo_blanc', $parent->logo_white)
-        ->assertJsonPath('data.0.enfants.0.name', 'Child')
-        ->assertJsonPath('data.0.enfants.0.parent', $parent->id);
+        ->assertJsonPath('0.name', 'Parent')
+        ->assertJsonPath('0.slugname', $parent->slug)
+        ->assertJsonPath('0.logo_blanc', $parent->logo_white)
+        ->assertJsonPath('0.enfants.0.name', 'Child')
+        ->assertJsonPath('0.enfants.0.parent', $parent->id);
 });
 
 it('returns all enabled shops', function (): void {
@@ -28,7 +28,7 @@ it('returns all enabled shops', function (): void {
     $response = $this->getJson('/api/bottin/fiches')
         ->assertSuccessful();
 
-    $ids = collect($response->json('data'))->pluck('id');
+    $ids = collect($response->json())->pluck('id');
 
     expect($ids)->toContain($enabled->id)
         ->not->toContain($disabled->id);
@@ -52,22 +52,22 @@ it('returns shops with legacy field names', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.societe', 'Test Company')
-        ->assertJsonPath('data.rue', 'Rue de la Gare')
-        ->assertJsonPath('data.numero', '42')
-        ->assertJsonPath('data.cp', 6900)
-        ->assertJsonPath('data.localite', 'Marche')
-        ->assertJsonPath('data.telephone', '084123456')
-        ->assertJsonPath('data.gsm', '0471234567')
-        ->assertJsonPath('data.numero_tva', 'BE0123456789')
-        ->assertJsonPath('data.centreville', true)
-        ->assertJsonPath('data.midi', true)
-        ->assertJsonPath('data.nom', 'Dupont')
-        ->assertJsonPath('data.prenom', 'Jean')
-        ->assertJsonPath('data.slugname', $shop->slug)
-        ->assertJsonPath('data.google_plus', '')
-        ->assertJsonPath('data.newsletter', '')
-        ->assertJsonPath('data.cap', []);
+        ->assertJsonPath('societe', 'Test Company')
+        ->assertJsonPath('rue', 'Rue de la Gare')
+        ->assertJsonPath('numero', '42')
+        ->assertJsonPath('cp', 6900)
+        ->assertJsonPath('localite', 'Marche')
+        ->assertJsonPath('telephone', '084123456')
+        ->assertJsonPath('gsm', '0471234567')
+        ->assertJsonPath('numero_tva', 'BE0123456789')
+        ->assertJsonPath('centreville', true)
+        ->assertJsonPath('midi', true)
+        ->assertJsonPath('nom', 'Dupont')
+        ->assertJsonPath('prenom', 'Jean')
+        ->assertJsonPath('slugname', $shop->slug)
+        ->assertJsonPath('google_plus', '')
+        ->assertJsonPath('newsletter', '')
+        ->assertJsonPath('cap', []);
 });
 
 it('returns shops by category', function (): void {
@@ -80,7 +80,7 @@ it('returns shops by category', function (): void {
     $response = $this->getJson("/api/bottin/fiches/rubrique/{$category->id}")
         ->assertSuccessful();
 
-    $ids = collect($response->json('data'))->pluck('id');
+    $ids = collect($response->json())->pluck('id');
 
     expect($ids)->toContain($shopInCategory->id)
         ->not->toContain($shopOutside->id);
@@ -91,8 +91,8 @@ it('returns a shop by slug', function (): void {
 
     $this->getJson("/api/bottin/fichebyslugname/{$shop->slug}")
         ->assertSuccessful()
-        ->assertJsonPath('data.societe', 'Boulangerie Martin')
-        ->assertJsonPath('data.slug', $shop->slug);
+        ->assertJsonPath('societe', 'Boulangerie Martin')
+        ->assertJsonPath('slug', $shop->slug);
 });
 
 it('returns 404 for unknown slug', function (): void {
@@ -110,9 +110,9 @@ it('includes schedules with legacy field names', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.horaires.0.fiche_id', $shop->id)
-        ->assertJsonPath('data.horaires.0.is_rdv', 1)
-        ->assertJsonPath('data.horaires.0.day', 1);
+        ->assertJsonPath('horaires.0.fiche_id', $shop->id)
+        ->assertJsonPath('horaires.0.is_rdv', 1)
+        ->assertJsonPath('horaires.0.day', 1);
 });
 
 it('includes images with legacy field names', function (): void {
@@ -125,11 +125,11 @@ it('includes images with legacy field names', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.images.0.fiche_id', $shop->id)
-        ->assertJsonPath('data.images.0.principale', true)
-        ->assertJsonPath('data.images.0.image_name', 'photo.jpg')
-        ->assertJsonPath('data.logo', 'https://bottin.marche.be/photo.jpg')
-        ->assertJsonPath('data.photos.0', 'https://bottin.marche.be/photo.jpg');
+        ->assertJsonPath('images.0.fiche_id', $shop->id)
+        ->assertJsonPath('images.0.principale', true)
+        ->assertJsonPath('images.0.image_name', 'photo.jpg')
+        ->assertJsonPath('logo', 'https://bottin.marche.be/photo.jpg')
+        ->assertJsonPath('photos.0', 'https://bottin.marche.be/photo.jpg');
 });
 
 it('includes tags and tagsObject', function (): void {
@@ -139,9 +139,9 @@ it('includes tags and tagsObject', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.tags.bio', 'Bio')
-        ->assertJsonPath('data.tagsObject.bio.name', 'Bio')
-        ->assertJsonPath('data.tagsObject.bio.slugname', 'bio');
+        ->assertJsonPath('tags.bio', 'Bio')
+        ->assertJsonPath('tagsObject.bio.name', 'Bio')
+        ->assertJsonPath('tagsObject.bio.slugname', 'bio');
 });
 
 it('includes categories with legacy field names', function (): void {
@@ -151,6 +151,6 @@ it('includes categories with legacy field names', function (): void {
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
-        ->assertJsonPath('data.classements.0.description', $category->description)
-        ->assertJsonPath('data.classements.0.slugname', $category->slug);
+        ->assertJsonPath('classements.0.description', $category->description)
+        ->assertJsonPath('classements.0.slugname', $category->slug);
 });
