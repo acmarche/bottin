@@ -29,6 +29,8 @@ final class LegacyBottinController
             ->with(['categories', 'schedules', 'medias', 'tags'])
             ->get();
 
+        LegacyShopResource::preloadCategories();
+
         return LegacyShopResource::collection($shops);
     }
 
@@ -39,12 +41,16 @@ final class LegacyBottinController
             ->with(['categories', 'schedules', 'medias', 'tags'])
             ->get();
 
+        LegacyShopResource::preloadCategories();
+
         return LegacyShopResource::collection($shops);
     }
 
     public function ficheById(Shop $shop): LegacyShopResource
     {
         $shop->load(['categories', 'schedules', 'medias', 'tags']);
+
+        LegacyShopResource::preloadCategories();
 
         return new LegacyShopResource($shop);
     }
@@ -55,6 +61,8 @@ final class LegacyBottinController
             ->where('slug', $slug)
             ->with(['categories', 'schedules', 'medias', 'tags'])
             ->firstOrFail();
+
+        LegacyShopResource::preloadCategories();
 
         return new LegacyShopResource($shop);
     }

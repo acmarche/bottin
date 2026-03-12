@@ -14,6 +14,14 @@ use Illuminate\Support\Collection;
 /** @mixin Shop */
 final class LegacyShopResource extends JsonResource
 {
+    /** @var Collection<int, Category>|null */
+    private static ?Collection $allCategories = null;
+
+    public static function preloadCategories(): void
+    {
+        self::$allCategories = Category::all()->keyBy('id');
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -240,9 +248,10 @@ final class LegacyShopResource extends JsonResource
     {
         $ancestors = collect();
         $current = $category;
+        $categories = self::$allCategories ?? collect();
 
         while ($current->parent_id !== null && $current->parent_id !== 0) {
-            $current = Category::find($current->parent_id);
+            $current = $categories->get($current->parent_id);
 
             if ($current === null) {
                 break;
