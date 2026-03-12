@@ -13,6 +13,7 @@ return new class extends Migration
         Schema::create('tag_groups', function (Blueprint $table): void {
             $table->id();
             $table->string('name')->unique();
+            $table->boolean('private')->default(false);
         });
 
         Schema::create('tags', function (Blueprint $table): void {

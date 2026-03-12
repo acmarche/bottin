@@ -9,6 +9,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -22,6 +23,9 @@ final class TagGroupsTable
                     ->label('Nom')
                     ->sortable()
                     ->searchable(),
+                IconColumn::make('private')
+                    ->label('Privé')
+                    ->boolean(),
             ])
             ->defaultPaginationPageOption(50)
             ->recordAction(ViewAction::class)

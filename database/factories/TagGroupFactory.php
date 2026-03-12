@@ -15,6 +15,7 @@ final class TagGroupFactory extends Factory
     {
         return [
             'name' => fake()->unique()->word(),
+            'private' => false,
         ];
     }
 }

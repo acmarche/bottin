@@ -19,11 +19,27 @@ final class TagGroup extends Model
 
     protected $fillable = [
         'name',
+        'private',
     ];
+
+    public function isPrivate(): bool
+    {
+        return (bool) $this->private;
+    }
 
     /** @return HasMany<Tag, $this> */
     public function tags(): HasMany
     {
         return $this->hasMany(Tag::class);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'private' => 'boolean',
+        ];
     }
 }
