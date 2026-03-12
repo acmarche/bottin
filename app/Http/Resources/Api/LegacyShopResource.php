@@ -95,6 +95,7 @@ final class LegacyShopResource extends JsonResource
             $ancestors = $this->getAncestors($category);
             $root = $ancestors->first();
             $lvl = $ancestors->count();
+            $pathWithSelf = $ancestors->concat([$category]);
 
             return [
                 'id' => $category->id,
@@ -109,7 +110,7 @@ final class LegacyShopResource extends JsonResource
                 'slugname' => $category->slug,
                 'slug' => $category->slug,
                 'parent' => $category->parent_id,
-                'path' => $ancestors->map(fn (Category $ancestor): array => [
+                'path' => $pathWithSelf->map(fn (Category $ancestor): array => [
                     'id' => $ancestor->id,
                     'parent_id' => $ancestor->parent_id ?? 0,
                     'slugname' => $ancestor->slug,
