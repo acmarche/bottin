@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Tags\Tables;
 
+use App\Models\Tag;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -15,6 +16,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 
 final class TagsTable
 {
@@ -55,7 +57,10 @@ final class TagsTable
             ])
             ->groups([
                 Group::make('tagGroup.name')
-                    ->label('Groupe'),
+                    ->label('')
+                    ->getTitleFromRecordUsing(fn (Tag $record): HtmlString => new HtmlString(
+                        '<span class="text-lg font-bold text-primary-600 dark:text-primary-400">-- '.e($record->tagGroup?->name).'</span>',
+                    )),
             ])
             ->defaultGroup('tagGroup.name')
             ->defaultPaginationPageOption(50)
