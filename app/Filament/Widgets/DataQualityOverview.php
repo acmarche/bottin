@@ -48,12 +48,12 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
             Stat::make('Fiches sans catégorie', $this->shopsWithoutCategories())
                 ->description('Fiches non classées')
                 ->color('danger')
-                ->url(ShopResource::getUrl('index', ['tableFilters[without_category][value]' => '1'])),
+                ->url(ShopResource::getUrl('index', ['filters[without_category][value]' => '1'])),
 
             Stat::make('Catégories sans fiche', $this->categoriesWithoutShops())
                 ->description('Catégories vides')
                 ->color('warning')
-                ->url(CategoryResource::getUrl('index', ['tableFilters[without_shop][value]' => '1'])),
+                ->url(CategoryResource::getUrl('index', ['filters[without_shop][value]' => '1'])),
 
             Stat::make('Doublons (entreprises)', $this->duplicateShops())
                 ->description('Même nom et code postal')
