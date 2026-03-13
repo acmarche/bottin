@@ -26,7 +26,7 @@ final class Handler extends ExceptionHandler
             return;
         }
 
-        $email = config('MAIL_IT_ADDRESS', null);
+        $email = config('bottin.email', null);
 
         if ($email) {
             $body = "An error occurred: \n".$exception->getMessage()."\n".$exception->getTraceAsString();
