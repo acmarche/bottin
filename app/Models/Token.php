@@ -66,6 +66,6 @@ final class Token extends Authenticatable implements FilamentUser, HasName
     /** @return Attribute<string|null, never> */
     protected function email(): Attribute
     {
-        return Attribute::get(fn (): ?string => $this->shop?->email);
+        return Attribute::get(fn (): ?string => $this->relationLoaded('shop') ? $this->shop?->email : null);
     }
 }
