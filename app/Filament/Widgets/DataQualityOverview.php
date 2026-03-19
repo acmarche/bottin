@@ -29,7 +29,7 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
         return Action::make('showDuplicates')
             ->label('Doublons')
             ->modalHeading('Doublons (entreprises)')
-            ->modalDescription('Fiches avec le même nom et code postal')
+            ->modalDescription('Fiches avec le même nom et localité')
             ->modalSubmitAction(false)
             ->modalCancelActionLabel('Fermer')
             ->modalContent(fn (): View => view('filament.widgets.duplicate-shops-modal', [
@@ -56,7 +56,7 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
                 ->url(CategoryResource::getUrl('index', ['filters[without_shop][value]' => '1'])),
 
             Stat::make('Doublons (entreprises)', $this->duplicateShops())
-                ->description('Même nom et code postal')
+                ->description('Même nom et localité')
                 ->color('danger')
                 ->extraAttributes([
                     'wire:click' => 'mountAction(\'showDuplicates\')',
@@ -65,12 +65,12 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
         ];
     }
 
-    /** @return array<int, array{company: string, postal_code: string, shops: array<int, array{company: string, city: string, url: string}>}> */
+    /** @return array<int, array{company: string, city: string, shops: array<int, array{company: string, city: string, url: string}>}> */
     private function getDuplicateGroups(): array
     {
         $duplicatePairs = DB::table('shops')
-            ->select('company', 'postal_code')
-            ->groupBy('company', 'postal_code')
+            ->select('company', 'city')
+            ->groupBy('company', 'city')
             ->havingRaw('COUNT(*) > 1')
             ->get();
 
@@ -79,13 +79,13 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
         foreach ($duplicatePairs as $pair) {
             $shops = Shop::query()
                 ->where('company', $pair->company)
-                ->where('postal_code', $pair->postal_code)
+                ->where('city', $pair->city)
                 ->orderBy('city')
                 ->get();
 
             $groups[] = [
                 'company' => $pair->company,
-                'postal_code' => $pair->postal_code ?? '',
+                'city' => $pair->city ?? '',
                 'shops' => $shops->map(fn (Shop $shop): array => [
                     'company' => $shop->company,
                     'city' => $shop->city ?? '',
@@ -115,8 +115,8 @@ final class DataQualityOverview extends StatsOverviewWidget implements HasAction
     private function duplicateShops(): int
     {
         return (int) DB::table('shops')
-            ->select('company', 'postal_code')
-            ->groupBy('company', 'postal_code')
+            ->select('company', 'city')
+            ->groupBy('company', 'city')
             ->havingRaw('COUNT(*) > 1')
             ->count();
     }

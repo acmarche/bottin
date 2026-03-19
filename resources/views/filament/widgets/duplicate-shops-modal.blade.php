@@ -2,7 +2,7 @@
     @foreach ($groups as $group)
         <div class="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
             <h3 class="text-sm font-semibold text-gray-950 dark:text-white mb-2">
-                {{ $group['company'] }} — {{ $group['postal_code'] }}
+                {{ $group['company'] }} — {{ $group['city'] }}
             </h3>
             <ul class="space-y-1">
                 @foreach ($group['shops'] as $shop)
