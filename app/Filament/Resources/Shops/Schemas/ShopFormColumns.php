@@ -84,7 +84,7 @@ final class ShopFormColumns
                 ->maxLength(255),
             TextInput::make('website')
                 ->label('Site web')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
         ];
     }
@@ -161,27 +161,27 @@ final class ShopFormColumns
         return [
             TextInput::make('facebook')
                 ->label('Facebook')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
             TextInput::make('twitter')
                 ->label('Twitter')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
             TextInput::make('instagram')
                 ->label('Instagram')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
             TextInput::make('tiktok')
                 ->label('TikTok')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
             TextInput::make('youtube')
                 ->label('YouTube')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
             TextInput::make('linkedin')
                 ->label('LinkedIn')
-                ->url()
+                ->rule('url')
                 ->maxLength(255),
         ];
     }
