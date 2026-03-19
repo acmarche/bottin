@@ -18,6 +18,7 @@ final class MigrationCommand extends Command
 
     public function handle(): int
     {
+        return self::SUCCESS;
         $this->fixPath();
         $this->checkTags();
         Shop::query()->update(['enabled' => true]);
