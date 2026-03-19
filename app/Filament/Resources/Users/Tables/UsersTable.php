@@ -42,11 +42,8 @@ final class UsersTable
             ->filters([
                 //
             ])
+            ->recordUrl(null)
             ->defaultPaginationPageOption(50)
-            ->recordAction(ViewAction::class)
-            ->recordActions([
-                DeleteAction::make(),
-            ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
