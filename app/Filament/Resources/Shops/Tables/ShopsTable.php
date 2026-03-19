@@ -24,6 +24,7 @@ final class ShopsTable
             ->columns([
                 TextColumn::make('company')
                     ->label('Société')
+                    ->limit(120)
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('street')
