@@ -68,7 +68,7 @@ final class MigrationCommand extends Command
 
             $changes = [];
             foreach ($formatted as $column => $newValue) {
-                if ($newValue !== null && $newValue !== $shop->{$column}) {
+                if (is_string($newValue) && $newValue !== '' && $newValue !== $shop->{$column}) {
                     $changes[$column] = $newValue;
                 }
             }
