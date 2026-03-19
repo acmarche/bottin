@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Ldap\User as UserLdap;
+use App\Ldap\UserLdap;
 
 final class UserRepository
 {
