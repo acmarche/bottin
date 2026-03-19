@@ -87,6 +87,7 @@ final class ShopsTable
                     ->options(fn (): array => Locality::query()->orderBy('name')->pluck('name', 'name')->all())
                     ->searchable(),
             ])
+            ->defaultSort('company', 'asc')
             ->filtersFormColumns(3)
             ->recordAction(ViewAction::class)
             ->defaultPaginationPageOption(50)
