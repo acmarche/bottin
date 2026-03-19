@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\Schemas;
 
+use App\Input\PhoneInput;
 use App\Models\Locality;
 use App\Models\Tag;
 use App\Models\User;
@@ -63,21 +64,10 @@ final class ShopFormColumns
     public static function contactColumns(): array
     {
         return [
-            TextInput::make('phone')
-                ->label('Téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('phone_other')
-                ->label('Autre téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('fax')
-                ->label('Fax')
-                ->maxLength(255),
-            TextInput::make('mobile')
-                ->label('Mobile')
-                ->tel()
-                ->maxLength(255),
+            PhoneInput::create('phone', 'Téléphone'),
+            PhoneInput::create('phone_other', 'Autre téléphone'),
+            PhoneInput::create('fax', 'Fax'),
+            PhoneInput::create('mobile', 'Mobile'),
             TextInput::make('email')
                 ->label('Email')
                 ->email()
@@ -134,21 +124,10 @@ final class ShopFormColumns
             TextInput::make('admin_first_name')
                 ->label('Prénom')
                 ->maxLength(255),
-            TextInput::make('admin_phone')
-                ->label('Téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('admin_phone_other')
-                ->label('Autre téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('admin_fax')
-                ->label('Fax')
-                ->maxLength(255),
-            TextInput::make('admin_mobile')
-                ->label('Mobile')
-                ->tel()
-                ->maxLength(255),
+            PhoneInput::create('admin_phone', 'Téléphone'),
+            PhoneInput::create('admin_phone_other', 'Autre téléphone'),
+            PhoneInput::create('admin_fax', 'Fax'),
+            PhoneInput::create('admin_mobile', 'Mobile'),
             TextInput::make('admin_email')
                 ->label('Email')
                 ->email()
@@ -287,21 +266,10 @@ final class ShopFormColumns
                 ->label('Email')
                 ->email()
                 ->maxLength(255),
-            TextInput::make('contact_phone')
-                ->label('Téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('contact_phone_other')
-                ->label('Autre téléphone')
-                ->tel()
-                ->maxLength(255),
-            TextInput::make('contact_fax')
-                ->label('Fax')
-                ->maxLength(255),
-            TextInput::make('contact_mobile')
-                ->label('Mobile')
-                ->tel()
-                ->maxLength(255),
+            PhoneInput::create('contact_phone', 'Téléphone'),
+            PhoneInput::create('contact_phone_other', 'Autre téléphone'),
+            PhoneInput::create('contact_fax', 'Fax'),
+            PhoneInput::create('contact_mobile', 'Mobile'),
         ];
     }
 
