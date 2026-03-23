@@ -17,7 +17,11 @@ final class ReminderAction
 {
     public static function createAction(Model|Shop $shop): ActionAction
     {
-        $defaultRecipients = [];
+        $defaultRecipients = collect([$shop->email, $shop->contact_email, $shop->admin_email])
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
 
         return ActionAction::make('reminder')
             ->label('Envoyer un mail')
@@ -33,9 +37,7 @@ final class ReminderAction
                 'recipients' => $defaultRecipients,
             ])
             ->action(function (array $data, Shop $shop) {
-                $emails = Shop::query()
-                    ->whereIn('id', $data['recipients'])
-                    ->pluck('email')
+                $emails = collect($data['recipients'])
                     ->filter()
                     ->unique()
                     ->values();

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\Schemas;
 
-use App\Models\Shop;
 use App\Repository\ShopRepository;
-use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
@@ -81,16 +80,9 @@ final class ShopForm
     {
         return
             [
-                Select::make('recipients')
+                TagsInput::make('recipients')
                     ->label('Destinataires')
-                    ->options(fn () => Shop::query()
-                        ->whereNotNull('email')
-                        ->where('email', '!=', '')
-                        ->orderBy('company')
-                        ->get()
-                        ->mapWithKeys(fn (Shop $shop) => [$shop->id => $shop->company]))
-                    ->multiple()
-                    ->searchable()
+                    ->placeholder('Ajouter un email')
                     ->required(),
                 TextInput::make('subject')
                     ->label('Sujet')
