@@ -9,6 +9,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -17,13 +18,11 @@ final class CategoriesTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function (Builder $query): void {
-                $query->whereNull('parent_id');
-            })
             ->defaultSort('name')
             ->columns([
                 TextColumn::make('name')
                     ->label('Nom')
+                    ->formatStateUsing(fn ($record): string => $record->parent_id !== null ? $record->fullPath() : $record->name)
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('shops_count')
@@ -35,6 +34,15 @@ final class CategoriesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                TernaryFilter::make('without_shop')
+                    ->label('Sans fiche')
+                    ->queries(
+                        true: fn (Builder $query): Builder => $query->whereDoesntHave('children')->whereDoesntHave('shops'),
+                        false: fn (Builder $query): Builder => $query->whereDoesntHave('children')->whereHas('shops'),
+                        blank: fn (Builder $query): Builder => $query->whereNull('parent_id'),
+                    ),
             ])
             ->defaultPaginationPageOption(50)
             ->recordAction(ViewAction::class)
