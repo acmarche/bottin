@@ -28,7 +28,6 @@ final class ReminderAction
             ->icon('tabler-school-bell')
             ->modal()
             ->modalDescription('Envoyer un mail à la société')
-            ->modalHeading('Où en sommes-nous actuellement ?')
             ->modalContentFooter(new HtmlString('Un lien vers la gestion de la fiche sera automatiquement ajouté'))
             ->schema(
                 ShopForm::fieldsReminder()
