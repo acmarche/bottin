@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\Schemas;
 
-use App\Models\User;
+use App\Models\Shop;
 use App\Repository\ShopRepository;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -83,11 +83,12 @@ final class ShopForm
             [
                 Select::make('recipients')
                     ->label('Destinataires')
-                    ->options(fn () => User::query()
-                        ->orderBy('last_name')
-                        ->orderBy('first_name')
+                    ->options(fn () => Shop::query()
+                        ->whereNotNull('email')
+                        ->where('email', '!=', '')
+                        ->orderBy('company')
                         ->get()
-                        ->mapWithKeys(fn ($user) => [$user->id => "{$user->last_name} {$user->first_name}"]))
+                        ->mapWithKeys(fn (Shop $shop) => [$shop->id => $shop->company]))
                     ->multiple()
                     ->searchable()
                     ->required(),

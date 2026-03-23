@@ -7,7 +7,6 @@ namespace App\Actions;
 use App\Filament\Resources\Shops\Schemas\ShopForm;
 use App\Mails\ReminderMail;
 use App\Models\Shop;
-use App\Models\User;
 use Exception;
 use Filament\Actions\Action as ActionAction;
 use Illuminate\Database\Eloquent\Model;
@@ -24,9 +23,9 @@ final class ReminderAction
             ->label('Envoyer un mail')
             ->icon('tabler-school-bell')
             ->modal()
-            ->modalDescription('Envoyer un mail aux agents')
+            ->modalDescription('Envoyer un mail à la société')
             ->modalHeading('Où en sommes-nous actuellement ?')
-            ->modalContentFooter(new HtmlString('Un lien vers l\'action sera automatiquement ajouté'))
+            ->modalContentFooter(new HtmlString('Un lien vers la gestion de la fiche sera automatiquement ajouté'))
             ->schema(
                 ShopForm::fieldsReminder()
             )
@@ -34,9 +33,10 @@ final class ReminderAction
                 'recipients' => $defaultRecipients,
             ])
             ->action(function (array $data, Shop $shop) {
-                $emails = User::query()
+                $emails = Shop::query()
                     ->whereIn('id', $data['recipients'])
                     ->pluck('email')
+                    ->filter()
                     ->unique()
                     ->values();
 
