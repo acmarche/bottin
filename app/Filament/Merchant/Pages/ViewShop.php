@@ -69,11 +69,11 @@ final class ViewShop extends Page
         ];
     }
 
-    private function getShop(): Shop
+    private function getShop(): ?Shop
     {
         /** @var Token $token */
         $token = Auth::guard('merchant')->user();
 
-        return $token->shop;
+        return $token->shop()->first();
     }
 }
