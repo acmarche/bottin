@@ -14,7 +14,9 @@ final class PhoneInput
             ->label($label)
             ->tel()
             ->telRegex('/^\+\d{1,3}(\s\d{2,4}){2,4}$/')
-            ->maxLength(255)
-            ->helperText('Format: +32 84 22 44 33');
+            ->maxLength(120)
+            ->validationMessages([
+                'regex' => 'Le numéro doit être au format international (ex: +32 84 22 44 33).',
+            ]);
     }
 }
