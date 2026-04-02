@@ -45,7 +45,7 @@ final class Token extends Authenticatable implements FilamentUser, HasName
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $panel->getId() === 'merchant' && !$this->isExpired();
+        return $panel->getId() === 'merchant' && ! $this->isExpired();
     }
 
     public function isExpired(): bool
@@ -64,18 +64,8 @@ final class Token extends Authenticatable implements FilamentUser, HasName
     }
 
     /** @return Attribute<string|null, never> */
-    protected function email22(): Attribute
+    protected function email(): Attribute
     {
-        return Attribute::get(fn (): ?string => $this->relationLoaded('shop') ? $this->shop?->email : null);
-    }
-
-    /** @return Attribute<string|null, never> */
-    protected function email(): ?string
-    {
-        if ($this->shop()->exists()) {
-            return $this->shop->email;
-        }
-
-        return null;
+        return Attribute::get(fn (): ?string => $this->shop?->email);
     }
 }
