@@ -62,7 +62,8 @@ final class SchedulesRelationManager extends RelationManager
                     ->label('Heure d\'ouverture (Après-midi)'),
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                    ->hidden(fn (): bool => $this->getOwnerRecord()->schedules()->count() >= 7),
             ])
             ->recordActions([
                 ViewAction::make(),

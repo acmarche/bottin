@@ -14,6 +14,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Http;
@@ -43,7 +44,7 @@ final class ShopFormColumns
                 ->maxLength(255)
                 ->live(debounce: 500)
                 ->datalist(
-                    fn (Get $get): array => BelgianAddressService::streetsByPostalCode(
+                    fn(Get $get): array => BelgianAddressService::streetsByPostalCode(
                         $get->string('postal_code'),
                         $get->string('street')
                     )
@@ -94,13 +95,17 @@ final class ShopFormColumns
                 ->helperText('Ce champ n\'est pas visible par le public')
                 ->rows(4)
                 ->columnSpanFull()
-                ->visible(fn () => auth()->user() instanceof User),
+                ->visible(fn() => auth()->user() instanceof User),
         ];
     }
 
     public static function adminColumns(): array
     {
         return [
+            TextEntry::make('description')
+                ->hiddenLabel()
+                ->state('Ces données ne sont pas visibles par le public')
+                ->columnSpanFull(),
             TextInput::make('admin_civility')
                 ->label('Civilité')
                 ->maxLength(255),
@@ -201,7 +206,7 @@ final class ShopFormColumns
 
                         $results = $response->json();
 
-                        if (! empty($results[0]['lat']) && ! empty($results[0]['lon'])) {
+                        if (!empty($results[0]['lat']) && !empty($results[0]['lon'])) {
                             $component->getLivewire()->data['latitude'] = $results[0]['lat'];
                             $component->getLivewire()->data['longitude'] = $results[0]['lon'];
                         }
@@ -214,12 +219,12 @@ final class ShopFormColumns
                 ->label('Latitude')
                 ->disabled()
                 ->dehydrated(false)
-                ->afterStateHydrated(fn (TextInput $component, $record) => $component->state($record?->latitude)),
+                ->afterStateHydrated(fn(TextInput $component, $record) => $component->state($record?->latitude)),
             TextInput::make('longitude_display')
                 ->label('Longitude')
                 ->disabled()
                 ->dehydrated(false)
-                ->afterStateHydrated(fn (TextInput $component, $record) => $component->state($record?->longitude)),
+                ->afterStateHydrated(fn(TextInput $component, $record) => $component->state($record?->longitude)),
         ];
     }
 
@@ -268,9 +273,9 @@ final class ShopFormColumns
                 ->relationship(
                     name: 'tags',
                     titleAttribute: 'name',
-                    modifyQueryUsing: fn (Builder $query) => TagRepository::listTags($query),
+                    modifyQueryUsing: fn(Builder $query) => TagRepository::listTags($query),
                 )
-                ->getOptionLabelFromRecordUsing(fn (Tag $record): string => $record->tagGroup
+                ->getOptionLabelFromRecordUsing(fn(Tag $record): string => $record->tagGroup
                     ? "{$record->tagGroup->name} - {$record->name}"
                     : $record->name)
                 ->multiple()

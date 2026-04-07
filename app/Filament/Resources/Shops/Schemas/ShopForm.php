@@ -138,7 +138,7 @@ final class ShopForm
         return Tab::make('Contact administratif')
             ->icon(Heroicon::ShieldCheck)
             ->columns(2)
-            ->schema(ShopFormColumns::adminColumns());
+            ->schema(ShopFormColumns::adminColumns())            ;
     }
 
     private static function tagsTab(): Tab
