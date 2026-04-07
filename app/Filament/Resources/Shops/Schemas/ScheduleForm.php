@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 
 final class ScheduleForm
 {
-    private const array DAY_OPTIONS = [
+    public const array DAY_OPTIONS = [
         1 => 'Lundi',
         2 => 'Mardi',
         3 => 'Mercredi',
