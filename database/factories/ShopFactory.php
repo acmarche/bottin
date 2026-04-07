@@ -21,26 +21,6 @@ final class ShopFactory extends Factory
             'city' => fake()->city(),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
-            'enabled' => fake()->boolean(),
-            'city_center' => false,
-            'open_at_lunch' => false,
-            'pmr' => false,
-            'click_collect' => false,
-            'ecommerce' => false,
         ];
-    }
-
-    public function enabled(): static
-    {
-        return $this->state(fn (array $attributes): array => [
-            'enabled' => true,
-        ]);
-    }
-
-    public function disabled(): static
-    {
-        return $this->state(fn (array $attributes): array => [
-            'enabled' => false,
-        ]);
     }
 }

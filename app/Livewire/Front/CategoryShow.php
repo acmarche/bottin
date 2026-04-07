@@ -27,7 +27,6 @@ final class CategoryShow extends Component
         $categoryIds->push($this->category->id);
 
         $shops = Shop::query()
-            ->where('enabled', true)
             ->whereHas('categories', fn ($q) => $q->whereIn('categories.id', $categoryIds))
             ->with('categories', 'medias')
             ->orderBy('company')

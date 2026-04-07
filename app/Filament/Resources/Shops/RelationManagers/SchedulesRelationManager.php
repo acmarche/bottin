@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\RelationManagers;
 
+use App\Filament\Resources\Shops\Schemas\ScheduleForm;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TimePicker;
-use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
@@ -34,29 +32,7 @@ final class SchedulesRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
-        return $schema
-            ->components([
-                Select::make('day')
-                    ->options([
-                        1 => 'Monday',
-                        2 => 'Tuesday',
-                        3 => 'Wednesday',
-                        4 => 'Thursday',
-                        5 => 'Friday',
-                        6 => 'Saturday',
-                        7 => 'Sunday',
-                    ]),
-                Toggle::make('is_closed')
-                    ->default(false),
-                Toggle::make('is_open_at_lunch')
-                    ->default(false),
-                Toggle::make('is_by_appointment')
-                    ->default(false),
-                TimePicker::make('morning_start'),
-                TimePicker::make('morning_end'),
-                TimePicker::make('noon_start'),
-                TimePicker::make('noon_end'),
-            ]);
+        return ScheduleForm::configure($schema);
     }
 
     public function table(Table $table): Table
@@ -65,23 +41,25 @@ final class SchedulesRelationManager extends RelationManager
             ->recordTitleAttribute('day')
             ->columns([
                 TextColumn::make('day')
+                    ->label('Jour')
                     ->sortable()
                     ->formatStateUsing(fn (?int $state): string => match ($state) {
-                        1 => 'Monday',
-                        2 => 'Tuesday',
-                        3 => 'Wednesday',
-                        4 => 'Thursday',
-                        5 => 'Friday',
-                        6 => 'Saturday',
-                        7 => 'Sunday',
+                        1 => 'Lundi',
+                        2 => 'Mardi',
+                        3 => 'Mercredi',
+                        4 => 'Jeudi',
+                        5 => 'Vendredi',
+                        6 => 'Samedi',
+                        7 => 'Dimanche',
                         default => '-',
                     }),
                 IconColumn::make('is_closed')
+                    ->label('Fermé')
                     ->boolean(),
-                TextColumn::make('morning_start'),
-                TextColumn::make('morning_end'),
-                TextColumn::make('noon_start'),
-                TextColumn::make('noon_end'),
+                TextColumn::make('morning_start')
+                    ->label('Heure d\'ouverture (Matin)'),
+                TextColumn::make('noon_start')
+                    ->label('Heure d\'ouverture (Après-midi)'),
             ])
             ->headerActions([
                 CreateAction::make(),

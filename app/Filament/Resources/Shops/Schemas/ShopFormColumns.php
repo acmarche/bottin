@@ -14,11 +14,11 @@ use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Http;
 use SalemAljebaly\FilamentMapPicker\MapPicker;
+use Throwable;
 
 final class ShopFormColumns
 {
@@ -54,10 +54,6 @@ final class ShopFormColumns
             TextInput::make('vat_number')
                 ->label('Numéro de TVA')
                 ->maxLength(255),
-            Toggle::make('enabled')
-                ->label('Actif')
-                ->default(true)
-                ->visible(fn () => auth()->user() instanceof User),
         ];
     }
 
@@ -66,7 +62,6 @@ final class ShopFormColumns
         return [
             PhoneInput::create('phone', 'Téléphone'),
             PhoneInput::create('phone_other', 'Autre téléphone'),
-            PhoneInput::create('fax', 'Fax'),
             PhoneInput::create('mobile', 'Mobile'),
             TextInput::make('email')
                 ->label('Email')
@@ -100,12 +95,6 @@ final class ShopFormColumns
                 ->rows(4)
                 ->columnSpanFull()
                 ->visible(fn () => auth()->user() instanceof User),
-            Select::make('point_of_sale_id')
-                ->label('Point de vente')
-                ->relationship('pointOfSale', 'name')
-                ->searchable()
-                ->preload()
-                ->visible(fn () => auth()->user() instanceof User),
         ];
     }
 
@@ -126,7 +115,6 @@ final class ShopFormColumns
                 ->maxLength(255),
             PhoneInput::create('admin_phone', 'Téléphone'),
             PhoneInput::create('admin_phone_other', 'Autre téléphone'),
-            PhoneInput::create('admin_fax', 'Fax'),
             PhoneInput::create('admin_mobile', 'Mobile'),
             TextInput::make('admin_email')
                 ->label('Email')
@@ -143,7 +131,7 @@ final class ShopFormColumns
                 ->rule('url')
                 ->maxLength(255),
             TextInput::make('twitter')
-                ->label('Twitter')
+                ->label('X')
                 ->rule('url')
                 ->maxLength(255),
             TextInput::make('instagram')
@@ -268,7 +256,6 @@ final class ShopFormColumns
                 ->maxLength(255),
             PhoneInput::create('contact_phone', 'Téléphone'),
             PhoneInput::create('contact_phone_other', 'Autre téléphone'),
-            PhoneInput::create('contact_fax', 'Fax'),
             PhoneInput::create('contact_mobile', 'Mobile'),
         ];
     }

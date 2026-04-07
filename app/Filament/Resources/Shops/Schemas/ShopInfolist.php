@@ -7,7 +7,6 @@ namespace App\Filament\Resources\Shops\Schemas;
 use App\Models\Shop;
 use App\Models\Token;
 use App\Models\User;
-use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Grid;
@@ -55,11 +54,6 @@ final class ShopInfolist
         return [
             TextEntry::make('vat_number')
                 ->label('Numéro de TVA'),
-            TextEntry::make('pointOfSale.name')
-                ->label('Point de vente'),
-            IconEntry::make('enabled')
-                ->label('Actif')
-                ->boolean(),
             TextEntry::make('slug')
                 ->label('Slug'),
             TextEntry::make('tags.name')
@@ -108,8 +102,6 @@ final class ShopInfolist
                     ->label('Téléphone'),
                 TextEntry::make('phone_other')
                     ->label('Autre téléphone'),
-                TextEntry::make('fax')
-                    ->label('Fax'),
                 TextEntry::make('mobile')
                     ->label('Mobile'),
                 TextEntry::make('email')
@@ -188,8 +180,6 @@ final class ShopInfolist
                     ->label('Téléphone'),
                 TextEntry::make('contact_phone_other')
                     ->label('Autre téléphone'),
-                TextEntry::make('contact_fax')
-                    ->label('Fax'),
                 TextEntry::make('contact_mobile')
                     ->label('Mobile'),
                 TextEntry::make('contact_email')
@@ -222,8 +212,6 @@ final class ShopInfolist
                             ->label('Téléphone'),
                         TextEntry::make('admin_phone_other')
                             ->label('Autre téléphone'),
-                        TextEntry::make('admin_fax')
-                            ->label('Fax'),
                         TextEntry::make('admin_mobile')
                             ->label('Mobile'),
                         TextEntry::make('admin_email')

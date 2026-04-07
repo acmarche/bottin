@@ -21,4 +21,6 @@ return [
         'email' => env('DEFAULT_USER_EMAIL', 'admin@example.com'),
         'password' => env('DEFAULT_USER_PASSWORD', 'password'),
     ],
+
+    'ga_tracking' => env('GA_TRACKING', ''),
 ];

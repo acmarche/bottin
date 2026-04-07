@@ -28,21 +28,19 @@ it('returns category tree with enfants, path and full logo URLs', function (): v
         ->assertJsonPath('0.enfants.0.root', (string) $parent->id);
 });
 
-it('returns all enabled shops', function (): void {
-    $enabled = Shop::factory()->enabled()->create();
-    $disabled = Shop::factory()->disabled()->create();
+it('returns all shops', function (): void {
+    $shop = Shop::factory()->create();
 
     $response = $this->getJson('/api/bottin/fiches')
         ->assertSuccessful();
 
     $ids = collect($response->json())->pluck('id');
 
-    expect($ids)->toContain($enabled->id)
-        ->not->toContain($disabled->id);
+    expect($ids)->toContain($shop->id);
 });
 
 it('returns shops with legacy field names', function (): void {
-    $shop = Shop::factory()->enabled()->create([
+    $shop = Shop::factory()->create([
         'company' => 'Test Company',
         'street' => 'Rue de la Gare',
         'number' => '42',
@@ -51,11 +49,12 @@ it('returns shops with legacy field names', function (): void {
         'phone' => '084123456',
         'mobile' => '0471234567',
         'vat_number' => 'BE0123456789',
-        'city_center' => true,
-        'open_at_lunch' => true,
         'last_name' => 'Dupont',
         'first_name' => 'Jean',
     ]);
+    $cityTag = Tag::factory()->create(['name' => 'Centre ville', 'private' => false]);
+    $lunchTag = Tag::factory()->create(['name' => 'Ouvert le midi', 'private' => false]);
+    $shop->tags()->attach([$cityTag->id, $lunchTag->id]);
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
         ->assertSuccessful()
@@ -73,14 +72,13 @@ it('returns shops with legacy field names', function (): void {
         ->assertJsonPath('prenom', 'Jean')
         ->assertJsonPath('slugname', $shop->slug)
         ->assertJsonPath('google_plus', '')
-        ->assertJsonPath('newsletter', '')
-        ->assertJsonPath('cap', []);
+        ->assertJsonPath('newsletter', '');
 });
 
 it('returns shops by category', function (): void {
     $category = Category::factory()->create();
-    $shopInCategory = Shop::factory()->enabled()->create();
-    $shopOutside = Shop::factory()->enabled()->create();
+    $shopInCategory = Shop::factory()->create();
+    $shopOutside = Shop::factory()->create();
 
     $shopInCategory->categories()->attach($category, ['principal' => false]);
 
@@ -94,7 +92,7 @@ it('returns shops by category', function (): void {
 });
 
 it('returns a shop by slug', function (): void {
-    $shop = Shop::factory()->enabled()->create(['company' => 'Boulangerie Martin']);
+    $shop = Shop::factory()->create(['company' => 'Boulangerie Martin']);
 
     $this->getJson("/api/bottin/fichebyslugname/{$shop->slug}")
         ->assertSuccessful()
@@ -108,7 +106,7 @@ it('returns 404 for unknown slug', function (): void {
 });
 
 it('includes schedules with legacy field names', function (): void {
-    $shop = Shop::factory()->enabled()->create();
+    $shop = Shop::factory()->create();
     Schedule::factory()->create([
         'shop_id' => $shop->id,
         'day' => 1,
@@ -123,7 +121,7 @@ it('includes schedules with legacy field names', function (): void {
 });
 
 it('includes images with legacy field names', function (): void {
-    $shop = Shop::factory()->enabled()->create();
+    $shop = Shop::factory()->create();
     Media::factory()->create([
         'shop_id' => $shop->id,
         'is_main' => true,
@@ -140,7 +138,7 @@ it('includes images with legacy field names', function (): void {
 });
 
 it('includes tags and tagsObject', function (): void {
-    $shop = Shop::factory()->enabled()->create();
+    $shop = Shop::factory()->create();
     $tag = Tag::factory()->create(['name' => 'Bio', 'slug' => 'bio']);
     $shop->tags()->attach($tag);
 
@@ -152,7 +150,7 @@ it('includes tags and tagsObject', function (): void {
 });
 
 it('includes categories with legacy field names', function (): void {
-    $shop = Shop::factory()->enabled()->create();
+    $shop = Shop::factory()->create();
     $category = Category::factory()->create(['logo_white' => 'white.png']);
     $shop->categories()->attach($category, ['principal' => false]);
 

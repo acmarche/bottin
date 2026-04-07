@@ -66,12 +66,6 @@ final class ShopsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('pointOfSale')
-                    ->label('Point de vente')
-                    ->relationship('pointOfSale', 'name')
-                    ->preload(),
-                TernaryFilter::make('enabled')
-                    ->label('Actif'),
                 TernaryFilter::make('without_category')
                     ->label('Sans catégorie')
                     ->queries(

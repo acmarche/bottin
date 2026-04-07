@@ -28,7 +28,6 @@ final class SearchResults extends Component
         if (mb_strlen($this->search) >= 2) {
             $shops = Shop::search($this->search)
                 ->query(fn ($query) => $query
-                    ->where('enabled', true)
                     ->with('categories', 'medias')
                     ->orderBy('company')
                 )

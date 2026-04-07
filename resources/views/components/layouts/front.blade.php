@@ -20,17 +20,17 @@
 
                 {{-- Desktop nav --}}
                 <div class="hidden items-center gap-6 md:flex">
-                    <a href="{{ route('home') }}" class="text-sm font-medium text-slate-600 transition hover:text-stormy-teal-600">Accueil</a>
-                    <a href="{{ route('shops.index') }}" class="text-sm font-medium text-slate-600 transition hover:text-stormy-teal-600">Annuaire A-Z</a>
-                    <a href="https://circuit-court.marche.be" class="text-sm font-medium text-slate-600 transition hover:text-stormy-teal-600">Circuit court</a>
-                    <a href="{{ route('filament.admin.auth.login') }}" class="text-sm font-medium text-slate-600 transition hover:text-stormy-teal-600">Connexion</a>
+                    <a href="{{ route('home') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Accueil</a>
+                    <a href="{{ route('shops.index') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Annuaire A-Z</a>
+                    <a href="https://circuit-court.marche.be" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Circuit court</a>
+                    <a href="{{ route('filament.admin.auth.login') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Connexion</a>
                     <form action="{{ route('search') }}" method="get" class="relative">
                         <input
                             type="search"
                             name="q"
                             placeholder="Rechercher..."
                             value="{{ request('q') }}"
-                            class="w-56 rounded-full border border-slate-300 bg-slate-50 py-1.5 pl-9 pr-3 text-sm transition placeholder:text-slate-400 focus:border-pearl-aqua-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-pearl-aqua-200"
+                            class="w-56 rounded-full border border-slate-300 bg-slate-50 py-1.5 pl-9 pr-3 text-base transition placeholder:text-slate-400 focus:border-pearl-aqua-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-pearl-aqua-200"
                         >
                         <svg class="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -60,17 +60,17 @@
                 class="border-t border-slate-200 md:hidden"
             >
                 <div class="space-y-1 px-4 py-3">
-                    <a href="{{ route('home') }}" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">Accueil</a>
-                    <a href="{{ route('shops.index') }}" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">Annuaire A-Z</a>
-                    <a href="https://circuit-court.marche.be" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">Circuit court</a>
-                    <a href="{{ route('filament.admin.auth.login') }}" class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">Connexion</a>
+                    <a href="{{ route('home') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Accueil</a>
+                    <a href="{{ route('shops.index') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Annuaire A-Z</a>
+                    <a href="https://circuit-court.marche.be" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Circuit court</a>
+                    <a href="{{ route('filament.admin.auth.login') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Connexion</a>
                     <form action="{{ route('search') }}" method="get" class="pt-2">
                         <input
                             type="search"
                             name="q"
                             placeholder="Rechercher..."
                             value="{{ request('q') }}"
-                            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm placeholder:text-slate-400 focus:border-pearl-aqua-400 focus:outline-none focus:ring-2 focus:ring-pearl-aqua-200"
+                            class="w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-base placeholder:text-slate-400 focus:border-pearl-aqua-400 focus:outline-none focus:ring-2 focus:ring-pearl-aqua-200"
                         >
                     </form>
                 </div>
@@ -88,10 +88,12 @@
                         <img src="{{ asset('images/cropped-ADL_Logo-seul_Noir.png') }}" alt="ADL" class="h-10">
                         <img src="{{ asset('images/Marche_logo.png') }}" alt="Ville de Marche-en-Famenne" class="h-10">
                     </div>
-                    <p class="text-sm text-slate-500">&copy; {{ date('Y') }} {{ config('app.name') }}. Tous droits r&eacute;serv&eacute;s.</p>
+                    <p class="text-base text-slate-500">&copy; {{ date('Y') }} {{ config('app.name') }}. Tous droits r&eacute;serv&eacute;s.</p>
                 </div>
             </div>
         </footer>
+
+        <x-cookie-consent />
 
         @livewireScripts
     </body>

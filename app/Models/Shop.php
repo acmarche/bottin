@@ -28,7 +28,6 @@ final class Shop extends Model
     use Searchable;
 
     protected $fillable = [
-        'point_of_sale_id',
         'address_id',
         'company',
         'street',
@@ -37,7 +36,6 @@ final class Shop extends Model
         'city',
         'phone',
         'phone_other',
-        'fax',
         'mobile',
         'website',
         'email',
@@ -49,12 +47,6 @@ final class Shop extends Model
         'linkedin',
         'longitude',
         'latitude',
-        'city_center',
-        'open_at_lunch',
-        'pmr',
-        'click_collect',
-        'ecommerce',
-        'enabled',
         'vat_number',
         'function',
         'civility',
@@ -66,7 +58,6 @@ final class Shop extends Model
         'contact_city',
         'contact_phone',
         'contact_phone_other',
-        'contact_fax',
         'contact_mobile',
         'contact_email',
         'admin_function',
@@ -75,7 +66,6 @@ final class Shop extends Model
         'admin_first_name',
         'admin_phone',
         'admin_phone_other',
-        'admin_fax',
         'admin_mobile',
         'admin_email',
         'comment1',
@@ -84,12 +74,6 @@ final class Shop extends Model
         'note',
         'user',
     ];
-
-    /** @return BelongsTo<PointOfSale, $this> */
-    public function pointOfSale(): BelongsTo
-    {
-        return $this->belongsTo(PointOfSale::class);
-    }
 
     /** @return BelongsTo<Address, $this> */
     public function address(): BelongsTo
@@ -164,15 +148,14 @@ final class Shop extends Model
             'city' => $this->city,
             'phone' => $this->phone,
             'phone_other' => $this->phone_other,
-            'fax' => $this->fax,
             'mobile' => $this->mobile,
             'website' => $this->website,
             'email' => $this->email,
             'longitude' => $this->longitude,
             'latitude' => $this->latitude,
-            'city_center' => $this->city_center,
-            'open_at_lunch' => $this->open_at_lunch,
-            'pmr' => $this->pmr,
+            'city_center' => $this->hasTag('Centre ville'),
+            'open_at_lunch' => $this->hasTag('Ouvert le midi'),
+            'pmr' => $this->hasTag('Pmr'),
             'vat_number' => $this->vat_number,
             'function' => $this->function,
             'civility' => $this->civility,
@@ -184,7 +167,6 @@ final class Shop extends Model
             'contact_city' => $this->contact_city,
             'contact_phone' => $this->contact_phone,
             'contact_phone_other' => $this->contact_phone_other,
-            'contact_fax' => $this->contact_fax,
             'contact_mobile' => $this->contact_mobile,
             'contact_email' => $this->contact_email,
             'comment1' => $this->comment1,
@@ -220,12 +202,16 @@ final class Shop extends Model
                 'slug' => $category->slug,
                 'parent_id' => $category->parent_id,
             ])->all(),
-            'cap_member' => $this->point_of_sale_id !== null,
             '_geo' => ($this->latitude && $this->longitude) ? [
                 'lat' => $this->latitude,
                 'lng' => $this->longitude,
             ] : null,
         ];
+    }
+
+    public function hasTag(string $name): bool
+    {
+        return $this->tags->contains('name', $name);
     }
 
     protected static function booted(): void
@@ -247,21 +233,6 @@ final class Shop extends Model
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
         return $query->with(['tags.tagGroup', 'categories', 'medias']);
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'city_center' => 'boolean',
-            'click_collect' => 'boolean',
-            'ecommerce' => 'boolean',
-            'enabled' => 'boolean',
-            'open_at_lunch' => 'boolean',
-            'pmr' => 'boolean',
-        ];
     }
 
     private function slugSourceField(): string

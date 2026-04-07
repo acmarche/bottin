@@ -8,7 +8,7 @@
                 <button
                     wire:click="selectLetter('{{ $l }}')"
                     @class([
-                        'flex size-9 items-center justify-center rounded-lg text-sm font-medium transition',
+                        'flex size-9 items-center justify-center rounded-lg text-base font-medium transition',
                         'bg-stormy-teal-700 text-white shadow-sm' => $letter === $l,
                         'text-slate-600 hover:bg-slate-100 hover:text-stormy-teal-700' => $letter !== $l,
                     ])
@@ -27,7 +27,7 @@
                         <a href="{{ route('shop.show', $shop) }}" class="flex items-center justify-between gap-4 rounded-lg px-3 py-3 transition hover:bg-white hover:shadow-sm" wire:key="shop-{{ $shop->id }}">
                             <div class="min-w-0">
                                 <p class="font-medium text-slate-900 truncate">{{ $shop->company }}</p>
-                                <p class="text-sm text-slate-500 truncate">{{ $shop->city }}{{ $shop->phone ? ' — ' . $shop->phone : '' }}</p>
+                                <p class="text-base text-slate-500 truncate">{{ $shop->city }}{{ $shop->phone ? ' — ' . $shop->phone : '' }}</p>
                             </div>
                             <svg class="size-5 shrink-0 text-slate-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />

@@ -2,7 +2,7 @@
     <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {{-- Back button --}}
         <div class="mb-6">
-            <a href="javascript:history.back()" class="inline-flex items-center gap-1 text-sm font-medium text-slate-500 transition hover:text-stormy-teal-600">
+            <a href="javascript:history.back()" class="inline-flex items-center gap-1 text-base font-medium text-slate-500 transition hover:text-stormy-teal-600">
                 <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                 </svg>
@@ -18,13 +18,13 @@
 
                     {{-- Badges --}}
                     <div class="mt-3 flex flex-wrap gap-2">
-                        @if ($shop->pmr)
+                        @if ($shop->hasTag('Pmr'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">PMR</span>
                         @endif
-                        @if ($shop->click_collect)
+                        @if ($shop->hasTag('Click & Collect'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-alice-blue-50 px-3 py-1 text-xs font-semibold text-alice-blue-700">Click &amp; Collect</span>
                         @endif
-                        @if ($shop->ecommerce)
+                        @if ($shop->hasTag('Ecommerce'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-pearl-aqua-50 px-3 py-1 text-xs font-semibold text-pearl-aqua-700">E-commerce</span>
                         @endif
                     </div>
@@ -64,7 +64,7 @@
                     <div>
                         <h2 class="text-lg font-semibold text-slate-900">Horaires</h2>
                         <div class="mt-3 overflow-hidden rounded-xl border border-slate-200 bg-white">
-                            <table class="w-full text-sm">
+                            <table class="w-full text-base">
                                 <tbody class="divide-y divide-slate-100">
                                     @foreach ($shop->schedules as $schedule)
                                         <tr>
@@ -98,7 +98,7 @@
                 {{-- Contact --}}
                 <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                     <h2 class="font-semibold text-slate-900">Contact</h2>
-                    <div class="mt-3 space-y-2 text-sm text-slate-600">
+                    <div class="mt-3 space-y-2 text-base text-slate-600">
                         <p>{{ $shop->street }} {{ $shop->number }}</p>
                         <p>{{ $shop->postal_code }} {{ $shop->city }}</p>
 
@@ -200,7 +200,7 @@
                             href="https://www.openstreetmap.org/?mlat={{ $shop->latitude }}&mlon={{ $shop->longitude }}#map=17/{{ $shop->latitude }}/{{ $shop->longitude }}"
                             target="_blank"
                             rel="noopener"
-                            class="mt-3 inline-flex items-center gap-2 rounded-lg bg-stormy-teal-50 px-4 py-2 text-sm font-medium text-stormy-teal-800 transition hover:bg-stormy-teal-100"
+                            class="mt-3 inline-flex items-center gap-2 rounded-lg bg-stormy-teal-50 px-4 py-2 text-base font-medium text-stormy-teal-800 transition hover:bg-stormy-teal-100"
                         >
                             <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
                             Voir sur la carte

@@ -12,7 +12,6 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('point_of_sale_id')->nullable()->constrained('point_of_sales')->nullOnDelete();
             $table->foreignId('address_id')->nullable()->constrained('addresses')->nullOnDelete();
             $table->string('slug')->nullable();
             $table->string('company');
@@ -22,7 +21,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('phone')->nullable();
             $table->string('phone_other')->nullable();
-            $table->string('fax')->nullable();
             $table->string('mobile')->nullable();
             $table->string('website')->nullable();
             $table->string('email')->nullable();
@@ -34,12 +32,6 @@ return new class extends Migration
             $table->string('linkedin')->nullable();
             $table->string('longitude')->nullable();
             $table->string('latitude')->nullable();
-            $table->boolean('city_center')->default(false);
-            $table->boolean('open_at_lunch')->default(false);
-            $table->boolean('pmr')->default(false);
-            $table->boolean('click_collect')->default(false);
-            $table->boolean('ecommerce')->default(false);
-            $table->boolean('enabled')->default(false);
             $table->string('vat_number')->nullable();
             $table->string('function')->nullable();
             $table->string('civility')->nullable();
@@ -51,7 +43,6 @@ return new class extends Migration
             $table->string('contact_city')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('contact_phone_other')->nullable();
-            $table->string('contact_fax')->nullable();
             $table->string('contact_mobile')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('admin_function')->nullable();
@@ -60,7 +51,6 @@ return new class extends Migration
             $table->string('admin_first_name')->nullable();
             $table->string('admin_phone')->nullable();
             $table->string('admin_phone_other')->nullable();
-            $table->string('admin_fax')->nullable();
             $table->string('admin_mobile')->nullable();
             $table->string('admin_email')->nullable();
             $table->text('comment1')->nullable();

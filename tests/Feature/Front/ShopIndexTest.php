@@ -11,22 +11,15 @@ it('renders the shop index page', function (): void {
 });
 
 it('lists enabled shops for the selected letter', function (): void {
-    $shop = Shop::factory()->enabled()->create(['company' => 'Artisan Boulanger']);
+    $shop = Shop::factory()->create(['company' => 'Artisan Boulanger']);
 
     Livewire::test(ShopIndex::class)
         ->assertSee('Artisan Boulanger');
 });
 
-it('does not list disabled shops', function (): void {
-    $disabled = Shop::factory()->disabled()->create(['company' => 'Ancien Commerce']);
-
-    Livewire::test(ShopIndex::class)
-        ->assertDontSee('Ancien Commerce');
-});
-
 it('filters shops by letter', function (): void {
-    $shopA = Shop::factory()->enabled()->create(['company' => 'Alpha']);
-    $shopB = Shop::factory()->enabled()->create(['company' => 'Beta']);
+    $shopA = Shop::factory()->create(['company' => 'Alpha']);
+    $shopB = Shop::factory()->create(['company' => 'Beta']);
 
     Livewire::test(ShopIndex::class)
         ->assertSee('Alpha')

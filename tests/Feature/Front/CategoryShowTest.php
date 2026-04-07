@@ -34,26 +34,17 @@ it('displays child categories', function (): void {
 
 it('lists enabled shops in the category', function (): void {
     $category = Category::factory()->create();
-    $shop = Shop::factory()->enabled()->create(['company' => 'Boulangerie Test']);
+    $shop = Shop::factory()->create(['company' => 'Boulangerie Test']);
     $shop->categories()->attach($category, ['principal' => true]);
 
     Livewire::test(CategoryShow::class, ['category' => $category])
         ->assertSee('Boulangerie Test');
 });
 
-it('does not list disabled shops', function (): void {
-    $category = Category::factory()->create();
-    $disabled = Shop::factory()->disabled()->create(['company' => 'Fermé Boutique']);
-    $disabled->categories()->attach($category, ['principal' => true]);
-
-    Livewire::test(CategoryShow::class, ['category' => $category])
-        ->assertDontSee('Fermé Boutique');
-});
-
 it('lists shops from sub-categories', function (): void {
     $parent = Category::factory()->create();
     $child = Category::factory()->create(['parent_id' => $parent->id]);
-    $shop = Shop::factory()->enabled()->create(['company' => 'Sub Shop']);
+    $shop = Shop::factory()->create(['company' => 'Sub Shop']);
     $shop->categories()->attach($child, ['principal' => true]);
 
     Livewire::test(CategoryShow::class, ['category' => $parent])

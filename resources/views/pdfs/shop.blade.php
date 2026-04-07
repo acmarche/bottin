@@ -86,17 +86,7 @@
             margin: 2px 4px 2px 0;
         }
 
-        .badge-enabled {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .badge-disabled {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .badge-category {
+.badge-category {
             background-color: #e8f0fe;
             color: #1a3e72;
         }
@@ -222,17 +212,11 @@
 
     <div class="content">
         {{-- Status --}}
+        @if($shop->vat_number)
         <div class="section">
-            <span class="badge {{ $shop->enabled ? 'badge-enabled' : 'badge-disabled' }}">
-                {{ $shop->enabled ? 'Actif' : 'Inactif' }}
-            </span>
-            @if($shop->vat_number)
-                <span style="margin-left: 12px; font-size: 12px; color: #555;">TVA : {{ $shop->vat_number }}</span>
-            @endif
-            @if($shop->pointOfSale)
-                <span style="margin-left: 12px; font-size: 12px; color: #555;">Point de vente : {{ $shop->pointOfSale->name }}</span>
-            @endif
+            <span style="font-size: 12px; color: #555;">TVA : {{ $shop->vat_number }}</span>
         </div>
+        @endif
 
         {{-- Address & Contact --}}
         <div class="section">
@@ -261,12 +245,6 @@
                     <div class="info-row">
                         <span class="info-label">GSM</span>
                         <span class="info-value">{{ $shop->mobile }}</span>
-                    </div>
-                @endif
-                @if($shop->fax)
-                    <div class="info-row">
-                        <span class="info-label">Fax</span>
-                        <span class="info-value">{{ $shop->fax }}</span>
                     </div>
                 @endif
                 @if($shop->email)
@@ -303,23 +281,23 @@
             <div class="section-title">Caracteristiques</div>
             <div class="features-grid">
                 <div class="feature-item">
-                    <span class="feature-icon {{ $shop->city_center ? 'feature-yes' : 'feature-no' }}">{{ $shop->city_center ? '&#10003;' : '&#10005;' }}</span>
+                    <span class="feature-icon {{ $shop->hasTag('Centre ville') ? 'feature-yes' : 'feature-no' }}">{{ $shop->hasTag('Centre ville') ? '&#10003;' : '&#10005;' }}</span>
                     Centre-ville
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon {{ $shop->open_at_lunch ? 'feature-yes' : 'feature-no' }}">{{ $shop->open_at_lunch ? '&#10003;' : '&#10005;' }}</span>
+                    <span class="feature-icon {{ $shop->hasTag('Ouvert le midi') ? 'feature-yes' : 'feature-no' }}">{{ $shop->hasTag('Ouvert le midi') ? '&#10003;' : '&#10005;' }}</span>
                     Ouvert le midi
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon {{ $shop->pmr ? 'feature-yes' : 'feature-no' }}">{{ $shop->pmr ? '&#10003;' : '&#10005;' }}</span>
+                    <span class="feature-icon {{ $shop->hasTag('Pmr') ? 'feature-yes' : 'feature-no' }}">{{ $shop->hasTag('Pmr') ? '&#10003;' : '&#10005;' }}</span>
                     Acces PMR
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon {{ $shop->click_collect ? 'feature-yes' : 'feature-no' }}">{{ $shop->click_collect ? '&#10003;' : '&#10005;' }}</span>
+                    <span class="feature-icon {{ $shop->hasTag('Click & Collect') ? 'feature-yes' : 'feature-no' }}">{{ $shop->hasTag('Click & Collect') ? '&#10003;' : '&#10005;' }}</span>
                     Click & Collect
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon {{ $shop->ecommerce ? 'feature-yes' : 'feature-no' }}">{{ $shop->ecommerce ? '&#10003;' : '&#10005;' }}</span>
+                    <span class="feature-icon {{ $shop->hasTag('Ecommerce') ? 'feature-yes' : 'feature-no' }}">{{ $shop->hasTag('Ecommerce') ? '&#10003;' : '&#10005;' }}</span>
                     E-commerce
                 </div>
             </div>

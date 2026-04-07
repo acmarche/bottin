@@ -32,7 +32,6 @@ final class CategoryShopsExport implements FromCollection, WithHeadings, WithMap
             'Business' => [
                 'company' => 'Société',
                 'vat_number' => 'Numéro TVA',
-                'enabled' => 'Actif',
             ],
             'Address' => [
                 'street' => 'Rue',
@@ -43,7 +42,6 @@ final class CategoryShopsExport implements FromCollection, WithHeadings, WithMap
             'Contact Phones' => [
                 'phone' => 'Téléphone',
                 'phone_other' => 'Autre téléphone',
-                'fax' => 'Fax',
                 'mobile' => 'GSM',
             ],
             'Online' => [
@@ -59,13 +57,6 @@ final class CategoryShopsExport implements FromCollection, WithHeadings, WithMap
             'Geo' => [
                 'longitude' => 'Longitude',
                 'latitude' => 'Latitude',
-            ],
-            'Flags' => [
-                'city_center' => 'Centre-ville',
-                'open_at_lunch' => 'Ouvert le midi',
-                'pmr' => 'PMR',
-                'click_collect' => 'Click & Collect',
-                'ecommerce' => 'E-commerce',
             ],
             'Contact Person' => [
                 'civility' => 'Civilité contact',

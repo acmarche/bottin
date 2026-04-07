@@ -27,7 +27,6 @@ final class LegacyBottinController
     public function fiches(): JsonResponse
     {
         $shops = Shop::query()
-            ->where('enabled', true)
             ->with(['categories', 'schedules', 'medias', 'tags'])
             ->get();
 
@@ -39,7 +38,6 @@ final class LegacyBottinController
     public function fichesByCategory(Category $category): JsonResponse
     {
         $shops = $category->shops()
-            ->where('enabled', true)
             ->with(['categories', 'schedules', 'medias', 'tags'])
             ->get();
 

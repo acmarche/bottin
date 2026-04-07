@@ -16,15 +16,12 @@ final class MigrationCommand extends Command
     private const array PHONE_COLUMNS = [
         'phone',
         'phone_other',
-        'fax',
         'mobile',
         'admin_phone',
         'admin_phone_other',
-        'admin_fax',
         'admin_mobile',
         'contact_phone',
         'contact_phone_other',
-        'contact_fax',
         'contact_mobile',
     ];
 

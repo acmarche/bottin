@@ -13,7 +13,7 @@
                     @foreach ($categories as $category)
                         <a
                             href="{{ route('category.show', $category) }}"
-                            class="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:border-pearl-aqua-400 hover:text-pearl-aqua-700"
+                            class="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-1.5 text-base font-medium text-slate-700 shadow-sm transition hover:border-pearl-aqua-400 hover:text-pearl-aqua-700"
                         >
                             {{ $category->name }}
                         </a>
@@ -39,7 +39,7 @@
                             @endif
                             <div class="flex flex-1 flex-col p-4">
                                 <h3 class="font-semibold text-slate-900 group-hover:text-stormy-teal-700 transition">{{ $shop->company }}</h3>
-                                <p class="mt-1 text-sm text-slate-500">{{ $shop->city }}{{ $shop->phone ? ' — ' . $shop->phone : '' }}</p>
+                                <p class="mt-1 text-base text-slate-500">{{ $shop->city }}{{ $shop->phone ? ' — ' . $shop->phone : '' }}</p>
                                 @if ($shop->categories->isNotEmpty())
                                     <div class="mt-auto flex flex-wrap gap-1 pt-3">
                                         @foreach ($shop->categories->take(3) as $cat)
