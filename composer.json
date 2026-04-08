@@ -29,6 +29,7 @@
         "salemaljebaly/filament-map-picker": "^1.0",
         "secondnetwork/blade-tabler-icons": "^v3.36.1",
         "spatie/browsershot": "^5.2",
+        "spatie/laravel-medialibrary": "^11.21",
         "spatie/laravel-pdf": "^2.2.0",
         "symfony/process": "^7.4"
     },
