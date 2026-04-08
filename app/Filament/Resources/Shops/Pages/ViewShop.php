@@ -48,6 +48,12 @@ final class ViewShop extends ViewRecord
         return ShopInfolist::configure($schema);
     }
 
+    public function scrollToTab(string $tabName): void
+    {
+        $search = addslashes(mb_strtolower($tabName));
+        $this->js("window.scrollToTab('{$search}')");
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -59,6 +65,18 @@ final class ViewShop extends ViewRecord
             Actions\EditAction::make()
                 ->icon('tabler-edit'),
             ActionGroup::make([
+                Action::make('scroll_to_categories')
+                    ->label('Catégories')
+                    ->icon('tabler-tags')
+                    ->action(fn (): mixed => $this->scrollToTab('categories')),
+                Action::make('scroll_to_medias')
+                    ->label('Médias')
+                    ->icon('tabler-photo')
+                    ->action(fn (): mixed => $this->scrollToTab('medias')),
+                Action::make('scroll_to_horaires')
+                    ->label('Horaires')
+                    ->icon('tabler-clock')
+                    ->action(fn (): mixed => $this->scrollToTab('schedules')),
                 ExportPdfAction::make(),
                 ReminderAction::createAction($this->record),
                 GenerateTokenAction::make(),
