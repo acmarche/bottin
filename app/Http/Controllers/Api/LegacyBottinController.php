@@ -27,7 +27,7 @@ final class LegacyBottinController
     public function fiches(): JsonResponse
     {
         $shops = Shop::query()
-            ->with(['categories', 'schedules', 'medias', 'tags'])
+            ->with(['categories', 'schedules', 'media', 'tags'])
             ->get();
 
         LegacyShopResource::preloadCategories();
@@ -38,7 +38,7 @@ final class LegacyBottinController
     public function fichesByCategory(Category $category): JsonResponse
     {
         $shops = $category->shops()
-            ->with(['categories', 'schedules', 'medias', 'tags'])
+            ->with(['categories', 'schedules', 'media', 'tags'])
             ->get();
 
         LegacyShopResource::preloadCategories();
@@ -48,7 +48,7 @@ final class LegacyBottinController
 
     public function ficheById(Shop $shop): JsonResponse
     {
-        $shop->load(['categories', 'schedules', 'medias', 'tags']);
+        $shop->load(['categories', 'schedules', 'media', 'tags']);
 
         LegacyShopResource::preloadCategories();
 
@@ -59,7 +59,7 @@ final class LegacyBottinController
     {
         $shop = Shop::query()
             ->where('slug', $slug)
-            ->with(['categories', 'schedules', 'medias', 'tags'])
+            ->with(['categories', 'schedules', 'media', 'tags'])
             ->firstOrFail();
 
         LegacyShopResource::preloadCategories();

@@ -18,13 +18,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
+use Spatie\Image\Enums\Fit;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
 
 #[UseFactory(ShopFactory::class)]
 #[ObservedBy([ShopObserver::class])]
-final class Shop extends Model
+final class Shop extends Model implements HasMedia
 {
     use HasFactory;
     use HasSlug;
+    use InteractsWithMedia;
     use Searchable;
 
     protected $fillable = [
@@ -75,16 +80,23 @@ final class Shop extends Model
         'user',
     ];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('images')->useDisk('public');
+    }
+
+    public function registerMediaConversions(?MediaSpatie $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Fit::Contain, 300, 300)
+            ->nonQueued();
+    }
+
     /** @return BelongsTo<Address, $this> */
     public function address(): BelongsTo
     {
         return $this->belongsTo(Address::class);
-    }
-
-    /** @return HasMany<Media, $this> */
-    public function medias(): HasMany
-    {
-        return $this->hasMany(Media::class);
     }
 
     /** @return HasMany<Schedule, $this> */
@@ -137,7 +149,8 @@ final class Shop extends Model
      */
     public function toSearchableArray(): array
     {
-        $mainImage = $this->medias->first(fn (Media $media): bool => $media->is_main);
+        $mainImage = $this->getFirstMedia('images', fn ($m): bool => (bool) $m->getCustomProperty('is_main') === true)
+                     ?? $this->getFirstMedia('images');
 
         return [
             'id' => $this->id,
@@ -181,7 +194,7 @@ final class Shop extends Model
             'linkedin' => $this->linkedin,
             'updated_at' => $this->updated_at?->toIso8601String(),
             'created_at' => $this->created_at?->toIso8601String(),
-            'image' => $mainImage ? '/bottin/fiches/'.$this->id.'/'.$mainImage->file_name : null,
+            'image' => $mainImage?->getUrl(),
             'tags' => $this->tags->pluck('name')->all(),
             'tags_object' => $this->tags->map(fn (Tag $tag): array => [
                 'id' => $tag->id,
@@ -232,7 +245,7 @@ final class Shop extends Model
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
     {
-        return $query->with(['tags.tagGroup', 'categories', 'medias']);
+        return $query->with(['tags.tagGroup', 'categories', 'media']);
     }
 
     private function slugSourceField(): string

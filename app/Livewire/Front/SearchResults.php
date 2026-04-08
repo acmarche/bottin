@@ -28,7 +28,7 @@ final class SearchResults extends Component
         if (mb_strlen($this->search) >= 2) {
             $shops = Shop::search($this->search)
                 ->query(fn ($query) => $query
-                    ->with('categories', 'medias')
+                    ->with('categories', 'media')
                     ->orderBy('company')
                 )
                 ->take(50)

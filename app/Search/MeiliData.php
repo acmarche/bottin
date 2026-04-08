@@ -24,7 +24,7 @@ final class MeiliData
     {
         $this->initClientAndIndex();
         $documents = [];
-        foreach (Shop::with(['tags.tagGroup', 'tags', 'categories', 'medias'])->get() as $fiche) {
+        foreach (Shop::with(['tags.tagGroup', 'tags', 'categories', 'media'])->get() as $fiche) {
             $documents[] = $fiche->toSearchableArray();
         }
         $index = $this->client->index($this->indexName);
@@ -34,7 +34,7 @@ final class MeiliData
     public function updateFiche(Shop $fiche): void
     {
         $this->initClientAndIndex();
-        $fiche->loadMissing(['tags.tagGroup', 'categories', 'medias']);
+        $fiche->loadMissing(['tags.tagGroup', 'categories', 'media']);
         $documents = [$fiche->toSearchableArray()];
         $index = $this->client->index($this->indexName);
         $index->addDocuments($documents, $this->primaryKey);

@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use App\Models\Category;
-use App\Models\Media;
 use App\Models\Schedule;
 use App\Models\Shop;
 use App\Models\Tag;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
 
 it('returns category tree with enfants, path and full logo URLs', function (): void {
     $parent = Category::factory()->create(['name' => 'Parent', 'logo' => 'parent.png', 'logo_white' => 'parent_w.png']);
@@ -122,10 +122,19 @@ it('includes schedules with legacy field names', function (): void {
 
 it('includes images with legacy field names', function (): void {
     $shop = Shop::factory()->create();
-    Media::factory()->create([
-        'shop_id' => $shop->id,
-        'is_main' => true,
+    MediaSpatie::create([
+        'model_type' => Shop::class,
+        'model_id' => $shop->id,
+        'collection_name' => 'images',
+        'name' => 'Test Image',
         'file_name' => 'photo.jpg',
+        'mime_type' => 'image/jpeg',
+        'disk' => 'public',
+        'size' => 1024,
+        'manipulations' => '[]',
+        'custom_properties' => json_encode(['is_main' => true]),
+        'generated_conversions' => '[]',
+        'responsive_images' => '[]',
     ]);
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")
@@ -133,8 +142,8 @@ it('includes images with legacy field names', function (): void {
         ->assertJsonPath('images.0.fiche_id', $shop->id)
         ->assertJsonPath('images.0.principale', true)
         ->assertJsonPath('images.0.image_name', 'photo.jpg')
-        ->assertJsonPath('logo', 'https://bottin.marche.be/photo.jpg')
-        ->assertJsonPath('photos.0', 'https://bottin.marche.be/photo.jpg');
+        ->assertJsonPath('logo', 'https://bottin.marche.be/bottin/fiches/'.$shop->id.'/photo.jpg')
+        ->assertJsonPath('photos.0', 'https://bottin.marche.be/bottin/fiches/'.$shop->id.'/photo.jpg');
 });
 
 it('includes tags and tagsObject', function (): void {

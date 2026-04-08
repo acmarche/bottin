@@ -38,12 +38,12 @@
                 @foreach ($shops as $shop)
                     <a href="{{ route('shop.show', $shop) }}" class="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md hover:border-pearl-aqua-300" wire:key="shop-{{ $shop->id }}">
                         @php
-                            $mainImage = $shop->medias->firstWhere('is_main', true) ?? $shop->medias->first();
+                            $mainImage = $shop->getFirstMedia('images', fn($m) => $m->getCustomProperty('is_main')) ?? $shop->getFirstMedia('images');
                         @endphp
                         @if ($mainImage)
                             <div class="aspect-video overflow-hidden rounded-t-xl bg-slate-100">
                                 <img
-                                    src="{{ asset('storage/' . $mainImage->storagePath()) }}"
+                                    src="{{ $mainImage->getUrl() }}"
                                     alt="{{ $shop->company }}"
                                     loading="{{ $loop->first ? 'eager' : 'lazy' }}"
                                     decoding="async"

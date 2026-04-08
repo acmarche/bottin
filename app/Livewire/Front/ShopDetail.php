@@ -19,7 +19,7 @@ final class ShopDetail extends Component
         $this->shop = $shop->load([
             'categories',
             'schedules' => fn ($q) => $q->orderBy('day'),
-            'medias',
+            'media',
             'tags.tagGroup',
         ]);
     }

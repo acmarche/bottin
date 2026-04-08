@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\Tables;
 
-use App\Models\Media;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
@@ -15,6 +14,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 final class MediaTables
 {
@@ -27,17 +27,19 @@ final class MediaTables
                     ->label('Téléchargement')
                     ->state('Télécharger')
                     ->icon('tabler-download')
-                    ->action(fn (Media $media) => Storage::disk('public')->download($media->file_name)),
+                    ->action(fn (Media $media) => Storage::disk('public')->download(
+                        $media->getPathRelativeToRoot()
+                    )),
                 ImageColumn::make('file_name')
                     ->disk('public')
-                    ->visibility('public')
-                    ->state(fn (Media $record): string => $record->storagePath())
+                    ->state(fn (Media $record): string => $record->getPathRelativeToRoot())
                     ->checkFileExistence(false)
                     ->extraImgAttributes([
                         'loading' => 'lazy',
                     ]),
                 IconColumn::make('is_main')
                     ->label('Principal')
+                    ->state(fn (Media $record): bool => (bool) $record->getCustomProperty('is_main', false))
                     ->boolean(),
                 TextColumn::make('size')
                     ->label('Taille')

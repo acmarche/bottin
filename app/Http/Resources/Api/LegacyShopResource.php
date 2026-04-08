@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Resources\Api;
 
 use App\Models\Category;
-use App\Models\Media;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
 
 /** @mixin Shop */
 final class LegacyShopResource extends JsonResource
@@ -165,15 +165,15 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapImages(): array
     {
-        if (! $this->relationLoaded('medias')) {
+        if (! $this->relationLoaded('media')) {
             return [];
         }
 
-        return $this->medias->map(fn (Media $image): array => [
+        return $this->media->map(fn (MediaSpatie $image): array => [
             'id' => $image->id,
-            'fiche_id' => $image->shop_id,
-            'principale' => $image->is_main,
-            'image_name' => basename($image->file_name),
+            'fiche_id' => $image->model_id,
+            'principale' => (bool) $image->getCustomProperty('is_main', false),
+            'image_name' => $image->file_name,
             'mime' => $image->mime_type,
             'updated_at' => $image->updated_at?->format('Y-m-d H:i:s'),
         ])->all();
@@ -227,12 +227,12 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapPhotos(): array
     {
-        if (! $this->relationLoaded('medias')) {
+        if (! $this->relationLoaded('media')) {
             return [];
         }
 
-        return $this->medias
-            ->map(fn (Media $image): string => 'https://bottin.marche.be/'.$image->file_name)
+        return $this->media
+            ->map(fn (MediaSpatie $image): string => 'https://bottin.marche.be/'.$image->getPathRelativeToRoot())
             ->values()
             ->all();
     }
@@ -261,18 +261,16 @@ final class LegacyShopResource extends JsonResource
 
     private function mapLogo(): ?string
     {
-        if (! $this->relationLoaded('medias')) {
+        if (! $this->relationLoaded('media')) {
             return null;
         }
 
-        $mainImage = $this->medias->first(fn (Media $image): bool => $image->is_main);
+        $mainImage = $this->media->first(fn (MediaSpatie $m): bool => (bool) $m->getCustomProperty('is_main', false));
 
         if ($mainImage === null) {
-            return $this->medias->isNotEmpty()
-                ? 'https://bottin.marche.be/'.$this->medias->first()->file_name
-                : null;
+            $mainImage = $this->media->first();
         }
 
-        return 'https://bottin.marche.be/'.$mainImage->file_name;
+        return $mainImage ? 'https://bottin.marche.be/'.$mainImage->getPathRelativeToRoot() : null;
     }
 }

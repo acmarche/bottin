@@ -14,7 +14,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
-use Filament\Schemas\Schema;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -32,18 +31,15 @@ final class ShopMediasTable extends Component implements HasActions, HasSchemas,
     public function table(Table $table): Table
     {
         $shop = $this->getShop();
-        $formSchema = fn (): array => MediaForm::configure(new Schema($this), $shop)->getComponents();
 
         return MediaTables::configure(
-            $table->query(fn () => $shop->medias()->getQuery()),
+            $table->query(fn () => $shop->media()->getQuery()->where('collection_name', 'images')),
         )
             ->headerActions([
-                CreateAction::make()
-                    ->schema($formSchema),
+                MediaForm::createAction(CreateAction::make()),
             ])
             ->recordActions([
-                EditAction::make()
-                    ->schema($formSchema),
+                MediaForm::editAction(EditAction::make()),
                 DeleteAction::make(),
             ]);
     }

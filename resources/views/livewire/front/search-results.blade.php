@@ -30,11 +30,11 @@
                     @foreach ($shops as $shop)
                         <a href="{{ route('shop.show', $shop) }}" class="group flex flex-col rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md hover:border-pearl-aqua-300" wire:key="shop-{{ $shop->id }}">
                             @php
-                                $mainImage = $shop->medias->firstWhere('is_main', true) ?? $shop->medias->first();
+                                $mainImage = $shop->getFirstMedia('images', fn($m) => $m->getCustomProperty('is_main')) ?? $shop->getFirstMedia('images');
                             @endphp
                             @if ($mainImage)
                                 <div class="h-40 overflow-hidden rounded-t-xl bg-slate-100">
-                                    <img src="{{ asset('storage/' . $mainImage->storagePath()) }}" alt="{{ $shop->company }}" class="size-full object-cover transition group-hover:scale-105">
+                                    <img src="{{ $mainImage->getUrl() }}" alt="{{ $shop->company }}" class="size-full object-cover transition group-hover:scale-105">
                                 </div>
                             @endif
                             <div class="flex flex-1 flex-col p-4">
