@@ -28,10 +28,6 @@ final class TagsTable
                     ->label('Nom')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('slug')
-                    ->label('Slug')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 ColorColumn::make('color')
                     ->label('Couleur'),
                 TextColumn::make('tagGroup.name')
@@ -40,6 +36,7 @@ final class TagsTable
                     ->searchable(),
                 IconColumn::make('private')
                     ->label('Privé')
+                    ->falseIcon(false)
                     ->boolean(),
                 TextColumn::make('created_at')
                     ->label('Créé le')
@@ -58,8 +55,10 @@ final class TagsTable
             ->groups([
                 Group::make('tagGroup.name')
                     ->label('')
-                    ->getTitleFromRecordUsing(fn (Tag $record): HtmlString => new HtmlString(
-                        '<span class="text-lg font-bold text-primary-600 dark:text-primary-400">-- '.e($record->tagGroup?->name).'</span>',
+                    ->getTitleFromRecordUsing(fn(Tag $record): HtmlString => new HtmlString(
+                        '<span class="text-lg font-bold text-primary-600 dark:text-primary-400">-- '.e(
+                            $record->tagGroup?->name
+                        ).'</span>',
                     )),
             ])
             ->defaultGroup('tagGroup.name')
