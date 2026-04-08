@@ -20,6 +20,9 @@ return new class() extends Migration
 
         if ($existing !== []) {
             Schema::table('shops', function (Blueprint $table) use ($existing): void {
+                if (in_array('point_of_sale_id', $existing, true)) {
+                    $table->dropForeign('shops_point_of_sale_id_foreign');
+                }
                 $table->dropColumn($existing);
             });
         }
