@@ -41,8 +41,15 @@
                             $mainImage = $shop->medias->firstWhere('is_main', true) ?? $shop->medias->first();
                         @endphp
                         @if ($mainImage)
-                            <div class="h-40 overflow-hidden rounded-t-xl bg-slate-100">
-                                <img src="{{ asset('storage/' . $mainImage->storagePath()) }}" alt="{{ $shop->company }}" class="size-full object-cover transition group-hover:scale-105">
+                            <div class="aspect-video overflow-hidden rounded-t-xl bg-slate-100">
+                                <img
+                                    src="{{ asset('storage/' . $mainImage->storagePath()) }}"
+                                    alt="{{ $shop->company }}"
+                                    loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                                    decoding="async"
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    class="size-full object-cover transition group-hover:scale-105"
+                                >
                             </div>
                         @endif
                         <div class="flex flex-1 flex-col p-4">

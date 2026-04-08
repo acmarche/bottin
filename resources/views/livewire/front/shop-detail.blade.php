@@ -52,7 +52,14 @@
                         <div class="mt-3 grid gap-3 grid-cols-2 sm:grid-cols-3">
                             @foreach ($shop->medias as $image)
                                 <div class="overflow-hidden rounded-lg bg-slate-100 aspect-[4/3]">
-                                    <img src="{{ asset('storage/' . $image->storagePath()) }}" alt="{{ $shop->company }}" class="size-full object-cover">
+                                    <img
+                                        src="{{ asset('storage/' . $image->storagePath()) }}"
+                                        alt="{{ $shop->company }}{{ $image->name ? ' — ' . $image->name : '' }}"
+                                        loading="{{ $loop->first ? 'eager' : 'lazy' }}"
+                                        decoding="async"
+                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                                        class="size-full object-cover"
+                                    >
                                 </div>
                             @endforeach
                         </div>
