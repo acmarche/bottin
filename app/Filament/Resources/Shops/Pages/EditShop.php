@@ -7,8 +7,10 @@ namespace App\Filament\Resources\Shops\Pages;
 use App\Concerns\TracksHistoryTrait;
 use App\Filament\Resources\Shops\ShopResource;
 use App\Models\Category;
+use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Icons\Heroicon;
 
 final class EditShop extends EditRecord
 {

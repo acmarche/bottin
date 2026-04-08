@@ -12,11 +12,13 @@ use App\Filament\Actions\RegenerateTokenAction;
 use App\Filament\Resources\Shops\Schemas\ShopInfolist;
 use App\Filament\Resources\Shops\ShopResource;
 use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Size;
+use Filament\Support\Icons\Heroicon;
 
 final class ViewShop extends ViewRecord
 {
@@ -33,7 +35,7 @@ final class ViewShop extends ViewRecord
             ->components([
                 Callout::make('Cette fiche n\'a aucune catégorie associée.')
                     ->warning()
-                    ->visible(fn(): bool => $this->record->categories()->doesntExist()),
+                    ->visible(fn (): bool => $this->record->categories()->doesntExist()),
                 $this->hasInfolist()
                     ? $this->getInfolistContentComponent()
                     : $this->getFormContentComponent(),
@@ -49,6 +51,11 @@ final class ViewShop extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('view_front')
+                ->label('Voir en front')
+                ->icon(Heroicon::OutlinedEye)
+                ->url(fn (): string => route('shop.show', $this->record))
+                ->openUrlInNewTab(),
             Actions\EditAction::make()
                 ->icon('tabler-edit'),
             ActionGroup::make([
