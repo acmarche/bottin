@@ -48,7 +48,6 @@
                 {{-- Images gallery --}}
                 @if ($shop->medias->isNotEmpty())
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-900">Photos</h2>
                         <div class="mt-3 grid gap-3 grid-cols-2 sm:grid-cols-3">
                             @foreach ($shop->medias as $image)
                                 <div class="overflow-hidden rounded-lg bg-slate-100 aspect-[4/3]">
