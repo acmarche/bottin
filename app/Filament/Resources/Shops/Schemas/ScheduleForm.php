@@ -33,7 +33,7 @@ final class ScheduleForm
                     ->label('Jour')
                     ->options(function (?Schedule $record) use ($schema): array {
                         $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        if (!$livewire instanceof RelationManager) {
                             return self::DAY_OPTIONS;
                         }
 
@@ -41,16 +41,16 @@ final class ScheduleForm
 
                         $usedDays = Schedule::query()
                             ->where('shop_id', $shopId)
-                            ->when($record, fn ($query) => $query->where('id', '!=', $record->getKey()))
+                            ->when($record, fn($query) => $query->where('id', '!=', $record->getKey()))
                             ->pluck('day')
                             ->all();
 
                         return array_diff_key(self::DAY_OPTIONS, array_flip($usedDays));
                     })
                     ->required()
-                    ->unique(table: Schedule::class, column: 'day', modifyRuleUsing: function ($rule, $schema) {
+                    ->unique(table: Schedule::class, column: 'day', modifyRuleUsing: function ($rule) use ($schema) {
                         $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        if (!$livewire instanceof RelationManager) {
                             return $rule;
                         }
 
@@ -68,14 +68,21 @@ final class ScheduleForm
                     ->label('Sur rendez-vous')
                     ->default(false),
                 TimePicker::make('morning_start')
-                    ->label('Heure d\'ouverture (Matin)'),
+                    ->label('Heure d\'ouverture')
+                    ->suffix('matin')
+                    ->seconds(false),
                 TimePicker::make('morning_end')
-                    ->label('Heure de fermeture'),
+                    ->label('Heure de fermeture')
+                    ->suffix('matin')
+                    ->seconds(false),
                 TimePicker::make('noon_start')
-                    ->label('Heure d\'ouverture (Après-midi)'),
+                    ->label('Heure d\'ouverture')
+                    ->suffix('après-midi')
+                    ->seconds(false),
                 TimePicker::make('noon_end')
-                    ->label('Heure de fermeture'),
-
+                    ->label('Heure de fermeture')
+                    ->suffix('après-midi')
+                    ->seconds(false),
             ]);
     }
 }
