@@ -68,6 +68,7 @@ final class MediaForm
 
                 $shop->addMedia($path)
                     ->usingName($data['name'] ?? '')
+                    ->withResponsiveImages()
                     ->withCustomProperties(['is_main' => (bool) ($data['is_main'] ?? false)])
                     ->toMediaCollection('images', 'public');
             });

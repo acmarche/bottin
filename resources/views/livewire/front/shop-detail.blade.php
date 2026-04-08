@@ -17,14 +17,17 @@
                     <h1 class="text-3xl font-bold text-slate-900">{{ $shop->company }}</h1>
 
                     {{-- Badges --}}
+                    @php
+                        $badgeTags = $shop->tags->where('private', false);
+                    @endphp
                     <div class="mt-3 flex flex-wrap gap-2">
-                        @if ($shop->hasTag('Pmr'))
+                        @if ($badgeTags->contains('name', 'Pmr'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">PMR</span>
                         @endif
-                        @if ($shop->hasTag('Click & Collect'))
+                        @if ($badgeTags->contains('name', 'Click & Collect'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-alice-blue-50 px-3 py-1 text-xs font-semibold text-alice-blue-700">Click &amp; Collect</span>
                         @endif
-                        @if ($shop->hasTag('Ecommerce'))
+                        @if ($badgeTags->contains('name', 'Ecommerce'))
                             <span class="inline-flex items-center gap-1 rounded-full bg-pearl-aqua-50 px-3 py-1 text-xs font-semibold text-pearl-aqua-700">E-commerce</span>
                         @endif
                     </div>
@@ -80,6 +83,9 @@
                                                     <span class="text-red-500">Ferm&eacute;</span>
                                                 @elseif ($schedule->is_by_appointment)
                                                     <span class="text-amber-600">Sur rendez-vous</span>
+                                                @elseif ($schedule->is_open_at_lunch)
+                                                    {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
+                                                    {{ $schedule->noon_end ? '- ' . substr((string) $schedule->noon_end, 0, 5) : '' }}
                                                 @else
                                                     {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
                                                     {{ $schedule->morning_end ? '- ' . substr((string) $schedule->morning_end, 0, 5) : '' }}
@@ -201,9 +207,9 @@
                         <h2 class="font-semibold text-slate-900">Labels</h2>
                         <div class="mt-3 flex flex-wrap gap-2">
                             @foreach ($publicTags as $tag)
-                                <span class="rounded-full px-3 py-1 text-xs font-medium" style="background-color: {{ ($tag->color ?: '#e2e8f0') . '20' }}; color: {{ $tag->color ?: '#475569' }}">
+                                <a href="{{ route('tag.show', $tag) }}" class="rounded-full px-3 py-1 text-xs font-medium transition hover:opacity-80" style="background-color: {{ ($tag->color ?: '#e2e8f0') . '20' }}; color: {{ $tag->color ?: '#475569' }}">
                                     {{ $tag->name }}
-                                </span>
+                                </a>
                             @endforeach
                         </div>
                     </div>
