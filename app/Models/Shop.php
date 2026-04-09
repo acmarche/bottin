@@ -97,6 +97,12 @@ final class Shop extends Model implements HasMedia
             ->fit(Fit::Crop, 640, 360)
             ->withResponsiveImages()
             ->nonQueued();
+
+        $this
+            ->addMediaConversion('detail')
+            ->fit(Fit::Contain, 800, 600)
+            ->withResponsiveImages()
+            ->nonQueued();
     }
 
     /** @return BelongsTo<Address, $this> */
