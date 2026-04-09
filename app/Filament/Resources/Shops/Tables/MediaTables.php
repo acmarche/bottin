@@ -40,6 +40,7 @@ final class MediaTables
                 IconColumn::make('is_main')
                     ->label('Principal')
                     ->state(fn (Media $record): bool => (bool) $record->getCustomProperty('is_main', false))
+                    ->falseIcon(false)
                     ->boolean(),
                 TextColumn::make('size')
                     ->label('Taille')
