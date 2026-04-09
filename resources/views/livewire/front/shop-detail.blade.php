@@ -121,6 +121,9 @@
                 <div class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                     <h2 class="font-semibold text-slate-900">Contact</h2>
                     <div class="mt-3 space-y-2 text-base text-slate-600">
+                        @if ($shop->first_name || $shop->last_name)
+                            <p class="font-medium text-slate-700">{{ trim($shop->first_name . ' ' . $shop->last_name) }}</p>
+                        @endif
                         <p>{{ $shop->street }} {{ $shop->number }}</p>
                         <p>{{ $shop->postal_code }} {{ $shop->city }}</p>
 

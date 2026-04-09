@@ -69,6 +69,26 @@ it('displays schedules', function (): void {
         ->assertSee('08:00');
 });
 
+it('displays contact name when set', function (): void {
+    $shop = Shop::factory()->create([
+        'first_name' => 'Jean',
+        'last_name' => 'Dupont',
+    ]);
+
+    Livewire::test(ShopDetail::class, ['shop' => $shop])
+        ->assertSee('Jean Dupont');
+});
+
+it('does not display contact name when not set', function (): void {
+    $shop = Shop::factory()->create([
+        'first_name' => null,
+        'last_name' => null,
+    ]);
+
+    Livewire::test(ShopDetail::class, ['shop' => $shop])
+        ->assertDontSee('Jean Dupont');
+});
+
 it('displays service badges when applicable', function (): void {
     $shop = Shop::factory()->create();
     $pmrTag = Tag::factory()->create(['name' => 'Pmr', 'private' => false]);
