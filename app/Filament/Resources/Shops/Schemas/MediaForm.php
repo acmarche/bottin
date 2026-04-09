@@ -13,7 +13,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
-use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 final class MediaForm
 {
@@ -78,7 +78,7 @@ final class MediaForm
     {
         return $action
             ->schema(self::configureEdit(new Schema())->getComponents())
-            ->using(function (MediaSpatie $record, array $data) {
+            ->using(function (Media $record, array $data) {
                 $record->name = $data['name'] ?: $record->model->company;
                 $record->setCustomProperty('is_main', (bool) ($data['is_main'] ?? false));
                 $record->save();
