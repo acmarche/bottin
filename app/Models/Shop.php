@@ -21,7 +21,7 @@ use Laravel\Scout\Searchable;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[UseFactory(ShopFactory::class)]
 #[ObservedBy([ShopObserver::class])]
@@ -85,7 +85,7 @@ final class Shop extends Model implements HasMedia
         $this->addMediaCollection('images')->useDisk('public');
     }
 
-    public function registerMediaConversions(?MediaSpatie $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this
             ->addMediaConversion('preview')
