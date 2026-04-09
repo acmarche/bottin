@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Shops\Tables;
 
 use App\Filament\Resources\Shops\Schemas\ScheduleForm;
 use App\Models\Schedule;
+use App\Models\Shop;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -14,6 +15,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Select;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -25,7 +27,6 @@ final class SchedulesTable
         return $table
             ->defaultSort('day')
             ->recordTitleAttribute('day')
-            ->description('Vous pouvez aussi taguer "Ouvert le temps de midi"')
             ->columns([
                 TextColumn::make('day')
                     ->label('Jour')
@@ -70,6 +71,44 @@ final class SchedulesTable
             ->headerActions([
                 CreateAction::make()
                     ->hidden(fn (): bool => $countSchedule >= 7),
+                Action::make('toggle_ouvert_midi')
+                    ->label(function () use ($table): string {
+                        $livewire = $table->getLivewire();
+                        if ($livewire instanceof RelationManager) {
+                            /** @var Shop $shop */
+                            $shop = $livewire->getOwnerRecord();
+                            if ($shop->hasTag('Ouvert le midi')) {
+                                return 'Retirer "Ouvert le midi"';
+                            }
+                        }
+
+                        return 'Taguer "Ouvert le midi"';
+                    })
+                    ->icon('heroicon-o-tag')
+                    ->color(function () use ($table): string {
+                        $livewire = $table->getLivewire();
+                        if ($livewire instanceof RelationManager) {
+                            /** @var Shop $shop */
+                            $shop = $livewire->getOwnerRecord();
+                            if ($shop->hasTag('Ouvert le midi')) {
+                                return 'warning';
+                            }
+                        }
+
+                        return 'success';
+                    })
+                    ->requiresConfirmation()
+                    ->action(function () use ($table): void {
+                        $livewire = $table->getLivewire();
+                        if (! $livewire instanceof RelationManager) {
+                            return;
+                        }
+
+                        /** @var Shop $shop */
+                        $shop = $livewire->getOwnerRecord();
+                        $shop->tags()->toggle([38]);
+                        $shop->load('tags');
+                    }),
             ])
             ->recordActions([
                 Action::make('copy')

@@ -41,6 +41,7 @@ final class ShopInfolist
                             Section::make('Etat')
                                 ->label(null)
                                 ->schema(self::status()),
+                            self::tags(),
                             self::token(),
                         ])
                         ->grow(false),
@@ -56,17 +57,27 @@ final class ShopInfolist
                 ->label('Numéro de TVA'),
             TextEntry::make('slug')
                 ->label('Slug'),
-            TextEntry::make('tags.name')
-                ->label('Tags')
-                ->badge()
-                ->formatStateUsing(function (string $state, Shop $record): string {
-                    $tag = $record->tags->firstWhere('name', $state);
-
-                    return $tag?->tagGroup
-                        ? "{$tag->tagGroup->name} - {$state}"
-                        : $state;
-                }),
         ];
+    }
+
+    private static function tags(): Section
+    {
+        return Section::make('Tags')
+            ->icon(Heroicon::Tag)
+            ->schema([
+                TextEntry::make('tags.name')
+                    ->label(null)
+                    ->hiddenLabel()
+                    ->badge()
+                    ->formatStateUsing(function (string $state, Shop $record): string {
+                        $tag = $record->tags->firstWhere('name', $state);
+
+                        return $tag?->tagGroup
+                            ? "{$tag->tagGroup->name} - {$state}"
+                            : $state;
+                    })
+                    ->placeholder('Aucun tag'),
+            ]);
     }
 
     private static function address(): Section
