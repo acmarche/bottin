@@ -48,7 +48,7 @@ final class Schedule extends Model
     }
 
     /** @return Attribute<bool, never> */
-    private function isOpenAtLunch(): Attribute
+    protected function isOpenAtLunch(): Attribute
     {
         return Attribute::get(fn (): bool => $this->morning_end === null && $this->noon_start === null);
     }

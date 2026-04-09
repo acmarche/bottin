@@ -33,7 +33,7 @@ final class ScheduleForm
                     ->label('Jour')
                     ->options(function (?Schedule $record) use ($schema): array {
                         $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        if (!$livewire instanceof RelationManager) {
                             return self::DAY_OPTIONS;
                         }
 
@@ -41,7 +41,7 @@ final class ScheduleForm
 
                         $usedDays = Schedule::query()
                             ->where('shop_id', $shopId)
-                            ->when($record, fn ($query) => $query->where('id', '!=', $record->getKey()))
+                            ->when($record, fn($query) => $query->where('id', '!=', $record->getKey()))
                             ->pluck('day')
                             ->all();
 
@@ -50,14 +50,15 @@ final class ScheduleForm
                     ->required()
                     ->unique(table: Schedule::class, column: 'day', modifyRuleUsing: function ($rule) use ($schema) {
                         $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        if (!$livewire instanceof RelationManager) {
                             return $rule;
                         }
 
                         $shopId = $livewire->getOwnerRecord()->getKey();
 
                         return $rule->where('shop_id', $shopId);
-                    }, ignoreRecord: true),
+                    }, ignoreRecord: true)
+                    ->columnSpanFull(),
                 Toggle::make('is_closed')
                     ->label('Fermé')
                     ->default(false),
