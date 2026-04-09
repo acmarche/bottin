@@ -25,6 +25,7 @@ final class SchedulesTable
         return $table
             ->defaultSort('day')
             ->recordTitleAttribute('day')
+            ->description('Vous pouvez aussi taguer "Ouvert le temps de midi"')
             ->columns([
                 TextColumn::make('day')
                     ->label('Jour')
