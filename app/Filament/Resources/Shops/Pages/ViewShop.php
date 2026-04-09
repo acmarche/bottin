@@ -24,6 +24,15 @@ final class ViewShop extends ViewRecord
 {
     protected static string $resource = ShopResource::class;
 
+    public function mount(int|string $record): void
+    {
+        parent::mount($record);
+
+        if (request()->has('scroll')) {
+            $this->js('setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }), 300)');
+        }
+    }
+
     public function getTitle(): string
     {
         return $this->record->company ?? 'Empty name';
@@ -35,7 +44,7 @@ final class ViewShop extends ViewRecord
             ->components([
                 Callout::make('Cette fiche n\'a aucune catégorie associée.')
                     ->warning()
-                    ->visible(fn(): bool => $this->record->categories()->doesntExist()),
+                    ->visible(fn (): bool => $this->record->categories()->doesntExist()),
                 $this->hasInfolist()
                     ? $this->getInfolistContentComponent()
                     : $this->getFormContentComponent(),
@@ -48,36 +57,33 @@ final class ViewShop extends ViewRecord
         return ShopInfolist::configure($schema);
     }
 
-    public function scrollToTab(string $tabName): void
-    {
-        $search = addslashes(mb_strtolower($tabName));
-        //$this->js("window.scrollToTab('{$search}')");
-        $this->js("window.scrollTo(0, document.body.scrollHeight);");
-    }
-
     protected function getHeaderActions(): array
     {
         return [
             Action::make('view_front')
                 ->label('Voir en front')
                 ->icon(Heroicon::OutlinedEye)
-                ->url(fn(): string => route('shop.show', $this->record))
+                ->url(fn (): string => route('shop.show', $this->record))
                 ->openUrlInNewTab(),
             Actions\EditAction::make()
                 ->icon('tabler-edit'),
             ActionGroup::make([
                 Action::make('scroll_to_categories')
                     ->label('Catégories')
-                    ->icon('tabler-tags')
-                    ->action(fn(): mixed => $this->scrollToTab('categories')),
+                    ->icon('tabler-tags')->url(
+                        fn (): string => ShopResource::getUrl('view', ['record' => $this->record]).'?relation=0&scroll=1'
+                    ),
+
                 Action::make('scroll_to_medias')
                     ->label('Médias')
-                    ->icon('tabler-photo')
-                    ->action(fn(): mixed => $this->scrollToTab('medias')),
+                    ->icon('tabler-photo')->url(
+                        fn (): string => ShopResource::getUrl('view', ['record' => $this->record]).'?relation=1&scroll=1'
+                    ),
+
                 Action::make('scroll_to_horaires')
                     ->label('Horaires')
                     ->icon('tabler-clock')
-                    ->url(fn(): string => ShopResource::getUrl('view', ['record' => $this->record]).'?relation=2'),
+                    ->url(fn (): string => ShopResource::getUrl('view', ['record' => $this->record]).'?relation=2&scroll=1'),
                 ExportPdfAction::make(),
                 ReminderAction::createAction($this->record),
                 GenerateTokenAction::make(),
