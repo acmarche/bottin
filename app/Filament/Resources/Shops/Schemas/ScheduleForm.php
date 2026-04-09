@@ -10,6 +10,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +35,7 @@ final class ScheduleForm
                     ->label('Jour')
                     ->options(function (?Schedule $record) use ($schema): array {
                         $livewire = $schema->getLivewire();
-                        if (!$livewire instanceof RelationManager) {
+                        if (! $livewire instanceof RelationManager) {
                             return self::DAY_OPTIONS;
                         }
 
@@ -41,7 +43,7 @@ final class ScheduleForm
 
                         $usedDays = Schedule::query()
                             ->where('shop_id', $shopId)
-                            ->when($record, fn($query) => $query->where('id', '!=', $record->getKey()))
+                            ->when($record, fn ($query) => $query->where('id', '!=', $record->getKey()))
                             ->pluck('day')
                             ->all();
 
@@ -50,7 +52,7 @@ final class ScheduleForm
                     ->required()
                     ->unique(table: Schedule::class, column: 'day', modifyRuleUsing: function ($rule) use ($schema) {
                         $livewire = $schema->getLivewire();
-                        if (!$livewire instanceof RelationManager) {
+                        if (! $livewire instanceof RelationManager) {
                             return $rule;
                         }
 
@@ -61,26 +63,48 @@ final class ScheduleForm
                     ->columnSpanFull(),
                 Toggle::make('is_closed')
                     ->label('Fermé')
-                    ->default(false),
+                    ->default(false)
+                    ->live()
+                    ->afterStateUpdated(function (bool $state, Set $set): void {
+                        if ($state) {
+                            $set('morning_start', null);
+                            $set('morning_end', null);
+                            $set('noon_start', null);
+                            $set('noon_end', null);
+                        }
+                    }),
                 Toggle::make('is_by_appointment')
                     ->label('Sur rendez-vous')
-                    ->default(false),
+                    ->default(false)
+                    ->live()
+                    ->afterStateUpdated(function (bool $state, Set $set): void {
+                        if ($state) {
+                            $set('morning_start', null);
+                            $set('morning_end', null);
+                            $set('noon_start', null);
+                            $set('noon_end', null);
+                        }
+                    }),
                 TimePicker::make('morning_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('matin')
-                    ->seconds(false),
+                    ->seconds(false)
+                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
                 TimePicker::make('morning_end')
                     ->label('Heure de fermeture')
                     ->suffix('matin')
-                    ->seconds(false),
+                    ->seconds(false)
+                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
                 TimePicker::make('noon_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('après-midi')
-                    ->seconds(false),
+                    ->seconds(false)
+                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
                 TimePicker::make('noon_end')
                     ->label('Heure de fermeture')
                     ->suffix('après-midi')
-                    ->seconds(false),
+                    ->seconds(false)
+                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
             ]);
     }
 }
