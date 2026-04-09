@@ -88,11 +88,6 @@ final class Shop extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this
-            ->addMediaConversion('preview')
-            ->fit(Fit::Contain, 300, 300)
-            ->nonQueued();
-
-        $this
             ->addMediaConversion('thumb')
             ->fit(Fit::Crop, 640, 360)
             ->withResponsiveImages()
