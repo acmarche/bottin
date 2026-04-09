@@ -37,7 +37,6 @@
         "fakerphp/faker": "^1.23",
         "filament/blueprint": "^2.1",
         "fruitcake/laravel-debugbar": "^4.0",
-        "kitloong/laravel-migrations-generator": "^7.3",
         "larastan/larastan": "^3.0",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.13",
