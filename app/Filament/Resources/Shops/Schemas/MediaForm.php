@@ -67,7 +67,7 @@ final class MediaForm
                 }
 
                 $shop->addMedia($path)
-                    ->usingName($data['name'] ?? '')
+                    ->usingName($data['name'] ?: $shop->company)
                     ->withResponsiveImages()
                     ->withCustomProperties(['is_main' => (bool) ($data['is_main'] ?? false)])
                     ->toMediaCollection('images', 'public');
@@ -79,7 +79,7 @@ final class MediaForm
         return $action
             ->schema(self::configureEdit(new Schema())->getComponents())
             ->using(function (MediaSpatie $record, array $data) {
-                $record->name = $data['name'] ?? $record->name;
+                $record->name = $data['name'] ?: $record->model->company;
                 $record->setCustomProperty('is_main', (bool) ($data['is_main'] ?? false));
                 $record->save();
             });
