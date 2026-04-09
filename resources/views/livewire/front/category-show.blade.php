@@ -42,14 +42,13 @@
                         @endphp
                         @if ($mainImage)
                             <div class="aspect-video overflow-hidden rounded-t-xl bg-slate-100">
-                                <img
-                                    src="{{ $mainImage->getUrl() }}"
-                                    alt="{{ $shop->company }}"
-                                    loading="{{ $loop->first ? 'eager' : 'lazy' }}"
-                                    decoding="async"
-                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                                    class="size-full object-cover transition group-hover:scale-105"
-                                >
+                                {{ $mainImage->img('thumb', [
+                                    'alt' => $shop->company,
+                                    'loading' => $loop->first ? 'eager' : 'lazy',
+                                    'decoding' => 'async',
+                                    'sizes' => '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+                                    'class' => 'size-full object-cover transition group-hover:scale-105',
+                                ]) }}
                             </div>
                         @endif
                         <div class="flex flex-1 flex-col p-4">
