@@ -54,7 +54,7 @@ final class MigrateMediaToSpatie extends Command
                     'model_type' => Shop::class,
                     'model_id' => $row->shop_id,
                     'collection_name' => 'images',
-                    'name' => $row->name ?? null,
+                    'name' => $row->name ?? $fileName,
                     'file_name' => $fileName,
                     'mime_type' => $row->mime_type,
                     'disk' => 'public',
