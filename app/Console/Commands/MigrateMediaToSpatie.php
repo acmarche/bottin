@@ -45,7 +45,7 @@ final class MigrateMediaToSpatie extends Command
             if ($row->name) {
                 $name = $row->name;
             } else {
-                $name = $row->file_name;
+                $name = $fileName;
             }
 
             if (!$dryRun) {
