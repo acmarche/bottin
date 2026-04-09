@@ -14,7 +14,7 @@ final class SchedulesRelationManager extends RelationManager
 {
     protected static string $relationship = 'schedules';
 
-    protected static ?string $title = 'Horaires';
+    protected static ?string $title = 'Horaires détaillés';
 
     protected static ?string $label = 'Horaires';
 
