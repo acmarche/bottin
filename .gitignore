@@ -27,3 +27,4 @@ tests/Browser/Screenshots
 /data
 *.sql
 /public/bottin
+/storage/media-library

@@ -9,18 +9,16 @@
         "filament/filament",
         "spatie/laravel-pdf",
         "filament/blueprint",
-        "laravel/ai",
-        "laravel/nightwatch",
         "fruitcake/laravel-debugbar"
     ],
     "sail": false,
     "skills": [
+        "ai-sdk-development",
         "laravel-best-practices",
+        "configure-nightwatch",
         "scout-development",
         "pest-testing",
         "tailwindcss-development",
-        "ai-sdk-development",
-        "configure-nightwatch",
         "laravel-pdf",
         "debug-using-debugbar"
     ]
