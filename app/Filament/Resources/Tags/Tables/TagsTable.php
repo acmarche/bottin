@@ -34,6 +34,10 @@ final class TagsTable
                     ->label('Groupe')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('shops_count')
+                    ->label('Sociétés')
+                    ->counts('shops')
+                    ->sortable(),
                 IconColumn::make('private')
                     ->label('Privé')
                     ->falseIcon(false)
@@ -55,7 +59,7 @@ final class TagsTable
             ->groups([
                 Group::make('tagGroup.name')
                     ->label('')
-                    ->getTitleFromRecordUsing(fn(Tag $record): HtmlString => new HtmlString(
+                    ->getTitleFromRecordUsing(fn (Tag $record): HtmlString => new HtmlString(
                         '<span class="text-lg font-bold text-primary-600 dark:text-primary-400">-- '.e(
                             $record->tagGroup?->name
                         ).'</span>',

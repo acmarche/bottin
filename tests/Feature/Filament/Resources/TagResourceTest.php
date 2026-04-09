@@ -116,6 +116,16 @@ it('can validate unique name', function () {
         ->assertHasFormErrors(['name' => ['unique']]);
 });
 
+it('can display shops count in the table', function () {
+    $tag = Tag::factory()->create();
+    $shops = Shop::factory()->count(3)->create();
+    $tag->shops()->attach($shops);
+
+    livewire(ListTags::class)
+        ->assertCanSeeTableRecords([$tag])
+        ->assertTableColumnStateSet('shops_count', 3, $tag);
+});
+
 it('validates the form data', function (array $data, array $errors) {
     $tag = Tag::factory()->create();
 
