@@ -17,7 +17,6 @@ final class ScheduleFactory extends Factory
         return [
             'shop_id' => Shop::factory(),
             'day' => fake()->numberBetween(1, 7),
-            'is_open_at_lunch' => false,
             'is_by_appointment' => false,
             'is_closed' => false,
             'morning_start' => '08:00',

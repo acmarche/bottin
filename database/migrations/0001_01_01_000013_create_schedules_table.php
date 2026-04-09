@@ -15,7 +15,6 @@ return new class extends Migration
             $table->foreignId('shop_id')->constrained('shops');
             $table->integer('day')->nullable();
             $table->string('media_path')->nullable();
-            $table->boolean('is_open_at_lunch')->default(false);
             $table->boolean('is_by_appointment')->default(false);
             $table->boolean('is_closed')->default(false);
             $table->time('morning_start')->nullable();

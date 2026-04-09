@@ -163,8 +163,8 @@ return new class() extends Migration
         // 15. schedules ← horaire
         if ($this->legacyTableExists('horaire')) {
             DB::table('schedules')->insertUsing(
-                ['id', 'shop_id', 'day', 'media_path', 'is_open_at_lunch', 'is_by_appointment', 'is_closed', 'morning_start', 'morning_end', 'noon_start', 'noon_end'],
-                DB::table('horaire')->select('id', 'fiche_id', 'day', 'media_path', 'is_open_at_lunch', 'is_rdv', 'is_closed', 'morning_start', 'morning_end', 'noon_start', 'noon_end'),
+                ['id', 'shop_id', 'day', 'media_path', 'is_by_appointment', 'is_closed', 'morning_start', 'morning_end', 'noon_start', 'noon_end'],
+                DB::table('horaire')->select('id', 'fiche_id', 'day', 'media_path', 'is_rdv', 'is_closed', 'morning_start', 'morning_end', 'noon_start', 'noon_end'),
             );
         }
 

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Database\Factories\ScheduleFactory;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +22,6 @@ final class Schedule extends Model
         'shop_id',
         'day',
         'media_path',
-        'is_open_at_lunch',
         'is_by_appointment',
         'is_closed',
         'morning_start',
@@ -42,9 +42,14 @@ final class Schedule extends Model
     protected function casts(): array
     {
         return [
-            'is_open_at_lunch' => 'boolean',
             'is_by_appointment' => 'boolean',
             'is_closed' => 'boolean',
         ];
+    }
+
+    /** @return Attribute<bool, never> */
+    private function isOpenAtLunch(): Attribute
+    {
+        return Attribute::get(fn (): bool => $this->morning_end === null && $this->noon_start === null);
     }
 }
