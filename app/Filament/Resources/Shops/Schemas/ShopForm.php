@@ -45,21 +45,14 @@ final class ShopForm
             ->components([
                 Wizard::make([
                     self::generalStep()
-                        ->afterValidation(fn(Component $livewire) => $livewire->saveStep()),
+                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
                     self::socialStep()
-                        ->afterValidation(function () {
-                            $data = $this->form->getState();
-                            $this->record->update($data);
-                        }),
+                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
                     self::notesStep()
-                        ->afterValidation(function () {
-                            $data = $this->form->getState();
-                            $this->record->update($data);
-                        }),
+                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
                     self::mapStep(),
                 ])
                     ->columnSpanFull()
-                    ->skippable()
                     ->persistStepInQueryString('step')
                     ->submitAction(
                         new HtmlString(
@@ -76,7 +69,7 @@ final class ShopForm
                 ->label('Nom de la société')
                 ->placeholder('Rechercher pour une société existante...')
                 ->live(debounce: 500)
-                ->afterStateUpdated(fn(?string $state) => ShopRepository::searchByName($state ?? ''))
+                ->afterStateUpdated(fn (?string $state) => ShopRepository::searchByName($state ?? ''))
                 ->autocomplete(false)
                 ->autofocus(),
         ]);

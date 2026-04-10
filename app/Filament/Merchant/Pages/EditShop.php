@@ -21,8 +21,8 @@ use Illuminate\Support\Facades\Auth;
 
 final class EditShop extends Page
 {
-    use TracksHistoryTrait;
     use HasWizard;
+    use TracksHistoryTrait;
 
     /** @var array<string, mixed> */
     public ?array $data = [];
@@ -69,7 +69,11 @@ final class EditShop extends Page
 
     public function saveStep(): void
     {
-        $this->getShop()->update($this->data);
+        $shop = $this->getShop();
+
+        $shop->update(
+            collect($this->data)->only($shop->getFillable())->toArray(),
+        );
     }
 
     public function save(): void
