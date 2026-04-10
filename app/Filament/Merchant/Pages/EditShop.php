@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Resources\Pages\Concerns\HasWizard;
 use Filament\Schemas\Components\EmbeddedSchema;
 use Filament\Schemas\Components\Form;
 use Filament\Schemas\Schema;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 final class EditShop extends Page
 {
     use TracksHistoryTrait;
+    use HasWizard;
 
     /** @var array<string, mixed> */
     public ?array $data = [];
@@ -58,6 +60,11 @@ final class EditShop extends Page
                     ->id('form')
                     ->livewireSubmitHandler('save'),
             ]);
+    }
+
+    public function getSteps(): array
+    {
+        return [];
     }
 
     public function saveStep(): void

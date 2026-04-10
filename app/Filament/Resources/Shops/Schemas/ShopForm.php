@@ -45,11 +45,17 @@ final class ShopForm
             ->components([
                 Wizard::make([
                     self::generalStep()
-                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
+                        ->afterValidation(fn(Component $livewire) => $livewire->saveStep()),
                     self::socialStep()
-                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
+                        ->afterValidation(function () {
+                            $data = $this->form->getState();
+                            $this->record->update($data);
+                        }),
                     self::notesStep()
-                        ->afterValidation(fn (Component $livewire) => $livewire->saveStep()),
+                        ->afterValidation(function () {
+                            $data = $this->form->getState();
+                            $this->record->update($data);
+                        }),
                     self::mapStep(),
                 ])
                     ->columnSpanFull()
@@ -70,7 +76,7 @@ final class ShopForm
                 ->label('Nom de la société')
                 ->placeholder('Rechercher pour une société existante...')
                 ->live(debounce: 500)
-                ->afterStateUpdated(fn (?string $state) => ShopRepository::searchByName($state ?? ''))
+                ->afterStateUpdated(fn(?string $state) => ShopRepository::searchByName($state ?? ''))
                 ->autocomplete(false)
                 ->autofocus(),
         ]);
@@ -138,7 +144,7 @@ final class ShopForm
         return Tab::make('Contact administratif')
             ->icon(Heroicon::ShieldCheck)
             ->columns(2)
-            ->schema(ShopFormColumns::adminColumns())            ;
+            ->schema(ShopFormColumns::adminColumns());
     }
 
     private static function tagsTab(): Tab
