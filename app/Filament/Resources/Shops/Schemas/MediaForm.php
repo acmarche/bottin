@@ -12,8 +12,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+use function mime_content_type;
+use function str_starts_with;
 
 final class MediaForm
 {
@@ -60,17 +62,20 @@ final class MediaForm
                     ? $livewire->getOwnerRecord()
                     : Shop::findOrFail($livewire->shopId);
 
-                if ($data['uploaded_file'] instanceof TemporaryUploadedFile) {
-                    $path = Storage::disk('public')->path($data['uploaded_file']);
-                } else {
-                    $path = Storage::disk('public')->path($data['uploaded_file']);
+                $path = Storage::disk('public')->path($data['uploaded_file']);
+                $mimeType = mime_content_type($path) ?: '';
+                $isImage = str_starts_with($mimeType, 'image/');
+                $collection = $isImage ? 'images' : 'documents';
+
+                $adder = $shop->addMedia($path)
+                    ->usingName($data['name'] ?: $shop->company)
+                    ->withCustomProperties(['is_main' => (bool) ($data['is_main'] ?? false)]);
+
+                if ($isImage) {
+                    $adder->withResponsiveImages();
                 }
 
-                $shop->addMedia($path)
-                    ->usingName($data['name'] ?: $shop->company)
-                    ->withResponsiveImages()
-                    ->withCustomProperties(['is_main' => (bool) ($data['is_main'] ?? false)])
-                    ->toMediaCollection('images', 'public');
+                $adder->toMediaCollection($collection, 'public');
             });
     }
 

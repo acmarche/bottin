@@ -83,6 +83,7 @@ final class Shop extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')->useDisk('public');
+        $this->addMediaCollection('documents')->useDisk('public');
     }
 
     public function registerMediaConversions(?Media $media = null): void

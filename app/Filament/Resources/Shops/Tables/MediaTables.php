@@ -16,6 +16,8 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+use function str_starts_with;
+
 final class MediaTables
 {
     public static function configure(Table $table): Table
@@ -30,13 +32,20 @@ final class MediaTables
                     ->action(fn (Media $media) => Storage::disk('public')->download(
                         $media->getPathRelativeToRoot()
                     )),
-                ImageColumn::make('file_name')
+                ImageColumn::make('preview')
+                    ->label('Aperçu')
                     ->disk('public')
-                    ->state(fn (Media $record): string => $record->getPathRelativeToRoot())
+                    ->state(fn (Media $record): ?string => str_starts_with($record->mime_type, 'image/') ? $record->getPathRelativeToRoot() : null)
                     ->checkFileExistence(false)
                     ->extraImgAttributes([
                         'loading' => 'lazy',
                     ]),
+                IconColumn::make('document_icon')
+                    ->label('Type')
+                    ->state(fn (Media $record): bool => ! str_starts_with($record->mime_type, 'image/'))
+                    ->trueIcon('tabler-file-type-pdf')
+                    ->falseIcon(false)
+                    ->boolean(),
                 IconColumn::make('is_main')
                     ->label('Principal')
                     ->state(fn (Media $record): bool => (bool) $record->getCustomProperty('is_main', false))
@@ -45,6 +54,9 @@ final class MediaTables
                 TextColumn::make('size')
                     ->label('Taille')
                     ->suffix('Ko'),
+                TextColumn::make('collection_name')
+                    ->label('Collection')
+                    ->badge(),
                 TextColumn::make('mime_type'),
             ])
             ->defaultPaginationPageOption(50)
