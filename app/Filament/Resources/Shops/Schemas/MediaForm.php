@@ -27,7 +27,18 @@ final class MediaForm
                     ->label('Fichier')
                     ->disk('public')
                     ->required()
-                    ->maxSize(10240),
+                    ->maxSize(10240)
+                    ->acceptedFileTypes([
+                        'image/jpeg',
+                        'image/png',
+                        'image/gif',
+                        'image/webp',
+                        'application/pdf',
+                        'application/msword',
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        'application/vnd.ms-excel',
+                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    ]),
                 TextInput::make('name')
                     ->label('Intitulé')
                     ->helperText('Non requis, utile comme légende')
