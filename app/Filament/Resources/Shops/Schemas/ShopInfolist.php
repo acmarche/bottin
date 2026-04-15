@@ -255,6 +255,7 @@ final class ShopInfolist
     {
         return Section::make('Token commerçant')
             ->icon(Heroicon::Key)
+            ->columns(2)
             ->visible(fn (): bool => auth()->user() instanceof User)
             ->schema([
                 TextEntry::make('token.expire_at')
