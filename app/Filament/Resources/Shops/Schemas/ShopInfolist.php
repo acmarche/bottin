@@ -281,7 +281,8 @@ final class ShopInfolist
                         ? route('merchant.login', $record->token->uuid)
                         : null)
                     ->copyable()
-                    ->placeholder('—'),
+                    ->placeholder('—')
+                ->columnSpanFull(),
             ]);
     }
 
