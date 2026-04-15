@@ -42,6 +42,7 @@ final class ShopInfolist
                                 ->label(null)
                                 ->schema(self::status()),
                             self::tags(),
+                            self::timestamps(),
                             self::token(),
                         ])
                         ->grow(false),
@@ -229,6 +230,23 @@ final class ShopInfolist
                             ->label('Email')
                             ->icon(Heroicon::Envelope),
                     ]),
+            ]);
+    }
+
+    private static function timestamps(): Section
+    {
+        return Section::make('Dates')
+            ->icon(Heroicon::Clock)
+            ->schema([
+                TextEntry::make('user')
+                    ->label('Ajouté par')
+                    ->placeholder('—'),
+                TextEntry::make('created_at')
+                    ->label('Créé le')
+                    ->dateTime('d/m/Y H:i'),
+                TextEntry::make('updated_at')
+                    ->label('Modifié le')
+                    ->dateTime('d/m/Y H:i'),
             ]);
     }
 
