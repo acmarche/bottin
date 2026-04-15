@@ -237,6 +237,7 @@ final class ShopInfolist
     {
         return Section::make('Dates')
             ->icon(Heroicon::Clock)
+            ->columns(2)
             ->schema([
                 TextEntry::make('user')
                     ->label('Ajouté par')
