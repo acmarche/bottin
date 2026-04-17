@@ -23,7 +23,11 @@
                     <a href="{{ route('home') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Accueil</a>
                     <a href="{{ route('shops.index') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Annuaire A-Z</a>
                     <a href="https://circuit-court.marche.be" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Circuit court</a>
-                    <a href="{{ route('filament.admin.auth.login') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Connexion</a>
+                    @auth
+                        <a href="{{ route('filament.admin.pages.dashboard') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Gestion</a>
+                    @else
+                        <a href="{{ route('filament.admin.auth.login') }}" class="text-base font-medium text-slate-600 transition hover:text-stormy-teal-600">Connexion</a>
+                    @endauth
                     <form action="{{ route('search') }}" method="get" class="relative">
                         <input
                             type="search"
@@ -63,7 +67,11 @@
                     <a href="{{ route('home') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Accueil</a>
                     <a href="{{ route('shops.index') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Annuaire A-Z</a>
                     <a href="https://circuit-court.marche.be" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Circuit court</a>
-                    <a href="{{ route('filament.admin.auth.login') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Connexion</a>
+                    @auth
+                        <a href="{{ route('filament.admin.pages.dashboard') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Gestion</a>
+                    @else
+                        <a href="{{ route('filament.admin.auth.login') }}" class="block rounded-md px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-100">Connexion</a>
+                    @endauth
                     <form action="{{ route('search') }}" method="get" class="pt-2">
                         <input
                             type="search"
