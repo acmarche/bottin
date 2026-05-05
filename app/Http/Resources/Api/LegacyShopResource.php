@@ -174,7 +174,7 @@ final class LegacyShopResource extends JsonResource
             'fiche_id' => $image->model_id,
             'principale' => (bool)$image->getCustomProperty('is_main', false),
             'image_name' => $image->file_name,
-            'url' => 'https://bottin.marche.be/storage/bottin/fiches/'.$image->id.'/'.$image->file_name,
+            'url' => 'https://bottin.marche.be/storage/bottin/fiches/'.$this->id.'/'.$image->file_name,
             'mime' => $image->mime_type,
             'updated_at' => $image->updated_at?->format('Y-m-d H:i:s'),
         ])->all();
