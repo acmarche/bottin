@@ -174,7 +174,7 @@ final class LegacyShopResource extends JsonResource
             'fiche_id' => $image->model_id,
             'principale' => (bool)$image->getCustomProperty('is_main', false),
             'image_name' => $image->file_name,
-            'url' => 'https://bottin.marche.be/storage/bottin/fiches/'.$this->id.'/'.$image->file_name,
+            'url' => $this->getImageUrl($image),
             'mime' => $image->mime_type,
             'updated_at' => $image->updated_at?->format('Y-m-d H:i:s'),
         ])->all();
@@ -233,9 +233,18 @@ final class LegacyShopResource extends JsonResource
         }
 
         return $this->media
-            ->map(fn(MediaSpatie $image): string => 'https://bottin.marche.be/'.$image->getPathRelativeToRoot())
+            ->map(fn(MediaSpatie $image): string => $this->getImageUrl($image))
             ->values()
             ->all();
+    }
+
+    private function getImageUrl(?MediaSpatie $image): string
+    {
+        if ($image === null) {
+            return '';
+        }
+
+        return 'https://bottin.marche.be/storage/bottin/fiches/'.$this->id.'/'.$image->file_name;
     }
 
     /**
@@ -272,6 +281,6 @@ final class LegacyShopResource extends JsonResource
             $mainImage = $this->media->first();
         }
 
-        return $mainImage ? 'https://bottin.marche.be/'.$mainImage->getPathRelativeToRoot() : null;
+        return $mainImage ? $this->getImageUrl($mainImage) : null;
     }
 }
