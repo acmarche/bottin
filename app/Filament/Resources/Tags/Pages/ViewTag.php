@@ -15,11 +15,15 @@ use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Maatwebsite\Excel\Facades\Excel;
+use OpenSpout\Common\Entity\Row;
+use OpenSpout\Writer\CSV\Writer as CsvWriter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use function collect;
 use function date;
+use function response;
+use function sys_get_temp_dir;
+use function tempnam;
 
 final class ViewTag extends ViewRecord
 {
@@ -68,12 +72,21 @@ final class ViewTag extends ViewRecord
                 $selectedColumns = collect($data)->flatten()->all();
 
                 $filename = 'tag-'.$tag->slug.'-'.date('Y-m-d').'.csv';
+                $export = new TagShopsExport($tag, $selectedColumns);
 
-                return Excel::download(
-                    new TagShopsExport($tag, $selectedColumns),
-                    $filename,
-                    \Maatwebsite\Excel\Excel::CSV,
-                );
+                $tempPath = tempnam(sys_get_temp_dir(), 'export_');
+
+                $writer = new CsvWriter();
+                $writer->openToFile($tempPath);
+                $writer->addRow(Row::fromValues($export->headings()));
+
+                foreach ($export->collection() as $shop) {
+                    $writer->addRow(Row::fromValues($export->map($shop)));
+                }
+
+                $writer->close();
+
+                return response()->download($tempPath, $filename)->deleteFileAfterSend();
             });
     }
 }

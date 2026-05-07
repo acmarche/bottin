@@ -7,7 +7,6 @@ use App\Filament\Resources\Categories\Pages\ViewCategory;
 use App\Filament\Resources\Categories\RelationManagers\ShopsRelationManager;
 use App\Models\Category;
 use App\Models\Shop;
-use Maatwebsite\Excel\Facades\Excel;
 
 use function Pest\Livewire\livewire;
 
@@ -90,8 +89,6 @@ it('maps only selected columns', function () {
 });
 
 it('downloads the export via the action', function () {
-    Excel::fake();
-
     $category = Category::factory()->create();
     $shop = Shop::factory()->create();
     $shop->categories()->attach($category->id, ['principal' => true]);
@@ -99,9 +96,7 @@ it('downloads the export via the action', function () {
     livewire(ViewCategory::class, ['record' => $category->id])
         ->callAction('exportXls', [
             'Business' => ['company'],
-        ]);
-
-    $expectedFilename = 'category-'.$category->slug.'-'.date('Y-m-d').'.xlsx';
-
-    Excel::assertDownloaded($expectedFilename);
+        ])
+        ->assertHasNoErrors()
+        ->assertFileDownloaded('category-'.$category->slug.'-'.date('Y-m-d').'.xlsx');
 });

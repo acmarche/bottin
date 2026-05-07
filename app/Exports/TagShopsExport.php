@@ -7,14 +7,8 @@ namespace App\Exports;
 use App\Models\Shop;
 use App\Models\Tag;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 
-/**
- * @implements WithMapping<Shop>
- */
-final class TagShopsExport implements FromCollection, WithHeadings, WithMapping
+final class TagShopsExport
 {
     /** @param  array<int, string>  $selectedColumns */
     public function __construct(
@@ -41,10 +35,10 @@ final class TagShopsExport implements FromCollection, WithHeadings, WithMapping
     }
 
     /** @return array<int, mixed> */
-    public function map($row): array
+    public function map(Shop $shop): array
     {
         return collect($this->selectedColumns)
-            ->map(fn (string $column): mixed => $row->{$column})
+            ->map(fn (string $column): mixed => $shop->{$column})
             ->all();
     }
 }
