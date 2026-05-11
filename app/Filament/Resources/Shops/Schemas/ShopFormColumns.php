@@ -252,7 +252,8 @@ final class ShopFormColumns
                 ->maxLength(255),
             TextInput::make('contact_postal_code')
                 ->label('Code postal')
-                ->maxLength(255),
+                ->maxLength(255)
+                ->dehydrateStateUsing(fn ($state): ?string => filled($state) ? (string) $state : null),
             TextInput::make('contact_city')
                 ->label('Ville')
                 ->maxLength(255),
