@@ -99,7 +99,7 @@
                                                     <span class="text-red-500">Ferm&eacute;</span>
                                                 @elseif ($schedule->is_by_appointment)
                                                     <span class="text-amber-600">Sur rendez-vous</span>
-                                                @elseif ($schedule->is_open_at_lunch)
+                                                @elseif ($schedule->morning_end === null && $schedule->noon_start === null)
                                                     {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
                                                     {{ $schedule->noon_end ? '- ' . substr((string) $schedule->noon_end, 0, 5) : '' }}
                                                 @else

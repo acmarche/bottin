@@ -91,7 +91,7 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapCategories(): array
     {
-        if (!$this->relationLoaded('categories')) {
+        if (! $this->relationLoaded('categories')) {
             return [];
         }
 
@@ -107,14 +107,14 @@ final class LegacyShopResource extends JsonResource
                 'lvl' => $lvl,
                 'lft' => '',
                 'rgt' => '',
-                'root' => $root ? (string)$root->id : (string)$category->id,
+                'root' => $root ? (string) $root->id : (string) $category->id,
                 'description' => $category->description,
                 'logo' => $category->logo ?? '',
                 'icon' => $category->icon,
                 'slugname' => $category->slug,
                 'slug' => $category->slug,
                 'parent' => $category->parent_id,
-                'path' => $pathWithSelf->map(fn(Category $ancestor): array => [
+                'path' => $pathWithSelf->map(fn (Category $ancestor): array => [
                     'id' => $ancestor->id,
                     'parent_id' => $ancestor->parent_id ?? 0,
                     'slugname' => $ancestor->slug,
@@ -123,7 +123,7 @@ final class LegacyShopResource extends JsonResource
                     'lvl' => 0,
                     'lft' => '',
                     'rgt' => '',
-                    'root' => $root ? (string)$root->id : (string)$ancestor->id,
+                    'root' => $root ? (string) $root->id : (string) $ancestor->id,
                     'mobile' => '',
                     'logo' => $ancestor->logo ? 'https://www.marche.be/logo/adl/categories/'.$ancestor->logo : 'https://www.marche.be/logo/adl/categories/',
                     'icon' => $ancestor->icon ? 'https://www.marche.be/logo/adl/categories/'.$ancestor->icon : 'https://www.marche.be/logo/adl/categories/',
@@ -141,22 +141,22 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapSchedules(): array
     {
-        if (!$this->relationLoaded('schedules')) {
+        if (! $this->relationLoaded('schedules')) {
             return [];
         }
 
-        return $this->schedules->map(fn($schedule): array => [
+        return $this->schedules->map(fn ($schedule): array => [
             'id' => $schedule->id,
             'day' => $schedule->day,
             'media_path' => $schedule->media_path,
-            'is_open_at_lunch' => (int)$schedule->is_open_at_lunch,
-            'is_rdv' => (int)$schedule->is_by_appointment,
+            'is_open_at_lunch' => (int) ($schedule->morning_end === null && $schedule->noon_start === null),
+            'is_rdv' => (int) $schedule->is_by_appointment,
             'morning_start' => $schedule->morning_start,
             'morning_end' => $schedule->morning_end,
             'noon_start' => $schedule->noon_start,
             'noon_end' => $schedule->noon_end,
             'fiche_id' => $schedule->shop_id,
-            'is_closed' => (int)$schedule->is_closed,
+            'is_closed' => (int) $schedule->is_closed,
         ])->all();
     }
 
@@ -165,14 +165,14 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapImages(): array
     {
-        if (!$this->relationLoaded('media')) {
+        if (! $this->relationLoaded('media')) {
             return [];
         }
 
-        return $this->media->map(fn(MediaSpatie $image): array => [
+        return $this->media->map(fn (MediaSpatie $image): array => [
             'id' => $image->id,
             'fiche_id' => $image->model_id,
-            'principale' => (bool)$image->getCustomProperty('is_main', false),
+            'principale' => (bool) $image->getCustomProperty('is_main', false),
             'image_name' => $image->file_name,
             'url' => $this->getImageUrl($image),
             'mime' => $image->mime_type,
@@ -185,7 +185,7 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapTags(): array
     {
-        if (!$this->relationLoaded('tags')) {
+        if (! $this->relationLoaded('tags')) {
             return [];
         }
 
@@ -203,7 +203,7 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapTagsObject(): array
     {
-        if (!$this->relationLoaded('tags')) {
+        if (! $this->relationLoaded('tags')) {
             return [];
         }
 
@@ -228,12 +228,12 @@ final class LegacyShopResource extends JsonResource
      */
     private function mapPhotos(): array
     {
-        if (!$this->relationLoaded('media')) {
+        if (! $this->relationLoaded('media')) {
             return [];
         }
 
         return $this->media
-            ->map(fn(MediaSpatie $image): string => $this->getImageUrl($image))
+            ->map(fn (MediaSpatie $image): string => $this->getImageUrl($image))
             ->values()
             ->all();
     }
@@ -271,11 +271,11 @@ final class LegacyShopResource extends JsonResource
 
     private function mapLogo(): ?string
     {
-        if (!$this->relationLoaded('media')) {
+        if (! $this->relationLoaded('media')) {
             return null;
         }
 
-        $mainImage = $this->media->first(fn(MediaSpatie $m): bool => (bool)$m->getCustomProperty('is_main', false));
+        $mainImage = $this->media->first(fn (MediaSpatie $m): bool => (bool) $m->getCustomProperty('is_main', false));
 
         if ($mainImage === null) {
             $mainImage = $this->media->first();
