@@ -23,8 +23,8 @@ final class ManageTokenCommand extends Command
         $action = $this->argument('action') ?? select(
             label: 'What would you like to do?',
             options: [
-                'generate' => 'Generate a new token',
-                'regenerate' => 'Generate a new token',
+                'generate' => 'Generate tokens for shops without tokens',
+                'regenerate' => 'Generate a fresh token for all shops',
             ],
         );
 
