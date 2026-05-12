@@ -81,6 +81,7 @@ final class LegacyShopResource extends JsonResource
             'tagsObject' => $this->mapTagsObject(),
             'photos' => $this->mapPhotos(),
             'logo' => $this->mapLogo(),
+            'token'=> $this->token,
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
