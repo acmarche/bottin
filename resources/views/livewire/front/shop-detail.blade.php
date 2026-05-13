@@ -16,6 +16,7 @@
             <div class="space-y-6">
                 @include('livewire.front.shop-detail.admin-link')
                 @include('livewire.front.shop-detail.contact')
+                @include('livewire.front.shop-detail.contact-person')
                 @include('livewire.front.shop-detail.categories')
                 @include('livewire.front.shop-detail.tags')
                 @include('livewire.front.shop-detail.map')
