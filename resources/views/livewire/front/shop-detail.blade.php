@@ -7,9 +7,9 @@
             <div class="lg:col-span-2 space-y-8">
                 @include('livewire.front.shop-detail.header')
                 @include('livewire.front.shop-detail.description')
-                @include('livewire.front.shop-detail.gallery')
-                @include('livewire.front.shop-detail.documents')
                 @include('livewire.front.shop-detail.schedules')
+                @include('livewire.front.shop-detail.documents')
+                @include('livewire.front.shop-detail.gallery')
             </div>
 
             {{-- Sidebar --}}
