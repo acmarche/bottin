@@ -6,6 +6,8 @@
 
         <title>{{ $title ?? config('app.name') }}</title>
 
+        @stack('meta')
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         @livewireStyles

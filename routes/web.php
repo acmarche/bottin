@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\DownloadShopPdfController;
 use App\Http\Controllers\MerchantLoginController;
+use App\Http\Controllers\SitemapController;
 use App\Livewire\Front\CategoryShow;
 use App\Livewire\Front\HomePage;
 use App\Livewire\Front\SearchResults;
@@ -18,6 +19,16 @@ Route::get('/categorie/{category:slug}', CategoryShow::class)->name('category.sh
 Route::get('/fiche/{shop:slug}', ShopDetail::class)->name('shop.show');
 Route::get('/label/{tag:slug}', TagShow::class)->name('tag.show');
 Route::get('/recherche', SearchResults::class)->name('search');
+
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    return response(
+        "User-agent: *\nDisallow:\n\nSitemap: ".route('sitemap')."\n",
+        200,
+        ['Content-Type' => 'text/plain'],
+    );
+})->name('robots');
 
 Route::get('/export-shop/{shop}', DownloadShopPdfController::class)->name('export.shop');
 

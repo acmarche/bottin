@@ -1,4 +1,6 @@
 <div>
+    <x-seo title="Recherche" :noindex="true" />
+
     <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold text-slate-900">R&eacute;sultats de recherche</h1>
         @if ($search)

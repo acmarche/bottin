@@ -1,4 +1,9 @@
 <div>
+    <x-seo
+        title="{{ config('app.name') }}"
+        description="Trouvez les commerces, indépendants et services près de chez vous à Marche-en-Famenne grâce à l'annuaire en ligne."
+    />
+
     {{-- Hero --}}
     <section class="bg-linear-to-br from-stormy-teal-800 to-stormy-teal-950 px-4 py-16 text-white sm:py-24">
         <div class="mx-auto max-w-3xl text-center">

@@ -1,4 +1,9 @@
 <div>
+    <x-seo
+        title="Annuaire A-Z"
+        description="Parcourez par ordre alphabétique tous les commerces et services référencés dans l'annuaire."
+    />
+
     <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <h1 class="text-3xl font-bold text-slate-900">Annuaire A-Z</h1>
 

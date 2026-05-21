@@ -1,4 +1,9 @@
 <div>
+    <x-seo
+        :title="$tag->name"
+        :description="$tag->description ?: 'Commerces et services associés au label ' . $tag->name . '.'"
+    />
+
     <section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {{-- Breadcrumb --}}
         <nav class="mb-6 text-base text-slate-500" aria-label="Fil d'Ariane">
