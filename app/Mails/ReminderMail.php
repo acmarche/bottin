@@ -51,7 +51,7 @@ final class ReminderMail extends Mailable
         }
 
         return new Content(
-            markdown: 'mail.action.reminder',
+            html: 'mail.action.reminder',
             with: [
                 'action' => $this->shop,
                 'url' => $this->shop->token
