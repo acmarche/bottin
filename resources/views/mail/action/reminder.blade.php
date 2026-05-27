@@ -1,25 +1,18 @@
 <x-mail::message>
-{{-- Header with both logos --}}
-<x-slot:header>
-<tr>
-<td class="header" style="padding: 28px 0; text-align: center; background-color: #ffffff;">
-<table align="center" cellpadding="0" cellspacing="0" role="presentation" style="margin: 0 auto;">
+<table align="center" cellpadding="0" cellspacing="0" role="presentation" style="margin: 0 auto 24px; border-collapse: collapse;">
 <tr>
 @if($logoMarche)
-<td style="padding: 0 24px; vertical-align: middle;">
+<td style="padding: 0 20px; vertical-align: middle;">
 <img src="{{ $message->embed($logoMarche) }}" height="64" alt="Ville de Marche-en-Famenne" style="display: block; max-height: 64px; width: auto; border: 0;">
 </td>
 @endif
 @if($logoAdl)
-<td style="padding: 0 24px; vertical-align: middle;">
+<td style="padding: 0 20px; vertical-align: middle;">
 <img src="{{ $message->embed($logoAdl) }}" height="64" alt="Agence de Développement Local" style="display: block; max-height: 64px; width: auto; border: 0;">
 </td>
 @endif
 </tr>
 </table>
-</td>
-</tr>
-</x-slot:header>
 
 # {{ $subject }}
 
@@ -40,23 +33,10 @@ Gérer les données de ma fiche
 Cordialement,
 **{{ config('app.name') }}**
 
-{{-- Footer --}}
-<x-slot:footer>
-<tr>
-<td>
-<table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
-<tr>
-<td class="content-cell" align="center" style="padding: 32px; color: #b0adc5; font-size: 12px; text-align: center; line-height: 1.6;">
-<strong style="color: #5c5e6b; font-size: 13px;">Agence de Développement Local</strong><br>
+<x-slot:subcopy>
+<strong>Agence de Développement Local</strong><br>
 Rue Victor Libert 36 J — 6900 Marche-en-Famenne<br>
-<a href="tel:+3284327078" style="color: #5c5e6b; text-decoration: none;">084 32 70 78</a> — <a href="mailto:adl@marche.be" style="color: #5c5e6b; text-decoration: none;">adl@marche.be</a><br>
-<a href="https://adl.marche.be" style="color: #5c5e6b; text-decoration: none;">adl.marche.be</a>
-<br><br>
-© {{ date('Y') }} {{ config('app.name') }}
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</x-slot:footer>
+<a href="tel:+3284327078" style="color: inherit;">084 32 70 78</a> — <a href="mailto:adl@marche.be" style="color: inherit;">adl@marche.be</a><br>
+<a href="https://adl.marche.be" style="color: inherit;">adl.marche.be</a>
+</x-slot:subcopy>
 </x-mail::message>
