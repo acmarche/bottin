@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Mails;
 
-use App\Filament\Resources\Shops\ShopResource;
 use App\Models\Shop;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -55,7 +54,9 @@ final class ReminderMail extends Mailable
             markdown: 'mail.action.reminder',
             with: [
                 'action' => $this->shop,
-                'url' => ShopResource::getUrl('view', ['record' => $this->shop]),
+                'url' => $this->shop->token
+                    ? route('merchant.login', $this->shop->token->uuid)
+                    : null,
                 'logo' => $this->logo,
                 'content' => $this->content,
             ],

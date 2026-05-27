@@ -34,4 +34,4 @@ Route::get('/export-shop/{shop}', DownloadShopPdfController::class)->name('expor
 
 Route::get('/merchant/login/{uuid}', MerchantLoginController::class)->name('merchant.login');
 // legacy backend url
-Route::get('/backend/fiche/{uuid}', MerchantLoginController::class)->name('merchant.login');
+Route::get('/backend/fiche/{uuid}', MerchantLoginController::class)->name('merchant.legacy.login');
