@@ -11,7 +11,7 @@
 
     {{$content}}
 
-    <x-mail::button :url="{{$url}}">
+    <x-mail::button :url="$url">
         Gérer les données de ma fiche
     </x-mail::button>
 
