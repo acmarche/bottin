@@ -35,7 +35,7 @@ final class LdapAuthService
             }
             $message = $connection->getLdapConnection()->getDiagnosticMessage();
 
-            if (mb_strpos($message, '532') !== false) {
+            if ($message !== null && mb_strpos($message, '532') !== false) {
                 // "Your password has expired.";
                 return null;
             }
