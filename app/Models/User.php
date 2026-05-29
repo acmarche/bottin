@@ -71,7 +71,11 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $panel->getId() === 'admin';
+        if ($panel->getId() === 'admin') {
+            return $this->hasRole(RolesEnum::Admin);
+        }
+
+        return false;
     }
 
     public function getAppAuthenticationSecret(): ?string
@@ -99,7 +103,7 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
 
     public function saveAppAuthenticationRecoveryCodes(?array $codes): void
     {
-        /** @phpstan-ignore-next-line  */
+        /** @phpstan-ignore-next-line */
         $this->app_authentication_recovery_codes = $codes;
         $this->save();
     }

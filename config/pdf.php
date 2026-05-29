@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'node_binary' => env('PDF_NODE_BINARY', '/usr/bin/node'),
     'npm_binary' => env('PDF_NPM_BINARY', '/usr/bin/npm'),

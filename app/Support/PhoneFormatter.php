@@ -10,7 +10,7 @@ final class PhoneFormatter
 {
     final public function formatPhone(string $phone): string
     {
-        if ($phone !== '' && !preg_match('/^\+\d{1,3}(\s\d{2,4}){2,4}$/', $phone)) {
+        if ($phone !== '' && ! preg_match('/^\+\d{1,3}(\s\d{2,4}){2,4}$/', $phone)) {
             $phone = $this->formatPhonesWithAi($phone);
             if ($phone === null) {
                 return $phone;
@@ -20,10 +20,6 @@ final class PhoneFormatter
         return $phone;
     }
 
-    /**
-     * @param string $phone
-     * @return string|null
-     */
     private function formatPhonesWithAi(string $phone): ?string
     {
         $response = OpenAI::chat()->create([
@@ -60,7 +56,7 @@ PROMPT,
 
         $decoded = json_decode($content, true);
 
-        if (!is_array($decoded)) {
+        if (! is_array($decoded)) {
             return null;
         }
 

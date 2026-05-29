@@ -34,7 +34,7 @@ final class MigrateMediaToSpatie extends Command
         foreach ($rows as $row) {
             $shopExists = DB::table('shops')->where('id', $row->shop_id)->exists();
 
-            if (!$shopExists) {
+            if (! $shopExists) {
                 $this->warn("Skipping media #{$row->id}: shop #{$row->shop_id} does not exist.");
                 $skipped++;
 
@@ -48,10 +48,10 @@ final class MigrateMediaToSpatie extends Command
                 $name = $fileName;
             }
 
-            if (!$dryRun) {
+            if (! $dryRun) {
                 $fileSize = $row->size;
 
-                if (!$fileSize && Storage::disk('public')->exists($row->file_name)) {
+                if (! $fileSize && Storage::disk('public')->exists($row->file_name)) {
                     $fileSize = Storage::disk('public')->size($row->file_name);
                 }
 
@@ -64,9 +64,9 @@ final class MigrateMediaToSpatie extends Command
                     'mime_type' => $row->mime_type,
                     'disk' => 'public',
                     'conversions_disk' => 'public',
-                    'size' => (int)($fileSize ?? 0),
+                    'size' => (int) ($fileSize ?? 0),
                     'manipulations' => '[]',
-                    'custom_properties' => json_encode(['is_main' => (bool)$row->is_main]),
+                    'custom_properties' => json_encode(['is_main' => (bool) $row->is_main]),
                     'generated_conversions' => '[]',
                     'responsive_images' => '[]',
                     'order_column' => $row->id,

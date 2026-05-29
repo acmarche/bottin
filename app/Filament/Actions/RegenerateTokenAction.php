@@ -20,7 +20,7 @@ final class RegenerateTokenAction extends Action
         $this
             ->label('Régénérer le token')
             ->icon(Heroicon::ArrowPath)
-            ->visible(fn(Shop $record): bool => $record->token !== null)
+            ->visible(fn (Shop $record): bool => $record->token !== null)
             ->requiresConfirmation()
             ->modalDescription('L\'ancien token sera supprimé et un nouveau sera créé.')
             ->color('warning')

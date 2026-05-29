@@ -20,6 +20,7 @@ final class ReminderMail extends Mailable
     use Queueable, SerializesModels;
 
     public ?string $logoAdl = null;
+
     public ?string $logoMarche = null;
 
     public string $content;

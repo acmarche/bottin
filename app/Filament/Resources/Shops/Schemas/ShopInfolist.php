@@ -282,7 +282,7 @@ final class ShopInfolist
                         : null)
                     ->copyable()
                     ->placeholder('—')
-                ->columnSpanFull(),
+                    ->columnSpanFull(),
             ]);
     }
 
