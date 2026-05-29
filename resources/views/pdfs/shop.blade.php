@@ -330,18 +330,6 @@
             </div>
         @endif
 
-        {{-- Situations --}}
-        @if($shop->situations->isNotEmpty())
-            <div class="section">
-                <div class="section-title">Situations</div>
-                <div>
-                    @foreach($shop->situations as $situation)
-                        <span class="badge badge-tag">{{ $situation->name }}</span>
-                    @endforeach
-                </div>
-            </div>
-        @endif
-
         {{-- Schedules --}}
         @if($shop->schedules->isNotEmpty())
             <div class="section">

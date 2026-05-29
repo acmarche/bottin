@@ -16,7 +16,7 @@ final class PdfExport
     {
         $filename = 'shop-'.$shop->slug.'-'.time().'.pdf';
 
-        $shop->load(['categories.parent.parent.parent.parent', 'schedules', 'tags', 'situations']);
+        $shop->load(['categories.parent.parent.parent.parent', 'schedules', 'tags']);
 
         return Pdf::view('pdfs.shop', ['shop' => $shop])
             ->withBrowsershot(function (Browsershot $browsershot): void {

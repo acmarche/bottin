@@ -63,7 +63,6 @@ final class ShopResource extends Resource
             MediasRelationManager::class,
             SchedulesRelationManager::class,
             HistoriesRelationManager::class,
-            //   SituationsRelationManager::class,
         ];
     }
 
