@@ -11,12 +11,6 @@ trait BottinAuthorization
 {
     protected function isAdmin(User $user): bool
     {
-        if ($user->isAdministrator()) {
-            return true;
-        }
-
-        return $user->hasOneOfThisRoles([
-            RolesEnum::Admin->value,
-        ]);
+        return $user->hasRole(RolesEnum::Admin);
     }
 }
