@@ -9,6 +9,8 @@ use App\Models\User;
 
 final class TagPolicy
 {
+    use Concerns\BottinAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -30,7 +32,8 @@ final class TagPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $this->isAdmin($user);
+
     }
 
     /**
@@ -38,7 +41,7 @@ final class TagPolicy
      */
     public function update(User $user, Tag $tag): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -46,7 +49,7 @@ final class TagPolicy
      */
     public function delete(User $user, Tag $tag): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**

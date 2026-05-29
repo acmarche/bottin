@@ -9,6 +9,8 @@ use App\Models\User;
 
 final class TagGroupPolicy
 {
+    use Concerns\BottinAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -30,7 +32,8 @@ final class TagGroupPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $this->isAdmin($user);
+
     }
 
     /**
@@ -38,7 +41,7 @@ final class TagGroupPolicy
      */
     public function update(User $user, TagGroup $tagGroup): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -46,7 +49,7 @@ final class TagGroupPolicy
      */
     public function delete(User $user, TagGroup $tagGroup): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**

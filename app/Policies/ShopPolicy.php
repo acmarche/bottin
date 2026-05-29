@@ -9,6 +9,8 @@ use App\Models\User;
 
 final class ShopPolicy
 {
+    use Concerns\BottinAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -30,7 +32,7 @@ final class ShopPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -38,7 +40,7 @@ final class ShopPolicy
      */
     public function update(User $user, Shop $shop): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -46,7 +48,7 @@ final class ShopPolicy
      */
     public function delete(User $user, Shop $shop): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**

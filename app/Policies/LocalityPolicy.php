@@ -6,9 +6,12 @@ namespace App\Policies;
 
 use App\Models\Locality;
 use App\Models\User;
+use App\Policies\Concerns\BottinAuthorization;
 
 final class LocalityPolicy
 {
+    use BottinAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
@@ -30,7 +33,7 @@ final class LocalityPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -38,7 +41,7 @@ final class LocalityPolicy
      */
     public function update(User $user, Locality $locality): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -46,7 +49,7 @@ final class LocalityPolicy
      */
     public function delete(User $user, Locality $locality): bool
     {
-        return true;
+        return $this->isAdmin($user);
     }
 
     /**
