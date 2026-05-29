@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Users\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -26,6 +27,9 @@ final class UsersTable
                 TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                TextColumn::make('roles')
+                    ->label('Rôles')
+                    ->badge(),
                 TextColumn::make('created_at')
                     ->label('Créé le')
                     ->dateTime()
@@ -39,6 +43,10 @@ final class UsersTable
             ])
             ->filters([
                 //
+            ])
+            ->recordActions([
+                EditAction::make()
+                    ->label('Rôles'),
             ])
             ->defaultPaginationPageOption(50)
             ->toolbarActions([

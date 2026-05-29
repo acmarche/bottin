@@ -24,6 +24,10 @@ final class UserInfolist
 
                         TextEntry::make('email')
                             ->label('Email'),
+
+                        TextEntry::make('roles')
+                            ->label('Rôles')
+                            ->badge(),
                     ])->columns(2),
 
                 Section::make('Dates')

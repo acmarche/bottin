@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Enums\RolesEnum;
 use App\Models\Category;
 use App\Models\Schedule;
 use App\Models\Shop;
 use App\Models\Tag;
+use App\Models\Token;
+use App\Models\User;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaSpatie;
 
 it('returns category tree with enfants, path and full logo URLs', function (): void {
@@ -82,7 +85,7 @@ it('returns shops by category', function (): void {
 
     $shopInCategory->categories()->attach($category, ['principal' => false]);
 
-    $response = $this->getJson("/api/bottin/fiches/rubrique/{$category->id}")
+    $response = $this->getJson("/api/bottin/fiches/category/{$category->id}")
         ->assertSuccessful();
 
     $ids = collect($response->json())->pluck('id');
@@ -132,7 +135,7 @@ it('includes images with legacy field names', function (): void {
         'disk' => 'public',
         'size' => 1024,
         'manipulations' => '[]',
-        'custom_properties' => json_encode(['is_main' => true]),
+        'custom_properties' => ['is_main' => true],
         'generated_conversions' => '[]',
         'responsive_images' => '[]',
     ]);
@@ -142,8 +145,8 @@ it('includes images with legacy field names', function (): void {
         ->assertJsonPath('images.0.fiche_id', $shop->id)
         ->assertJsonPath('images.0.principale', true)
         ->assertJsonPath('images.0.image_name', 'photo.jpg')
-        ->assertJsonPath('logo', 'https://bottin.marche.be/bottin/fiches/'.$shop->id.'/photo.jpg')
-        ->assertJsonPath('photos.0', 'https://bottin.marche.be/bottin/fiches/'.$shop->id.'/photo.jpg');
+        ->assertJsonPath('logo', 'https://bottin.marche.be/storage/bottin/fiches/'.$shop->id.'/photo.jpg')
+        ->assertJsonPath('photos.0', 'https://bottin.marche.be/storage/bottin/fiches/'.$shop->id.'/photo.jpg');
 });
 
 it('includes tags and tagsObject', function (): void {
@@ -156,6 +159,52 @@ it('includes tags and tagsObject', function (): void {
         ->assertJsonPath('tags.bio', 'Bio')
         ->assertJsonPath('tagsObject.bio.name', 'Bio')
         ->assertJsonPath('tagsObject.bio.slugname', 'bio');
+});
+
+it('omits the token when no bearer token is provided', function (): void {
+    $shop = Shop::factory()->create();
+    Token::factory()->create(['shop_id' => $shop->id]);
+
+    $this->getJson("/api/bottin/fiche/{$shop->id}")
+        ->assertSuccessful()
+        ->assertJsonMissingPath('token');
+});
+
+it('omits the token when an invalid bearer token is provided', function (): void {
+    User::factory()->api('secret-token')->create();
+
+    $shop = Shop::factory()->create();
+    Token::factory()->create(['shop_id' => $shop->id]);
+
+    $this->getJson("/api/bottin/fiche/{$shop->id}", ['Authorization' => 'Bearer wrong-token'])
+        ->assertSuccessful()
+        ->assertJsonMissingPath('token');
+});
+
+it('omits the token when the user lacks the API role', function (): void {
+    User::factory()->create([
+        'roles' => [RolesEnum::Admin],
+        'api_token' => 'secret-token',
+    ]);
+
+    $shop = Shop::factory()->create();
+    Token::factory()->create(['shop_id' => $shop->id]);
+
+    $this->getJson("/api/bottin/fiche/{$shop->id}", ['Authorization' => 'Bearer secret-token'])
+        ->assertSuccessful()
+        ->assertJsonMissingPath('token');
+});
+
+it('includes the token when a user with the API role provides a valid token', function (): void {
+    User::factory()->api('secret-token')->create();
+
+    $shop = Shop::factory()->create();
+    $token = Token::factory()->create(['shop_id' => $shop->id]);
+
+    $this->getJson("/api/bottin/fiche/{$shop->id}", ['Authorization' => 'Bearer secret-token'])
+        ->assertSuccessful()
+        ->assertJsonPath('token.uuid', $token->uuid)
+        ->assertJsonMissingPath('token.password');
 });
 
 it('includes categories with legacy field names', function (): void {

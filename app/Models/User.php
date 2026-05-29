@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\RolesEnum;
 use App\Ldap\UserLdap;
 use Database\Factories\UserFactory;
 use Filament\Auth\MultiFactor\App\Contracts\HasAppAuthentication;
@@ -13,10 +14,15 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasName;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property \Illuminate\Support\Collection<int, RolesEnum>|null $roles
+ * @property string|null $api_token
+ */
 #[UseFactory(UserFactory::class)]
 final class User extends Authenticatable implements FilamentUser, HasAppAuthentication, HasAppAuthenticationRecovery, HasName
 {
@@ -30,6 +36,8 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
         'username',
         'first_name',
         'last_name',
+        'roles',
+        'api_token',
     ];
 
     /**
@@ -42,6 +50,7 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
         'remember_token',
         'app_authentication_secret',
         'app_authentication_recovery_codes',
+        'api_token',
     ];
 
     public static function generateDataFromLdap(UserLdap $userLdap): array
@@ -95,6 +104,11 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
         $this->save();
     }
 
+    public function hasRole(RolesEnum $role): bool
+    {
+        return $this->roles?->contains($role) ?? false;
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -107,7 +121,7 @@ final class User extends Authenticatable implements FilamentUser, HasAppAuthenti
             'password' => 'hashed',
             'app_authentication_secret' => 'encrypted',
             'app_authentication_recovery_codes' => 'encrypted:array',
-            'roles' => 'array',
+            'roles' => AsEnumCollection::of(RolesEnum::class),
         ];
     }
 }

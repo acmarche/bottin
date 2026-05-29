@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -43,6 +44,17 @@ final class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes): array => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is an API consumer with a token.
+     */
+    public function api(?string $token = null): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'roles' => [RolesEnum::Api],
+            'api_token' => $token ?? Str::random(60),
         ]);
     }
 }

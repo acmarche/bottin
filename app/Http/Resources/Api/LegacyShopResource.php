@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources\Api;
 
+use App\Http\Middleware\VerifyApiToken;
 use App\Models\Category;
 use App\Models\Shop;
 use Illuminate\Http\Request;
@@ -81,7 +82,10 @@ final class LegacyShopResource extends JsonResource
             'tagsObject' => $this->mapTagsObject(),
             'photos' => $this->mapPhotos(),
             'logo' => $this->mapLogo(),
-            'token'=> $this->token,
+            'token' => $this->when(
+                (bool) $request->attributes->get(VerifyApiToken::AUTHENTICATED_ATTRIBUTE, false),
+                fn () => $this->token,
+            ),
             'created_at' => $this->created_at?->format('Y-m-d'),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];
