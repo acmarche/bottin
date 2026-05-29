@@ -16,5 +16,6 @@ it('displays the latest shops', function () {
     $shops = Shop::factory()->count(3)->create();
 
     livewire(LatestShops::class)
+        ->loadTable()
         ->assertCanSeeTableRecords($shops);
 });

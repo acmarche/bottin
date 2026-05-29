@@ -122,6 +122,7 @@ it('can display shops count in the table', function () {
     $tag->shops()->attach($shops);
 
     livewire(ListTags::class)
+        ->loadTable()
         ->assertCanSeeTableRecords([$tag])
         ->assertTableColumnStateSet('shops_count', 3, $tag);
 });

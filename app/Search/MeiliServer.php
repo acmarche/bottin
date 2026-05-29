@@ -27,8 +27,8 @@ final class MeiliServer
     public function createIndex(): void
     {
         $this->client->deleteTasks((new DeleteTasksQuery())->setStatuses(['failed', 'canceled', 'succeeded']));
-        dump($this->client->deleteIndex($this->indexName));
-        dump($this->client->createIndex($this->indexName, ['primaryKey' => $this->primaryKey]));
+        $this->client->deleteIndex($this->indexName);
+        $this->client->createIndex($this->indexName, ['primaryKey' => $this->primaryKey]);
     }
 
     /**

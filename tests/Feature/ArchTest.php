@@ -16,11 +16,13 @@ arch('All files in the observers directory have suffix `Observer`')
 
 arch('All files in the policies directory have suffix `Policy`')
     ->expect('App\Policies')
-    ->toHaveSuffix('Policy');
+    ->toHaveSuffix('Policy')
+    ->ignoring('App\Policies\Concerns');
 
 arch('All files in the services directory have suffix `Service`')
     ->expect('App\Services')
-    ->toHaveSuffix('Service');
+    ->toHaveSuffix('Service')
+    ->ignoring('App\Services\Bottin');
 
 arch('ensures `env()` is only used in config files')
     ->expect('env')

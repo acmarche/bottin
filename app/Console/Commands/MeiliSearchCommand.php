@@ -7,7 +7,6 @@ namespace App\Console\Commands;
 use App\Models\Shop;
 use Illuminate\Console\Command;
 use Meilisearch\Client;
-use Meilisearch\Meilisearch;
 
 final class MeiliSearchCommand extends Command
 {
@@ -38,19 +37,14 @@ final class MeiliSearchCommand extends Command
             $filters[] = "_geoRadius({$coordinates['latitude']}, {$coordinates['longitude']}, {$distance})";
         }
 
-        $meilisearch = new Meilisearch();
-        $meilisearch->
         $index = app(Client::class)->index((new Shop)->searchableAs());
-        dump($filters);
         $result = $index->search('', [
             'limit' => 500,
             'filter' => $filters,
         ]);
 
         foreach ($result->getRaw()['hits'] as $hit) {
-            dd($hit);
-            dump($hit['company']);
-            dd($hit['tags']);
+            $this->line($hit['company'] ?? '');
         }
 
         $this->newLine();

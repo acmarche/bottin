@@ -12,7 +12,7 @@ test('it finds shops classified in parent categories', function (): void {
     $shop = Shop::factory()->create();
     $shop->categories()->attach($parent->id, ['principal' => true]);
 
-    $this->artisan('app:find-shops-in-parent-categories')
+    $this->artisan('bottin:find-shops-in-parent-categories')
         ->expectsOutputToContain('Found 1 shop(s)')
         ->expectsOutputToContain($shop->company)
         ->assertSuccessful();
@@ -24,7 +24,7 @@ test('it shows info message when no shops are in parent categories', function ()
     $shop = Shop::factory()->create();
     $shop->categories()->attach($leaf->id, ['principal' => true]);
 
-    $this->artisan('app:find-shops-in-parent-categories')
+    $this->artisan('bottin:find-shops-in-parent-categories')
         ->expectsOutputToContain('No shops found in parent categories.')
         ->assertSuccessful();
 });

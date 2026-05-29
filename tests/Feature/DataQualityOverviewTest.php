@@ -31,10 +31,10 @@ test('it displays leaf categories without shops count', function (): void {
 });
 
 test('it displays duplicate shops count', function (): void {
-    Shop::factory()->count(2)->create(['company' => 'Duplicate Corp', 'postal_code' => '6900']);
-    Shop::factory()->count(3)->create(['company' => 'Another Duplicate', 'postal_code' => '5000']);
-    Shop::factory()->create(['company' => 'Duplicate Corp', 'postal_code' => '5000']);
-    Shop::factory()->create(['company' => 'Unique Business', 'postal_code' => '6900']);
+    Shop::factory()->count(2)->create(['company' => 'Duplicate Corp', 'city' => 'Marche']);
+    Shop::factory()->count(3)->create(['company' => 'Another Duplicate', 'city' => 'Namur']);
+    Shop::factory()->create(['company' => 'Duplicate Corp', 'city' => 'Liège']);
+    Shop::factory()->create(['company' => 'Unique Business', 'city' => 'Marche']);
 
     Livewire::test(DataQualityOverview::class)
         ->assertSeeText('2');

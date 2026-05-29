@@ -64,6 +64,7 @@ final class ViewShop extends ViewRecord
                 ->label('Voir en front')
                 ->icon(Heroicon::OutlinedEye)
                 ->url(fn (): string => route('shop.show', $this->record))
+                ->visible(fn (): bool => filled($this->record->slug))
                 ->openUrlInNewTab(),
             Actions\EditAction::make()
                 ->icon('tabler-edit'),

@@ -41,7 +41,7 @@ final class MeiliServerCommand extends Command
         $this->meiliServer->initClientAndIndex();
 
         if ($key) {
-            dump($this->meiliServer->createApiKey());
+            $output->writeln(print_r($this->meiliServer->createApiKey(), true));
 
             return \Symfony\Component\Console\Command\Command::SUCCESS;
         }
@@ -64,7 +64,7 @@ final class MeiliServerCommand extends Command
         }
 
         if ($dump) {
-            dump($this->meiliServer->dump());
+            $output->writeln(print_r($this->meiliServer->dump(), true));
         }
 
         return Command::SUCCESS;

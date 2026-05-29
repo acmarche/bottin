@@ -19,7 +19,7 @@ final class ShopFactory extends Factory
             'number' => fake()->buildingNumber(),
             'postal_code' => fake()->randomNumber(4, true),
             'city' => fake()->city(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => '+32 '.fake()->numerify('## ## ## ##'),
             'email' => fake()->unique()->safeEmail(),
         ];
     }
