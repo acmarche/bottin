@@ -137,12 +137,6 @@ final class Shop extends Model implements HasMedia
             ->withPivot('principal');
     }
 
-    /** @return BelongsToMany<Situation, $this> */
-    public function situations(): BelongsToMany
-    {
-        return $this->belongsToMany(Situation::class, 'shop_situation');
-    }
-
     /** @return BelongsToMany<Tag, $this> */
     public function tags(): BelongsToMany
     {
@@ -162,8 +156,8 @@ final class Shop extends Model implements HasMedia
      */
     public function toSearchableArray(): array
     {
-        $mainImage = $this->getFirstMedia('images', fn ($m): bool => (bool) $m->getCustomProperty('is_main') === true)
-                     ?? $this->getFirstMedia('images');
+        $mainImage = $this->getFirstMedia('images', fn($m): bool => (bool)$m->getCustomProperty('is_main') === true)
+            ?? $this->getFirstMedia('images');
 
         return [
             'id' => $this->id,
@@ -209,7 +203,7 @@ final class Shop extends Model implements HasMedia
             'created_at' => $this->created_at?->toIso8601String(),
             'image' => $mainImage?->getUrl(),
             'tags' => $this->tags->pluck('name')->all(),
-            'tags_object' => $this->tags->map(fn (Tag $tag): array => [
+            'tags_object' => $this->tags->map(fn(Tag $tag): array => [
                 'id' => $tag->id,
                 'name' => $tag->name,
                 'description' => $tag->description,
@@ -219,7 +213,7 @@ final class Shop extends Model implements HasMedia
                 'private' => $tag->private,
             ])->all(),
             'type' => 'fiche',
-            'categories' => $this->categories->map(fn (Category $category): array => [
+            'categories' => $this->categories->map(fn(Category $category): array => [
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description,
@@ -253,7 +247,7 @@ final class Shop extends Model implements HasMedia
     /**
      * Eager load relations when making all models searchable.
      *
-     * @param  Builder<self>  $query
+     * @param Builder<self> $query
      * @return Builder<self>
      */
     protected function makeAllSearchableUsing(Builder $query): Builder
