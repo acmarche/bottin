@@ -51,3 +51,34 @@ it('updates user roles through the edit action', function (): void {
     expect($user->hasRole(RolesEnum::Admin))->toBeTrue()
         ->and($user->hasRole(RolesEnum::Api))->toBeTrue();
 });
+
+it('can generate an api token for a user without one', function (): void {
+    $user = User::factory()->create(['api_token' => null]);
+
+    livewire(ViewUser::class, ['record' => $user->id])
+        ->callAction('generateApiToken')
+        ->assertNotified();
+
+    expect($user->fresh()->api_token)->not->toBeNull();
+});
+
+it('can regenerate the api token for a user', function (): void {
+    $user = User::factory()->create(['api_token' => 'initial-token']);
+
+    livewire(ViewUser::class, ['record' => $user->id])
+        ->callAction('regenerateApiToken')
+        ->assertNotified();
+
+    expect($user->fresh()->api_token)->not->toBeNull()
+        ->and($user->fresh()->api_token)->not->toBe('initial-token');
+});
+
+it('can delete the api token for a user', function (): void {
+    $user = User::factory()->create(['api_token' => 'initial-token']);
+
+    livewire(ViewUser::class, ['record' => $user->id])
+        ->callAction('deleteApiToken')
+        ->assertNotified();
+
+    expect($user->fresh()->api_token)->toBeNull();
+});

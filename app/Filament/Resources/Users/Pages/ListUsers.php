@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Pages;
 
+use App\Enums\RolesEnum;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\UserResource;
 use App\Ldap\UserHandler;
@@ -36,6 +37,7 @@ final class ListUsers extends ListRecords
                 ->label('Ajouter un utilisateur')
                 ->icon(Heroicon::UserPlus)
                 ->modal()
+                ->visible(fn () => auth()->user()->hasRole(RolesEnum::Admin))
                 ->modalHeading('Importer un utilisateur de la LDAP')
                 ->schema(fn (Schema $schema) => UserForm::add($schema))
                 ->action(function (array $data) {

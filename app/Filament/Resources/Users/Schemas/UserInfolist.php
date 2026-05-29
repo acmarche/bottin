@@ -28,6 +28,12 @@ final class UserInfolist
                         TextEntry::make('roles')
                             ->label('Rôles')
                             ->badge(),
+
+                        TextEntry::make('api_token')
+                            ->label('Token API')
+                            ->placeholder('Aucun token')
+                            ->copyable()
+                            ->columnSpanFull(),
                     ])->columns(2),
 
                 Section::make('Dates')
