@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Input;
 
+use App\Support\PhoneFormatter;
 use Filament\Forms\Components\TextInput;
 
 final class PhoneInput
@@ -13,10 +14,12 @@ final class PhoneInput
         return TextInput::make($name)
             ->label($label)
             ->tel()
-            ->telRegex('/^\+\d{1,3}(\s\d{2,4}){2,4}$/')
             ->maxLength(120)
-            ->validationMessages([
-                'regex' => 'Le numéro doit être au format international (ex: +32 84 22 44 33).',
-            ]);
+            ->live(onBlur: true)
+            ->afterStateUpdated(function (TextInput $component, ?string $state): void {
+                if (filled($state)) {
+                    $component->state(app(PhoneFormatter::class)->formatPhone($state));
+                }
+            });
     }
 }

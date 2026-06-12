@@ -15,6 +15,8 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Support\Str;
+use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI\Responses\Chat\CreateResponse;
 
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
@@ -134,6 +136,26 @@ it('can bulk delete shops', function () {
         ->assertCanNotSeeTableRecords($shops);
 
     $shops->each(fn (Shop $shop) => assertDatabaseMissing($shop));
+});
+
+it('auto-formats the phone number on blur', function () {
+    OpenAI::fake([
+        CreateResponse::fake([
+            'choices' => [
+                ['message' => ['content' => '{"phone": "+32 84 22 44 33"}']],
+            ],
+        ]),
+    ]);
+
+    $shop = Shop::factory()->create();
+
+    livewire(EditShop::class, [
+        'record' => $shop->id,
+    ])
+        ->fillForm(['phone' => '084/22.44.33'])
+        ->assertSchemaStateSet([
+            'phone' => '+32 84 22 44 33',
+        ]);
 });
 
 it('can render the edit page with latitude and longitude fields', function () {
