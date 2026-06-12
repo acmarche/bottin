@@ -77,6 +77,20 @@ trait TracksHistoryTrait
         }
     }
 
+    /**
+     * Record a single history entry for a lifecycle event (e.g. created, deleted).
+     */
+    protected function trackEvent(Model $model, string $property, ?string $oldValue = null, ?string $newValue = null): void
+    {
+        History::create([
+            'shop_id' => $model->id,
+            'made_by' => auth()->user()?->username ?? 'import',
+            'property' => $property,
+            'old_value' => $oldValue,
+            'new_value' => $newValue,
+        ]);
+    }
+
     protected function getHistoryBody($value, $field): array
     {
         $displayValue = $value instanceof BackedEnum ? $value->value : $value;

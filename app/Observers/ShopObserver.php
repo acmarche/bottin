@@ -12,6 +12,14 @@ final class ShopObserver
     use TracksHistoryTrait;
 
     /**
+     * Handle the Shop "created" event.
+     */
+    public function created(Shop $shop): void
+    {
+        $this->trackEvent($shop, 'shop', newValue: $shop->company);
+    }
+
+    /**
      * Handle the Shop "updated" event.
      */
     public function updated(Shop $shop): void
@@ -20,11 +28,14 @@ final class ShopObserver
     }
 
     /**
-     * Handle the Shop "deleted" event.
+     * Handle the Shop "deleting" event.
+     *
+     * Tracked before deletion so the foreign key is still valid; the FK then
+     * cascades to set this entry's shop_id to null.
      */
-    public function deleted(Shop $shop): void
+    public function deleting(Shop $shop): void
     {
-        // ...
+        $this->trackEvent($shop, 'shop', oldValue: $shop->company);
     }
 
     /**
