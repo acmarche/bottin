@@ -34,12 +34,10 @@ final class ScheduleForm
                 Select::make('day')
                     ->label('Jour')
                     ->options(function (?Schedule $record) use ($schema): array {
-                        $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        $shopId = self::resolveShopId($schema);
+                        if ($shopId === null) {
                             return self::DAY_OPTIONS;
                         }
-
-                        $shopId = $livewire->getOwnerRecord()->getKey();
 
                         $usedDays = Schedule::query()
                             ->where('shop_id', $shopId)
@@ -51,12 +49,10 @@ final class ScheduleForm
                     })
                     ->required()
                     ->unique(table: Schedule::class, column: 'day', modifyRuleUsing: function ($rule) use ($schema) {
-                        $livewire = $schema->getLivewire();
-                        if (! $livewire instanceof RelationManager) {
+                        $shopId = self::resolveShopId($schema);
+                        if ($shopId === null) {
                             return $rule;
                         }
-
-                        $shopId = $livewire->getOwnerRecord()->getKey();
 
                         return $rule->where('shop_id', $shopId);
                     }, ignoreRecord: true)
@@ -106,5 +102,25 @@ final class ScheduleForm
                     ->seconds(false)
                     ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
             ]);
+    }
+
+    /**
+     * Resolve the owning shop id, whether the form lives in a RelationManager
+     * (admin panel) or a Livewire table component exposing a `$shopId` property
+     * (merchant panel).
+     */
+    private static function resolveShopId(Schema $schema): ?int
+    {
+        $livewire = $schema->getLivewire();
+
+        if ($livewire instanceof RelationManager) {
+            return (int) $livewire->getOwnerRecord()->getKey();
+        }
+
+        if (isset($livewire->shopId)) {
+            return (int) $livewire->shopId;
+        }
+
+        return null;
     }
 }

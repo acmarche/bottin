@@ -61,6 +61,11 @@ final class ViewShop extends Page
                 ->icon(Heroicon::OutlinedTag)
                 ->color('warning')
                 ->url(ShopCategories::getUrl()),
+            Action::make('schedules')
+                ->label('Horaires')
+                ->icon(Heroicon::OutlinedClock)
+                ->color('gray')
+                ->url(ShopSchedules::getUrl()),
             Action::make('medias')
                 ->label('Médias')
                 ->color('info')
