@@ -27,7 +27,7 @@ final class MeiliCommand extends Command
 
     public function handle(): int
     {
-        $this->info('Starting Scout import...');
+       // $this->info('Starting Scout import...');
 
         foreach ($this->searchableModels as $model) {
             $modelName = class_basename($model);
@@ -44,7 +44,7 @@ final class MeiliCommand extends Command
         }
 
         $this->newLine();
-        $this->info('All searchable models have been imported.');
+       // $this->info('All searchable models have been imported.');
 
         return self::SUCCESS;
     }
