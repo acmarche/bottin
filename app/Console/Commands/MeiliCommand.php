@@ -27,24 +27,24 @@ final class MeiliCommand extends Command
 
     public function handle(): int
     {
-       // $this->info('Starting Scout import...');
+        // $this->info('Starting Scout import...');
 
         foreach ($this->searchableModels as $model) {
             $modelName = class_basename($model);
 
             if ($this->option('flush')) {
                 $this->components->task("Flushing {$modelName}", function () use ($model) {
-                    Artisan::call('scout:flush', ['model' => $model]);
+                    Artisan::call('scout:flush --silent', ['model' => $model]);
                 });
             }
 
             $this->components->task("Importing {$modelName}", function () use ($model) {
-                Artisan::call('scout:import', ['model' => $model]);
+                Artisan::call('scout:import --silent', ['model' => $model]);
             });
         }
 
-        $this->newLine();
-       // $this->info('All searchable models have been imported.');
+        // $this->newLine();
+        // $this->info('All searchable models have been imported.');
 
         return self::SUCCESS;
     }
