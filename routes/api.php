@@ -10,4 +10,5 @@ Route::middleware(VerifyApiToken::class)->prefix('bottin')->group(function (): v
     Route::get('fiches', [LegacyBottinController::class, 'fiches']);
     Route::get('fiches/category/{category}', [LegacyBottinController::class, 'fichesByCategory']);
     Route::get('fiche/{shop}', [LegacyBottinController::class, 'ficheById']);
+    Route::get('fichebyslugname/{shop}', [LegacyBottinController::class, 'ficheBySlug']);
 });
