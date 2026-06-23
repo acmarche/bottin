@@ -60,15 +60,38 @@ final class Category extends Model
 
     public function fullPath(): string
     {
-        $segments = [$this->name];
+        return implode(' > ', $this->pathSegments());
+    }
+
+    /**
+     * Get the category names from the root ancestor down to this category.
+     *
+     * @return array<int, string>
+     */
+    public function pathSegments(): array
+    {
+        return array_map(
+            static fn (self $category): string => $category->name,
+            $this->pathCategories(),
+        );
+    }
+
+    /**
+     * Get the categories from the root ancestor down to this category.
+     *
+     * @return array<int, self>
+     */
+    public function pathCategories(): array
+    {
+        $categories = [$this];
         $current = $this;
 
         while ($current->parent !== null) {
             $current = $current->parent;
-            $segments[] = $current->name;
+            $categories[] = $current;
         }
 
-        return implode(' > ', array_reverse($segments));
+        return array_reverse($categories);
     }
 
     /** @return Collection<int, int> */

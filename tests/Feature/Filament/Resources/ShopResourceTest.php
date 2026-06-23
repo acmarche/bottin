@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Filament\Resources\Categories\CategoryResource;
 use App\Filament\Resources\Shops\Pages\CreateShop;
 use App\Filament\Resources\Shops\Pages\EditShop;
 use App\Filament\Resources\Shops\Pages\ListShops;
@@ -224,6 +225,44 @@ it('does not show a warning callout when shop has categories', function () {
     ])
         ->assertOk()
         ->assertDontSeeText('aucune catégorie');
+});
+
+it('shows the main category path in the breadcrumbs', function () {
+    $parent = Category::factory()->create(['name' => 'Commerce']);
+    $main = Category::factory()->create(['name' => 'Boulangerie', 'parent_id' => $parent->id]);
+
+    $shop = Shop::factory()->makeOne();
+    $shop->saveQuietly();
+    $shop->categories()->attach($parent, ['principal' => false]);
+    $shop->categories()->attach($main, ['principal' => true]);
+
+    $breadcrumbs = livewire(ViewShop::class, [
+        'record' => $shop->id,
+    ])
+        ->assertOk()
+        ->instance()
+        ->getBreadcrumbs();
+
+    expect(array_values($breadcrumbs))
+        ->toContain('Commerce')
+        ->toContain('Boulangerie')
+        ->and($breadcrumbs[CategoryResource::getUrl('view', ['record' => $parent])])->toBe('Commerce')
+        ->and($breadcrumbs[CategoryResource::getUrl('view', ['record' => $main])])->toBe('Boulangerie');
+});
+
+it('leaves the breadcrumbs untouched when the shop has no main category', function () {
+    $shop = Shop::factory()->makeOne();
+    $shop->saveQuietly();
+    $shop->categories()->attach(Category::factory()->create(['name' => 'Commerce']), ['principal' => false]);
+
+    $breadcrumbs = livewire(ViewShop::class, [
+        'record' => $shop->id,
+    ])
+        ->assertOk()
+        ->instance()
+        ->getBreadcrumbs();
+
+    expect(array_values($breadcrumbs))->not->toContain('Commerce');
 });
 
 it('can generate a token for a shop without one', function () {

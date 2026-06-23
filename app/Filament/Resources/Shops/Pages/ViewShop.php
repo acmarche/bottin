@@ -9,8 +9,10 @@ use App\Filament\Actions\DeleteTokenAction;
 use App\Filament\Actions\ExportPdfAction;
 use App\Filament\Actions\GenerateTokenAction;
 use App\Filament\Actions\RegenerateTokenAction;
+use App\Filament\Resources\Categories\CategoryResource;
 use App\Filament\Resources\Shops\Schemas\ShopInfolist;
 use App\Filament\Resources\Shops\ShopResource;
+use App\Models\Shop;
 use Filament\Actions;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -19,6 +21,7 @@ use Filament\Schemas\Components\Callout;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Size;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Contracts\Support\Htmlable;
 
 final class ViewShop extends ViewRecord
 {
@@ -36,6 +39,45 @@ final class ViewShop extends ViewRecord
     public function getTitle(): string
     {
         return $this->record->company ?? 'Empty name';
+    }
+
+    /**
+     * @return array<string, string | Htmlable>
+     */
+    public function getBreadcrumbs(): array
+    {
+        $breadcrumbs = parent::getBreadcrumbs();
+
+        /** @var Shop $shop */
+        $shop = $this->record;
+
+        $mainCategory = $shop->categories()
+            ->wherePivot('principal', true)
+            ->first();
+
+        if ($mainCategory === null) {
+            return $breadcrumbs;
+        }
+
+        $indexUrl = array_key_first($breadcrumbs);
+
+        $result = [$indexUrl => $breadcrumbs[$indexUrl]];
+
+        foreach ($mainCategory->pathCategories() as $category) {
+            $result[CategoryResource::getUrl('view', ['record' => $category])] = $category->name;
+        }
+
+        foreach (array_slice($breadcrumbs, 1, null, true) as $key => $label) {
+            if (is_int($key)) {
+                $result[] = $label;
+
+                continue;
+            }
+
+            $result[$key] = $label;
+        }
+
+        return $result;
     }
 
     public function content(Schema $schema): Schema
