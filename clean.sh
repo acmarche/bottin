@@ -2,8 +2,8 @@
 rm bootstrap/cache/*.php
 rm -fr bootstrap/cache/filament/panels/
 rm storage/framework/views/*.php
-php artisan view:clear
-php artisan route:clear
+php artisan view:clear --silent
+php artisan route:clear --silent
 php artisan config:clear --silent
 php artisan optimize:clear --silent
 php artisan filament:optimize-clear --silent
