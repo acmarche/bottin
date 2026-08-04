@@ -8,7 +8,6 @@ use App\Models\Shop;
 use App\Models\Token;
 use App\Models\User;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Schemas\Components\Flex;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -18,35 +17,34 @@ final class ShopInfolist
 {
     public static function configure(Schema $schema): Schema
     {
-        $columns = 2;
-        if (auth()->user() instanceof User) {
-            $columns = 1;
-        }
+        $hasSidebar = auth()->user() instanceof User;
 
         return $schema
             ->schema([
-                Flex::make([
-                    Grid::make($columns)
-                        ->schema([
-                            self::address(),
-                            self::contact(),
-                            self::contactPerson(),
-                            self::social(),
-                            self::notes(),
-                            self::adminContact(),
-                        ]),
-                    Grid::make(1)
-                        ->visible(fn (): bool => auth()->user() instanceof User)
-                        ->schema([
-                            Section::make('Etat')
-                                ->label(null)
-                                ->schema(self::status()),
-                            self::tags(),
-                            self::timestamps(),
-                            self::token(),
-                        ])
-                        ->grow(false),
-                ])->from('md')
+                Grid::make(3)
+                    ->schema([
+                        Grid::make($hasSidebar ? 1 : 2)
+                            ->schema([
+                                self::address(),
+                                self::contact(),
+                                self::contactPerson(),
+                                self::social(),
+                                self::notes(),
+                                self::adminContact(),
+                            ])
+                            ->columnSpan($hasSidebar ? 2 : 3),
+                        Grid::make(1)
+                            ->visible($hasSidebar)
+                            ->schema([
+                                Section::make('Etat')
+                                    ->label(null)
+                                    ->schema(self::status()),
+                                self::tags(),
+                                self::timestamps(),
+                                self::token(),
+                            ])
+                            ->columnSpan(1),
+                    ])
                     ->columnSpanFull(),
             ]);
     }

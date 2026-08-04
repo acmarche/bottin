@@ -15,6 +15,7 @@ use App\Models\Token;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Testing\TestAction;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Str;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
@@ -346,4 +347,23 @@ it('can filter shops by locality', function () {
         ->filterTable('city', 'Marloie')
         ->assertCanSeeTableRecords([$shopInLocality])
         ->assertCanNotSeeTableRecords([$shopOutside]);
+});
+
+it('lays out the view page sidebar in a bounded grid column', function () {
+    $shop = Shop::factory()->create();
+
+    $shop->tags()->attach(
+        Tag::factory()
+            ->count(6)
+            ->sequence(fn (Sequence $sequence): array => [
+                'name' => "Alimentation - Magasin à la ferme et vente directe {$sequence->index}",
+            ])
+            ->create()
+    );
+
+    livewire(ViewShop::class, [
+        'record' => $shop->id,
+    ])
+        ->assertOk()
+        ->assertDontSee('fi-sc-flex', escape: false);
 });
