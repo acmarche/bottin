@@ -15,8 +15,10 @@ use App\Models\Token;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Testing\TestAction;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Str;
+use OpenAI\Exceptions\ErrorException;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
@@ -158,6 +160,27 @@ it('auto-formats the phone number on blur', function () {
         ->assertSchemaStateSet([
             'phone' => '+32 84 22 44 33',
         ]);
+});
+
+it('keeps the typed phone number and notifies when the AI formatting fails', function () {
+    OpenAI::fake([
+        new ErrorException([
+            'message' => 'Incorrect API key provided.',
+            'type' => 'invalid_request_error',
+            'code' => 'invalid_api_key',
+        ], new Response(401)),
+    ]);
+
+    $shop = Shop::factory()->create();
+
+    livewire(EditShop::class, [
+        'record' => $shop->id,
+    ])
+        ->fillForm(['phone' => '084/22.44.33'])
+        ->assertSchemaStateSet([
+            'phone' => '084/22.44.33',
+        ])
+        ->assertNotified('Formatage automatique indisponible');
 });
 
 it('can render the edit page with latitude and longitude fields', function () {

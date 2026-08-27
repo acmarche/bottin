@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use App\Exceptions\PhoneFormattingUnavailableException;
+use Illuminate\Support\Facades\Log;
 use OpenAI\Laravel\Facades\OpenAI;
+use OpenAI\Responses\Chat\CreateResponse;
+use Throwable;
 
 final class PhoneFormatter
 {
     private const FORMAT_REGEX = '/^\+\d{1,3}(\s\d{2,4}){2,4}$/';
 
+    /**
+     * @throws PhoneFormattingUnavailableException when the AI service cannot be reached
+     */
     public function formatPhone(string $phone): string
     {
         if ($phone === '' || preg_match(self::FORMAT_REGEX, $phone) === 1) {
@@ -21,7 +28,40 @@ final class PhoneFormatter
 
     private function formatPhoneWithAi(string $phone): ?string
     {
-        $response = OpenAI::chat()->create([
+        try {
+            $response = $this->askAiForFormattedPhone($phone);
+        } catch (Throwable $exception) {
+            Log::warning('Unable to format a phone number with OpenAI.', [
+                'phone' => $phone,
+                'exception' => $exception->getMessage(),
+            ]);
+
+            throw new PhoneFormattingUnavailableException(
+                'The AI phone formatting service is unavailable.',
+                previous: $exception,
+            );
+        }
+
+        $content = $response->choices[0]->message->content;
+
+        if ($content === null) {
+            return null;
+        }
+
+        $decoded = json_decode($content, true);
+
+        if (! is_array($decoded)) {
+            return null;
+        }
+
+        $formatted = $decoded['phone'] ?? null;
+
+        return is_string($formatted) ? $formatted : null;
+    }
+
+    private function askAiForFormattedPhone(string $phone): CreateResponse
+    {
+        return OpenAI::chat()->create([
             'model' => 'gpt-4o-mini',
             'temperature' => 0,
             'response_format' => ['type' => 'json_object'],
@@ -46,21 +86,5 @@ PROMPT,
                 ],
             ],
         ]);
-
-        $content = $response->choices[0]->message->content;
-
-        if ($content === null) {
-            return null;
-        }
-
-        $decoded = json_decode($content, true);
-
-        if (! is_array($decoded)) {
-            return null;
-        }
-
-        $formatted = $decoded['phone'] ?? null;
-
-        return is_string($formatted) ? $formatted : null;
     }
 }
