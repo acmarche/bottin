@@ -73,6 +73,20 @@ it('can search by company', function () {
         ->assertCanNotSeeTableRecords($records->where('company', '!=', $value));
 });
 
+it('can filter shops by created_at range', function () {
+    $old = Shop::factory()->create(['created_at' => now()->subMonth()]);
+    $recent = Shop::factory()->create(['created_at' => now()->subDay()]);
+
+    livewire(ListShops::class)
+        ->loadTable()
+        ->filterTable('created_at', [
+            'created_from' => now()->subWeek()->toDateString(),
+            'created_until' => now()->toDateString(),
+        ])
+        ->assertCanSeeTableRecords([$recent])
+        ->assertCanNotSeeTableRecords([$old]);
+});
+
 it('can create a shop and redirect to edit', function () {
     $companyName = 'New Unique Shop';
 

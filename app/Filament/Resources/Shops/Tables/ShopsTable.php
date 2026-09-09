@@ -10,11 +10,15 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 final class ShopsTable
 {
@@ -81,6 +85,38 @@ final class ShopsTable
                     ->label('Localité')
                     ->options(fn (): array => Locality::query()->orderBy('name')->pluck('name', 'name')->all())
                     ->searchable(),
+                Filter::make('created_at')
+                    ->label('Date de création')
+                    ->schema([
+                        DatePicker::make('created_from')
+                            ->label('Créé à partir du'),
+                        DatePicker::make('created_until')
+                            ->label("Créé jusqu'au"),
+                    ])
+                    ->query(fn (Builder $query, array $data): Builder => $query
+                        ->when(
+                            $data['created_from'] ?? null,
+                            fn (Builder $query, string $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['created_until'] ?? null,
+                            fn (Builder $query, string $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        ))
+                    ->indicateUsing(function (array $data): array {
+                        $indicators = [];
+
+                        if ($data['created_from'] ?? null) {
+                            $indicators[] = Indicator::make('Créé à partir du '.Carbon::parse($data['created_from'])->translatedFormat('d/m/Y'))
+                                ->removeField('created_from');
+                        }
+
+                        if ($data['created_until'] ?? null) {
+                            $indicators[] = Indicator::make("Créé jusqu'au ".Carbon::parse($data['created_until'])->translatedFormat('d/m/Y'))
+                                ->removeField('created_until');
+                        }
+
+                        return $indicators;
+                    }),
             ])
             ->defaultSort('company', 'asc')
             ->filtersFormColumns(3)
