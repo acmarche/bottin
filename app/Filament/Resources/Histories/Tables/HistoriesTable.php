@@ -28,7 +28,16 @@ final class HistoriesTable
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('shop.company')
                     ->label('Commerce')
+                    ->limit(50)
                     ->state(fn(History $record): ?string => $record->shopName())
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+                        if (mb_strlen((string)$state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        return $state;
+                    })
                     ->description(
                         fn(History $record
                         ): ?string => $record->shop === null && $record->shopName() !== null ? 'Commerce supprimé' : null
