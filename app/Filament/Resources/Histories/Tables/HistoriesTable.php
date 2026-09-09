@@ -51,11 +51,11 @@ final class HistoriesTable
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('new_value')
-                    ->label('Changement')
-                    ->state(fn(History $record): ?string => $record->new_value ?? $record->old_value)
+                TextColumn::make('old_value')
+                    ->label('Ancienne valeur')
+                    ->state(fn(History $record): ?string => $record->old_value ?? $record->new_value)
                     ->html()
-                    ->limit(60)
+                    ->limit(50)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
                         if (mb_strlen((string)$state) <= $column->getCharacterLimit()) {
@@ -63,7 +63,22 @@ final class HistoriesTable
                         }
 
                         return $state;
-                    }),
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('new_value')
+                    ->label('Nouvelle valeur')
+                    ->state(fn(History $record): ?string => $record->new_value ?? $record->old_value)
+                    ->html()
+                    ->limit(50)
+                    ->tooltip(function (TextColumn $column): ?string {
+                        $state = $column->getState();
+                        if (mb_strlen((string)$state) <= $column->getCharacterLimit()) {
+                            return null;
+                        }
+
+                        return $state;
+                    })
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('made_by')
                     ->label('Ajouté par')
                     ->searchable()
