@@ -24,33 +24,41 @@ final class HistoriesTable
                 TextColumn::make('action')
                     ->label('Action')
                     ->badge()
-                    ->state(fn (History $record): HistoryActionEnum => $record->action()),
+                    ->state(fn(History $record): HistoryActionEnum => $record->action())
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('shop.company')
                     ->label('Commerce')
-                    ->state(fn (History $record): ?string => $record->shopName())
-                    ->description(fn (History $record): ?string => $record->shop === null && $record->shopName() !== null ? 'Commerce supprimé' : null)
+                    ->state(fn(History $record): ?string => $record->shopName())
+                    ->description(
+                        fn(History $record
+                        ): ?string => $record->shop === null && $record->shopName() !== null ? 'Commerce supprimé' : null
+                    )
                     ->placeholder('—')
-                    ->searchable(query: fn (Builder $query, string $search): Builder => $query
-                        ->whereHas('shop', fn (Builder $shopQuery): Builder => $shopQuery->where('company', 'like', "%{$search}%"))
-                        ->orWhere(fn (Builder $lifecycleQuery): Builder => $lifecycleQuery
+                    ->searchable(query: fn(Builder $query, string $search): Builder => $query
+                        ->whereHas(
+                            'shop',
+                            fn(Builder $shopQuery): Builder => $shopQuery->where('company', 'like', "%{$search}%")
+                        )
+                        ->orWhere(fn(Builder $lifecycleQuery): Builder => $lifecycleQuery
                             ->whereNull('shop_id')
                             ->where('property', History::LIFECYCLE_PROPERTY)
-                            ->where(fn (Builder $valueQuery): Builder => $valueQuery
+                            ->where(fn(Builder $valueQuery): Builder => $valueQuery
                                 ->where('new_value', 'like', "%{$search}%")
                                 ->orWhere('old_value', 'like', "%{$search}%"))))
                     ->sortable(),
                 TextColumn::make('property')
                     ->label('Champ')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('new_value')
                     ->label('Changement')
-                    ->state(fn (History $record): ?string => $record->new_value ?? $record->old_value)
+                    ->state(fn(History $record): ?string => $record->new_value ?? $record->old_value)
                     ->html()
-                    ->limit(120)
+                    ->limit(60)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
-                        if (mb_strlen((string) $state) <= $column->getCharacterLimit()) {
+                        if (mb_strlen((string)$state) <= $column->getCharacterLimit()) {
                             return null;
                         }
 
@@ -59,7 +67,8 @@ final class HistoriesTable
                 TextColumn::make('made_by')
                     ->label('Ajouté par')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Modifié le')
                     ->dateTime()
@@ -69,7 +78,7 @@ final class HistoriesTable
                 SelectFilter::make('action')
                     ->label('Action')
                     ->options(HistoryActionEnum::class)
-                    ->query(fn (Builder $query, array $data): Builder => match ($data['value'] ?? null) {
+                    ->query(fn(Builder $query, array $data): Builder => match ($data['value'] ?? null) {
                         HistoryActionEnum::Created->value => $query
                             ->where('property', History::LIFECYCLE_PROPERTY)
                             ->whereNotNull('new_value'),
