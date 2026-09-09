@@ -87,6 +87,7 @@ final class ShopsTable
                     ->searchable(),
                 Filter::make('created_at')
                     ->label('Date de création')
+                    ->columnSpanFull()
                     ->schema([
                         DatePicker::make('created_from')
                             ->label('Créé à partir du'),
