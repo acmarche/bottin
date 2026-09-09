@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Histories\Schemas;
 
+use App\Enums\HistoryActionEnum;
+use App\Models\History;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -13,8 +15,15 @@ final class HistoryInfolist
     {
         return $schema
             ->components([
+                TextEntry::make('action')
+                    ->label('Action')
+                    ->badge()
+                    ->state(fn (History $record): HistoryActionEnum => $record->action()),
                 TextEntry::make('shop.company')
-                    ->label('Commerce'),
+                    ->label('Commerce')
+                    ->state(fn (History $record): ?string => $record->shopName())
+                    ->helperText(fn (History $record): ?string => $record->shop === null && $record->shopName() !== null ? 'Commerce supprimé' : null)
+                    ->placeholder('—'),
                 TextEntry::make('property')
                     ->label('Champ'),
                 TextEntry::make('old_value')

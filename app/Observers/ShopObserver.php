@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Observers;
 
 use App\Concerns\TracksHistoryTrait;
+use App\Models\History;
 use App\Models\Shop;
 
 final class ShopObserver
@@ -16,7 +17,7 @@ final class ShopObserver
      */
     public function created(Shop $shop): void
     {
-        $this->trackEvent($shop, 'shop', newValue: $shop->company);
+        $this->trackEvent($shop, History::LIFECYCLE_PROPERTY, newValue: $shop->company);
     }
 
     /**
@@ -35,7 +36,7 @@ final class ShopObserver
      */
     public function deleting(Shop $shop): void
     {
-        $this->trackEvent($shop, 'shop', oldValue: $shop->company);
+        $this->trackEvent($shop, History::LIFECYCLE_PROPERTY, oldValue: $shop->company);
     }
 
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Shops\RelationManagers;
 
+use App\Enums\HistoryActionEnum;
+use App\Models\History;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -36,15 +38,20 @@ final class HistoriesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('property')
             ->columns([
+                TextColumn::make('action')
+                    ->label('Action')
+                    ->badge()
+                    ->state(fn (History $record): HistoryActionEnum => $record->action()),
                 TextColumn::make('property')
                     ->label('Champ'),
                 TextColumn::make('new_value')
                     ->label('Changement')
+                    ->state(fn (History $record): ?string => $record->new_value ?? $record->old_value)
                     ->html()
                     ->limit(120)
                     ->tooltip(function (TextColumn $column): ?string {
                         $state = $column->getState();
-                        if (mb_strlen($state) <= $column->getCharacterLimit()) {
+                        if (mb_strlen((string) $state) <= $column->getCharacterLimit()) {
                             return null;
                         }
 
