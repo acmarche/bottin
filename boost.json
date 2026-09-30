@@ -2,6 +2,7 @@
     "agents": [
         "claude_code"
     ],
+    "cloud": true,
     "guidelines": true,
     "mcp": true,
     "nightwatch_mcp": true,
@@ -13,13 +14,19 @@
     ],
     "sail": false,
     "skills": [
+        "infer-conventions",
+        "deploying-to-cloud",
         "ai-sdk-development",
         "laravel-best-practices",
+        "testing-best-practices",
         "configure-nightwatch",
         "scout-development",
-        "pest-testing",
         "tailwindcss-development",
+        "filament-development",
         "laravel-pdf",
+        "filament-security-audit",
+        "planning-filament",
+        "reviewing-filament-plans",
         "debug-using-debugbar"
     ]
 }
