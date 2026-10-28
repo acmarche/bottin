@@ -1,4 +1,5 @@
-#!/bin/bashrm bootstrap/cache/*.php
+#!/bin/bash
+rm bootstrap/cache/*.php
 rm -fr bootstrap/cache/filament/panels/
 rm -rf bootstrap/cache/blade-icons.php bootstrap/cache/filament/ bootstrap/cache/packages.php bootstrap/cache/services.php
 rm -rf storage/framework/views/*.php
