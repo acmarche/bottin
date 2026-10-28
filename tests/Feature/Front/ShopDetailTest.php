@@ -69,6 +69,21 @@ it('displays schedules', function (): void {
         ->assertSee('08:00');
 });
 
+it('displays hours for a schedule by appointment', function (): void {
+    $shop = Shop::factory()->create();
+    Schedule::factory()->create([
+        'shop_id' => $shop->id,
+        'day' => 1,
+        'is_by_appointment' => true,
+        'morning_start' => '09:00',
+        'morning_end' => '12:00',
+    ]);
+
+    Livewire::test(ShopDetail::class, ['shop' => $shop])
+        ->assertSee('09:00')
+        ->assertSee('sur rendez-vous');
+});
+
 it('displays contact name when set', function (): void {
     $shop = Shop::factory()->create([
         'first_name' => 'Jean',

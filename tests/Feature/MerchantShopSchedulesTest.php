@@ -54,6 +54,24 @@ test('a merchant can edit a schedule for their shop', function (): void {
     expect($schedule->refresh()->is_closed)->toBeTrue();
 });
 
+test('a schedule by appointment keeps its hours', function (): void {
+    $shop = Shop::factory()->create();
+
+    livewire(ShopSchedulesTable::class, ['shopId' => $shop->id])
+        ->callAction(TestAction::make('create')->table(), [
+            'day' => 5,
+            'is_closed' => false,
+            'is_by_appointment' => true,
+            'morning_start' => '09:00',
+            'morning_end' => '12:00',
+        ]);
+
+    $schedule = Schedule::query()->where('shop_id', $shop->id)->where('day', 5)->sole();
+
+    expect($schedule->is_by_appointment)->toBeTrue()
+        ->and(mb_substr((string) $schedule->morning_start, 0, 5))->toBe('09:00');
+});
+
 test('a day already used by the shop cannot be reused', function (): void {
     $shop = Shop::factory()->create();
     Schedule::factory()->create(['shop_id' => $shop->id, 'day' => 4]);

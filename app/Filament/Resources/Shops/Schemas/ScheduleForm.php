@@ -71,36 +71,27 @@ final class ScheduleForm
                     }),
                 Toggle::make('is_by_appointment')
                     ->label('Sur rendez-vous')
-                    ->default(false)
-                    ->live()
-                    ->afterStateUpdated(function (bool $state, Set $set): void {
-                        if ($state) {
-                            $set('morning_start', null);
-                            $set('morning_end', null);
-                            $set('noon_start', null);
-                            $set('noon_end', null);
-                        }
-                    }),
+                    ->default(false),
                 TimePicker::make('morning_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('matin')
                     ->seconds(false)
-                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
+                    ->readOnly(fn (Get $get): bool => (bool) $get('is_closed')),
                 TimePicker::make('morning_end')
                     ->label('Heure de fermeture')
                     ->suffix('matin')
                     ->seconds(false)
-                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
+                    ->readOnly(fn (Get $get): bool => (bool) $get('is_closed')),
                 TimePicker::make('noon_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('après-midi')
                     ->seconds(false)
-                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
+                    ->readOnly(fn (Get $get): bool => (bool) $get('is_closed')),
                 TimePicker::make('noon_end')
                     ->label('Heure de fermeture')
                     ->suffix('après-midi')
                     ->seconds(false)
-                    ->readOnly(fn (Get $get): bool => $get('is_closed') || $get('is_by_appointment')),
+                    ->readOnly(fn (Get $get): bool => (bool) $get('is_closed')),
             ]);
     }
 

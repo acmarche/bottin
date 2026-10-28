@@ -10,7 +10,7 @@
                             <td class="px-4 py-2.5 text-slate-600">
                                 @if ($schedule->is_closed)
                                     <span class="text-red-500">Ferm&eacute;</span>
-                                @elseif ($schedule->is_by_appointment)
+                                @elseif ($schedule->is_by_appointment && $schedule->morning_start === null && $schedule->noon_start === null)
                                     <span class="text-amber-600">Sur rendez-vous</span>
                                 @elseif ($schedule->morning_end === null && $schedule->noon_start === null)
                                     {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
@@ -23,6 +23,9 @@
                                         {{ substr((string) $schedule->noon_start, 0, 5) }}
                                         {{ $schedule->noon_end ? '- ' . substr((string) $schedule->noon_end, 0, 5) : '' }}
                                     @endif
+                                @endif
+                                @if (! $schedule->is_closed && $schedule->is_by_appointment && ($schedule->morning_start !== null || $schedule->noon_start !== null))
+                                    <span class="ml-1 text-amber-600">(sur rendez-vous)</span>
                                 @endif
                             </td>
                         </tr>
