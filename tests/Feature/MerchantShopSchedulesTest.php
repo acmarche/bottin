@@ -27,7 +27,8 @@ test('a merchant can create a schedule for their shop', function (): void {
         ->callAction(TestAction::make('create')->table(), [
             'day' => 2,
             'is_closed' => false,
-            'is_by_appointment' => false,
+            'is_morning_by_appointment' => false,
+            'is_noon_by_appointment' => false,
             'morning_start' => '09:00',
             'morning_end' => '12:00',
             'noon_start' => '14:00',
@@ -48,7 +49,8 @@ test('a merchant can edit a schedule for their shop', function (): void {
         ->callAction(TestAction::make('edit')->table($schedule), [
             'day' => 3,
             'is_closed' => true,
-            'is_by_appointment' => false,
+            'is_morning_by_appointment' => false,
+            'is_noon_by_appointment' => false,
         ]);
 
     expect($schedule->refresh()->is_closed)->toBeTrue();
@@ -61,15 +63,39 @@ test('a schedule by appointment keeps its hours', function (): void {
         ->callAction(TestAction::make('create')->table(), [
             'day' => 5,
             'is_closed' => false,
-            'is_by_appointment' => true,
+            'is_morning_by_appointment' => true,
+            'is_noon_by_appointment' => true,
             'morning_start' => '09:00',
             'morning_end' => '12:00',
         ]);
 
     $schedule = Schedule::query()->where('shop_id', $shop->id)->where('day', 5)->sole();
 
-    expect($schedule->is_by_appointment)->toBeTrue()
+    expect($schedule->is_morning_by_appointment)->toBeTrue()
+        ->and($schedule->is_noon_by_appointment)->toBeTrue()
         ->and(mb_substr((string) $schedule->morning_start, 0, 5))->toBe('09:00');
+});
+
+test('a schedule can be by appointment in the morning only', function (): void {
+    $shop = Shop::factory()->create();
+
+    livewire(ShopSchedulesTable::class, ['shopId' => $shop->id])
+        ->callAction(TestAction::make('create')->table(), [
+            'day' => 1,
+            'is_closed' => false,
+            'is_morning_by_appointment' => true,
+            'is_noon_by_appointment' => false,
+            'morning_start' => '09:00',
+            'morning_end' => '12:30',
+            'noon_start' => '13:30',
+            'noon_end' => '17:30',
+        ]);
+
+    $schedule = Schedule::query()->where('shop_id', $shop->id)->where('day', 1)->sole();
+
+    expect($schedule->is_morning_by_appointment)->toBeTrue()
+        ->and($schedule->is_noon_by_appointment)->toBeFalse()
+        ->and($schedule->isByAppointment())->toBeTrue();
 });
 
 test('a day already used by the shop cannot be reused', function (): void {
@@ -80,7 +106,8 @@ test('a day already used by the shop cannot be reused', function (): void {
         ->callAction(TestAction::make('create')->table(), [
             'day' => 4,
             'is_closed' => false,
-            'is_by_appointment' => false,
+            'is_morning_by_appointment' => false,
+            'is_noon_by_appointment' => false,
             'morning_start' => '09:00',
             'morning_end' => '12:00',
         ])

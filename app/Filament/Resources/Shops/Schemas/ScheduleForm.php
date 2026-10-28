@@ -68,10 +68,12 @@ final class ScheduleForm
                             $set('noon_start', null);
                             $set('noon_end', null);
                         }
-                    }),
-                Toggle::make('is_by_appointment')
-                    ->label('Sur rendez-vous')
-                    ->default(false),
+                    })
+                    ->columnSpanFull(),
+                Toggle::make('is_morning_by_appointment')
+                    ->label('Sur rendez-vous le matin')
+                    ->default(false)
+                    ->columnSpanFull(),
                 TimePicker::make('morning_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('matin')
@@ -82,6 +84,10 @@ final class ScheduleForm
                     ->suffix('matin')
                     ->seconds(false)
                     ->readOnly(fn (Get $get): bool => (bool) $get('is_closed')),
+                Toggle::make('is_noon_by_appointment')
+                    ->label('Sur rendez-vous l\'après-midi')
+                    ->default(false)
+                    ->columnSpanFull(),
                 TimePicker::make('noon_start')
                     ->label('Heure d\'ouverture')
                     ->suffix('après-midi')

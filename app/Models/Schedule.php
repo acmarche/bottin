@@ -21,7 +21,8 @@ final class Schedule extends Model
         'shop_id',
         'day',
         'media_path',
-        'is_by_appointment',
+        'is_morning_by_appointment',
+        'is_noon_by_appointment',
         'is_closed',
         'morning_start',
         'morning_end',
@@ -35,13 +36,19 @@ final class Schedule extends Model
         return $this->belongsTo(Shop::class);
     }
 
+    public function isByAppointment(): bool
+    {
+        return $this->is_morning_by_appointment || $this->is_noon_by_appointment;
+    }
+
     /**
      * @return array<string, string>
      */
     protected function casts(): array
     {
         return [
-            'is_by_appointment' => 'boolean',
+            'is_morning_by_appointment' => 'boolean',
+            'is_noon_by_appointment' => 'boolean',
             'is_closed' => 'boolean',
         ];
     }

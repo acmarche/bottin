@@ -113,7 +113,8 @@ it('includes schedules with legacy field names', function (): void {
     Schedule::factory()->create([
         'shop_id' => $shop->id,
         'day' => 1,
-        'is_by_appointment' => true,
+        'is_morning_by_appointment' => false,
+        'is_noon_by_appointment' => true,
     ]);
 
     $this->getJson("/api/bottin/fiche/{$shop->id}")

@@ -74,7 +74,8 @@ it('displays hours for a schedule by appointment', function (): void {
     Schedule::factory()->create([
         'shop_id' => $shop->id,
         'day' => 1,
-        'is_by_appointment' => true,
+        'is_morning_by_appointment' => true,
+        'is_noon_by_appointment' => true,
         'morning_start' => '09:00',
         'morning_end' => '12:00',
     ]);
@@ -82,6 +83,46 @@ it('displays hours for a schedule by appointment', function (): void {
     Livewire::test(ShopDetail::class, ['shop' => $shop])
         ->assertSee('09:00')
         ->assertSee('sur rendez-vous');
+});
+
+it('displays appointment only on the morning when the afternoon is walk-in', function (): void {
+    $shop = Shop::factory()->create();
+    Schedule::factory()->create([
+        'shop_id' => $shop->id,
+        'day' => 1,
+        'is_morning_by_appointment' => true,
+        'is_noon_by_appointment' => false,
+        'morning_start' => '09:00',
+        'morning_end' => '12:30',
+        'noon_start' => '13:30',
+        'noon_end' => '17:30',
+    ]);
+
+    $html = Livewire::test(ShopDetail::class, ['shop' => $shop])
+        ->assertSeeInOrder(['09:00', '12:30', '(sur rendez-vous)', '|', '13:30', '17:30'])
+        ->html();
+
+    expect(mb_substr_count($html, '(sur rendez-vous)'))->toBe(1);
+});
+
+it('displays appointment only on the afternoon when the morning is walk-in', function (): void {
+    $shop = Shop::factory()->create();
+    Schedule::factory()->create([
+        'shop_id' => $shop->id,
+        'day' => 1,
+        'is_morning_by_appointment' => false,
+        'is_noon_by_appointment' => true,
+        'morning_start' => '09:00',
+        'morning_end' => '12:30',
+        'noon_start' => '13:30',
+        'noon_end' => '17:30',
+    ]);
+
+    $html = Livewire::test(ShopDetail::class, ['shop' => $shop])
+        ->assertSeeInOrder(['09:00', '12:30', '|', '13:30', '17:30', '(sur rendez-vous)'])
+        ->html();
+
+    expect(mb_substr_count($html, '(sur rendez-vous)'))->toBe(1);
 });
 
 it('displays contact name when set', function (): void {

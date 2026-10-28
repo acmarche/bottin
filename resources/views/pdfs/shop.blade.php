@@ -371,8 +371,12 @@
                                 <td>
                                     @if($schedule->is_closed)
                                         <span style="color: #dc3545;">Ferme</span>
-                                    @elseif($schedule->is_by_appointment)
+                                    @elseif($schedule->is_morning_by_appointment && $schedule->is_noon_by_appointment)
                                         <span style="color: #856404;">Sur RDV</span>
+                                    @elseif($schedule->is_morning_by_appointment)
+                                        <span style="color: #856404;">Sur RDV le matin</span>
+                                    @elseif($schedule->is_noon_by_appointment)
+                                        <span style="color: #856404;">Sur RDV l'après-midi</span>
                                     @else
                                         <span style="color: #28a745;">Ouvert</span>
                                     @endif

@@ -51,8 +51,12 @@ final class ShopSchedulesTable extends Component implements HasActions, HasSchem
                     ->label('Fermé')
                     ->boolean()
                     ->falseIcon(false),
-                IconColumn::make('is_by_appointment')
-                    ->label('Sur rendez-vous')
+                IconColumn::make('is_morning_by_appointment')
+                    ->label('RDV matin')
+                    ->boolean()
+                    ->falseIcon(false),
+                IconColumn::make('is_noon_by_appointment')
+                    ->label('RDV après-midi')
                     ->boolean()
                     ->falseIcon(false),
                 TextColumn::make('morning_start')

@@ -10,22 +10,32 @@
                             <td class="px-4 py-2.5 text-slate-600">
                                 @if ($schedule->is_closed)
                                     <span class="text-red-500">Ferm&eacute;</span>
-                                @elseif ($schedule->is_by_appointment && $schedule->morning_start === null && $schedule->noon_start === null)
+                                @elseif ($schedule->isByAppointment() && $schedule->morning_start === null && $schedule->noon_start === null)
                                     <span class="text-amber-600">Sur rendez-vous</span>
                                 @elseif ($schedule->morning_end === null && $schedule->noon_start === null)
                                     {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
                                     {{ $schedule->noon_end ? '- ' . substr((string) $schedule->noon_end, 0, 5) : '' }}
+                                    @if ($schedule->isByAppointment())
+                                        <span class="ml-1 text-amber-600">(sur rendez-vous)</span>
+                                    @endif
                                 @else
-                                    {{ $schedule->morning_start ? substr((string) $schedule->morning_start, 0, 5) : '' }}
-                                    {{ $schedule->morning_end ? '- ' . substr((string) $schedule->morning_end, 0, 5) : '' }}
+                                    @if ($schedule->morning_start)
+                                        {{ substr((string) $schedule->morning_start, 0, 5) }}
+                                        {{ $schedule->morning_end ? '- ' . substr((string) $schedule->morning_end, 0, 5) : '' }}
+                                        @if ($schedule->is_morning_by_appointment)
+                                            <span class="ml-1 text-amber-600">(sur rendez-vous)</span>
+                                        @endif
+                                    @endif
                                     @if ($schedule->noon_start)
-                                        <span class="mx-1 text-slate-400">|</span>
+                                        @if ($schedule->morning_start)
+                                            <span class="mx-1 text-slate-400">|</span>
+                                        @endif
                                         {{ substr((string) $schedule->noon_start, 0, 5) }}
                                         {{ $schedule->noon_end ? '- ' . substr((string) $schedule->noon_end, 0, 5) : '' }}
+                                        @if ($schedule->is_noon_by_appointment)
+                                            <span class="ml-1 text-amber-600">(sur rendez-vous)</span>
+                                        @endif
                                     @endif
-                                @endif
-                                @if (! $schedule->is_closed && $schedule->is_by_appointment && ($schedule->morning_start !== null || $schedule->noon_start !== null))
-                                    <span class="ml-1 text-amber-600">(sur rendez-vous)</span>
                                 @endif
                             </td>
                         </tr>

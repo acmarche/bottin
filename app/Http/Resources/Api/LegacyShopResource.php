@@ -155,7 +155,7 @@ final class LegacyShopResource extends JsonResource
             'day' => $schedule->day,
             'media_path' => $schedule->media_path,
             'is_open_at_lunch' => (int) ($schedule->morning_end === null && $schedule->noon_start === null),
-            'is_rdv' => (int) $schedule->is_by_appointment,
+            'is_rdv' => (int) $schedule->isByAppointment(),
             'morning_start' => $schedule->morning_start,
             'morning_end' => $schedule->morning_end,
             'noon_start' => $schedule->noon_start,
