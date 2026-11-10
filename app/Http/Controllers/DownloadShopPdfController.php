@@ -11,6 +11,8 @@ final class DownloadShopPdfController
 {
     public function __invoke(Shop $shop)
     {
+        abort_unless($shop->is_active, 404);
+
         return PdfExport::exportShop($shop);
     }
 }

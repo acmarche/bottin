@@ -11,6 +11,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
@@ -31,6 +32,11 @@ final class ShopsTable
                     ->limit(70)
                     ->sortable()
                     ->searchable(),
+                IconColumn::make('is_active')
+                    ->label('Active')
+                    ->boolean()
+                    ->sortable()
+                    ->toggleable(),
                 TextColumn::make('street')
                     ->label('Rue')
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -70,6 +76,12 @@ final class ShopsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                TernaryFilter::make('is_active')
+                    ->label('Active')
+                    ->placeholder('Toutes')
+                    ->trueLabel('Actives')
+                    ->falseLabel('Inactives')
+                    ->default(true),
                 TernaryFilter::make('without_category')
                     ->label('Sans catégorie')
                     ->queries(

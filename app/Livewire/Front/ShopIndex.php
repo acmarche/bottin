@@ -30,6 +30,7 @@ final class ShopIndex extends Component
     public function render(): View
     {
         $shops = Shop::query()
+            ->active()
             ->where('company', 'like', $this->letter.'%')
             ->orderBy('company')
             ->get();

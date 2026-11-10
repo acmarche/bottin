@@ -21,6 +21,12 @@ final class ShopFactory extends Factory
             'city' => fake()->city(),
             'phone' => '+32 '.fake()->numerify('## ## ## ##'),
             'email' => fake()->unique()->safeEmail(),
+            'is_active' => true,
         ];
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn (): array => ['is_active' => false]);
     }
 }

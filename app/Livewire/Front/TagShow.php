@@ -23,6 +23,7 @@ final class TagShow extends Component
     public function render(): View
     {
         $shops = Shop::query()
+            ->active()
             ->whereHas('tags', fn ($q) => $q->where('tags.id', $this->tag->id))
             ->with('categories', 'media')
             ->orderBy('company')

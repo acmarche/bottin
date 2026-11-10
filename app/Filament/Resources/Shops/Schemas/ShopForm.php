@@ -8,6 +8,7 @@ use App\Repository\ShopRepository;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Wizard;
@@ -97,7 +98,14 @@ final class ShopForm
         return Tab::make('Général')
             ->icon(Heroicon::InformationCircle)
             ->columns(2)
-            ->schema(ShopFormColumns::generalColumns());
+            ->schema([
+                Toggle::make('is_active')
+                    ->label('Active')
+                    ->helperText('Une fiche inactive n\'est plus visible sur le site ni via l\'API.')
+                    ->default(true)
+                    ->columnSpanFull(),
+                ...ShopFormColumns::generalColumns(),
+            ]);
     }
 
     private static function mapTab(): Tab

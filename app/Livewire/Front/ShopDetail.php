@@ -16,6 +16,8 @@ final class ShopDetail extends Component
 
     public function mount(Shop $shop): void
     {
+        abort_unless($shop->is_active, 404);
+
         $this->shop = $shop->load([
             'categories',
             'schedules' => fn ($q) => $q->orderBy('day'),

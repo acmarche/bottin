@@ -8,6 +8,7 @@ use App\Models\Traits\HasSlug;
 use App\Observers\ShopObserver;
 use Database\Factories\ShopFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,9 +33,15 @@ final class Shop extends Model implements HasMedia
     use InteractsWithMedia;
     use Searchable;
 
+    /** @var array<string, mixed> */
+    protected $attributes = [
+        'is_active' => true,
+    ];
+
     protected $fillable = [
         'address_id',
         'company',
+        'is_active',
         'street',
         'number',
         'postal_code',
@@ -79,6 +86,14 @@ final class Shop extends Model implements HasMedia
         'note',
         'user',
     ];
+
+    /** @return array<string, string> */
+    public function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+        ];
+    }
 
     public function registerMediaCollections(): void
     {
@@ -156,7 +171,7 @@ final class Shop extends Model implements HasMedia
      */
     public function toSearchableArray(): array
     {
-        $mainImage = $this->getFirstMedia('images', fn($m): bool => (bool)$m->getCustomProperty('is_main') === true)
+        $mainImage = $this->getFirstMedia('images', fn ($m): bool => (bool) $m->getCustomProperty('is_main') === true)
             ?? $this->getFirstMedia('images');
 
         return [
@@ -203,7 +218,7 @@ final class Shop extends Model implements HasMedia
             'created_at' => $this->created_at?->toIso8601String(),
             'image' => $mainImage?->getUrl(),
             'tags' => $this->tags->pluck('name')->all(),
-            'tags_object' => $this->tags->map(fn(Tag $tag): array => [
+            'tags_object' => $this->tags->map(fn (Tag $tag): array => [
                 'id' => $tag->id,
                 'name' => $tag->name,
                 'description' => $tag->description,
@@ -213,7 +228,7 @@ final class Shop extends Model implements HasMedia
                 'private' => $tag->private,
             ])->all(),
             'type' => 'fiche',
-            'categories' => $this->categories->map(fn(Category $category): array => [
+            'categories' => $this->categories->map(fn (Category $category): array => [
                 'id' => $category->id,
                 'name' => $category->name,
                 'description' => $category->description,
@@ -227,6 +242,14 @@ final class Shop extends Model implements HasMedia
                 'lng' => $this->longitude,
             ] : null,
         ];
+    }
+
+    /**
+     * Only active shops are indexed for search.
+     */
+    public function shouldBeSearchable(): bool
+    {
+        return $this->is_active;
     }
 
     public function hasTag(string $name): bool
@@ -245,9 +268,20 @@ final class Shop extends Model implements HasMedia
     }
 
     /**
+     * Scope a query to only include active shops.
+     *
+     * @param  Builder<self>  $query
+     */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where($query->qualifyColumn('is_active'), true);
+    }
+
+    /**
      * Eager load relations when making all models searchable.
      *
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      * @return Builder<self>
      */
     protected function makeAllSearchableUsing(Builder $query): Builder

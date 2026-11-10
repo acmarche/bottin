@@ -24,7 +24,7 @@ final class MeiliData
     {
         $this->initClientAndIndex();
         $documents = [];
-        foreach (Shop::with(['tags.tagGroup', 'tags', 'categories', 'media'])->get() as $fiche) {
+        foreach (Shop::query()->active()->with(['tags.tagGroup', 'tags', 'categories', 'media'])->get() as $fiche) {
             $documents[] = $fiche->toSearchableArray();
         }
         $index = $this->client->index($this->indexName);

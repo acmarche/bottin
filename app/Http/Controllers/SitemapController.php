@@ -16,7 +16,7 @@ final class SitemapController
     {
         $xml = Cache::remember('sitemap.xml', now()->addHours(6), function (): string {
             return view('sitemap', [
-                'shops' => Shop::query()->select(['slug', 'updated_at'])->orderBy('company')->get(),
+                'shops' => Shop::query()->active()->select(['slug', 'updated_at'])->orderBy('company')->get(),
                 'categories' => Category::query()->select(['slug', 'updated_at'])->orderBy('name')->get(),
                 'tags' => Tag::query()->where('private', false)->select(['slug', 'updated_at'])->orderBy('name')->get(),
             ])->render();
