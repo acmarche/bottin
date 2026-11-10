@@ -52,6 +52,12 @@ final class ShopInfolist
     private static function status(): array
     {
         return [
+            TextEntry::make('is_active')
+                ->label('Statut')
+                ->badge()
+                ->formatStateUsing(fn (bool $state): string => $state ? 'Active' : 'Inactive')
+                ->color(fn (bool $state): string => $state ? 'success' : 'danger')
+                ->icon(fn (bool $state): Heroicon => $state ? Heroicon::CheckCircle : Heroicon::XCircle),
             TextEntry::make('vat_number')
                 ->label('Numéro de TVA'),
             TextEntry::make('slug')

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Filament\Resources\Shops\Pages\EditShop;
 use App\Filament\Resources\Shops\Pages\ListShops;
+use App\Filament\Resources\Shops\Pages\ViewShop;
 use App\Livewire\Front\CategoryShow;
 use App\Livewire\Front\SearchResults;
 use App\Livewire\Front\ShopIndex;
@@ -144,3 +145,14 @@ it('can filter shops by active state in the admin table', function (): void {
         ->assertCanSeeTableRecords([$inactive])
         ->assertCanNotSeeTableRecords([$active]);
 });
+
+it('shows the active status on the view page', function (bool $isActive, string $label): void {
+    $shop = Shop::factory()->create(['is_active' => $isActive]);
+
+    livewire(ViewShop::class, ['record' => $shop->id])
+        ->assertOk()
+        ->assertSee($label);
+})->with([
+    'active' => [true, 'Active'],
+    'inactive' => [false, 'Inactive'],
+]);
