@@ -12,7 +12,7 @@ use Throwable;
 
 final class PhoneFormatter
 {
-    private const FORMAT_REGEX = '/^\+\d{1,3}(\s\d{2,4}){2,4}$/';
+    private const FORMAT_REGEX = '/^\+\d{1,3}\s\d{1,4}(\s\d{2,4}){1,3}$/';
 
     /**
      * @throws PhoneFormattingUnavailableException when the AI service cannot be reached
@@ -75,6 +75,7 @@ Rules:
 - Country code is Belgium (+32) unless another country code is explicitly present.
 - Remove the leading 0 from the area/mobile code when adding +32 (e.g., 084 → +32 84).
 - Separate digits in groups of 2-3 with spaces: +32 84 22 44 33 or +32 475 12 34 56.
+- Brussels (02), Antwerp (03), Liège (04) and Ghent (09) use a 1-digit area code: 02/682.19.91 → +32 2 682 19 91.
 - If a number already has a non-Belgian country code (e.g., +33, +49), keep that country code and format with spaces.
 - If the input is clearly not a phone number or is unrecoverable, set "phone" to null.
 - Return ONLY a JSON object of the form {"phone": "<formatted value or null>"}.
